@@ -1,0 +1,15 @@
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "johndoe@gmail.com",
+  "address": {
+    "street": "123 Avenida Principal",
+    "city": "Lima",
+    "zip": "12345"
+  },
+  "phone": "987-654-321",
+  "avatar": {
+    "url": "assets/avatar.jpg",
+    "alt": "User Avatar"
+  }
+}
