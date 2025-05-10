@@ -11,7 +11,11 @@ describe('SidebarComponent', () => {
       imports: [SidebarComponent]
     })
     .compileComponents();
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 3bb41a733a7ff5f93bd8583abc3adc17b2370789
     fixture = TestBed.createComponent(SidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
