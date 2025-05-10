@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {User, UserService} from "../../../services/user.service";
-import {MatNavList} from "@angular/material/list";
-import {RouterLink} from "@angular/router";
-import {MatIcon} from "@angular/material/icon";
-import {LanguageSwitcherComponent} from "../language-switcher/language-switcher.component";
-import {TranslatePipe} from "@ngx-translate/core";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { User, UserService } from "../../../services/user.service";
+import { MatNavList } from "@angular/material/list";
+import { RouterLink } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import { LanguageSwitcherComponent } from "../language-switcher/language-switcher.component";
+import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-sidebar',
@@ -23,14 +23,14 @@ import {TranslatePipe} from "@ngx-translate/core";
 })
 export class SidebarComponent {
   menu = [
-    { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/summary' },
-    { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/subscription' },
-    { labelKey: 'sidebar.inventory', icon: 'inventory_2', route: '/inventory' },
-    { labelKey: 'sidebar.suppliers', icon: 'groups', route: '/suppliers' },
-    { labelKey: 'sidebar.alerts', icon: 'notifications', route: '/alerts' },
-    { labelKey: 'sidebar.orders', icon: 'local_shipping', route: '/orders' },
-    { labelKey: 'sidebar.recipes', icon: 'restaurant_menu', route: '/recipes' },
-    { labelKey: 'sidebar.sales', icon: 'room_service', route: '/sales' },
+    { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard//summary' },
+    { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/dashboard/subscription' },
+    { labelKey: 'sidebar.inventory', icon: 'inventory_2', route: '/dashboard/inventory' },
+    { labelKey: 'sidebar.suppliers', icon: 'groups', route: '/dashboard/suppliers' },
+    { labelKey: 'sidebar.alerts', icon: 'notifications', route: '/dashboard/alerts' },
+    { labelKey: 'sidebar.orders', icon: 'local_shipping', route: '/dashboard/orders' },
+    { labelKey: 'sidebar.recipes', icon: 'restaurant_menu', route: '/dashboard/recipes' },
+    { labelKey: 'sidebar.sales', icon: 'room_service', route: '/dashboard/sales' },
   ];
 
 
