@@ -9,7 +9,6 @@ import { TranslatePipe } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
   imports: [
     MatSidenavModule,
     MatNavList,
