@@ -1,48 +1,32 @@
-<div class="text-center my-10">
-    <h2 class="text-2xl font-bold  uppercase">
-        Planes flexibles para llevar la administración de tu
-    </h2>
-    <h3 class="text-3xl font-semibold mt-2 ">
-        Restaurante al siguiente nivel
-    </h3>
-</div>
+<div class="plans-container">
+    <div class="plans-header">
+        <h2>FLEXIBLE PLANS TO TAKE YOUR RESTAURANT MANAGEMENT</h2>
+        <h3>TO THE NEXT LEVEL</h3>
+    </div>
 
-<div class="flex flex-wrap justify-center gap-6 px-4">
-    @for (plan of plans; track plan.name) {
-    <mat-card class="w-full! sm:w-80! border-2! bg-white! shadow-2xl!  border-green-600!"
-        [ngClass]="{ 'bg-green-50': plan.popular, 'bg-green-100': !plan.popular }">
-        @if (plan.popular) {
-        <div
-            class="border border-amber-600 absolute top-0 right-0 bg-green-700 text-white text-xs px-2 py-1 rounded-bl">
-            POPULAR
-        </div>
+    <div class="plans-grid">
+        @for (plan of plans; track plan) {
+        <mat-card class="plan-card" appearance="outlined">
+            <div *ngIf="plan.popular" class="popular-label">POPULAR</div>
+
+            <mat-card-header>
+                <mat-card-title>{{ plan.name }}</mat-card-title>
+                <mat-card-subtitle>{{ plan.price }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <ul>
+                    @for (feature of plan.features; track feature) {
+                    <li>{{ feature }}</li>
+                    }
+                </ul>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary" class="subscribe-button">SUBSCRIBE</button>
+            </mat-card-actions>
+        </mat-card>
         }
 
-        <mat-card-header>
-            <mat-card-title-group>
-                <mat-card-title class="text-green-800 font-bold text-xl">
-                    {{ plan.name }}
-                </mat-card-title>
-                <mat-card-subtitle class="text-green-700 font-medium">
-                    {{ plan.price }}
-                </mat-card-subtitle>
-            </mat-card-title-group>
-        </mat-card-header>
-
-        <mat-card-content>
-            <ul class="text-sm text-green-900 list-disc list-inside space-y-1">
-                @for (feature of plan.features; track feature) {
-                <li>{{ feature }}</li>
-                }
-            </ul>
-        </mat-card-content>
-
-        <mat-card-actions>
-            <button mat-raised-button
-                class=" rounded-3xl w-full bg-verde-oscuro! duration-1000! ease-in-out! hover:bg-green-800! transition-all!  text-white!">
-                SUBSCRIBE
-            </button>
-        </mat-card-actions>
-    </mat-card>
-    }
+    </div>
 </div>

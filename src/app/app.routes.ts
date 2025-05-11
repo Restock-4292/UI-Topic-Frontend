@@ -4,11 +4,10 @@ import { DashboardLayoutComponent } from './public/layout/dashboard-layout/dashb
 import { SummaryOverviewComponent } from './summary/pages/summary-overview/summary-overview.component';
 
 export const routes: Routes = [
-    // { path: '', redirectTo: '/dashboard/summary', pathMatch: 'full' },
     {
         path: 'dashboard', component: DashboardLayoutComponent,
         children: [
-            { path: '', redirectTo: 'summary', pathMatch: 'full' }, // 👈 redirección interna
+            { path: '', redirectTo: 'summary', pathMatch: 'full' }, //  redirección interna
             { path: 'summary', component: SummaryOverviewComponent },
             { path: 'subscription', component: SubscriptionOverviewComponent },
         ]

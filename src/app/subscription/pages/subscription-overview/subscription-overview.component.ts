@@ -19,20 +19,20 @@ export class SubscriptionOverviewComponent {
   //plans es arreglo de objetos
   plans = [
     {
-      name: 'Plan Mensual',
-      price: 'S/. 59.99 / mes',
+      name: 'Monthly plan',
+      price: 'S/. 59.99 / month',
       features: [
-        'Gestión de inventario automatizado',
-        'Control de pedidos y compras',
-        'Reporte y analítica',
-        'Notificaciones de stock crítico',
-        'Integración con proveedores'
+        'Automated inventory management',
+        'Ordering and purchasing control',
+        'Reporting and analytics ',
+        'Critical stock notifications',
+        'Integration with suppliers'
       ],
       popular: false
     },
     {
-      name: 'Plan Anual',
-      price: 'S/. 39.99 / mes',
+      name: 'Anual plan',
+      price: 'S/. 39.99 / month',
       features: [
         'Gestión de inventario automatizado',
         'Control de pedidos y compras',
