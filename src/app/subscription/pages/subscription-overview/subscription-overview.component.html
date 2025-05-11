@@ -1,7 +1,7 @@
 <div class="plans-container">
     <img src="/assets/imagen-principal.png" alt="Logo" class="principal-image" aria-label="logo-restock">
-    <div class="plans-header">
 
+    <div class="plans-header">
         <h2>FLEXIBLE PLANS TO TAKE YOUR RESTAURANT MANAGEMENT</h2>
         <h3>TO THE NEXT LEVEL</h3>
     </div>
@@ -9,9 +9,12 @@
     <div class="plans-grid">
         @for (plan of plans; track plan) {
         <mat-card class="plan-card" appearance="outlined">
-            <div *ngIf="plan.popular" class="popular-label">POPULAR</div>
 
-            <mat-card-header>
+            @if (plan.popular) {
+            <div class="popular-label">POPULAR</div>
+            }
+
+            <mat-card-header class="mat-card-header">
                 <mat-card-title>{{ plan.name }}</mat-card-title>
                 <mat-card-subtitle>{{ plan.price }}</mat-card-subtitle>
             </mat-card-header>
@@ -25,10 +28,9 @@
             </mat-card-content>
 
             <mat-card-actions>
-                <button mat-raised-button color="primary" class="subscribe-button">SUBSCRIBE</button>
+                <button mat-raised-button class="subscribe-button">SUBSCRIBE</button>
             </mat-card-actions>
         </mat-card>
         }
-
     </div>
 </div>

@@ -14,7 +14,7 @@
 .plans-header h3 {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: 28px;
+    font-size: 34px;
     text-transform: uppercase;
     margin: 0;
 }
@@ -32,48 +32,78 @@
 }
 
 .plan-card {
-    width: 300px;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: white;
+    width: 345px;
+    height: 435px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s ease;
+    border-radius: 0;
 }
 
 
+.mat-card-header {
+    justify-content: center;
+    padding: 16px 0;
+    margin-top: 1.3rem;
+}
 
 
 .plan-card mat-card-title {
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 34px;
+    font-weight: 400;
     color: #4F8A5B;
 }
 
 .plan-card mat-card-subtitle {
-    font-size: 18px;
-    margin-top: 4px;
+    margin-top: 1rem;
+    font-size: 23px;
+    font-weight: 400;
     color: #333;
 }
 
+mat-card-content {
+    padding: 1rem;
+}
+
 .plan-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    margin-top: 2rem;
+    padding: 0 0px 0px 0px;
     text-align: left;
+    list-style: none;
 }
 
 .plan-card li {
-    padding: 4px 0;
+    margin-top: .5rem;
+    list-style: none;
+    position: relative;
+    padding-left: 24px;
+    /* Espacio para el check */
     font-size: 15px;
     font-family: 'Inter', sans-serif;
+    font-weight: 400;
     color: #000;
 }
 
+.plan-card li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    color: #4F8A5B;
+    font-weight: bold;
+}
+
 .subscribe-button {
+    background-color: #4F8A5B !important;
+    color: white !important;
+    margin-top: 2rem;
     width: 100%;
-    background-color: #4F8A5B;
-    color: white;
-    border-radius: 20px;
+    height: 55%;
+    border-radius: 3px;
+    font-size: 14px;
     font-weight: 500;
-    margin-top: 10px;
+    margin: 2.4rem .6rem 2rem .6rem;
+
 }
 
 .subscribe-button:hover {
