@@ -1,6 +1,6 @@
 .plans-container {
     max-width: 1200px;
-    margin: 50px auto;
+    /* margin: 50px auto; */
     text-align: center;
 }
 
@@ -79,4 +79,9 @@
     font-size: 11px;
     padding: 4px 8px;
     border-bottom-left-radius: 5px;
+}
+
+.principal-image {
+    width: 100%;
+    height: auto;
 }
