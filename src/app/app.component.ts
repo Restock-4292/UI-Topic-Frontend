@@ -10,4 +10,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'restock';
+
+  //aca se puede comprobar que el usario este logueado , no se compurba el rol aca ,solo que el usario este logueado
 }

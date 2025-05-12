@@ -5,7 +5,10 @@
         {
             "id": "1",
             "name": "Monthly plan",
-            "price": "S/. 59.99 / month",
+            "duration": 1,
+            "price": "59.99",
+            "status": true,
+            "popular": false,
             "features": [
                 "Automated inventory management",
                 "Ordering and purchasing control",
@@ -13,12 +16,15 @@
                 "Critical stock notifications",
                 "Integration with suppliers"
             ],
-            "popular": false
+            "rol_id": "1"
         },
         {
             "id": "2",
             "name": "Anual plan",
-            "price": "S/. 39.99 / month",
+            "duration": 12,
+            "price": "39.99",
+            "status": true,
+            "popular": true,
             "features": [
                 "Gestión de inventario automatizado",
                 "Control de pedidos y compras",
@@ -26,12 +32,15 @@
                 "Notificaciones de stock crítico",
                 "Integración con proveedores"
             ],
-            "popular": true
+            "rol_id": "1"
         },
         {
             "id": "3",
             "name": "Semiannual Plan",
-            "price": "S/. 49.99 / month",
+            "duration": 6,
+            "price": "49.99",
+            "status": true,
+            "popular": false,
             "features": [
                 "Automated inventory management",
                 "Ordering and purchasing control",
@@ -39,7 +48,55 @@
                 "Critical stock notifications",
                 "Integration with suppliers"
             ],
-            "popular": false
+            "rol_id": "1"
+        },
+        {
+            "id": "4",
+            "name": "Monthly plan",
+            "duration": 1,
+            "price": "59.99",
+            "status": true,
+            "popular": false,
+            "features": [
+                "Automated Inventory Management",
+                "Order Control",
+                "Reporting and Analytics",
+                "Order Notifications",
+                "Restaurant Rating Section"
+            ],
+            "rol_id": "2"
+        },
+        {
+            "id": "4",
+            "name": "Anual plan",
+            "duration": 1,
+            "price": "39.99",
+            "status": true,
+            "popular": true,
+            "features": [
+                "Automated Inventory Management",
+                "Order Control",
+                "Reporting and Analytics",
+                "Order Notifications",
+                "Restaurant Rating Section"
+            ],
+            "rol_id": "2"
+        },
+        {
+            "id": "4",
+            "name": "Semiannual plan",
+            "duration": 1,
+            "price": "49.99",
+            "status": true,
+            "popular": false,
+            "features": [
+                "Automated Inventory Management",
+                "Order Control",
+                "Reporting and Analytics",
+                "Order Notifications",
+                "Restaurant Rating Section"
+            ],
+            "rol_id": "2"
         }
     ]
 }

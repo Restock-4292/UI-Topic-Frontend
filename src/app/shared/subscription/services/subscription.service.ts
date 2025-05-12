@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from '../../shared/services/base.service';
-import { environment } from '../../../environments/environment.development';
 import { Subscription } from '../model/subscription.entity';
+import { BaseService } from '../../services/base.service';
+import { environment } from '../../../../environments/environment';
 
 const subscriptionsResourceEndpointPath = environment.subscriptionsEndpointPath;
 

@@ -1,15 +1,14 @@
 {
+  "id": 1,
   "name": "John Doe",
-  "age": 30,
+  "business_name": "Restaurant Amazonas",
   "email": "johndoe@gmail.com",
-  "address": {
-    "street": "123 Avenida Principal",
-    "city": "Lima",
-    "zip": "12345"
-  },
   "phone": "987-654-321",
+  "address": "a.v silicon valley",
+  "username": "re444",
   "avatar": {
     "url": "assets/avatar.jpg",
     "alt": "User Avatar"
-  }
+  },
+  "role_id": 1
 }
