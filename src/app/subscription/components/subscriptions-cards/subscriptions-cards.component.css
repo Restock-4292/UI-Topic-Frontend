@@ -11,7 +11,7 @@
     background-color: white;
     position: relative;
     overflow: hidden;
-    width: 345px;
+    width: 30%;
     height: 435px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s ease;
@@ -80,11 +80,14 @@ mat-card-content {
     font-size: 14px;
     font-weight: 500;
     margin: 2.4rem .6rem 2rem .6rem;
+    transition: background-color 500ms ease, color 500ms ease;
+
 
 }
 
 .subscribe-button:hover {
-    background-color: #3d6f48;
+    background-color: rgb(26, 104, 60) !important;
+
 }
 
 .popular-label {
@@ -108,4 +111,41 @@ mat-card-content {
     margin-top: -30px;
     z-index: 1;
     position: relative;
+}
+
+
+
+@media (max-width: 1405px) {
+    .plans-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .plan-card {
+        width: 70%;
+        /* max-width: 560px; */
+        height: auto;
+        /* Permite que crezca según el contenido */
+        margin-bottom: 2rem;
+    }
+
+    .highlight-card {
+        margin-top: 0;
+    }
+
+    .plan-card li {
+        font-size: 17px;
+        padding-left: 28px;
+        line-height: 1.6;
+    }
+
+    .subscribe-button {
+        height: 60px;
+        font-size: 16px;
+        margin: 2.4rem 1rem 2rem 1rem;
+    }
+
+    mat-card-content {
+        margin: auto;
+    }
 }
