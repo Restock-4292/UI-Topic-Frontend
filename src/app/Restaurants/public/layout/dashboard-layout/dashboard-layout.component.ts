@@ -13,6 +13,6 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.css'
 })
-export class DashboardLayoutComponent {
+export class RestaurantDashboardLayoutComponent {
 
 }
