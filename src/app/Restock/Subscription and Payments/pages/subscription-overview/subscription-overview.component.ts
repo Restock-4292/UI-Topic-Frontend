@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { SubscriptionsCardsComponent } from '../../components/subscriptions-cards/subscriptions-cards.component';
-import { Subscription } from '../../model/subscription.entity';
-import { SubscriptionService } from '../../services/subscription.service';
+import { SubscriptionsCardsComponent } from '../../../../Restock/Subscription and Payments/components/subscriptions-cards/subscriptions-cards.component';
+import { Subscription } from '../../../../Restock/Subscription and Payments/model/subscription.entity';
 import { Router } from '@angular/router';
-import { mockUser } from '../../../mocks/user.mock';
+import { SubscriptionService } from '../../services/subscription.service';
+import { mockUser } from '../../../../shared/mocks/user.mock';
 @Component({
   selector: 'app-subscription-overview',
   imports: [
@@ -33,8 +33,8 @@ export class SubscriptionOverviewComponent {
       return;
     }
 
-    // Continuar con lógica normal si todo está bien
-    this.subscriptionApi.getAll().subscribe(subs => this.subscriptions = subs);
+    // // Continuar con lógica normal si todo está bien
+    // this.subscriptionApi.getAll().subscribe(subs => this.subscriptions = subs);
 
     //aca se valida porque no hay backend aun, esto deberia estar en backend
     this.subscriptionApi.getAll().subscribe(subs => {

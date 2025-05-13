@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
-import { SubscriptionOverviewComponent } from './shared/subscription/pages/subscription-overview/subscription-overview.component';
-import { RestaurantDashboardLayoutComponent } from './Restaurants/public/layout/dashboard-layout/dashboard-layout.component';
-import { SuppliersDashboardLayoutComponent } from './Suppliers/public/layout/dashboard-layout/dashboard-layout.component';
-import { RestaurantSummaryOverviewComponent } from './Restaurants/summary/pages/summary-overview/summary-overview.component';
-import { SupplierSummaryOverviewComponent } from './Suppliers/summary/pages/summary-overview/summary-overview.component';
-import { SupplierAlertsOverviewComponent } from './Suppliers/alerts/pages/alerts-overview/alerts-overview.component';
+import { DashboardLayoutComponent } from './public/dashboard-layout/dashboard-layout.component';
+import { SubscriptionOverviewComponent } from './Restock/Subscription and Payments/pages/subscription-overview/subscription-overview.component';
+import { AnalyticsOverviewComponent } from './Restock/Analytics/pages/analytics-overview/analytics-overview.component';
+import { SupplierAlertsOverviewComponent } from './Restock/Service operation and Monitoring/pages/supplier-alerts-overview/supplier-alerts-overview.component';
 
 
 export const routes: Routes = [
@@ -12,18 +10,18 @@ export const routes: Routes = [
     { path: 'dashboard/supplier', redirectTo: 'dashboard/supplier/summary' },
 
     {
-        path: 'dashboard/restaurant', component: RestaurantDashboardLayoutComponent,
+        path: 'dashboard/restaurant', component: DashboardLayoutComponent,
         children: [
             { path: '', redirectTo: 'summary', pathMatch: 'full' }, //  redirección interna
-            { path: 'summary', component: RestaurantSummaryOverviewComponent },
+            { path: 'summary', component: AnalyticsOverviewComponent },
             { path: 'subscription', component: SubscriptionOverviewComponent },
         ]
     },
     {
-        path: 'dashboard/supplier', component: SuppliersDashboardLayoutComponent,
+        path: 'dashboard/supplier', component: DashboardLayoutComponent,
         children: [
             { path: '', redirectTo: 'summary', pathMatch: 'full' }, //  redirección interna
-            { path: 'summary', component: SupplierSummaryOverviewComponent },
+            { path: 'summary', component: AnalyticsOverviewComponent },
             { path: 'subscription', component: SubscriptionOverviewComponent },
             { path: 'alerts', component: SupplierAlertsOverviewComponent },
         ]
