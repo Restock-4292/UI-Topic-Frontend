@@ -13,7 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
   templateUrl: './language-switcher.component.html',
   styleUrl: './language-switcher.component.css'
 })
-export class LanguageSwitcherComponent {
+export class LanguageSwitcher {
   currentLang = 'en';
 
   constructor(private translate: TranslateService) {
