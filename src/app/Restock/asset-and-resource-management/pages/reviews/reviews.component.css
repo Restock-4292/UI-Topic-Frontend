@@ -1,0 +1,34 @@
+.review-container {
+    padding: 16px;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: auto;
+}
+
+.filter-field {
+    width: 40%;
+    border: 2px;
+}
+
+
+.full-width-table {
+    background-color: white;
+}
+
+.table-container {
+    margin: 0 3rem 0 3rem;
+}
+
+.average-review {
+    text-align: right;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+mat-paginator {
+    background-color: white;
+}
