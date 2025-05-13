@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-alerts-overview',
+  selector: 'app-supplier-alerts-overview',
   imports: [
     MatTableModule,
     MatIconModule,
@@ -14,8 +14,8 @@ import { MatTableModule } from '@angular/material/table';
     MatFormFieldModule,
     MatButtonModule,
   ],
-  templateUrl: './alerts-overview.component.html',
-  styleUrl: './alerts-overview.component.css'
+  templateUrl: './supplier-alerts-overview.component.html',
+  styleUrl: './supplier-alerts-overview.component.css'
 })
 export class SupplierAlertsOverviewComponent {
 
