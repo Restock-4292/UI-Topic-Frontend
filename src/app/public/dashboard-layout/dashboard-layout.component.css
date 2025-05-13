@@ -18,3 +18,11 @@ app-sidebar {
     min-height: calc(100vh - 64px);
     margin-bottom: 1rem;
 }
+
+.principal-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 32px;
+}

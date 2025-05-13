@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { SubscriptionsCardsComponent } from '../../../../Restock/Subscription and Payments/components/subscriptions-cards/subscriptions-cards.component';
-import { Subscription } from '../../../../Restock/Subscription and Payments/model/subscription.entity';
 import { Router } from '@angular/router';
 import { SubscriptionService } from '../../services/subscription.service';
 import { mockUser } from '../../../../shared/mocks/user.mock';
+import { SubscriptionsCardsComponent } from '../../components/subscriptions-cards/subscriptions-cards.component';
+import { Subscription } from '../../model/subscription.entity';
 @Component({
   selector: 'app-subscription-overview',
   imports: [
