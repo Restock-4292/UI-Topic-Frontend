@@ -23,6 +23,8 @@ import { User, UserService } from '../../../services/user.service';
 export class SidebarComponent {
   @Input() menu: Array<any> = [];
 
+
+
   user!: User;
 
   constructor(private userService: UserService) {
@@ -30,6 +32,4 @@ export class SidebarComponent {
       this.user = data;
     });
   }
-
-
 }

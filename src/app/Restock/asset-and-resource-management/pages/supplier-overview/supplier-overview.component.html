@@ -1,0 +1,48 @@
+<div class="supplier-container">
+  <div class="supplier-header">
+    <h2 class="supplier-text">Suppliers</h2>
+  <button mat-raised-button class="new-supplier-btn" (click)="openAddSupplierModal()">
+    <span class="btn-content">
+      ADD<mat-icon>control_point</mat-icon>
+    </span>
+  </button>
+</div>
+
+  <mat-divider></mat-divider>
+
+<!-- No suppliers added yet -->
+<div *ngIf="!hasSuppliers" class="empty-state">
+  <p>Currently you have no suppliers added, please add new suppliers to be able to manage them from this section.</p>
+  <mat-icon class="supplier-icon">groups</mat-icon>
+</div>
+
+<!-- Table of suppliers -->
+<div *ngIf="hasSuppliers" class="table-wrapper">
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Email</th>
+      <th>Catalog</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of suppliers">
+      <td>{{ s.name }}</td>
+      <td>{{ s.category }}</td>
+      <td>{{ s.email }}</td>
+      <td>
+        <button mat-icon-button (click)="goToDetail(s.id)">
+          <mat-icon>menu_book</mat-icon>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Modal -->
+<app-supplier-modal *ngIf="showAddSupplierModal" (close)="closeModal()" />
+</div>
