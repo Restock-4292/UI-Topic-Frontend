@@ -4,7 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { mockSuppliers } from '../../../../shared/mocks/suppliers.mock';
-import { Supplier } from '../../model/supplier.entity'; // Usa tu entidad
+import { Supplier } from '../../model/supplier.entity';
+import {SupplierSummaryComponent} from '../../components/supplier-summary/supplier-summary.component'; // Usa tu entidad
 
 @Component({
   selector: 'app-supplier-detail',
@@ -12,7 +13,8 @@ import { Supplier } from '../../model/supplier.entity'; // Usa tu entidad
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    SupplierSummaryComponent
   ],
   templateUrl: './supplier-detail.component.html',
   styleUrl: './supplier-detail.component.css'
@@ -25,19 +27,13 @@ export class SupplierDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    const match = mockSuppliers.find(s => s.id === id); // ✅ Busca en el mock
+    const match = mockSuppliers.find(s => s.id === id); // para buscar en mock
 
     if (match) {
       this.supplier = match;
     } else {
       this.notFound = true;
     }
-  }
-
-  addSupplier(): void {
-    this.supplier.added = true;
-    alert(`${this.supplier.name} added to your supplier list!`);
-    this.router.navigate(['/dashboard/restaurant/suppliers']);
   }
 
   goBack(): void {
