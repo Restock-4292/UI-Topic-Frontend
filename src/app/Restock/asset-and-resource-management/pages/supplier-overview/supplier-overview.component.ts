@@ -1,20 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {SupplierModalComponent} from '../../components/supplier-modal/supplier-modal.component';
-import {CommonModule} from '@angular/common';
+
+interface Supplier {
+  id: number;
+  name: string;
+  category: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-supplier-overview',
-  standalone: true,
+  templateUrl: './supplier-overview.component.html',
   imports: [
-    CommonModule,
     SupplierModalComponent
   ],
-  templateUrl: './supplier-overview.component.html',
   styleUrl: './supplier-overview.component.css'
 })
 export class SupplierOverviewComponent implements OnInit {
   showAddSupplierModal = false;
+
+  suppliers: Supplier[] = [
+    { id: 1, name: 'Distribuidora Lima', category: 'Beverages', email: 'lima@supply.com' },
+    { id: 2, name: 'Insumos del Norte', category: 'Groceries', email: 'norte@insumos.com' }
+  ];
 
   constructor(
     private router: Router,
@@ -25,6 +34,11 @@ export class SupplierOverviewComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.showAddSupplierModal = params['addSupplier'] === 'true';
     });
+  }
+
+  //  Computed property para saber si hay proveedores
+  get hasSuppliers(): boolean {
+    return this.suppliers.length > 0;
   }
 
   openAddSupplierModal(): void {
@@ -43,7 +57,7 @@ export class SupplierOverviewComponent implements OnInit {
     });
   }
 
-  viewCatalog(supplier: any): void {
+  viewCatalog(supplier: Supplier): void {
     this.router.navigate(['/dashboard/suppliers', supplier.id]);
   }
 }
