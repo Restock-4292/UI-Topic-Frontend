@@ -1,0 +1,31 @@
+<div class="modal-container">
+  <h2>Select a supplier to add</h2>
+
+  <mat-table [dataSource]="suppliers" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let s"> {{ s.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let s"> {{ s.email }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+      <mat-cell *matCellDef="let s"> {{ s.address }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="catalog">
+      <mat-header-cell *matHeaderCellDef> Catalog </mat-header-cell>
+      <mat-cell *matCellDef="let s">
+        <td> <button mat-icon-button (click)="goToDetail(suppliers.id)"> <mat-icon>menu_book</mat-icon> </button> </td>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns;" />
+  </mat-table>
+</div>
