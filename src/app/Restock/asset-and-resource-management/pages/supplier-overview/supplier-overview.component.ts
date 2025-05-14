@@ -6,6 +6,7 @@ import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
+import {MatDivider} from '@angular/material/divider';
 
 interface Supplier {
   id: number;
@@ -26,6 +27,7 @@ interface Supplier {
     MatIconButton,
     MatPaginator,
     MatButton,
+    MatDivider,
   ],
   styleUrl: './supplier-overview.component.css'
 })

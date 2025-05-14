@@ -9,6 +9,7 @@
   background: #fff;
   margin: 1rem 0;
   width: 90%;
+  box-shadow: 5px 5px 5px #ccc;
 }
 
 .column {
@@ -23,18 +24,24 @@
   margin-top: 1rem;
 }
 
-/* Botón personalizado */
-.summary-button {
-  background-color: #4F8A5B;
-  color: white;
-  border-radius: 5px;
-  padding: 8px 16px;
+.summary-btn {
+  background-color: #4F8A5B !important;
+  color: white !important;
+  border-radius: 2px;
+  padding: 15px 30px;
+}
+
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 500;
-  border: 0;
+  font-size: 14px;
 }
 
 .action-column {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }

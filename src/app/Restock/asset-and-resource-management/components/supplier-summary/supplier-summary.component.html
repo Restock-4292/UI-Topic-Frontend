@@ -1,6 +1,6 @@
 <div class="summary-container">
   <div class="column image-column">
-    <h2>{{ supplier.name }}</h2>
+    <h4>{{ supplier.name }}</h4>
     <img src="#" alt="Supplier image" />
   </div>
 
@@ -22,8 +22,16 @@
 
   <!-- Columna 3 -->
   <div class="column action-column">
-    <button mat-flat-button class="summary-button" (click)="addSupplier()">ADD +</button>
+    <button mat-raised-button class="summary-btn" (click)="addSupplier()">
+      <span class="btn-content">
+        ADD<mat-icon>control_point</mat-icon>
+      </span>
+    </button>
     <br>
-    <button mat-flat-button class="summary-button" (click)="contactSupplier()">CONTACT<mat-icon>add_ic_call</mat-icon></button>
+    <button mat-raised-button class="summary-btn" (click)="contactSupplier()">
+      <span class="btn-content">
+        CONTACT<mat-icon>add_ic_call</mat-icon>
+      </span>
+    </button>
   </div>
 </div>
