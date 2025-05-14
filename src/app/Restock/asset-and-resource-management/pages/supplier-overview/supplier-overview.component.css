@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.add-btn {
+  background-color: #4F8A5B;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.empty-state img {
+  width: 300px;
+  margin-top: 1rem;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper th, .table-wrapper td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}

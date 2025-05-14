@@ -1,1 +1,37 @@
-<p>supplier-overview works!</p>
+<div class="header">
+  <h2>Suppliers</h2>
+  <button class="add-btn" (click)="openAddSupplierModal()">Add +</button>
+</div>
+
+<!-- No suppliers added yet -->
+<div *ngIf="!hasSuppliers" class="empty-state">
+  <p>Currently you have no suppliers added, please add new suppliers to be able to manage them from this section.</p>
+  <img src="#" alt="No suppliers">
+</div>
+
+<!-- Table of suppliers -->
+<div *ngIf="hasSuppliers" class="table-wrapper">
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Email</th>
+      <th>Catalog</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of suppliers">
+      <td>{{ s.name }}</td>
+      <td>{{ s.category }}</td>
+      <td>{{ s.email }}</td>
+      <td>
+        <button (click)="viewCatalog(s)">📦</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<app-supplier-modal *ngIf="showAddSupplierModal" (close)="closeModal()" />
