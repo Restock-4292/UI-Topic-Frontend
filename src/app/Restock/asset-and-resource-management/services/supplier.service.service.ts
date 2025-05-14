@@ -1,27 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Supplier} from '../model/supplier.entity';
-import {SUPPLIER_LIST} from '../../../shared/mocks/supplier.mock';
-import {Observable, of} from 'rxjs';
+import {environment} from '../../../../environments/environment';
+import {BaseService} from '../../../shared/services/base.service';
 
+const suppliersResourceEndpointPath = environment.suppliersEndpointPath;
+
+
+/**
+ * Servicio que maneja operaciones CRUD para suppliers,
+ * extendiendo la funcionalidad base genérica.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export class SupplierService {
-  private suppliers: Supplier[] = SUPPLIER_LIST;
+export class SupplierService extends BaseService<Supplier> {
 
-  getAll(): Observable<Supplier[]> {
-    return of(this.suppliers);
+  constructor() {
+    super();
+    // Se define el endpoint específico para este recurso
+    this.resourceEndpoint = suppliersResourceEndpointPath; // Ej: /api/v1/suppliers
   }
-
-  getById(id: number): Observable<Supplier | undefined> {
-    const supplier = this.suppliers.find(s => s.id === id);
-    return of(supplier);
-  }
-
-  addToMySuppliers(supplier: Supplier): Observable<boolean> {
-    // Aquí podrías guardar en otra lista, por ahora simula como añadido
-    return of(true);
-  }
-
-  constructor() { }
 }
