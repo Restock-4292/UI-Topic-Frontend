@@ -11,7 +11,6 @@ import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatFormField, MatInput} from '@angular/material/input';
-import {Supplier} from '../../model/supplier.entity';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
 
