@@ -2,7 +2,8 @@
   <h2>Supplier not found</h2>
   <button mat-raised-button class="supplier-back-btn" (click)="goBack()">
     <span class="btn-content">
-      ← Back
+      <mat-icon>arrow_back</mat-icon>
+      Back
     </span>
   </button>
 </div>
@@ -10,7 +11,7 @@
 <div *ngIf="!notFound" class="supplier-detail">
   <button mat-raised-button class="supplier-back-btn-fix" (click)="goBack()">
     <span class="btn-content">
-      ←
+      <mat-icon>arrow_back</mat-icon>
     </span>
   </button>
     <app-supplier-summary [supplier]="supplier" />
