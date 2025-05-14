@@ -4,6 +4,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {Router} from '@angular/router';
+import {MatIconButton} from '@angular/material/button';
 
 interface Supplier {
   id: number;
@@ -20,6 +21,7 @@ interface Supplier {
     MatDialogModule,
     MatTableModule,
     MatIconModule,
+    MatIconButton,
   ],
   templateUrl: './supplier-modal.component.html',
   styleUrl: './supplier-modal.component.css'
