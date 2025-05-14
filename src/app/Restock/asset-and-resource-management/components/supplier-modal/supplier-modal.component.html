@@ -21,7 +21,9 @@
     <ng-container matColumnDef="catalog">
       <mat-header-cell *matHeaderCellDef> Catalog </mat-header-cell>
       <mat-cell *matCellDef="let s">
-        <td> <button mat-icon-button (click)="goToDetail(suppliers.id)"> <mat-icon>menu_book</mat-icon> </button> </td>
+        <button mat-icon-button (click)="goToDetail(s.id)">
+          <mat-icon>menu_book</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
 
