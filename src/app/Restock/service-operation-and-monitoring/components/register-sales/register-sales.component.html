@@ -1,0 +1,110 @@
+<div class="modal-overlay">
+    <div class="modal-content modal-scrollable">
+        <button mat-icon-button class="close-button" (click)="cerrarComponente()">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <h2 class="title ">Register Sale</h2>
+
+        <div class="content">
+            <!-- Todo el contenido que debe hacer scroll va aquí -->
+            <p class="sub-text">Complete the details of a new sale to access the inventory update option.</p>
+
+            <p>Dishes</p>
+            <!-- Selección de platos -->
+            <mat-form-field class="full-width">
+                <mat-label>Select a dish from your recipe list</mat-label>
+                <mat-select (selectionChange)="agregarPlato($event.value)">
+                    <mat-option *ngFor="let plato of platosDisponibles" [value]="plato.id">
+                        {{ plato.nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <p>Additonal Supplies</p>
+            <!-- Selección de insumos -->
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Select a supply from your inventory</mat-label>
+                <mat-select (selectionChange)="agregarInsumo($event.value)">
+                    <mat-option *ngFor="let insumo of insumosDisponibles" [value]="insumo.id">
+                        {{ insumo.nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div *ngIf="platosSeleccionados.data.length > 0">
+                <!-- Tabla de platos -->
+                <h3>Selected dishes</h3>
+                <mat-table [dataSource]="platosSeleccionados" class="mat-elevation-z2">
+                    <ng-container matColumnDef="nombre">
+                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="precio">
+                        <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{element.precio}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad">
+                        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                        <mat-cell class="quantity" *matCellDef="let element">
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="element.cantidad">
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsPlatos"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsPlatos;"></mat-row>
+                </mat-table>
+            </div>
+
+            <div *ngIf="insumosSeleccionados.data.length > 0">
+                <!-- Tabla de insumos -->
+                <h3>Selected additional supplies</h3>
+                <mat-table [dataSource]="insumosSeleccionados" class="mat-elevation-z2">
+                    <ng-container matColumnDef="nombre">
+                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="precio">
+                        <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{element.precio}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad">
+                        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                        <mat-cell class="quantity" *matCellDef="let element">
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="element.cantidad">
+                            </mat-form-field>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsInsumos"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsInsumos;"></mat-row>
+                </mat-table>
+            </div>
+
+            <div class="no-dishes-additonalsupplies-selected"
+                *ngIf="platosSeleccionados.data.length === 0 && insumosSeleccionados.data.length === 0">
+                Select the additional dishes and ingredients of the order to view the complete sale.
+            </div>
+        </div>
+
+
+
+        <div class="buttons">
+            <button class="button-cancel" mat-raised-button (click)="cerrarComponente()">
+                CANCEL <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button *ngIf="platosSeleccionados.data.length != 0 || insumosSeleccionados.data.length != 0"
+                class="button-register" mat-raised-button (click)="registerSale()">
+                REGISTER <mat-icon>check_circle</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

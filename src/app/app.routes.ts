@@ -6,6 +6,7 @@ import { SubscriptionOverviewComponent } from './Restock/subscription-and-paymen
 import { ReviewsComponent } from './Restock/asset-and-resource-management/pages/reviews/reviews.component';
 import { SupplierOverviewComponent } from './Restock/asset-and-resource-management/pages/supplier-overview/supplier-overview.component';
 import { SupplierDetailComponent } from './Restock/asset-and-resource-management/pages/supplier-detail/supplier-detail.component';
+import { SalesComponent } from './Restock/service-operation-and-monitoring/pages/sales/sales.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
             { path: 'subscription', component: SubscriptionOverviewComponent },
             { path: 'suppliers', component: SupplierOverviewComponent },
             { path: 'suppliers/:id', component: SupplierDetailComponent },
+            { path: 'sales', component: SalesComponent },
         ]
     },
     {
