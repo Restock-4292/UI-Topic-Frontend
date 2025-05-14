@@ -1,6 +1,7 @@
+<div class="content">
 <div class="header">
   <h2>Suppliers</h2>
-  <button class="add-btn" (click)="openAddSupplierModal()">Add +</button>
+  <button mat-flat-button class="add-btn" (click)="openAddSupplierModal()">ADD +</button>
 </div>
 
 <!-- No suppliers added yet -->
@@ -38,3 +39,4 @@
 
 <!-- Modal -->
 <app-supplier-modal *ngIf="showAddSupplierModal" (close)="closeModal()" />
+</div>

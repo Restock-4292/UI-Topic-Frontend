@@ -19,3 +19,10 @@
   text-align: center;
   margin-top: 3rem;
 }
+
+supplier-detail#back-button {
+  background-color: #4F8A5B;
+  color: white;
+  margin-bottom: 1rem;
+}
+
