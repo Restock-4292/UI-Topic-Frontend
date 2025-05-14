@@ -20,7 +20,7 @@
   background-color: #4F8A5B !important;
   color: white !important;
   border-radius: 2px;
-  padding: 15px;
+  padding: 15px 30px;
 }
 
 .btn-content {
@@ -51,15 +51,35 @@ mat-divider {
 .table-wrapper table {
   width: 100%;
   border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 1px -1px 5px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.mat-mdc-header-row {
+  color: #757575;
 }
 
-.table-wrapper th, .table-wrapper td {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  text-align: left;
+/* Eliminar bordes verticales */
+.supplier-table th,
+.supplier-table td {
+  border-right: none;
 }
+
+/* Estilo para el paginador */
 mat-paginator {
   background-color: #F4F4F4;
   border-radius: 4px;
   width: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor de filtros */
+.supplier-filters {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
