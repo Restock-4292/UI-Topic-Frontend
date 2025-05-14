@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SupplierModalComponent} from '../../components/supplier-modal/supplier-modal.component';
 import {NgForOf, NgIf} from '@angular/common';
+import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatPaginator} from '@angular/material/paginator';
 
 interface Supplier {
   id: number;
   name: string;
   category: string;
   email: string;
+  added?: boolean;
 }
 
 @Component({
@@ -16,17 +21,17 @@ interface Supplier {
   imports: [
     SupplierModalComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatIconButton,
+    MatPaginator,
   ],
   styleUrl: './supplier-overview.component.css'
 })
 export class SupplierOverviewComponent implements OnInit {
   showAddSupplierModal = false;
 
-  suppliers: Supplier[] = [
-    { id: 1, name: 'Distribuidora Lima', category: 'Beverages', email: 'lima@supply.com' },
-    { id: 2, name: 'Insumos del Norte', category: 'Groceries', email: 'norte@insumos.com' }
-  ];
+  suppliers: Supplier[] = [];
 
   constructor(
     private router: Router,
@@ -37,6 +42,7 @@ export class SupplierOverviewComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.showAddSupplierModal = params['addSupplier'] === 'true';
     });
+    this.suppliers = mockSuppliers.filter(s => s.added);
   }
 
   //  Computed property para saber si hay proveedores
@@ -60,7 +66,7 @@ export class SupplierOverviewComponent implements OnInit {
     });
   }
 
-  viewCatalog(supplier: Supplier): void {
-    this.router.navigate(['/dashboard/suppliers', supplier.id]);
+  goToDetail(id: number): void {
+    this.router.navigate(['/dashboard/restaurant/suppliers', id]);
   }
 }

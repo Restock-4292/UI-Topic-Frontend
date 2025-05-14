@@ -34,3 +34,8 @@
   border: 1px solid #ccc;
   text-align: left;
 }
+mat-paginator {
+  background-color: #F4F4F4;
+  border-radius: 4px;
+  width: 100%;
+}

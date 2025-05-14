@@ -26,11 +26,14 @@
       <td>{{ s.category }}</td>
       <td>{{ s.email }}</td>
       <td>
-        <button (click)="viewCatalog(s)">📦</button>
+        <button mat-icon-button (click)="goToDetail(s.id)">
+          <mat-icon>menu_book</mat-icon>
+        </button>
       </td>
     </tr>
     </tbody>
   </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </div>
 
 <!-- Modal -->
