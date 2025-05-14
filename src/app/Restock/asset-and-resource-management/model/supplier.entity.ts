@@ -11,6 +11,7 @@ export class Supplier {
   address: string;
   contactPerson: string;
   position: string;
+  added: boolean;
 
   constructor(supplier: {
     id?: number,
@@ -25,6 +26,7 @@ export class Supplier {
     address?: string,
     contactPerson?: string,
     position?: string
+    added?: boolean,
   }) {
     this.id = supplier.id || 0;
     this.name = supplier.name || '';
@@ -38,5 +40,6 @@ export class Supplier {
     this.address = supplier.address || '';
     this.contactPerson = supplier.contactPerson || '';
     this.position = supplier.position || '';
+    this.added = supplier.added ?? false;
   }
 }
