@@ -4,7 +4,7 @@
         <button mat-raised-button color="primary" class="nueva-venta-btn" (click)="toggleRegistroVenta()">
             <span class="btn-content">
                 NEW SALE
-                <mat-icon>add_circle</mat-icon>
+                <mat-icon>control_point</mat-icon>
             </span>
         </button>
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 <!-- Mostrar el componente si la bandera es true -->
-<app-register-sales *ngIf="mostrarRegistroVenta" (cerrar)="mostrarRegistroVenta = false"
+<app-register-sales *ngIf="mostrarRegistroVenta" (cerrar)="closeModal()"
     (registersale)="onRegisterSale($event)"></app-register-sales>
 
 <app-sale-confirmation *ngIf="mostrarSaleConfirmation"

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { mockUser } from '../../shared/mocks/user.mock';
@@ -11,11 +11,25 @@ import { mockUser } from '../../shared/mocks/user.mock';
   templateUrl: './dashboard-layout.component.html',
   styleUrls: ['./dashboard-layout.component.css']
 })
+
+
 export class DashboardLayoutComponent implements OnInit {
   user = mockUser;
   menu: Array<{ labelKey: string, icon: string, route: string }> = [];
 
+  router = inject(Router);
+
   ngOnInit() {
+
+    const role = mockUser.role_id.name;
+    if (role === 'restaurant') {
+      this.router.navigate(['/dashboard/restaurant']);
+    } else if (role === 'supplier') {
+      this.router.navigate(['/dashboard/supplier']);
+    } else {
+      this.router.navigate(['/not-found']); // fallback
+    }
+
     if (this.user.role_id.name === 'supplier') {
       this.menu = [
         { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard/supplier/summary' },
