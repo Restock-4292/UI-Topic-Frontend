@@ -1,0 +1,29 @@
+<div class="summary-container">
+  <div class="column image-column">
+    <h2>{{ supplier.name }}</h2>
+    <img src="#" alt="Supplier image" />
+  </div>
+
+  <div class="column info-column">
+    <p>Name: {{ supplier.name }}</p>
+    <p>RUC: {{ supplier.ruc }}</p>
+    <p>Category: {{ supplier.category }}</p>
+    <p>Status: {{ supplier.status ? 'Active' : 'Inactive' }}</p>
+    <p>Registration Date: {{ supplier.registrationDate }}</p>
+    <p>Last Update: {{ supplier.lastUpdate }}</p>
+  </div>
+  <div class="column info-column">
+    <p>Email: {{ supplier.email }}</p>
+    <p>Phone: {{ supplier.phone }}</p>
+    <p>Address: {{ supplier.address }}</p>
+    <p>Contact Person: {{ supplier.contactPerson }}</p>
+    <p>Position: {{ supplier.position }}</p>
+  </div>
+
+  <!-- Columna 3 -->
+  <div class="column action-column">
+    <button mat-flat-button class="summary-button" (click)="addSupplier()">ADD +</button>
+    <br>
+    <button mat-flat-button class="summary-button" (click)="contactSupplier()">CONTACT<mat-icon>add_ic_call</mat-icon></button>
+  </div>
+</div>
