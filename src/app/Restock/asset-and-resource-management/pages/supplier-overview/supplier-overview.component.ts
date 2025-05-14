@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {SupplierModalComponent} from '../../components/supplier-modal/supplier-modal.component';
+import {NgForOf, NgIf} from '@angular/common';
 
 interface Supplier {
   id: number;
@@ -13,7 +14,9 @@ interface Supplier {
   selector: 'app-supplier-overview',
   templateUrl: './supplier-overview.component.html',
   imports: [
-    SupplierModalComponent
+    SupplierModalComponent,
+    NgForOf,
+    NgIf
   ],
   styleUrl: './supplier-overview.component.css'
 })
