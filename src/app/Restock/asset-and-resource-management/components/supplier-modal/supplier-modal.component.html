@@ -1,33 +1,49 @@
-<div class="modal-container">
-  <h2>Select a supplier to add</h2>
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h4>Add supplier</h4>
+    <p>Fill in the details of the new supplier to add it to your list.</p>
 
-  <mat-table [dataSource]="suppliers" class="mat-elevation-z1">
+    <div class="flex">
+      <mat-form-field appearance="outline" class="filter-field">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search supplier" />
+      </mat-form-field>
+    </div>
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let s"> {{ s.name }} </mat-cell>
-    </ng-container>
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 full-width-table">
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-      <mat-cell *matCellDef="let s"> {{ s.email }} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let s"> {{ s.name }} </td>
+        </ng-container>
 
-    <ng-container matColumnDef="address">
-      <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
-      <mat-cell *matCellDef="let s"> {{ s.address }} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let s"> {{ s.email }} </td>
+        </ng-container>
 
-    <ng-container matColumnDef="catalog">
-      <mat-header-cell *matHeaderCellDef> Catalog </mat-header-cell>
-      <mat-cell *matCellDef="let s">
-        <button mat-icon-button (click)="goToDetail(s.id)">
-          <mat-icon>menu_book</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let s"> {{ s.address }} </td>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns" />
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+        <ng-container matColumnDef="catalog">
+          <th mat-header-cell *matHeaderCellDef> Catalog </th>
+          <td mat-cell *matCellDef="let s">
+            <button mat-icon-button (click)="goToDetail(s.id)">
+              <mat-icon>menu_book</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+
+    <div class="modal-actions">
+      <button mat-stroked-button color="warn" (click)="closeModal()">CANCEL</button>
+    </div>
+  </div>
 </div>

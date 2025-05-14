@@ -1,45 +1,69 @@
-import { Component } from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatTableModule} from '@angular/material/table';
-import {MatIconModule} from '@angular/material/icon';
+import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {
+  MatCell, MatCellDef,
+  MatColumnDef,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable,
+  MatTableDataSource
+} from '@angular/material/table';
+import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
-import {MatIconButton} from '@angular/material/button';
-
-interface Supplier {
-  id: number;
-  name: string;
-  email: string;
-  address: string;
-}
+import {MatPaginator} from '@angular/material/paginator';
+import {MatFormField, MatInput} from '@angular/material/input';
+import {Supplier} from '../../model/supplier.entity';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
 
 @Component({
   selector: 'app-supplier-modal',
+  templateUrl: './supplier-modal.component.html',
+  styleUrl: './supplier-modal.component.css',
   standalone: true,
   imports: [
-    CommonModule,
-    MatDialogModule,
-    MatTableModule,
-    MatIconModule,
+    MatFormField,
+    MatPaginator,
+    MatTable,
+    MatIcon,
+    MatInput,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
     MatIconButton,
-  ],
-  templateUrl: './supplier-modal.component.html',
-  styleUrl: './supplier-modal.component.css'
+    MatHeaderRow,
+    MatRow,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatRowDef,
+    MatButton,
+    MatHeaderRowDef
+  ]
 })
 
 
-export class SupplierModalComponent {
-  displayedColumns: string[] = ['name', 'email', 'address', 'catalog'];
+export class SupplierModalComponent implements AfterViewInit {
+  @Output() close = new EventEmitter<void>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  suppliers: Supplier[] = [
-    { id: 1, name: 'Distribuidora Lima', email: 'lima@supply.com', address: 'Av. Arequipa 123' },
-    { id: 2, name: 'Insumos del Norte', email: 'norte@insumos.com', address: 'Jr. Libertad 456' },
-    { id: 3, name: 'Abarrotes S.A.C.', email: 'ventas@abarrotes.com', address: 'Calle Real 789' }
-  ];
+  displayedColumns: string[] = ['name', 'email', 'address', 'catalog'];
+  suppliers = mockSuppliers;
+  dataSource = new MatTableDataSource(this.suppliers);
 
   constructor(private router: Router) {}
 
-  goToDetail(supplierId: number): void {
-    this.router.navigate(['/dashboard/suppliers', supplierId]);
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(event: Event): void {
+    this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  }
+
+  goToDetail(id: number): void {
+    this.router.navigate(['/dashboard/restaurant/suppliers', id]);
+  }
+
+  closeModal(): void {
+    this.close.emit();
   }
 }
