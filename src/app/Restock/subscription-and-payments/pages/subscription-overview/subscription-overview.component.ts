@@ -35,12 +35,14 @@ export class SubscriptionOverviewComponent {
 
     // // Continuar con lógica normal si todo está bien
     // this.subscriptionApi.getAll().subscribe(subs => this.subscriptions = subs);
-
     //aca se valida porque no hay backend aun, esto deberia estar en backend
     this.subscriptionApi.getAll().subscribe(subs => {
+      console.log("subs: ", subs);
       this.subscriptions = subs.filter(
         s => s.rol_id === String(this.user.role_id.id)
       );
+      console.log("subscriptions:", this.subscriptions);
+
     });
   }
 
