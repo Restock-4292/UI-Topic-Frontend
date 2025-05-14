@@ -3,25 +3,21 @@
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  padding: 1.5rem;
+  padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 10px;
   background: #fff;
-  margin: 1rem 0;
   width: 90%;
   box-shadow: 5px 5px 5px #ccc;
+  height: 180px;
 }
 
+p{
+  height: 12px;
+}
 .column {
   flex: 1;
   text-align: center;
-}
-
-.image-column img {
-  width: 100%;
-  max-width: 220px;
-  border-radius: 8px;
-  margin-top: 1rem;
 }
 
 .summary-btn {
