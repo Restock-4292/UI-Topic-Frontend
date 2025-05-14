@@ -4,6 +4,7 @@ import { AnalyticsOverviewComponent } from './Restock/analytics/pages/analytics-
 import { SupplierAlertsOverviewComponent } from './Restock/service-operation-and-monitoring/pages/supplier-alerts-overview/supplier-alerts-overview.component';
 import { SubscriptionOverviewComponent } from './Restock/subscription-and-payments/pages/subscription-overview/subscription-overview.component';
 import { ReviewsComponent } from './Restock/asset-and-resource-management/pages/reviews/reviews.component';
+import { SalesComponent } from './Restock/service-operation-and-monitoring/pages/sales/sales.component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'summary', pathMatch: 'full' }, //  redirección interna
             { path: 'summary', component: AnalyticsOverviewComponent },
             { path: 'subscription', component: SubscriptionOverviewComponent },
+            { path: 'sales', component: SalesComponent },
         ]
     },
     {

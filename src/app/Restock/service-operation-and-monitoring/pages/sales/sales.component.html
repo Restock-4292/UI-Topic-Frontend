@@ -1,0 +1,27 @@
+<div class="ventas-container">
+    <div class="ventas-header">
+        <h2 class="text-sales">Register your sales</h2>
+        <button mat-raised-button color="primary" class="nueva-venta-btn" (click)="toggleRegistroVenta()">
+            <span class="btn-content">
+                NEW SALE
+                <mat-icon>add_circle</mat-icon>
+            </span>
+        </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="ventas-empty">
+        <p class="ventas-text">
+            You currently have no recorded sales. Enter your sales here to keep your inventory up to date.
+        </p>
+        <mat-icon class="ventas-icon">room_service</mat-icon>
+    </div>
+</div>
+
+<!-- Mostrar el componente si la bandera es true -->
+<app-register-sales *ngIf="mostrarRegistroVenta" (cerrar)="mostrarRegistroVenta = false"
+    (registersale)="onRegisterSale($event)"></app-register-sales>
+
+<app-sale-confirmation *ngIf="mostrarSaleConfirmation"
+    (cerrar)="mostrarSaleConfirmation = false"></app-sale-confirmation>
