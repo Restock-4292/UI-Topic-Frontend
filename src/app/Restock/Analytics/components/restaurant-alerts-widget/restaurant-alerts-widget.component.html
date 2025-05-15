@@ -1,21 +1,26 @@
+<h3 class="widget-title">Last alerts</h3>
 <div class="widget-container">
-  <div class="header"><h3>Last Alerts</h3></div>
-  <mat-table [dataSource]="topThree" class="mat-elevation-z1">
+  <mat-table [dataSource]="alerts" class="mat-elevation-z1">
     <!-- Ingredient -->
     <ng-container matColumnDef="ingredient">
-      <mat-header-cell *matHeaderCellDef> Ingredient</mat-header-cell>
-      <mat-cell *matCellDef="let alert"> {{ alert.ingredient }}</mat-cell>
+      <mat-header-cell *matHeaderCellDef> Ingredient </mat-header-cell>
+      <mat-cell *matCellDef="let alert"> {{ alert.ingredient }} </mat-cell>
     </ng-container>
 
     <!-- Status -->
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
       <mat-cell *matCellDef="let alert">
-        <button mat-flat-button>{{ alert.status }}</button>
+        <button mat-flat-button
+                [ngClass]="{
+              'low-stock': alert.status === 'Low stock',
+              'max-stock': alert.status === 'Maximum stock'
+            }">
+          {{ alert.status }}
+        </button>
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>
+  </mat-table> </div>

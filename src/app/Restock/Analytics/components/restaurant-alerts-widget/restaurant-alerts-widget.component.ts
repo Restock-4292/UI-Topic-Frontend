@@ -9,6 +9,7 @@ import {
   MatTable
 } from '@angular/material/table';
 import {MatButton} from '@angular/material/button';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-restaurant-alerts-widget',
@@ -23,7 +24,8 @@ import {MatButton} from '@angular/material/button';
     MatRow,
     MatHeaderRowDef,
     MatHeaderRow,
-    MatRowDef
+    MatRowDef,
+    NgClass
   ],
   templateUrl: './restaurant-alerts-widget.component.html',
   styleUrl: './restaurant-alerts-widget.component.css'
@@ -37,8 +39,4 @@ export class RestaurantAlertsWidgetComponent {
     { ingredient: 'Culantro', status: 'Maximum stock' },
     { ingredient: 'Lechuga', status: 'Low stock' }
   ];
-
-  get topThree() {
-    return this.alerts.slice(0, 4);
-  }
 }
