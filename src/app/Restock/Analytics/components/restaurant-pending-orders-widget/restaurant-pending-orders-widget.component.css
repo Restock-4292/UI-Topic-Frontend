@@ -9,6 +9,11 @@
   padding: 20px 30px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
+  max-height: 300px;
+}
+.scroll-wrapper {
+  max-height: 250px; /* ajusta según tus necesidades */
+  overflow-y: auto;
 }
 mat-table {
   background-color: white;
