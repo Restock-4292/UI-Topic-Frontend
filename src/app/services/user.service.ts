@@ -17,7 +17,7 @@ export interface User {
     id: number;
     name: string;
   };
-  age?: number; // ✅ ahora es opcional
+  age?: number;
 }
 @Injectable({
   providedIn: 'root'

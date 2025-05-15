@@ -12,11 +12,11 @@
 }
 
 .widget-pending-orders {
-  flex: 1;
+  flex: 6.5;
 }
 
 .widget-last-alerts {
-  flex: 1;
+  flex: 3.5;
 }
 
 .row-2 {
