@@ -34,14 +34,7 @@ export class DashboardLayoutComponent implements OnInit {
 
   ngOnInit() {
 
-    const role = mockUser.role_id.name;
-    if (role === 'restaurant') {
-      this.router.navigate(['/dashboard/restaurant']);
-    } else if (role === 'supplier') {
-      this.router.navigate(['/dashboard/supplier']);
-    } else {
-      this.router.navigate(['/not-found']); // fallback
-    }
+
 
     if (this.user.role_id.name === 'supplier') {
       this.menu = [

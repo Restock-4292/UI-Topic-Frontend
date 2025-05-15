@@ -1,4 +1,4 @@
-import {Supplier} from '../../Restock/asset-and-resource-management/model/supplier.entity';
+import { Supplier } from "../../Restock/resource/model/supplier.entity";
 
 export const mockSuppliers: Supplier[] = [
   {
