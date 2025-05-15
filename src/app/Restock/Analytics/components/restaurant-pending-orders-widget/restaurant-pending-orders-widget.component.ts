@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Order} from '../../../resource/orders-to-suppliers/model/order.entity';
 import {mockOrders} from '../../../../shared/mocks/order.mock';
 import {
@@ -6,12 +6,13 @@ import {
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow,
-  MatHeaderRowDef, MatRow, MatRowDef,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-restaurant-pending-orders-widget',
@@ -22,8 +23,6 @@ import {MatIcon} from '@angular/material/icon';
     MatColumnDef,
     MatHeaderCellDef,
     MatCellDef,
-    MatIconButton,
-    MatIcon,
     MatHeaderRowDef,
     MatRowDef,
     MatHeaderRow,

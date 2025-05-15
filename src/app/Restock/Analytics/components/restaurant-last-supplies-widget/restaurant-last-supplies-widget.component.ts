@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatIconButton} from '@angular/material/button';
 import {NgForOf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
