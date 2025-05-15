@@ -46,7 +46,6 @@ export class ReviewsComponent implements AfterViewInit {
       { restaurant: 'La Fiesta Mexicana', rating: 5, comment: 'Excellent service and fresh products. The personalized support was a big plus. Will definitely order again.', date: '13/04/2025' }
     ]
 
-
   );
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

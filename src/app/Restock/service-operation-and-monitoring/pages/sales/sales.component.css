@@ -52,3 +52,48 @@ mat-divider {
     font-size: 160px;
     color: #7f8c8d;
 }
+
+mat-paginator {
+    background-color: white;
+    margin-left: auto;
+}
+
+.full-width-table {
+    background-color: white;
+}
+
+.table-container {
+    margin: 0 3rem 0 3rem;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: auto;
+}
+
+.filter-field {
+    margin-top: 1rem;
+    width: 30%;
+    border: 2px;
+}
+
+.flex-title-history-sales {
+    margin-top: 2rem;
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 23px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 50px;
+}
+
+
+.subtitle {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 0;
+}
