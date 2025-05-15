@@ -23,7 +23,8 @@
 
 .content-wrapper {
   padding: 24px;
-  background-color: #ffff;
+  background-color: #fff;
+  min-height: 100vh;
 }
 
 .principal-image {
