@@ -10,7 +10,9 @@
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
 }
-
+mat-table {
+  background-color: white;
+}
 mat-header-cell {
   font-weight: bold;
   font-size: 12px;
