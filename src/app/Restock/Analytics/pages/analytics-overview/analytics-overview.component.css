@@ -1,0 +1,27 @@
+.analytics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Primera fila: dos widgets en línea */
+.row1 {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Segunda fila: centrado horizontal */
+.row2 {
+}
+
+/* Widgets */
+.widget-alerts {
+  flex: 7;
+}
+
+.widget-account {
+  flex: 3;
+}
+
