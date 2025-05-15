@@ -1,24 +1,20 @@
-.layout {
-    display: flex;
+.layout-container {
+  height: 100vh;
 }
-
-app-sidebar {
-    position: fixed;
-    top: 0px;
-    /* altura del navbar si existe */
-    left: 0;
-    z-index: 20;
+.sidebar-container {
+  width: 260px;
 }
-
-
-.content {
-    margin-left: 330px;
-    /* Igual al ancho del sidebar */
-    width: calc(100% - 330px);
-    min-height: calc(100vh - 64px);
+.main-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
     margin-bottom: 1rem;
 }
-
+.content-wrapper {
+  padding: 24px;
+  background-color: #fff;
+  min-height: calc(100vh - 64px);
+}
 .principal-image {
     width: 100%;
     max-width: 100%;
@@ -26,3 +22,4 @@ app-sidebar {
     object-fit: cover;
     margin-bottom: 32px;
 }
+

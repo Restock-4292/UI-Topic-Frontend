@@ -5,6 +5,7 @@ import { SupplierAlertsOverviewComponent } from './Restock/monitoring/pages/supp
 import { SubscriptionOverviewComponent } from './Restock/subscription/pages/subscription-overview/subscription-overview.component';
 import { SalesComponent } from './Restock/monitoring/pages/sales/sales.component';
 import { RoleRedirectComponent } from './public/role-redirect/role-redirect.component';
+
 import { SupplierOverviewComponent } from './Restock/resource/pages/supplier-overview/supplier-overview.component';
 import { SupplierDetailComponent } from './Restock/resource/pages/supplier-detail/supplier-detail.component';
 import { ReviewsComponent } from './Restock/resource/pages/reviews/reviews.component';
@@ -16,7 +17,7 @@ export const routes: Routes = [
     path: 'dashboard/restaurant', component: DashboardLayoutComponent,
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
-      { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
+      // { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },
