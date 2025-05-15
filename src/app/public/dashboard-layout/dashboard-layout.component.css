@@ -5,6 +5,9 @@
 .sidebar-container {
   width: 300px;
   height: 100%;
+  border-radius: 0;
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.4);
+
 }
 
 .mat-drawer {
