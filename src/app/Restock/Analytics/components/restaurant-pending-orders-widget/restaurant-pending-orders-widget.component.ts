@@ -1,0 +1,43 @@
+import { Component } from '@angular/core';
+import {Order} from '../../../resource/orders-to-suppliers/model/order.entity';
+import {mockOrders} from '../../../../shared/mocks/order.mock';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef, MatHeaderRow,
+  MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+
+@Component({
+  selector: 'app-restaurant-pending-orders-widget',
+  imports: [
+    MatTable,
+    MatCell,
+    MatHeaderCell,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatIconButton,
+    MatIcon,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatHeaderRow,
+    MatRow
+  ],
+  templateUrl: './restaurant-pending-orders-widget.component.html',
+  styleUrl: './restaurant-pending-orders-widget.component.css'
+})
+export class RestaurantPendingOrdersWidgetComponent {
+  orders: Order[] = [];
+
+  displayedColumns: string[] = ['supplier', 'supply', 'quantity', 'unit', 'finalPrice', 'state'];
+
+  constructor() {
+    this.orders = mockOrders.filter(o => o.situation === 'approved');
+  }
+}
