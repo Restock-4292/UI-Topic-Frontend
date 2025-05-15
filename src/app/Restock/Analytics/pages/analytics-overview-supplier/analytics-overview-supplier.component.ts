@@ -6,15 +6,15 @@ import {
 import { SupplierFrequentCustomersWidgetComponent } from '../../components/supplier-frequent-customers-widget/supplier-frequent-customers-widget.component';
 
 @Component({
-  selector: 'app-analytics-overview',
+  selector: 'app-analytics-overview-supplier',
   imports: [
     SupplierAlertsWidgetComponent,
     SupplierAccountWidgetComponent,
     SupplierFrequentCustomersWidgetComponent
   ],
-  templateUrl: './analytics-overview.component.html',
-  styleUrl: './analytics-overview.component.css'
+  templateUrl: './analytics-overview-supplier.component.html',
+  styleUrl: './analytics-overview-supplier.component.css'
 })
-export class AnalyticsOverviewComponent {
+export class AnalyticsOverviewSupplierComponent {
 
 }
