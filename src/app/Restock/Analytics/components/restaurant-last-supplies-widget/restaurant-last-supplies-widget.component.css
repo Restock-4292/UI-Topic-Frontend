@@ -1,3 +1,10 @@
+.widget-title {
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  margin-bottom: 10px;
+}
+
 .carousel-container {
   margin-top: 2rem;
 }
