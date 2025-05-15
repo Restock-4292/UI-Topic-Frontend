@@ -1,0 +1,49 @@
+.widget-title {
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  margin-bottom: 10px;
+}
+
+.widget-container {
+  background: #fff;
+  padding: 10px 30px 30px 30px;
+  box-shadow: 1px 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+
+mat-table {
+  background-color: #fff;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+mat-header-cell, mat-cell {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+mat-header-cell {
+  font-weight: bold;
+  font-size: 12px;
+  color: #757575;
+}
+
+mat-cell {
+  color: #333;
+}
+
+mat-cell, mat-header-cell {
+  border-right: none !important;
+}
+
+button.low-stock {
+  background-color: #D9534F !important;
+  color: white !important;
+}
+
+button.max-stock {
+  background-color: #F0AD4E !important;
+  color: white !important;
+}
