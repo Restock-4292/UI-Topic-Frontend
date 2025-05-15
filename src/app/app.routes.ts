@@ -5,6 +5,7 @@ import { SupplierAlertsOverviewComponent } from './Restock/monitoring/pages/supp
 import { SubscriptionOverviewComponent } from './Restock/subscription/pages/subscription-overview/subscription-overview.component';
 import { SalesComponent } from './Restock/monitoring/pages/sales/sales.component';
 import { RoleRedirectComponent } from './public/role-redirect/role-redirect.component';
+
 import { SupplierOverviewComponent } from './Restock/resource/pages/supplier-overview/supplier-overview.component';
 import { SupplierDetailComponent } from './Restock/resource/pages/supplier-detail/supplier-detail.component';
 import { ReviewsComponent } from './Restock/resource/pages/reviews/reviews.component';

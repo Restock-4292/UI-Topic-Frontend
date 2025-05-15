@@ -1,14 +1,29 @@
 <app-navbar></app-navbar>
 
+<mat-sidenav-container class="layout-container">
+  <mat-sidenav
+    #drawer
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+    [fixedInViewport]="isMobile"
+    fixedTopGap="56"
+    class="sidebar-container"
+  >
+    <app-sidebar [menu]="menu" [user]="user"></app-sidebar>
+  </mat-sidenav>
 
-<div class="layout">
-    <app-sidebar [menu]="menu" />
+  <mat-sidenav-content class="main-content">
+    @if (isMobile) {
+      <button mat-icon-button class="floating-button" (click)="drawer.toggle()" aria-label="Toggle sidebar">
+        <mat-icon>menu</mat-icon>
+      </button>
+    }
 
-    <main class="content">
-        <img src="/assets/imagen-principal.png" alt="Logo" class="principal-image" aria-label="logo-restock">
+    <img src="/assets/imagen-principal.png" alt="Logo" class="principal-image" />
 
-        <!--<router-outlet> es el lugar donde Angular inyecta el componente activo de la ruta. Es imprescindible en aplicaciones SPA que usan rutas.-->
-        <router-outlet />
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 
-    </main>
-</div>
+</mat-sidenav-container>
