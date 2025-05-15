@@ -8,6 +8,7 @@ import { RoleRedirectComponent } from './public/role-redirect/role-redirect.comp
 import { SupplierOverviewComponent } from './Restock/resource/pages/supplier-overview/supplier-overview.component';
 import { SupplierDetailComponent } from './Restock/resource/pages/supplier-detail/supplier-detail.component';
 import { ReviewsComponent } from './Restock/resource/pages/reviews/reviews.component';
+import { AnalyticsOverviewRestaurantComponent } from './Restock/analytics/pages/analytics-overview-restaurant/analytics-overview-restaurant.component';
 
 export const routes: Routes = [
 
@@ -15,7 +16,7 @@ export const routes: Routes = [
     path: 'dashboard/restaurant', component: DashboardLayoutComponent,
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
-      { path: 'summary', component: SubscriptionOverviewComponent },
+      { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },
