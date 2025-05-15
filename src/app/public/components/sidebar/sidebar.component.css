@@ -1,9 +1,8 @@
 .sidebar {
-  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #fdfdfe;
+  background: #ffffff;
   padding: 16px;
 }
 
@@ -105,7 +104,7 @@ a.menu-item {
 
 
 .language-switcher {
-  margin-top: 6rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: center;
 }
