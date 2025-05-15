@@ -35,8 +35,8 @@ export class RestaurantAlertsWidgetComponent {
 
   alerts = [
     { ingredient: 'Aji amarillo', status: 'Low stock' },
-    { ingredient: 'Cebolla roja', status: 'Low stock' },
-    { ingredient: 'Culantro', status: 'Maximum stock' },
-    { ingredient: 'Lechuga', status: 'Low stock' }
+    { ingredient: 'Cebolla roja', status: 'Max stock' },
+    { ingredient: 'Lechuga', status: 'Low stock' },
+    { ingredient: 'Culantro', status: 'Max stock' }
   ];
 }

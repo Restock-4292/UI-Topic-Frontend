@@ -3,7 +3,8 @@
 @use '@angular/material' as mat;
 
 html {
-  @include mat.theme((typography: Poppins,
+  @include mat.theme((color: (theme-type: light),
+      typography: Poppins,
       density: 0,
     ));
 }

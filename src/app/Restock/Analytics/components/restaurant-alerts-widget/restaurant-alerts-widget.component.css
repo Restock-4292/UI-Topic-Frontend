@@ -7,7 +7,7 @@
 
 .widget-container {
   background: #fff;
-  padding: 10px 30px 30px 30px;
+  padding: 10px 30px 10px 30px;
   box-shadow: 1px 0 8px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
 }
@@ -35,15 +35,23 @@ mat-cell {
 }
 
 mat-cell, mat-header-cell {
-  border-right: none !important;
+  border-right: none;
 }
 
 button.low-stock {
-  background-color: #D9534F !important;
-  color: white !important;
+  background-color: #FFEAEA;
+  color: #FF5252;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 4px;
+  height: 30px;
 }
 
 button.max-stock {
-  background-color: #F0AD4E !important;
-  color: white !important;
+  background-color: #FFF1E0;
+  color: #FB8C00;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 4px;
+  height: 30px;
 }
