@@ -1,17 +1,15 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SupplierModalComponent} from '../../components/supplier-modal/supplier-modal.component';
-import {NgForOf, NgIf} from '@angular/common';
-import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatDivider} from '@angular/material/divider';
-import {FormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgForOf, NgIf } from '@angular/common';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDivider } from '@angular/material/divider';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {
   MatCell,
   MatCellDef,
@@ -25,6 +23,8 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
+import { SupplierModalComponent } from '../../components/supplier-modal/supplier-modal.component';
+import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
 
 interface Supplier {
   id: number;
@@ -83,7 +83,7 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

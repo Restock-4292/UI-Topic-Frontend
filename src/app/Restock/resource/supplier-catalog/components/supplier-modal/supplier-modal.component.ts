@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -7,12 +7,12 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import {MatIcon} from '@angular/material/icon';
-import {Router} from '@angular/router';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatFormField, MatInput} from '@angular/material/input';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatFormField, MatInput } from '@angular/material/input';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -48,7 +48,7 @@ export class SupplierModalComponent implements AfterViewInit {
   suppliers = mockSuppliers;
   dataSource = new MatTableDataSource(this.suppliers);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

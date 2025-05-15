@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {Supplier} from '../../model/supplier.entity';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { Supplier } from '../../model/supplier.entity';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-summary',
@@ -19,7 +19,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class SupplierSummaryComponent {
   @Input() supplier!: Supplier;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   addSupplier(): void {
     this.supplier.added = true;
