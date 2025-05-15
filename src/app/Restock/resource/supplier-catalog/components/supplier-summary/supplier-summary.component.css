@@ -2,14 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  padding: 2rem;
+  gap: 1rem;
+  padding: 0.5rem 2rem;
   border: 1px solid #ccc;
   border-radius: 10px;
   background: #fff;
   width: 90%;
   box-shadow: 5px 5px 5px #ccc;
-  height: 180px;
 }
 
 p{
@@ -19,6 +18,10 @@ p{
   flex: 1;
   text-align: center;
 }
+
+.image-column h4 {
+    margin-top: 0;
+  }
 
 .summary-btn {
   background-color: #4F8A5B !important;
@@ -39,5 +42,10 @@ p{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
+@media (max-width: 800px){
+  .summary-container {
+    flex-direction: column;
+  }
 }
