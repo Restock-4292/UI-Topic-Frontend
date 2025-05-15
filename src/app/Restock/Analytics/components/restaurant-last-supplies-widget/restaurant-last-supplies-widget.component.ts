@@ -45,4 +45,11 @@ export class RestaurantLastSuppliesWidgetComponent {
       this.currentIndex++;
     }
   }
+  getPairs() {
+    const pairs = [];
+    for (let i = 0; i < this.ingredients.length; i += 2) {
+      pairs.push(this.ingredients.slice(i, i + 2));
+    }
+    return pairs;
+  }
 }

@@ -36,7 +36,24 @@ export class RestaurantPendingOrdersWidgetComponent {
   orders: Order[] = [];
 
   displayedColumns: string[] = ['supplier', 'supply', 'quantity', 'unit', 'finalPrice', 'state'];
+  mobileColumns: string[] = ['supplier', 'state', 'finalPrice'];
 
+  isMobile = false;
+
+  ngOnInit() {
+    this.checkViewport();
+    window.addEventListener('resize', this.checkViewport.bind(this));
+  }
+
+  checkViewport(): void {
+    this.isMobile = window.innerWidth <= 800;
+  }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
+  }
+  getColumns() {
+    return this.isMobile ? this.mobileColumns : this.displayedColumns;
+  }
   constructor() {
     this.orders = mockOrders.filter(o => o.situation === 'approved');
   }
