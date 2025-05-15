@@ -57,3 +57,26 @@ button[color="warn"] {
   font-weight: 500;
   border: 0;
 }
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 80%;
+    padding: 1.5rem;
+  }
+
+  .modal-content h4 {
+    font-size: 20px;
+  }
+
+  .modal-content p {
+    font-size: 14px;
+  }
+
+  .table-container th {
+    font-size: 14px;
+  }
+
+  td {
+    font-size: 12px;
+  }
+}
