@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Supplier} from '../model/supplier.entity';
-import {environment} from '../../../../environments/environment';
-import {BaseService} from '../../../shared/services/base.service';
+import {environment} from '../../../../../environments/environment';
+import {BaseService} from '../../../../shared/services/base.service';
 
 const suppliersResourceEndpointPath = environment.suppliersEndpointPath;
 

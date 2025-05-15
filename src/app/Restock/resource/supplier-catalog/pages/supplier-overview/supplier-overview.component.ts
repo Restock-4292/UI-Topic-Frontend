@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SupplierModalComponent} from '../../components/supplier-modal/supplier-modal.component';
 import {NgForOf, NgIf} from '@angular/common';
-import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
+import {mockSuppliers} from '../../../../../shared/mocks/suppliers.mock';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';

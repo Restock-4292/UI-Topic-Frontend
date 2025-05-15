@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { mockSuppliers } from '../../../../shared/mocks/suppliers.mock';
+import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
 import { Supplier } from '../../model/supplier.entity';
 import {SupplierSummaryComponent} from '../../components/supplier-summary/supplier-summary.component'; // Usa tu entidad
 

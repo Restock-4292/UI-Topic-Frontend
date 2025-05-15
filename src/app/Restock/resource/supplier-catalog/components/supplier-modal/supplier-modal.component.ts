@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatFormField, MatInput} from '@angular/material/input';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {mockSuppliers} from '../../../../shared/mocks/suppliers.mock';
+import {mockSuppliers} from '../../../../../shared/mocks/suppliers.mock';
 
 @Component({
   selector: 'app-supplier-modal',
