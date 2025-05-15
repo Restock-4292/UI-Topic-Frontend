@@ -1,38 +1,27 @@
 .analytics-grid {
   display: flex;
   flex-direction: column;
-  max-width: 100%;
-
+  gap: 2rem;
+  padding: 2rem;
 }
 
-/* Fila 1: dos widgets lado a lado */
+/* Primera fila: dos widgets en línea */
 .row1 {
   display: flex;
-  justify-content: center;
-  gap:2.5%;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
-/* Alertas - 70% */
-.widget-alerts {
-  flex: 0 0 55%;
-}
-
-/* Cuenta - 30% */
-.widget-account {
-  flex: 0 0 35%;
-}
-
-/* Fila 2: un solo widget */
+/* Segunda fila: centrado horizontal */
 .row2 {
-  width: 100%;
 }
 
-.placeholder-widget {
-  background-color: #f5f5f5;
-  border: 2px dashed #bbb;
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  color: #777;
-  font-style: italic;
+/* Widgets */
+.widget-alerts {
+  flex: 7;
 }
+
+.widget-account {
+  flex: 3;
+}
+
