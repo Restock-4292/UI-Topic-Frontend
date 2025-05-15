@@ -1,0 +1,40 @@
+.restaurant-summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.row-1 {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.widget-pending-orders {
+  flex: 1;
+}
+
+.widget-last-alerts {
+  flex: 1;
+}
+
+.row-2 {
+  display: flex;
+  justify-content: center;
+}
+
+.widget-carousel {
+  width: 100%;
+  max-width: 1400px;
+}
+
+.placeholder-widget {
+  background-color: #f5f5f5;
+  border: 2px dashed #bbb;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
