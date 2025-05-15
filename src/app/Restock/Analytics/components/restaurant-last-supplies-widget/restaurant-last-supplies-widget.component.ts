@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatIconButton} from '@angular/material/button';
 import {NgForOf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
@@ -44,5 +44,12 @@ export class RestaurantLastSuppliesWidgetComponent {
     if (this.currentIndex + 5 < this.ingredients.length) {
       this.currentIndex++;
     }
+  }
+  getPairs() {
+    const pairs = [];
+    for (let i = 0; i < this.ingredients.length; i += 2) {
+      pairs.push(this.ingredients.slice(i, i + 2));
+    }
+    return pairs;
   }
 }

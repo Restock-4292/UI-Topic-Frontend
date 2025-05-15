@@ -16,7 +16,6 @@
 mat-table {
   background-color: #fff;
   border-collapse: collapse;
-  width: 100%;
 }
 .scroll-wrapper {
   max-height: 270px; /* ajusta según tus necesidades */
@@ -32,6 +31,7 @@ mat-header-cell {
   font-weight: bold;
   font-size: 12px;
   color: #757575;
+
 }
 
 mat-cell {
@@ -45,17 +45,33 @@ mat-cell, mat-header-cell {
 button.low-stock {
   background-color: #FFEAEA;
   color: #FF5252;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   border-radius: 4px;
   height: 25px;
+  width: 100%;
 }
 
 button.max-stock {
   background-color: #FFF1E0;
   color: #FB8C00;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   border-radius: 4px;
   height: 30px;
+  width: 100%;
+}
+
+@media (max-width: 1190px){
+  button.max-stock,
+  button.low-stock {
+    width: 75%;
+  }
+}
+@media (max-width: 600px){
+  button.max-stock,
+  button.low-stock {
+
+  width: 75%;
+  }
 }

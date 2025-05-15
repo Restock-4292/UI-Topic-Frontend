@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Order} from '../../../resource/orders-to-suppliers/model/order.entity';
 import {mockOrders} from '../../../../shared/mocks/order.mock';
 import {
@@ -6,12 +6,13 @@ import {
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow,
-  MatHeaderRowDef, MatRow, MatRowDef,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-restaurant-pending-orders-widget',
@@ -22,8 +23,6 @@ import {MatIcon} from '@angular/material/icon';
     MatColumnDef,
     MatHeaderCellDef,
     MatCellDef,
-    MatIconButton,
-    MatIcon,
     MatHeaderRowDef,
     MatRowDef,
     MatHeaderRow,
@@ -36,7 +35,24 @@ export class RestaurantPendingOrdersWidgetComponent {
   orders: Order[] = [];
 
   displayedColumns: string[] = ['supplier', 'supply', 'quantity', 'unit', 'finalPrice', 'state'];
+  mobileColumns: string[] = ['supplier', 'state', 'finalPrice'];
 
+  isMobile = false;
+
+  ngOnInit() {
+    this.checkViewport();
+    window.addEventListener('resize', this.checkViewport.bind(this));
+  }
+
+  checkViewport(): void {
+    this.isMobile = window.innerWidth <= 800;
+  }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
+  }
+  getColumns() {
+    return this.isMobile ? this.mobileColumns : this.displayedColumns;
+  }
   constructor() {
     this.orders = mockOrders.filter(o => o.situation === 'approved');
   }
