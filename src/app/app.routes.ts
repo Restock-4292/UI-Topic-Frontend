@@ -12,9 +12,9 @@ import {
 import {
   SupplierDetailComponent
 } from './Restock/asset-and-resource-management/pages/supplier-detail/supplier-detail.component';
-import {
-  AnalyticsOverviewRestaurantComponent
-} from './Restock/Analytics/pages/analytics-overview-restaurant/analytics-overview-restaurant.component';
+// import {
+//   AnalyticsOverviewRestaurantComponent
+// } from './Restock/Analytics/pages/analytics-overview-restaurant/analytics-overview-restaurant.component';
 
 
 export const routes: Routes = [
@@ -23,7 +23,7 @@ export const routes: Routes = [
     path: 'dashboard/restaurant', component: DashboardLayoutComponent,
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
-      { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
+      // { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },

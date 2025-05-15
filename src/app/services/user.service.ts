@@ -4,18 +4,20 @@ import {Observable} from "rxjs";
 
 export interface User {
   name: string;
-  age: number;
   email: string;
-  phone: string;
-  address: {
-    street: string;
-    city: string;
-    zip: string;
-  };
+  address?: string;
+  phone?: string;
+  business_name?: string;
+  username?: string;
   avatar: {
     url: string;
     alt: string;
   };
+  role_id: {
+    id: number;
+    name: string;
+  };
+  age?: number; // ✅ ahora es opcional
 }
 @Injectable({
   providedIn: 'root'

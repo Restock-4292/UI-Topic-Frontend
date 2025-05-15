@@ -3,21 +3,34 @@ import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { mockUser } from '../../shared/mocks/user.mock';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [NavbarComponent, SidebarComponent, RouterOutlet],
+  imports: [NavbarComponent, SidebarComponent, RouterOutlet, MatSidenavModule, MatToolbarModule, MatIconModule],
   templateUrl: './dashboard-layout.component.html',
   styleUrls: ['./dashboard-layout.component.css']
 })
-
 
 export class DashboardLayoutComponent implements OnInit {
   user = mockUser;
   menu: Array<{ labelKey: string, icon: string, route: string }> = [];
 
   router = inject(Router);
+
+  isMobile: boolean = false;
+  private mobileQuery: MediaQueryList;
+
+  constructor() {
+    this.mobileQuery = window.matchMedia('(max-width: 600px)');
+    this.isMobile = this.mobileQuery.matches;
+    this.mobileQuery.addEventListener('change', () => {
+      this.isMobile = this.mobileQuery.matches;
+    });
+  }
 
   ngOnInit() {
 
