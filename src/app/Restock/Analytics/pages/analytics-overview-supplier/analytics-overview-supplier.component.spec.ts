@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnalyticsOverviewComponent } from './analytics-overview.component';
+import { AnalyticsOverviewSupplierComponent } from './analytics-overview-supplier.component';
 
 describe('AnalyticsOverviewComponent', () => {
-  let component: AnalyticsOverviewComponent;
-  let fixture: ComponentFixture<AnalyticsOverviewComponent>;
+  let component: AnalyticsOverviewSupplierComponent;
+  let fixture: ComponentFixture<AnalyticsOverviewSupplierComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnalyticsOverviewComponent]
+      imports: [AnalyticsOverviewSupplierComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AnalyticsOverviewComponent);
+    fixture = TestBed.createComponent(AnalyticsOverviewSupplierComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
