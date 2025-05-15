@@ -1,0 +1,42 @@
+.frequent-customers-container {
+  background: #fff;
+  padding: 10px 30px 30px 30px;
+  box-shadow: 1px 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.customer-card {
+  /*background-color: #F4F4F4;*/
+  background-color: #CDE7D3;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.customer-card h4 {
+  margin-bottom: 0.25rem;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.customer-card .category {
+  font-size: 14px;
+  font-weight: 500;
+  /*color: #4F8A5B;*/
+  color: #757575;
+  margin-bottom: 0.5rem;
+}
+
+.customer-card .description {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
+}
