@@ -8,6 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { Supply } from '../../model/supply.entity';
 import {mockSupplies} from '../../../../../shared/mocks/supplies.mock';
+import {MatCardActions} from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-inventory-add-modal',
@@ -18,7 +22,11 @@ import {mockSupplies} from '../../../../../shared/mocks/supplies.mock';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule
+    FormsModule,
+    MatCardActions,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   templateUrl: './add-inventory-modal.component.html',
   styleUrls: ['./add-inventory-modal.component.css']
@@ -27,7 +35,8 @@ export class InventoryAddModal {
   supplies: Supply[] = [];
   form = {
     supply_id: null,
-    stock: null
+    stock: null,
+    expiration_date: null
   };
 
   constructor(
@@ -55,7 +64,7 @@ export class InventoryAddModal {
   }
 
   submit(): void {
-    if (this.form.supply_id && this.form.stock) {
+    if (this.form.supply_id && this.form.stock && this.form.expiration_date) {
       this.dialogRef.close(this.form);
     }
   }
