@@ -50,10 +50,10 @@
         <mat-icon>close</mat-icon>
         CANCEL
       </button>
-      <button mat-flat-button class="create-button" color="primary" type="submit">
-        <mat-icon>save</mat-icon>
-        {{ isEdit ? 'UPDATE' : 'CREATE' }}
-      </button>
+        <button mat-flat-button color="primary" type="button" (click)="submitForm()">
+          <mat-icon>save</mat-icon>
+          {{ isEdit ? 'Update' : 'Create' }}
+        </button>
       </mat-card-actions>
     </div>
 </form>

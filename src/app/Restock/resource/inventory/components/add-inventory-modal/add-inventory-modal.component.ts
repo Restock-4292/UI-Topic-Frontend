@@ -12,6 +12,7 @@ import {MatCardActions} from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import {Batch} from '../../model/batch.entity';
 
 @Component({
   selector: 'app-inventory-add-modal',
@@ -33,11 +34,19 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class InventoryAddModal {
   supplies: Supply[] = mockSupplies;
-  form = {
-    supply_id: null,
-    stock: null,
-    expiration_date: null
-  };
+  form: Partial<Batch> = {};
+
+  selectedSupply?: Supply;
+
+  get selectedSupplyIsPerishable(): boolean {
+    return this.selectedSupply?.perishable === true;
+  }
+
+  onSupplyChange(supplyId: number): void {
+    this.selectedSupply = this.supplies.find(s => s.id === supplyId);
+    this.form.supply_id = supplyId;
+  }
+
 
 
   constructor(private dialogRef: MatDialogRef<InventoryAddModal>) {}
