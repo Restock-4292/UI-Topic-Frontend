@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {SecuritySettingsComponent} from '../security-settings/security-settings.component';
 import {PersonalDataSettingsComponent} from '../personal-data-settings/personal-data-settings.component';
-import {MatCard, MatCardContent, MatCardModule} from '@angular/material/card';
+import { MatCardContent, MatCardModule} from '@angular/material/card';
 import {BusinessDataSettingsComponent} from '../business-data-settings/business-data-settings.component';
 
 
