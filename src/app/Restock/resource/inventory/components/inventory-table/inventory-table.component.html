@@ -9,21 +9,16 @@
       </div>
 
       <button mat-raised-button color="primary" class="add-btn" (click)="onAddSupply()">
-      <span class="btn-content">
-        ADD<mat-icon>control_point</mat-icon>
-      </span>
+        <span class="btn-content">
+          ADD<mat-icon>control_point</mat-icon>
+        </span>
       </button>
 
       <mat-slide-toggle color="primary" class="slide-toggle" [(ngModel)]="showHidden" (change)="applyHiddenFilter()">
         Hidden supplies
       </mat-slide-toggle>
 
-      <mat-paginator
-        [pageSize]="5"
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        class="inline-paginator"
-      />
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
     </div>
   </mat-card>
 
@@ -73,17 +68,14 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      [class.expired-row]="isExpired(row.expiration_date)">
+    <mat-row *matRowDef="let row; columns: displayedColumns" [class.expired-row]="isExpired(row.expiration_date)">
     </mat-row>
   </mat-table>
-  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   }
   @if (dataSource.data.length === 0) {
-    <div class="inventory-empty">
-      <p>There are no supplies registered. To manage your inventory, you must first create ingredients in the system.</p>
-      <mat-icon class="empty-icon">inventory_2</mat-icon>
-    </div>
+  <div class="inventory-empty">
+    <p>There are no supplies registered. To manage your inventory, you must first create ingredients in the system.</p>
+    <mat-icon class="empty-icon">inventory_2</mat-icon>
+  </div>
   }
 </section>

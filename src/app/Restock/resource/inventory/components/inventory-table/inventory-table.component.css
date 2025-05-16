@@ -69,7 +69,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #90a4ae; /* Gris suave */
+  color: #90a4ae;
+  /* Gris suave */
 }
 
 .empty-wrapper {
@@ -107,4 +108,17 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
+}
+
+
+.mat-elevation-z2 {
+  background-color: white;
+}
+
+.toolbar-card {
+  background-color: white;
+}
+
+.inline-paginator {
+  background-color: white;
 }
