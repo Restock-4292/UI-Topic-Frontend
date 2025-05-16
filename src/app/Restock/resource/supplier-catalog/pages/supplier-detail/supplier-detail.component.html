@@ -1,18 +1,20 @@
-<div *ngIf="notFound" class="not-found">
-  <h2>Supplier not found</h2>
-  <button mat-raised-button class="supplier-back-btn" (click)="goBack()">
+<div class="content">
+  <div *ngIf="notFound" class="not-found">
+    <h2>Supplier not found</h2>
+    <button mat-raised-button class="supplier-back-btn" (click)="goBack()">
     <span class="btn-content">
       <mat-icon>arrow_back</mat-icon>
       Back
     </span>
-  </button>
-</div>
+    </button>
+  </div>
 
-<div *ngIf="!notFound" class="supplier-detail">
-  <button mat-raised-button class="supplier-back-btn-fix" (click)="goBack()">
+  <div *ngIf="!notFound" class="supplier-detail">
+    <button mat-raised-button class="supplier-back-btn-fix" (click)="goBack()">
     <span class="btn-content">
       <mat-icon>arrow_back</mat-icon>
     </span>
-  </button>
-    <app-supplier-summary [supplier]="supplier" />
+    </button>
+    <app-supplier-summary [supplier]="supplier"/>
+  </div>
 </div>

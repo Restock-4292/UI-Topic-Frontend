@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Supplier } from '../../model/supplier.entity';
-import { SupplierSummaryComponent } from '../../components/supplier-summary/supplier-summary.component';
 import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
+import { Supplier } from '../../model/supplier.entity';
+import {SupplierSummaryComponent} from '../../components/supplier-summary/supplier-summary.component'; // Usa tu entidad
 
 @Component({
   selector: 'app-supplier-detail',
@@ -23,7 +23,7 @@ export class SupplierDetailComponent implements OnInit {
   supplier!: Supplier;
   notFound = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

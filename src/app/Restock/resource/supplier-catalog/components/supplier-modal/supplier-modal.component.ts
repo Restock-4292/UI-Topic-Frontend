@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -7,12 +7,12 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import { MatIcon } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatFormField, MatInput } from '@angular/material/input';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
+import {MatIcon} from '@angular/material/icon';
+import {Router} from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatFormField, MatInput, MatPrefix} from '@angular/material/input';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {mockSuppliers} from '../../../../../shared/mocks/suppliers.mock';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -35,7 +35,8 @@ import { mockSuppliers } from '../../../../../shared/mocks/suppliers.mock';
     MatCellDef,
     MatRowDef,
     MatButton,
-    MatHeaderRowDef
+    MatHeaderRowDef,
+    MatPrefix
   ]
 })
 
@@ -45,10 +46,11 @@ export class SupplierModalComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns: string[] = ['name', 'email', 'address', 'catalog'];
+  mobileColumns: string[] = ['name', 'email', 'catalog'];
   suppliers = mockSuppliers;
   dataSource = new MatTableDataSource(this.suppliers);
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -64,5 +66,22 @@ export class SupplierModalComponent implements AfterViewInit {
 
   closeModal(): void {
     this.close.emit();
+  }
+
+  isMobile = false;
+
+  ngOnInit() {
+    this.checkViewport();
+    window.addEventListener('resize', this.checkViewport.bind(this));
+  }
+  checkViewport(): void {
+    this.isMobile = window.innerWidth <= 800;
+  }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
+  }
+
+  getColumns(): string[] {
+    return this.isMobile ? this.mobileColumns : this.displayedColumns;
   }
 }
