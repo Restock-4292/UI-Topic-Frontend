@@ -1,0 +1,46 @@
+<div class="profile-details-container">
+  <mat-card class="profile-details-card">
+    <mat-card-header>
+      <mat-card-title class="text">Profile Details</mat-card-title>
+    </mat-card-header>
+
+    <img mat-card-image [src]="profile.image" alt="User photo" class="profile-photo" />
+
+    <mat-card-content class="text">
+      <div class="personal-details-form">
+        <h4 class="name">{{ profile.name }}  {{ profile.lastName }}</h4>
+
+        <!-- Email -->
+        <p class="info"><mat-icon>person</mat-icon> {{ profile.email }}</p>
+
+        <!-- Phone -->
+        <p class="info"><mat-icon>phone</mat-icon> {{ profile.phone }}</p>
+
+        <!-- Address -->
+        <p class="info"><mat-icon>location_on</mat-icon> {{ profile.address }} - {{ profile.country }} </p>
+
+        <hr>
+
+        <!-- Company Name -->
+        <h5 class="subtitle">Company Name:</h5>
+        <p> {{ profile.companyName }} </p>
+
+        <!-- Company Address -->
+        <h5 class="subtitle">Company Address:</h5>
+        <p> {{ profile.companyAddress }} </p>
+
+        <h5 class="subtitle">Categories:</h5>
+
+        <div class="category-chip-list">
+          @for (category of profile.companyCategories; track category) {
+            <mat-chip color="primary" disabled>
+              {{ category }}
+            </mat-chip>
+          }
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
