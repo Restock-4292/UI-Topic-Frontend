@@ -11,6 +11,14 @@
 
     <mat-divider></mat-divider>
 
+    <P>Want to update your inventory? Select the sales you want here:</P>
+    <button mat-raised-button class="registered-sales-btn" (click)="toggleViewRegisteredSales()">
+        <span class="btn-content">
+            REGISTERED SALES
+            <mat-icon>view_list</mat-icon>
+        </span>
+    </button>
+
     <div *ngIf="showHistorySalesAddedinInventory==false" class="ventas-empty">
         <p class="ventas-text">
             You currently have no recorded sales. Enter your sales here to keep your inventory up to date.

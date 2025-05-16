@@ -97,3 +97,10 @@ mat-paginator {
     font-size: 12px;
     margin-top: 0;
 }
+
+.registered-sales-btn {
+    background-color: #F28C38 !important;
+    color: white !important;
+    border-radius: 2px;
+    padding: 15px;
+}
