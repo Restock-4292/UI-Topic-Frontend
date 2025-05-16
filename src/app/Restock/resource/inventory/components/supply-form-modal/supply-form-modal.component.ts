@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatCardActions} from '@angular/material/card';
 @Component({
   selector: 'app-supply-form-modal',
   standalone: true,
@@ -28,7 +29,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatNativeDateModule,
     MatSelectModule,
     MatRadioModule,
-    MatIconModule
+    MatIconModule,
+    MatCardActions
   ],
   templateUrl: './supply-form-modal.component.html',
   styleUrls: ['./supply-form-modal.component.css']
@@ -36,7 +38,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 export class SupplyFormModal {
   categories = mockCategories;
   units = mockUnits;
-  @Input() isEdit: boolean = false;
+  @Input() isEdit: boolean = true;
   @Input() form: Partial<Supply> = {};
   @Input() isOpen: boolean = false;
 

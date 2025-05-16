@@ -25,8 +25,10 @@ import {
 import {SupplierInventory} from './Restock/resource/inventory/pages/supplier-inventory/supplier-inventory.component';
 import {ProfileOverviewComponent} from './Restock/profiles/pages/profile-overview/profile-overview.component';
 import {
+ 
   RestaurantAlertsComponent
 } from './Restock/resource/inventory/pages/restaurant-alerts/restaurant-alerts.component';
+ 
 
 export const routes: Routes = [
 
@@ -35,6 +37,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
       { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
+      { path: 'inventory', component: RestaurantInventoryComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },
