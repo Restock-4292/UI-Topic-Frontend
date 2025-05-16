@@ -26,17 +26,3 @@ export class Profile {
   }
 }
 
-export const subscriber: Profile = {
-  name: 'Elon Musk',
-  lastName: 'Musk',
-  email: 'elon@gmail.com',
-  phone: '+51 940 163 699',
-  address: 'Av. Paseo de la Republica cuadra 2 ',
-  country: 'Peru',
-  description: 'I am a restaurant manager passionate about delivering exceptional culinary experiences.',
-  companyName: "Alimentos S.A.",
-  companyAddress: "Av. Paseo de la Republica cuadra 3",
-  companyCategories: [ 'Fast Food', 'Beverages', 'Desserts', 'Grill', 'Pizzeria', 'Buffet'],
-  image: 'assets/admin-avatar.png',
-};
-
