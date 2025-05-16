@@ -25,10 +25,13 @@ import {
 import {SupplierInventory} from './Restock/resource/inventory/pages/supplier-inventory/supplier-inventory.component';
 import {ProfileOverviewComponent} from './Restock/profiles/pages/profile-overview/profile-overview.component';
 import {
- 
+
   RestaurantAlertsComponent
 } from './Restock/resource/inventory/pages/restaurant-alerts/restaurant-alerts.component';
-import { RestaurantInventoryComponent } from './Restock/resource/inventory/pages/restaurant-inventory/restaurant-inventory.component';
+
+import {
+  RestaurantInventoryComponent
+} from './Restock/resource/inventory/pages/restaurant-inventory/restaurant-inventory.component';
 
 
 export const routes: Routes = [

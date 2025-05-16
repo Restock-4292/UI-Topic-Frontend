@@ -12,6 +12,7 @@ import {MatCardActions} from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import {Batch} from '../../model/batch.entity';
 
 @Component({
   selector: 'app-inventory-add-modal',
@@ -32,19 +33,23 @@ import { MatInputModule } from '@angular/material/input';
   styleUrls: ['./add-inventory-modal.component.css']
 })
 export class InventoryAddModal {
-  supplies: Supply[] = [];
-  form = {
-    supply_id: null,
-    stock: null,
-    expiration_date: null
-  };
+  supplies: Supply[] = mockSupplies;
+  form: Partial<Batch> = {};
 
-  constructor(
-    private dialogRef: MatDialogRef<InventoryAddModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { supplies: Supply[] }
-  ) {
-    this.supplies = data.supplies;
+  selectedSupply?: Supply;
+
+  get selectedSupplyIsPerishable(): boolean {
+    return this.selectedSupply?.perishable === true;
   }
+
+  onSupplyChange(supplyId: number): void {
+    this.selectedSupply = this.supplies.find(s => s.id === supplyId);
+    this.form.supply_id = supplyId;
+  }
+
+
+
+  constructor(private dialogRef: MatDialogRef<InventoryAddModal>) {}
 
   selectedSupplyId?: number;
   selectedStock?: number;
@@ -63,13 +68,14 @@ export class InventoryAddModal {
     });
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
   submit(): void {
     if (this.form.supply_id && this.form.stock && this.form.expiration_date) {
       this.dialogRef.close(this.form);
     }
   }
-
-  close(): void {
-    this.dialogRef.close();
-  }
 }
+

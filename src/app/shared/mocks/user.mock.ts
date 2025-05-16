@@ -10,9 +10,9 @@ export const mockUser = {
         "url": "assets/avatar.jpg",
         "alt": "User Avatar"
     },
-    role_id: {  
-        id: 1, 
-        name: "restaurant",
+    role_id: {
+        id: 1,
+        name: "supplier",
     }
 
 }

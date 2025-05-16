@@ -6,14 +6,15 @@
 
   <form class="inventory-add-form">
     <!-- Supply Select -->
-    <mat-form-field appearance="outline" class="w-full mb-4">
+    <mat-form-field appearance="fill" class="w-full mb-4">
       <mat-label>Supply</mat-label>
-      <mat-select [(ngModel)]="form.supply_id" name="supply_id">
+      <mat-select [(ngModel)]="form.supply_id" name="supply_id" (selectionChange)="onSupplyChange($event.value)">
         @for (s of supplies; track s) {
-        <mat-option [value]="s.id">{{ s.description }}</mat-option>
+          <mat-option [value]="s.id">{{ s.name }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
+
 
     <!-- Stock Select -->
     <mat-form-field appearance="outline" class="w-full mb-4">
@@ -48,8 +49,14 @@
       </button>
         </mat-card-actions>
 
-
-
+      @if (selectedSupplyIsPerishable) {
+        <mat-form-field appearance="fill" class="w-full mb-4">
+          <mat-label>Expiration Date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="form.expiration_date" name="expiration_date" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      }
     </div>
   </form>
 </div>
