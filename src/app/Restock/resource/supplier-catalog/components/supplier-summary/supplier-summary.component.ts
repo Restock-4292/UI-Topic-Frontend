@@ -19,7 +19,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class SupplierSummaryComponent {
   @Input() supplier!: Supplier;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   addSupplier(): void {
     this.supplier.added = true;
