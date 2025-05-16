@@ -10,8 +10,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { ShowSalesNotAddedToInventoryComponent } from '../../components/show-sales-not-added-to-inventory/show-sales-not-added-to-inventory.component';
 
-interface Orden {
+interface Sale {
   fecha: string;
   platos: any[];
   insumos: any[];
@@ -23,12 +24,13 @@ interface Orden {
     MatIconModule,
     CommonModule,
     MatDividerModule,
-    RegisterSalesComponent,
-    SaleConfirmationComponent,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
+    RegisterSalesComponent,
+    SaleConfirmationComponent,
+    ShowSalesNotAddedToInventoryComponent
   ],
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
@@ -64,12 +66,17 @@ export class SalesComponent implements OnInit {
 
 
   //Show the register Modal: register a sale
-  mostrarRegistroVenta = false;
+  showModalRegistroVenta = false;
   //Show Confirmation Modal of sale completed
-  mostrarSaleConfirmation = false;
-  // <-- Array that contains orders, this orders will show in a modal component
-  sales: Orden[] = [];
-  salesAddedToInventory: Orden[] = [];
+  showModalSaleConfirmation = false;
+  //Show the sales that hasnt been discounted from inventory yet
+  showModalsalesNotAddedToInventory = false;
+
+  // <-- Sales not added to inventory yet
+  salesNotAddedToInventory: Sale[] = [];
+
+  //Sales that are added to inventory by the admin_restaurant
+  salesAddedToInventory: Sale[] = [];
 
   constructor(
     private router: Router,
@@ -79,7 +86,8 @@ export class SalesComponent implements OnInit {
   ngOnInit() {
     //show the register modal if the query from the url registerSale is true
     this.route.queryParams.subscribe(params => {
-      this.mostrarRegistroVenta = params['registerSale'] === 'true';
+      this.showModalRegistroVenta = params['registerSale'] === 'true';
+      this.showModalsalesNotAddedToInventory = params['salesNotAddedToInventory'] === 'true';
     });
   }
 
@@ -93,19 +101,28 @@ export class SalesComponent implements OnInit {
   }
 
   //show ALL the regsitered sales in a modal component
-  toggleViewRegisteredSales() {
+  toggleViewSalesNotAddedToInventory() {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { viewRegisteredSales: true },
+      queryParams: { salesNotAddedToInventory: true },
       queryParamsHandling: 'merge'
     });
   }
 
   //close the modal: query registerSale == false
-  closeModal(): void {
+  closeModalRegistroVenta(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { registerSale: null },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  //close the modal: query salesNotAddedToInventory == false
+  closeModalsalesNotAddedToInventory(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { salesNotAddedToInventory: null },
       queryParamsHandling: 'merge'
     });
   }
@@ -114,20 +131,21 @@ export class SalesComponent implements OnInit {
   onRegisterSale(data: { platos: any[]; insumos: any[] }) {
 
     //Simulating creating a sale in backend
-    const newSale: Orden = {
+    const newSale: Sale = {
       fecha: new Date().toISOString(),
       platos: data.platos,
       insumos: data.insumos
     };
 
-    //Simulando tener las ordenes ya registradas en base de datos
-    this.sales.push(newSale);
+    //Simulando tener las sales ya registradas en base de datos
+    this.salesNotAddedToInventory.push(newSale);
 
-    // if the order was created succesfully ,then show saleConfirmation modal
-    this.mostrarSaleConfirmation = true;
+    // if the sale was created succesfully ,then show saleConfirmation modal
+    this.showModalSaleConfirmation = true;
   }
 
-  // Check on the backend whether any sales records have the 'AddedInInventory' field set
+
+  // Check on the backend whether any sales records have the 'AddedInInventory' field = true
   showHistorySalesAddedinInventory = true;
 
 }

@@ -1,0 +1,60 @@
+<div class="modal-overlay">
+    <div class="modal-content modal-scrollable">
+        <button mat-icon-button class="close-button" (click)="cerrarComponente()">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <div>
+            <h2 class="title">REGISTERED SALES NOT ADDED TO INVENTORY</h2>
+            <p class="sub-text">Select the sales you want to deduct the supplies used from the inventory..</p>
+        </div>
+
+        <div class="content">
+            <!-- Todo el contenido que debe hacer scroll va aquí -->
+            <div>
+                <!-- Tabla de platos -->
+                <mat-table [dataSource]="salesNotAddedToInventory" class="mat-elevation-z2">
+                    <ng-container matColumnDef="code">
+                        <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.code}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity_plates">
+                        <mat-header-cell *matHeaderCellDef>Quantity of plates</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.quantity_plates}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity_additonal_supplies">
+                        <mat-header-cell *matHeaderCellDef>Quantity of additonal supplies</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.quantity_additonal_supplies}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <mat-icon>description</mat-icon>
+                            <mat-checkbox (change)="toggleSelection(element, $event.checked)"
+                                [checked]="isSelected(element)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnssalesNotAddedToInventory"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnssalesNotAddedToInventory;"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+
+
+
+        <div class="buttons">
+            <button class="button-cancel" mat-raised-button (click)="cerrarComponente()">
+                CANCEL <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button class="button-register" mat-raised-button>
+                REGISTER <mat-icon>check_circle</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
