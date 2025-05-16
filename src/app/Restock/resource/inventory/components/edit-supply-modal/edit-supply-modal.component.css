@@ -1,0 +1,38 @@
+.dialog-container {
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.dialog-title {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.dialog-subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+}
+
+.supply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.perishable-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,69 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Edit supply</h2>
+  <p class="dialog-subtitle">Update the details of the supply in your inventory.</p>
+
+  <form class="supply-form">
+    <!-- Name -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="form.name" name="name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="form.category_id" name="category">
+        <mat-option *ngFor="let c of [ {id: 1, name: 'Bebidas'}, {id: 2, name: 'Legumbres'} ]" [value]="c.id">
+          {{ c.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Unit Measure</mat-label>
+      <mat-select [(ngModel)]="form.unit_measurement_id" name="unit">
+        <mat-option [value]="1">Kg</mat-option>
+        <mat-option [value]="2">L</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Description (optional)</mat-label>
+      <textarea matInput [(ngModel)]="form.description" name="description"></textarea>
+    </mat-form-field>
+
+    <!-- Perishable -->
+    <mat-label>Perishable</mat-label>
+    <mat-radio-group [(ngModel)]="form.perishable" name="perishable" class="perishable-group">
+      <mat-radio-button [value]="false">It’s not perishable</mat-radio-button>
+      <mat-radio-button [value]="true">It’s perishable</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Expiration Date (conditional) -->
+    @if (form.perishable) {
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Expiration date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="form.expiration_date"
+          name="expiration_date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    }
+
+    <!-- Actions -->
+    <div class="actions">
+      <button mat-stroked-button color="warn" type="button" (click)="cancel()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" type="button" (click)="submit()">
+        <mat-icon>save</mat-icon>
+        Update
+      </button>
+    </div>
+  </form>
+</div>
