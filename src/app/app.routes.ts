@@ -24,6 +24,9 @@ import {
 } from './Restock/Analytics/pages/analytics-overview-restaurant/analytics-overview-restaurant.component';
 import {SupplierInventory} from './Restock/resource/inventory/pages/supplier-inventory/supplier-inventory.component';
 import {ProfileOverviewComponent} from './Restock/profiles/pages/profile-overview/profile-overview.component';
+import {
+  RestaurantAlertsComponent
+} from './Restock/resource/inventory/pages/restaurant-alerts/restaurant-alerts.component';
 
 export const routes: Routes = [
 
@@ -36,7 +39,8 @@ export const routes: Routes = [
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },
       { path: 'sales', component: SalesComponent },
-      { path: 'profile', component: ProfileOverviewComponent }
+      { path: 'profile', component: ProfileOverviewComponent },
+      {path: 'alerts', component: RestaurantAlertsComponent}
     ]
   },
   {
