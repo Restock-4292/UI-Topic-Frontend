@@ -24,18 +24,14 @@ import {mockSupplies} from '../../../../../shared/mocks/supplies.mock';
   styleUrls: ['./add-inventory-modal.component.css']
 })
 export class InventoryAddModal {
-  supplies: Supply[] = [];
+  supplies: Supply[] = mockSupplies;
   form = {
     supply_id: null,
     stock: null
   };
 
-  constructor(
-    private dialogRef: MatDialogRef<InventoryAddModal>,
-    @Inject(MAT_DIALOG_DATA) public data: { supplies: Supply[] }
-  ) {
-    this.supplies = data.supplies;
-  }
+
+  constructor(private dialogRef: MatDialogRef<InventoryAddModal>) {}
 
   selectedSupplyId?: number;
   selectedStock?: number;
@@ -54,13 +50,14 @@ export class InventoryAddModal {
     });
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
   submit(): void {
     if (this.form.supply_id && this.form.stock) {
       this.dialogRef.close(this.form);
     }
   }
-
-  close(): void {
-    this.dialogRef.close();
-  }
 }
+
