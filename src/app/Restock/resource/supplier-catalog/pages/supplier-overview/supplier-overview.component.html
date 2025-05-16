@@ -95,13 +95,11 @@
       </ng-container>
 
       <!-- Filas -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+      <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getColumns();"></tr>
 
     </table>
 
-    <!-- Paginator DEBE estar FUERA del <table> -->
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
   </div>
 

@@ -73,6 +73,7 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit {
 
   showAddSupplierModal = false;
   displayedColumns: string[] = ['name', 'category', 'email', 'catalog'];
+  mobileColumns: string[] = ['name', 'category', 'catalog'];
   dataSource = new MatTableDataSource<Supplier>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -101,6 +102,9 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit {
 
       return matchesText && matchesCategory && matchesStatus;
     };
+
+    this.checkViewport();
+    window.addEventListener('resize', this.checkViewport.bind(this));
   }
 
   ngAfterViewInit(): void {
@@ -133,5 +137,19 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit {
 
   goToDetail(id: number): void {
     this.router.navigate(['/dashboard/restaurant/suppliers', id]);
+  }
+
+
+  isMobile = false;
+
+  checkViewport(): void {
+    this.isMobile = window.innerWidth <= 900;
+  }
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
+  }
+
+  getColumns(): string[] {
+    return this.isMobile ? this.mobileColumns : this.displayedColumns;
   }
 }

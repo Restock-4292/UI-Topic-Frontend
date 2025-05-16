@@ -134,3 +134,10 @@ mat-paginator {
     display: none;
   }
 }
+
+@media (max-width: 950px){
+  .supplier-table th,
+  .supplier-table td {
+    font-size: 12px;
+  }
+}

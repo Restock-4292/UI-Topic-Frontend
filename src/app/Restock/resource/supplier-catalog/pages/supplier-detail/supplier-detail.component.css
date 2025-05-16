@@ -1,3 +1,7 @@
+.content {
+  width: 100%;
+}
+
 .not-found {
   text-align: center;
   margin-top: 3rem;
