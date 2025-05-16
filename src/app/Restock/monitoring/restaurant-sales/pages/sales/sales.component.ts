@@ -92,6 +92,15 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  //show ALL the regsitered sales in a modal component
+  toggleViewRegisteredSales() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { viewRegisteredSales: true },
+      queryParamsHandling: 'merge'
+    });
+  }
+
   //close the modal: query registerSale == false
   closeModal(): void {
     this.router.navigate([], {
