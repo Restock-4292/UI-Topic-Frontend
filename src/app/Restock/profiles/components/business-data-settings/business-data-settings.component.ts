@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import {Component} from '@angular/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
 import {MatChipsModule} from '@angular/material/chips';
@@ -10,7 +10,7 @@ import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatIcon} from '@angular/material/icon';
 
-import { ProfileService } from '../../services/profile.service';
+import {ProfileService} from '../../services/profile.service';
 import {Profile} from '../../model/profile.entity';
 
 @Component({
