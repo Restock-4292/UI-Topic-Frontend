@@ -1,0 +1,48 @@
+<div class="business-data-container">
+
+  <mat-card class="business-data-card">
+
+    <mat-card-content>
+      <div class="business-data-form">
+        <!--  Company Name -->
+        <mat-label>Company Name</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.companyName" type="text" placeholder="Enter your name" aria-label="Name" />
+        </mat-form-field>
+
+        <!-- Company Address -->
+        <mat-label>Company Address</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.companyAddress" type="text" placeholder="Enter your last name" aria-label="Last Name" />
+        </mat-form-field>
+
+        <!-- Company Categories -->
+        <mat-label>Company Categories</mat-label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-select [(ngModel)]="selectedCategories" multiple (selectionChange)="onSelectionChange()">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Mostrar chips -->
+        <div class="category-chip-list">
+          @for (category of selectedCategories; track category) {
+            <mat-chip color="primary" selected removable (removed)="removeCategory(category)">
+              {{ category }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </div>
+
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button class="save-changes-button" aria-label="Save changes" (click)="saveChanges()">SAVE CHANGES</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
