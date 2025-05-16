@@ -1,0 +1,20 @@
+.dialog-container {
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.dialog-title {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.dialog-subtitle {
+  margin-bottom: 1.5rem;
+  color: #6b7280; /* Tailwind gray-500 */
+}
+
+.inventory-add-form {
+  display: flex;
+  flex-direction: column;
+}

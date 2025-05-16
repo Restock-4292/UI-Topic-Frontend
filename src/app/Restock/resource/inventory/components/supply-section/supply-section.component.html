@@ -1,0 +1,24 @@
+<section class="supplies-section">
+  <div class="supplies-header">
+    <h2 class="supplies-title">Supplies</h2>
+    <button mat-raised-button color="primary" class="create-button" (click)="create.emit()">
+      <span class="btn-content">
+        CREATE<mat-icon>control_point</mat-icon>
+      </span>
+    </button>
+  </div>
+
+  @if (suppliesLength === 0) {
+    <mat-card class="empty-card">
+      <app-empty-section
+        title="You have not added inputs yet."
+        subtitle="Add them to start managing your inventory.">
+          <button action mat-stroked-button color="primary" class="create-button" (click)="create.emit()">
+            CREATE SUPPLY
+          </button>
+      </app-empty-section>
+    </mat-card>
+  }
+
+  <!-- Aquí puedes agregar luego un carrusel con *ngIf (suppliesLength > 0) -->
+</section>
