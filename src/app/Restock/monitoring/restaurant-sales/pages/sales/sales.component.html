@@ -12,9 +12,9 @@
     <mat-divider></mat-divider>
 
     <P>Want to update your inventory? Select the sales you want here:</P>
-    <button mat-raised-button class="registered-sales-btn" (click)="toggleViewRegisteredSales()">
+    <button mat-raised-button class="registered-sales-btn" (click)="toggleViewSalesNotAddedToInventory()">
         <span class="btn-content">
-            REGISTERED SALES
+            REGISTERED SALES NOT ADDED TO INVENTORY
             <mat-icon>view_list</mat-icon>
         </span>
     </button>
@@ -74,8 +74,11 @@
 </div>
 
 <!-- Mostrar el componente si la bandera es true -->
-<app-register-sales *ngIf="mostrarRegistroVenta" (cerrar)="closeModal()"
+<app-register-sales *ngIf="showModalRegistroVenta" (cerrar)="closeModalRegistroVenta()"
     (registersale)="onRegisterSale($event)"></app-register-sales>
 
-<app-sale-confirmation *ngIf="mostrarSaleConfirmation"
-    (cerrar)="mostrarSaleConfirmation = false"></app-sale-confirmation>
+<app-sale-confirmation *ngIf="showModalSaleConfirmation"
+    (cerrar)="showModalSaleConfirmation = false"></app-sale-confirmation>
+
+<app-show-sales-not-added-to-inventory *ngIf="showModalsalesNotAddedToInventory"
+    (cerrar)="closeModalsalesNotAddedToInventory()"></app-show-sales-not-added-to-inventory>
