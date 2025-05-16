@@ -1,0 +1,13 @@
+<section class="create-edit-wrapper">
+  <h3>{{ title || (isEdit ? 'Edit Item' : 'Create Item') }}</h3>
+
+  <form>
+    <ng-container [ngTemplateOutlet]="formFields"></ng-container>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEdit ? 'Update' : 'Create' }}
+      </button>
+    </div>
+  </form>
+</section>

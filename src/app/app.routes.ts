@@ -22,6 +22,7 @@ import {ReviewsComponent} from './Restock/resource/orders-to-suppliers/pages/rev
 import {
   AnalyticsOverviewRestaurantComponent
 } from './Restock/Analytics/pages/analytics-overview-restaurant/analytics-overview-restaurant.component';
+import {SupplierInventory} from './Restock/resource/inventory/pages/supplier-inventory/supplier-inventory.component';
 
 export const routes: Routes = [
 
@@ -41,6 +42,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'summary', pathMatch: 'full' },
       { path: 'summary', component: AnalyticsOverviewSupplierComponent },
+      { path: 'inventory', component: SupplierInventory },
       { path: 'subscription', component: SubscriptionOverviewComponent },
       { path: 'alerts', component: SupplierAlertsOverviewComponent },
       { path: 'reviews', component: ReviewsComponent },
