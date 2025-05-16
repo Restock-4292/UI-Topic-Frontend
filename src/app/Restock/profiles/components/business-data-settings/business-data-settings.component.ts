@@ -38,7 +38,7 @@ export class BusinessDataSettingsComponent {
 
   constructor(private profileService: ProfileService) {
     const current = this.profileService.getCurrentProfile();
-    this.profile = { ...current }; // clone original
+    this.profile = { ...current };
     this.selectedCategories = [...current.companyCategories];
   }
 
@@ -49,13 +49,13 @@ export class BusinessDataSettingsComponent {
   saveChanges() {
     const updatedProfile: Profile = {
       ...this.profile,
-      companyCategories: this.selectedCategories
+      companyCategories: [...this.selectedCategories] // aseguramos copia
     };
 
     this.profileService.updateProfile(updatedProfile);
   }
 
   onSelectionChange() {
-
   }
 }
+

@@ -21,10 +21,10 @@ import {FormsModule} from '@angular/forms';
 })
 export class PersonalDataSettingsComponent {
   profile: Profile;
+  private profileSubject: any;
 
   constructor(private profileService: ProfileService) {
-    const current = this.profileService.getCurrentProfile();
-    this.profile = { ...current };
+    this.profile = this.profileService.getCurrentProfile();
   }
 
   saveChanges() {
