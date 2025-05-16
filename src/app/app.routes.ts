@@ -28,6 +28,7 @@ import {
 
   RestaurantAlertsComponent
 } from './Restock/resource/inventory/pages/restaurant-alerts/restaurant-alerts.component';
+
 import {
   RestaurantInventoryComponent
 } from './Restock/resource/inventory/pages/restaurant-inventory/restaurant-inventory.component';
