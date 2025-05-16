@@ -10,4 +10,5 @@ export interface Supply {
   category_id: number;
   user_id: number;
   hidden: boolean;
+  expiration_date?: Date;
 }
