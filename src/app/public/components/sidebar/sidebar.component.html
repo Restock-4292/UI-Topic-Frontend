@@ -5,26 +5,26 @@
   </div>
 
   @if (user; as u) {
-    <div class="user-info">
-      <img [src]="u.avatar.url" [alt]="u.avatar.url" class="user-photo">
-      <div>
-        <p class="user-name">{{ u.name }}</p>
-        <p class="user-email">{{ u.email }}</p>
-      </div>
+  <div class="user-info">
+    <img [src]="u.avatar.url" [alt]="u.avatar.url" class="user-photo">
+    <div>
+      <p class="user-name">{{ u.name }}</p>
+      <p class="user-email">{{ u.email }}</p>
     </div>
+  </div>
   }
 
   <mat-nav-list>
     @for (item of menu; track item) {
-      <a [routerLink]="item.route" routerLinkActive="active-link" class="menu-item">
-        <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
-        <span class="label">{{ item.labelKey | translate }}</span>
-      </a>
+    <a [routerLink]="item.route" routerLinkActive="active-link" class="menu-item">
+      <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
+      <span class="label">{{ item.labelKey | translate }}</span>
+    </a>
     }
   </mat-nav-list>
 
 
   <div class="language-switcher">
-    <app-language-switcher/>
+    <app-language-switcher />
   </div>
 </div>
