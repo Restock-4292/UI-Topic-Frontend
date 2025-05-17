@@ -1,0 +1,49 @@
+<div class="personal-data-container">
+
+  <mat-card class="personal-data-card">
+
+    <mat-card-content>
+      <div class="personal-data-form">
+        <!-- Name -->
+        <mat-label>Name</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.name" type="text" placeholder="Enter your name" aria-label="Name" />
+        </mat-form-field>
+
+        <!-- Last name -->
+        <mat-label>Last Name</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.lastName" type="text" placeholder="Enter your last name" aria-label="Last Name" />
+        </mat-form-field>
+
+        <!-- Email -->
+        <mat-label>Email</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.email" type="email" placeholder="Enter your email" aria-label="Email" />
+        </mat-form-field>
+
+        <!-- Phone -->
+        <mat-label>Phone</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.phone" type="text" placeholder="Enter your phone" aria-label="Phone" />
+        </mat-form-field>
+
+        <!-- Address -->
+        <mat-label>Address</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.address" type="text" placeholder="Enter your address" aria-label="Address" />
+        </mat-form-field>
+
+        <!-- Country -->
+        <mat-label>Country</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="profile.country" type="text" placeholder="Enter your country" aria-label="Country" />
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button class="save-changes-button" aria-label="Save changes" (click)="saveChanges()">SAVE CHANGES</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

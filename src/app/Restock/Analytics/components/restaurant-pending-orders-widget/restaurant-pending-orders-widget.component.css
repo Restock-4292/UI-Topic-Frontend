@@ -1,0 +1,34 @@
+.widget-title {
+  font-family: Poppins, sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  margin-bottom: 10px;
+}
+.widget-container {
+  background: #fff;
+  padding: 20px 30px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  max-height: 300px;
+}
+.scroll-wrapper {
+  max-height: 250px; /* ajusta según tus necesidades */
+  overflow-y: auto;
+}
+mat-table {
+  background-color: white;
+}
+mat-header-cell {
+  font-weight: bold;
+  font-size: 12px;
+  color: #757575;
+}
+
+mat-cell,
+mat-header-cell {
+  padding: 12px;
+}
+
+mat-icon {
+  font-size: 20px;
+}

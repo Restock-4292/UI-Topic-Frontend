@@ -1,0 +1,53 @@
+
+.dialog-container {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 480px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+}
+
+.dialog-title {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.dialog-subtitle {
+  margin-bottom: 1.5rem;
+  color: #6b7280; /* Tailwind gray-500 */
+}
+
+.inventory-add-form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+button {
+  color: white !important;
+  height: 50px;
+  border: none;
+  border-radius: 3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 2.4rem .6rem 2rem .6rem;
+  transition: background-color 500ms ease, color 500ms ease;
+  align-items: center;
+}
+
+.add-button {
+  background-color: #4F8A5B !important;
+}
+
+.cancel-button {
+  background-color: #D9534F !important;
+}
+
+.buttons-section {
+  display: flex;
+  justify-content: center;
+}
+
+

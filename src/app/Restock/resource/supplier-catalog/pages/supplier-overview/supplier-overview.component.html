@@ -1,0 +1,108 @@
+<div class="supplier-container">
+  <div class="desktop-only">
+    <div class="supplier-header">
+      <h2 class="supplier-text">Suppliers</h2>
+
+      <div class="supplier-filters">
+        <!-- Búsqueda -->
+        <mat-form-field appearance="outline" class="filter-input">
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput [(ngModel)]="searchText" (keyup)="applyFilters()" placeholder="Search supplier"/>
+        </mat-form-field>
+
+        <!-- Filtro por categoría -->
+        <mat-form-field appearance="fill" class="filter-select">
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilters()">
+            <mat-option value="">Category</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Switch -->
+        <mat-slide-toggle [(ngModel)]="onlyActive" (change)="applyFilters()" [disabled]="!hasSuppliers">
+          Show only actives
+        </mat-slide-toggle>
+      </div>
+
+      <button mat-raised-button class="new-supplier-btn" (click)="openAddSupplierModal()">
+      <span class="btn-content">
+        ADD<mat-icon>control_point</mat-icon>
+      </span>
+      </button>
+    </div>
+  </div>
+  <!-- VERSIÓN MOBILE -->
+  <div class="mobile-header mobile-only">
+    <div class="top-row"><h2 class="supplier-text">Suppliers</h2>
+      <button mat-raised-button class="new-supplier-btn" (click)="openAddSupplierModal()"><span class="btn-content"> ADD<mat-icon>control_point</mat-icon> </span>
+      </button>
+    </div>
+    <div class="search-row">
+      <mat-form-field appearance="outline" class="filter-input full-width">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchText" (keyup)="applyFilters()" placeholder="Search supplier"/>
+      </mat-form-field>
+    </div>
+    <div class="category-row">
+      <mat-form-field appearance="fill" class="filter-select">
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilters()">
+          <mat-option value="">Category</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-slide-toggle [(ngModel)]="onlyActive" (change)="applyFilters()" [disabled]="!hasSuppliers">
+        Show only actives
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- No suppliers added yet -->
+  <div *ngIf="!hasSuppliers" class="empty-state">
+    <p>Currently you have no suppliers added, please add new suppliers to be able to manage them from this
+      section.</p>
+    <mat-icon class="supplier-icon">groups</mat-icon>
+  </div>
+  <div *ngIf="hasSuppliers" class="table-wrapper">
+    <h5 class="table-title">Supplier list</h5>
+
+    <table mat-table [dataSource]="dataSource" class="supplier-table mat-elevation-z1">
+
+      <!-- Columnas -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let s"> {{ s.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category</th>
+        <td mat-cell *matCellDef="let s"> {{ s.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email</th>
+        <td mat-cell *matCellDef="let s"> {{ s.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="catalog">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let s">
+          <button mat-icon-button (click)="goToDetail(s.id)">
+            <mat-icon>menu_book</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Filas -->
+      <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getColumns();"></tr>
+
+    </table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <!-- Modal -->
+  <app-supplier-modal *ngIf="showAddSupplierModal" (close)="closeModal()"/>
+</div>

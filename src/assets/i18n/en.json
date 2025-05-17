@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "summary": "Summary",
+    "subscription": "Subscription",
+    "inventory": "Inventory",
+    "suppliers": "Suppliers",
+    "alerts": "Alerts",
+    "orders": "Orders",
+    "recipes": "Recipes",
+    "sales": "Sales",
+    "reviews": "Reviews"
+  }
+}

@@ -1,0 +1,81 @@
+<section class="inventory-section">
+  <mat-card class="toolbar-card">
+    <div class="toolbar">
+      <span class="title">Inventory</span>
+
+      <div class="search-container">
+        <mat-icon>search</mat-icon>
+        <input matInput placeholder="Search supplies" (keyup)="applyFilter($event)" />
+      </div>
+
+      <button mat-raised-button color="primary" class="add-btn" (click)="onAddSupply()">
+        <span class="btn-content">
+          ADD<mat-icon>control_point</mat-icon>
+        </span>
+      </button>
+
+      <mat-slide-toggle color="primary" class="slide-toggle" [(ngModel)]="showHidden" (change)="applyHiddenFilter()">
+        Hidden supplies
+      </mat-slide-toggle>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
+    </div>
+  </mat-card>
+
+
+  @if (dataSource.data.length > 0) {
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Supply </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.category?.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="unit">
+      <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.unit_measurement?.name }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expiration_date">
+      <mat-header-cell *matHeaderCellDef> Expiration </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.expiration_date || '-' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stock">
+      <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.stock }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="perishable">
+      <mat-header-cell *matHeaderCellDef> Perishable </mat-header-cell>
+      <mat-cell *matCellDef="let e"> {{ e.perishable ? 'SI' : 'NO' }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-cell *matCellDef="let e">
+        <button mat-icon-button (click)="edit.emit(e)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete.emit(e)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" [class.expired-row]="isExpired(row.expiration_date)">
+    </mat-row>
+  </mat-table>
+  }
+  @if (dataSource.data.length === 0) {
+  <div class="inventory-empty">
+    <p>There are no supplies registered. To manage your inventory, you must first create ingredients in the system.</p>
+    <mat-icon class="empty-icon">inventory_2</mat-icon>
+  </div>
+  }
+</section>

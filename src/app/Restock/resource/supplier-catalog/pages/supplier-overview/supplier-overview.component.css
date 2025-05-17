@@ -1,0 +1,143 @@
+.mobile-only {
+  display: none;
+}
+.supplier-container {
+  padding: 24px;
+  margin: 0 2rem 0 2rem;
+  /* height: 100vw; */
+}
+
+.text-sales {
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.supplier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.new-supplier-btn {
+  background-color: #4F8A5B !important;
+  color: white !important;
+  border-radius: 2px;
+  padding: 15px 30px;
+}
+
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+mat-divider {
+  margin-top: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 40px;
+  color: #7f8c8d;
+}
+
+.supplier-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 160px;
+  color: #7f8c8d;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 1px -1px 5px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.mat-mdc-header-row {
+  color: #757575;
+}
+
+/* Eliminar bordes verticales */
+.supplier-table th,
+.supplier-table td {
+  border-right: none;
+}
+
+/* Estilo para el paginador */
+mat-paginator {
+  background-color: #F4F4F4;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor de filtros */
+.supplier-filters {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content:center;
+}
+
+@media (max-width: 1000px) {
+  .supplier-container {
+    margin: 0;
+  }
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  .mobile-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .search-row,
+  .category-row {
+    width: 100%;
+  }
+
+  .category-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 950px){
+  .supplier-table th,
+  .supplier-table td {
+    font-size: 12px;
+  }
+}

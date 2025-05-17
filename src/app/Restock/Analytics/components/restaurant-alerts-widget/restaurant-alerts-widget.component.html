@@ -1,0 +1,29 @@
+<h3 class="widget-title">Last alerts</h3>
+<div class="widget-container">
+  <div class="scroll-wrapper">
+    <mat-table [dataSource]="alerts" class="mat-elevation-z1">
+      <!-- Ingredient -->
+      <ng-container matColumnDef="ingredient">
+        <mat-header-cell *matHeaderCellDef> Supplies</mat-header-cell>
+        <mat-cell *matCellDef="let alert"> {{ alert.ingredient }}</mat-cell>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
+        <mat-cell *matCellDef="let alert">
+          <button mat-flat-button
+                  [ngClass]="{
+              'low-stock': alert.status === 'Low stock',
+              'max-stock': alert.status === 'Max stock'
+            }">
+            {{ alert.status }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<mat-card class="toolbar-card">
+  <div class="toolbar">
+    <h2 class="title">Registered alerts</h2>
+
+    <div class="filter">
+      <label class="filter-label">Filter by:</label>
+      <mat-select [(ngModel)]="filter" class="filter-select">
+        @for (option of filterOptions; track option) {
+          <mat-option [value]="option">{{ option }}</mat-option>
+        }
+      </mat-select>
+    </div>
+  </div>
+</mat-card>
+
+<table class="alert-table">
+  <thead>
+  <tr>
+    <th>Ingredients</th>
+    <th>Location</th>
+    <th>Status</th>
+    <th>Last update</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (alert of filteredAlerts; track alert) {
+      <tr>
+        <td>{{ alert.ingredient }}</td>
+        <td>{{ alert.location }}</td>
+        <td>
+          <span class="status" [ngClass]="alert.status === 'Low stock' ? 'low' : 'max'">
+            {{ alert.status }}
+          </span>
+        </td>
+        <td>{{ alert.updatedAt }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

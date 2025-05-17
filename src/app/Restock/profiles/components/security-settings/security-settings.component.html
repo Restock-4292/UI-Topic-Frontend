@@ -1,0 +1,84 @@
+<div class="security-container">
+
+  <!-- Change password section -->
+  <mat-card class="security-card">
+    <mat-card-header>
+      <mat-card-title>Change password</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="content-container">
+
+        <!-- Current password -->
+        <mat-label>Current password</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 [type]="hideCurrentPassword ? 'password' : 'text'"
+                 placeholder="Enter current password"
+                 aria-label="Current password" />
+          <button mat-icon-button matSuffix class="hide-button"
+                  (click)="hideCurrentPassword = !hideCurrentPassword"
+                  [attr.aria-label]="hideCurrentPassword ? 'Show current password' : 'Hide current password'"
+                  [attr.aria-pressed]="!hideCurrentPassword">
+            <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- New password -->
+        <mat-label>New password</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 [type]="hideNewPassword ? 'password' : 'text'"
+                 placeholder="Enter new password"
+                 aria-label="New password" />
+          <button mat-icon-button matSuffix class="hide-button"
+                  (click)="hideNewPassword = !hideNewPassword"
+                  [attr.aria-label]="hideNewPassword ? 'Show new password' : 'Hide new password'"
+                  [attr.aria-pressed]="!hideNewPassword">
+            <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <!-- Confirm new password -->
+        <mat-label>Confirm new password</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput
+                 [type]="hideNewPasswordConfirm ? 'password' : 'text'"
+                 placeholder="Confirm new password"
+                 aria-label="Confirm new password" />
+          <button mat-icon-button matSuffix class="hide-button"
+                  (click)="hideNewPasswordConfirm = !hideNewPasswordConfirm"
+                  [attr.aria-label]="hideNewPasswordConfirm ? 'Show confirm password' : 'Hide confirm password'"
+                  [attr.aria-pressed]="!hideNewPasswordConfirm">
+            <mat-icon>{{ hideNewPasswordConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button class="save-changes-button" aria-label="Save password changes">
+        SAVE CHANGES
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Delete account section -->
+  <mat-card class="security-card">
+    <mat-card-header>
+      <mat-card-title>Delete account</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="content-container">
+        <p>This action will permanently delete your account. All your personal data, history and settings will
+          be deleted. You will not be able to recover your account after deletion. Your subscription will be deleted.</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button class="delete-button">CONFIRM DELETE</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

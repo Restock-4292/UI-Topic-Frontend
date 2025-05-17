@@ -1,0 +1,41 @@
+<h3 class="widget-title">Pending Orders</h3>
+
+<div class="widget-container">
+  <div class="scroll-wrapper">
+    <mat-table [dataSource]="orders">
+
+      <ng-container matColumnDef="supplier">
+        <mat-header-cell *matHeaderCellDef> Supplier</mat-header-cell>
+        <mat-cell *matCellDef="let o"> {{ o.supplier }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="supply">
+        <mat-header-cell *matHeaderCellDef> Supply</mat-header-cell>
+        <mat-cell *matCellDef="let o"> {{ o.supply }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef> Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let o"> {{ o.quantity }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="unit">
+        <mat-header-cell *matHeaderCellDef> Unit</mat-header-cell>
+        <mat-cell *matCellDef="let o"> {{ o.unit }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="finalPrice">
+        <mat-header-cell *matHeaderCellDef> Final price</mat-header-cell>
+        <mat-cell *matCellDef="let o"> S/ {{ o.finalPrice }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
+        <mat-cell *matCellDef="let o"> {{ o.state }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="getColumns()"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: getColumns()"></mat-row>
+    </mat-table>
+  </div>
+</div>

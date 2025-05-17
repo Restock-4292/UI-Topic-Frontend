@@ -1,0 +1,56 @@
+.account-widget {
+  background: #fff;
+  padding: 10px 30px 30px 30px;
+  box-shadow: 1px 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+.content {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+.account-section {
+  justify-content: center;
+  justify-items: center;
+}
+.account-section h4 {
+  color: #4F8A5B;
+  font-weight: lighter;
+  margin-top: 0;
+}
+
+.amount-row {
+  display: flex;
+}
+
+.amount {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4F8A5B;
+  margin: 0;
+}
+
+.trend-icon {
+  color: #4F8A5B;
+  font-size: 28px;
+}
+
+@media (max-width: 800px) {
+  .account-widget {
+    padding: 16px;
+    min-height: 100px;
+    align-content: center;
+  }
+  .content {
+    justify-content: space-around;
+  }
+  .account-section h4 {
+    margin: 10px;
+  }
+  .mobile-header h3 {
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+    margin-bottom: 10px;
+  }
+}

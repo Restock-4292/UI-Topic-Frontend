@@ -1,0 +1,27 @@
+<h3 class="widget-title">Last added supplies</h3>
+<div class="carousel-container">
+  <div class="carousel">
+    <button mat-icon-button (click)="prev()" [disabled]="currentIndex === 0">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <div class="carousel-track">
+      <div class="ingredient-card" *ngFor="let i of visibleIngredients">
+        <h4>{{ i.name }}</h4>
+        <p class="category">{{ i.category }}</p>
+        <p class="description">{{ i.description }}</p>
+      </div>
+    </div>
+
+    <button mat-icon-button (click)="next()" [disabled]="currentIndex + 5 >= ingredients.length">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+  <div class="supplies-grid">
+    <div class="ingredient-pair" *ngFor="let pair of getPairs()">
+      <div class="ingredient-card" *ngFor="let i of pair">
+        <h4>{{ i.name }}</h4>
+        <p class="category">{{ i.category }}</p>
+      </div>
+    </div>
+  </div>
+</div>

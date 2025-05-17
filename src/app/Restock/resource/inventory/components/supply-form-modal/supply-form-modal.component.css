@@ -1,0 +1,77 @@
+.dialog-container {
+  padding: 2rem;
+  max-width: 480px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+}
+
+button {
+  color: white !important;
+  height: 50px;
+  border: none;
+  border-radius: 3px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 2.4rem .6rem 2rem .6rem;
+  transition: background-color 500ms ease, color 500ms ease;
+  align-items: center;
+}
+
+.create-button {
+  background-color: #4F8A5B !important;
+}
+
+.cancel-button {
+  background-color: #D9534F !important;
+}
+
+.dialog-title {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.dialog-subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 14px;
+}
+
+.supply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.perishable-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.dialog-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .custom-select-panel {
+  background-color: white !important;
+  color: black;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}

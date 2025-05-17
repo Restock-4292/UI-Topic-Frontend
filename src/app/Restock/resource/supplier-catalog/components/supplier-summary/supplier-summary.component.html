@@ -1,0 +1,38 @@
+<h3 class="mobile-subtitle">Suppliers</h3>
+<div class="summary-container">
+  <div class="image-column">
+    <h4>{{ supplier.name }}</h4>
+    <img src="../../../../../../assets/img-summary-supplier.png" alt="Supplier image"/>
+  </div>
+
+  <div class="info-column">
+    <p>Name: {{ supplier.name }}</p>
+    <p>RUC: {{ supplier.ruc }}</p>
+    <p>Category: {{ supplier.category }}</p>
+    <p>Status: {{ supplier.status ? 'Active' : 'Inactive' }}</p>
+    <p>Registration Date: {{ supplier.registrationDate }}</p>
+    <p>Last Update: {{ supplier.lastUpdate }}</p>
+  </div>
+  <div class="info-column">
+    <p>Email: {{ supplier.email }}</p>
+    <p>Phone: {{ supplier.phone }}</p>
+    <p>Address: {{ supplier.address }}</p>
+    <p>Contact Person: {{ supplier.contactPerson }}</p>
+    <p>Position: {{ supplier.position }}</p>
+  </div>
+
+  <!-- Columna 3 -->
+  <div class="column action-column">
+    <button mat-raised-button class="summary-btn" (click)="addSupplier()">
+      <span class="btn-content">
+        ADD<mat-icon>control_point</mat-icon>
+      </span>
+    </button>
+    <br>
+    <button mat-raised-button class="summary-btn" (click)="contactSupplier()">
+      <span class="btn-content">
+        CONTACT<mat-icon>add_ic_call</mat-icon>
+      </span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "summary": "Resumen",
+    "subscription": "Suscripción",
+    "inventory": "Inventario",
+    "suppliers": "Proveedores",
+    "alerts": "Alertas",
+    "orders": "Pedidos",
+    "recipes": "Recetas",
+    "sales": "Ventas",
+    "reviews": "Calificaciones"
+  }
+}

@@ -1,0 +1,60 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{ isEdit ? 'Update' : 'Create' }} supply</h2>
+  <p class="dialog-subtitle">Complete the details of the new ingredient to add it to your inventory.</p>
+
+  <form class="supply-form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="form.name" name="name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Category</mat-label>
+      <mat-select
+        [(ngModel)]="form.category_id"
+        name="category"
+        panelClass="custom-select-panel"
+      >
+        @for (c of categories; track c) {
+          <mat-option [value]="c.id">{{ c.name }}</mat-option>
+        }
+      </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Unit measure</mat-label>
+      <mat-select [(ngModel)]="form.unit_measurement_id" name="unit" panelClass="custom-select-panel">
+        @for (u of units; track u) {
+          <mat-option [value]="u.id">{{ u.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Description (optional)</mat-label>
+      <textarea matInput [(ngModel)]="form.description" name="description"></textarea>
+    </mat-form-field>
+
+    <div class="radio-group">
+      <label>Perishable</label>
+      <mat-radio-group [(ngModel)]="form.perishable" name="perishable" class="perishable-group">
+        <mat-radio-button [value]="false">It’s not perishable</mat-radio-button>
+        <mat-radio-button [value]="true">It’s perishable</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="actions">
+      <mat-card-actions>
+      <button mat-stroked-button class="cancel-button" color="warn" type="button" (click)="close()">
+        <mat-icon>close</mat-icon>
+        CANCEL
+      </button>
+        <button mat-flat-button color="primary" type="button" (click)="submitForm()">
+          <mat-icon>save</mat-icon>
+          {{ isEdit ? 'Update' : 'Create' }}
+        </button>
+      </mat-card-actions>
+    </div>
+</form>
+</div>

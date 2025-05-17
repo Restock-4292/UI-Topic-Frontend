@@ -1,0 +1,21 @@
+.content {
+  width: 100%;
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 3rem;
+}
+.supplier-back-btn {
+  background-color: #4F8A5B !important;
+  color: white !important;
+  border-radius: 2px;
+  padding: 15px;
+}
+.supplier-back-btn-fix {
+  background-color: #4F8A5B !important;
+  color: white !important;
+  border-radius: 50px;
+  padding: 0;
+}
+

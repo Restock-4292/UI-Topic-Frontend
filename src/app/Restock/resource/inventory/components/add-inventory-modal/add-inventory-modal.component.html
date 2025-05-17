@@ -1,0 +1,62 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">Add supply to inventory</h2>
+  <p class="dialog-subtitle">
+    Complete the details of the new supply to add it to your inventory.
+  </p>
+
+  <form class="inventory-add-form">
+    <!-- Supply Select -->
+    <mat-form-field appearance="fill" class="w-full mb-4">
+      <mat-label>Supply</mat-label>
+      <mat-select [(ngModel)]="form.supply_id" name="supply_id" (selectionChange)="onSupplyChange($event.value)">
+        @for (s of supplies; track s) {
+          <mat-option [value]="s.id">{{ s.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <!-- Stock Select -->
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>Stock</mat-label>
+      <mat-select [(ngModel)]="form.stock" name="stock">
+        <mat-option [value]="10">10 kg</mat-option>
+        <mat-option [value]="20">20 kg</mat-option>
+        <mat-option [value]="30">30 kg</mat-option>
+        <mat-option [value]="40">40 kg</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Expiration date -->
+    <mat-form-field appearance="outline" class="w-full mb-4">
+      <mat-label>Expiration Date</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="form.expiration_date" name="expiration_date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Action Buttons -->
+    <div class="buttons-section">
+      <mat-card-actions>
+      <button mat-stroked-button class="cancel-button" type="button" (click)="close()">
+        <mat-icon>cancel</mat-icon>
+        CANCEL
+      </button>
+
+      <button mat-flat-button class="add-button" type="submit" (click)="submit()">
+        <mat-icon>system_update_alt</mat-icon>
+        ADD
+      </button>
+        </mat-card-actions>
+
+      @if (selectedSupplyIsPerishable) {
+        <mat-form-field appearance="fill" class="w-full mb-4">
+          <mat-label>Expiration Date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="form.expiration_date" name="expiration_date" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      }
+    </div>
+  </form>
+</div>

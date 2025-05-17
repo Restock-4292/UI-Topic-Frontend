@@ -1,0 +1,12 @@
+html,
+body {
+    height: 100%;
+    background-color: white;
+}
+
+body {
+    margin: 0;
+    /* fuente por default */
+    font-family: 'Inter', sans-serif;
+}
+
