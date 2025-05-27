@@ -1,18 +1,37 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {
-  MatCell, MatCellDef,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  MatCell,
+  MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatFormField, MatInput, MatPrefix} from '@angular/material/input';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {mockSuppliers} from '../../../../../shared/mocks/suppliers.mock';
+import {
+  MatFormField,
+  MatInput,
+  MatPrefix
+} from '@angular/material/input';
+import {
+  MatButton,
+  MatIconButton
+} from '@angular/material/button';
+import {Supplier} from '../../model/supplier.entity';
+import {SupplierService} from '../../services/supplier.service';
 
 @Component({
   selector: 'app-supplier-modal',
@@ -39,18 +58,47 @@ import {mockSuppliers} from '../../../../../shared/mocks/suppliers.mock';
     MatPrefix
   ]
 })
-
-
 export class SupplierModalComponent implements AfterViewInit {
   @Output() close = new EventEmitter<void>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns: string[] = ['name', 'email', 'address', 'catalog'];
   mobileColumns: string[] = ['name', 'email', 'catalog'];
-  suppliers = mockSuppliers;
-  dataSource = new MatTableDataSource(this.suppliers);
+  dataSource = new MatTableDataSource<Supplier>([]);
+  suppliers: Supplier[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private supplierService: SupplierService
+  ) {
+  }
+
+  loadSuppliers(): void {
+    this.supplierService.getAllSuppliers().subscribe({
+      next: (users: any[]) => {
+        this.suppliers = users
+          .filter(u => u.role_id?.name === 'supplier')
+          .map(u => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            address: u.address || '-',
+            ruc: '',
+            category: '',
+            status: true,
+            registrationDate: '',
+            lastUpdate: '',
+            phone: '',
+            contactPerson: '',
+            position: '',
+            added: false
+          }));
+        this.dataSource = new MatTableDataSource(this.suppliers);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: err => console.error('Failed to load users:', err)
+    });
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -70,15 +118,18 @@ export class SupplierModalComponent implements AfterViewInit {
 
   isMobile = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkViewport();
     window.addEventListener('resize', this.checkViewport.bind(this));
+    this.loadSuppliers();
   }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
+  }
+
   checkViewport(): void {
     this.isMobile = window.innerWidth <= 800;
-  }
-  ngOnDestroy() {
-    window.removeEventListener('resize', this.checkViewport.bind(this));
   }
 
   getColumns(): string[] {
