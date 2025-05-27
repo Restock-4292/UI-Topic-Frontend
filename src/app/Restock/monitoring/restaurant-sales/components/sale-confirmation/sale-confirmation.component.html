@@ -1,5 +1,5 @@
-<div class="modal-overlay">
-    <div class="modal-content">
+<div class="modal-overlay" (click)="cerrarComponente()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
         <button mat-icon-button class="close-button" (click)="cerrarComponente()">
             <mat-icon>close</mat-icon>
         </button>

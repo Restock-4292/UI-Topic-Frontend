@@ -32,75 +32,97 @@ import { MatDivider } from '@angular/material/divider';
   styleUrl: './register-sales.component.css'
 })
 export class RegisterSalesComponent {
-  @Output() cerrar = new EventEmitter<void>(); //Envento que se envia para cerrar el modal
-  @Output() registersale = new EventEmitter<{ platos: any[]; insumos: any[] }>(); //Envento que se envia para cerrar el modal
+  @Output() close = new EventEmitter<void>(); // Emits when modal should be closed
+  @Output() registersale = new EventEmitter<{ dishes: any[]; additionalSupplies: any[] }>(); // Emits sale data for registration
 
+  // Reactive data sources for the selected dishes and additional supplies
+  selectedDishes = new MatTableDataSource<any>([]);
+  selectedAdditionalSupplies = new MatTableDataSource<any>([]);
 
-  //Dinamico, cada vez que platosSeleccionados y insumosSeleccionados cambia ,la tabla tambien cambia
-  platosSeleccionados = new MatTableDataSource<any>([]);
-  insumosSeleccionados = new MatTableDataSource<any>([]);
-
-  //Cerrar componente al presionar "x" o "cancel"
-  cerrarComponente() {
-    this.cerrar.emit(); // evento para cerrar modal
+  // Closes the component (used by close or cancel buttons)
+  closeComponente() {
+    this.close.emit();
   }
 
-  // Opciones disponibles
-  platosDisponibles = [
-    { id: 1, nombre: 'Lomo Saltado', precio: 20.5 },
-    { id: 2, nombre: 'Arroz con Pollo', precio: 21.5 }
+  // Available dishes and additional supplies
+  availableDishes = [
+    { id: 1, name: 'Lomo Saltado', price: 20.5 },
+    { id: 2, name: 'Arroz con Pollo', price: 21.5 },
+    { id: 3, name: 'Arroz con mariscos', price: 34.5 }
   ];
 
-  insumosDisponibles = [
-    { id: 1, nombre: 'Huevo', precio: 1 },
-    { id: 2, nombre: 'Arroz', precio: 0.5 }
+  availableAdditionalSupplies = [
+    { id: 1, name: 'Huevo', price: 1 },
+    { id: 2, name: 'Arroz', price: 0.5 },
+    { id: 3, name: 'Papa', price: 3.5 }
   ];
 
+  // Table column definitions
+  displayedColumnsPlatos: string[] = ['name', 'price', 'quantity', 'actions'];
+  displayedColumnsInsumos: string[] = ['name', 'price', 'quantity', 'actions'];
 
-  // Columnas
-  displayedColumnsPlatos: string[] = ['nombre', 'precio', 'cantidad'];
-  displayedColumnsInsumos: string[] = ['nombre', 'precio', 'cantidad'];
-
-  // Agrega plato si no está ya seleccionado
+  /**
+   * Adds a dish to the selection if it hasn't been added yet.
+   * @param id Dish ID
+   */
   agregarPlato(id: number) {
-    console.log(this.platosSeleccionados);
-    const plato = this.platosDisponibles.find(p => p.id === id);
-    const data = this.platosSeleccionados.data;
+    const dish = this.availableDishes.find(p => p.id === id);
+    const current = this.selectedDishes.data;
 
-    if (plato && !data.find(p => p.id === id)) {
-      data.push({ ...plato, cantidad: 1 });
-      this.platosSeleccionados.data = [...data]; // ← importante: forzar actualización
+    if (dish && !current.find(p => p.id === id)) {
+      current.push({ ...dish, quantity: 1 });
+      this.selectedDishes.data = [...current]; // Triggers table update
     }
   }
 
+  /**
+   * Adds an additional supply to the selection if it hasn't been added yet.
+   * @param id Supply ID
+   */
   agregarInsumo(id: number) {
-    const insumo = this.insumosDisponibles.find(i => i.id === id);
-    const data = this.insumosSeleccionados.data;
+    const supply = this.availableAdditionalSupplies.find(i => i.id === id);
+    const current = this.selectedAdditionalSupplies.data;
 
-    if (insumo && !data.find(i => i.id === id)) {
-      data.push({ ...insumo, cantidad: 1 });
-      this.insumosSeleccionados.data = [...data];
+    if (supply && !current.find(i => i.id === id)) {
+      current.push({ ...supply, quantity: 1 });
+      this.selectedAdditionalSupplies.data = [...current]; // Triggers table update
     }
   }
 
+  /**
+   * Removes a dish from the selected list.
+   * @param id Dish ID
+   */
+  deleteDish(id: number) {
+    this.selectedDishes.data = this.selectedDishes.data.filter(p => p.id !== id);
+  }
 
+  /**
+   * Removes a supply from the selected list.
+   * @param id Supply ID
+   */
+  deleteAdditionalSupply(id: number) {
+    this.selectedAdditionalSupplies.data = this.selectedAdditionalSupplies.data.filter(p => p.id !== id);
+  }
+
+  /**
+   * Validates and emits the selected items as a sale.
+   * Also triggers modal close after submission.
+   */
   registerSale() {
-    const platos = this.platosSeleccionados.data;
-    const insumos = this.insumosSeleccionados.data;
+    const dishes = this.selectedDishes.data;
+    const supplies = this.selectedAdditionalSupplies.data;
 
-    if (platos.length === 0 && insumos.length === 0) {
-      alert('Debe seleccionar al menos un plato o insumo antes de registrar la venta.');
+    if (dishes.length === 0 && supplies.length === 0) {
+      alert('Please select at least one dish or supply before registering the sale.');
       return;
     }
-    this.registersale.emit(
-      {
-        platos: this.platosSeleccionados.data,
-        insumos: this.insumosSeleccionados.data
-      }
-    );
-    this.cerrar.emit(); // Cierra el modal
 
+    this.registersale.emit({
+      dishes: dishes,
+      additionalSupplies: supplies
+    });
+
+    this.close.emit(); // Close modal after registering sale
   }
-  //////////////////////////////////////////
-
 }

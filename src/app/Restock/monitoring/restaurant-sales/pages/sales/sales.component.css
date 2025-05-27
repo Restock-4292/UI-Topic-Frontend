@@ -12,7 +12,7 @@
 .ventas-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 
 .nueva-venta-btn {
@@ -80,14 +80,14 @@ mat-paginator {
 }
 
 .flex-title-history-sales {
-    margin-top: 2rem;
+    margin-top: 3rem;
     font-family: Poppins;
     font-weight: 400;
     font-size: 23px;
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 1rem;
-    height: 50px;
+    height: 40px;
 }
 
 
@@ -96,6 +96,13 @@ mat-paginator {
     font-weight: 400;
     font-size: 12px;
     margin-top: 0;
+}
+
+.text-question {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 2rem;
 }
 
 .registered-sales-btn {
