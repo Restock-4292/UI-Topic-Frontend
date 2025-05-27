@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Supply } from '../../model/supply.entity';
-import {SupplyService} from '../../services/supply.service.service';
-import {mockUser} from '../../../../../shared/mocks/user.mock';
-import {MatIconModule} from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatTableModule} from '@angular/material/table';
-import {FormsModule} from '@angular/forms';
-import {SupplySectionComponent} from '../../components/supply-section/supply-section.component';
-import {InventoryTableComponent} from '../../components/inventory-table/inventory-table.component';
-import {SupplyFormModal} from '../../components/supply-form-modal/supply-form-modal.component';
-import {BaseModalService} from '../../../../../shared/services/base-modal.service';
-import {SupplyCarouselComponent} from '../../components/supply-carousel/supply-carousel.component';
-import {mockSupplies} from '../../../../../shared/mocks/supplies.mock';
-import {mockCategories} from '../../../../../shared/mocks/categories.mock';
-import {mockUnits} from '../../../../../shared/mocks/units-measurements.mock';
-import {InventoryAddModal} from '../../components/add-inventory-modal/add-inventory-modal.component';
-import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import {EditSupplyModalComponent} from '../../components/edit-supply-modal/edit-supply-modal.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import {ConfirmDeleteModalComponent} from '../../components/confirm-delete-modal/confirm-delete-modal.component';
+import { SupplyService } from '../../services/supply.service.service';
+import { mockUser } from '../../../../../shared/mocks/user.mock';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { SupplySectionComponent } from '../../components/supply-section/supply-section.component';
+import { InventoryTableComponent } from '../../components/inventory-table/inventory-table.component';
+import { SupplyFormModal } from '../../components/supply-form-modal/supply-form-modal.component';
+import { BaseModalService } from '../../../../../shared/services/base-modal.service';
+import { SupplyCarouselComponent } from '../../components/supply-carousel/supply-carousel.component';
+import { mockSupplies } from '../../../../../shared/mocks/supplies.mock';
+import { mockCategories } from '../../../../../shared/mocks/categories.mock';
+import { mockUnits } from '../../../../../shared/mocks/units-measurements.mock';
+import { InventoryAddModal } from '../../components/add-inventory-modal/add-inventory-modal.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { EditSupplyModalComponent } from '../../components/edit-supply-modal/edit-supply-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDeleteModalComponent } from '../../components/confirm-delete-modal/confirm-delete-modal.component';
 
 @Component({
   selector: 'app-supplier-inventory',
@@ -46,9 +46,9 @@ export class SupplierInventory implements OnInit {
   constructor(
     private supplyService: SupplyService,
     private modalService: BaseModalService,
-  private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private dialog: MatDialogModule
-) {}
+  ) { }
 
   private generateFakeId(): number {
     const ids = this.supplies.map(s => s.id);

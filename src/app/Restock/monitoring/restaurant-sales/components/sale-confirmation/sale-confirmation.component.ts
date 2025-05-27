@@ -5,17 +5,19 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-sale-confirmation',
   imports: [
-    MatIconModule,
-    MatButtonModule
+    MatIconModule,    // Imports the Angular Material icon module
+    MatButtonModule   // Imports the Angular Material button module
   ],
   templateUrl: './sale-confirmation.component.html',
   styleUrl: './sale-confirmation.component.css'
 })
 export class SaleConfirmationComponent {
 
-  @Output() cerrar = new EventEmitter<void>(); //Envento que se envia para cerrar el modal
+  // Emits an event to the parent component to close the confirmation modal
+  @Output() close = new EventEmitter<void>();
 
-  cerrarComponente() {
-    this.cerrar.emit(); // evento para cerrar modal
+  // Function that emits the close event when the user clicks the close button
+  closeComponente() {
+    this.close.emit();
   }
 }
