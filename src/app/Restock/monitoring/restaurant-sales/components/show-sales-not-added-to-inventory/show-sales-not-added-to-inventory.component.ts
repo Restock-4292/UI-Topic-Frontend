@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SaleConfirmationComponent } from '../sale-confirmation/sale-confirmation.component';
 import { MatDivider } from '@angular/material/divider';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-show-sales-not-added-to-inventory',
@@ -32,8 +33,11 @@ import { MatDivider } from '@angular/material/divider';
   styleUrl: './show-sales-not-added-to-inventory.component.css'
 })
 export class ShowSalesNotAddedToInventoryComponent {
-  @Output() cerrar = new EventEmitter<void>(); //Envento que se envia para cerrar el modal
-  // @Output() registersale = new EventEmitter<{ platos: any[]; insumos: any[] }>(); //Envento que se envia para cerrar el modal
+  constructor(
+    private snackBar: MatSnackBar,
+  ) { }
+
+  @Output() close = new EventEmitter<void>(); //Envento que se envia para cerrar el modal
 
 
   salesNotAddedToInventory = new MatTableDataSource<any>(
@@ -48,8 +52,8 @@ export class ShowSalesNotAddedToInventoryComponent {
     ]);
 
   //Cerrar componente al presionar "x" o "cancel"
-  cerrarComponente() {
-    this.cerrar.emit(); // evento para cerrar modal
+  closeComponent() {
+    this.close.emit(); // evento para cerrar modal
   }
 
   // Columnas
@@ -69,6 +73,14 @@ export class ShowSalesNotAddedToInventoryComponent {
 
   isSelected(element: any): boolean {
     return this.selectedSales.some(s => s.code === element.code);
+  }
+
+  registerSalesToInventory() {
+    this.closeComponent();
+    this.snackBar.open('Sales added to inventory successfully ✅', 'Close', {
+      duration: 3000,
+      panelClass: 'snackbar-success'
+    });
   }
 
 }

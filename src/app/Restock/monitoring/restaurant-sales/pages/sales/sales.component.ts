@@ -12,17 +12,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ShowSalesNotAddedToInventoryComponent } from '../../components/show-sales-not-added-to-inventory/show-sales-not-added-to-inventory.component';
 
+// Sale interface to define the shape of sales data
 interface Sale {
-  fecha: string;
-  platos: any[];
-  insumos: any[];
+  date: string;
+  dishes: any[];
+  supplies: any[];
 }
+
 @Component({
   selector: 'app-sales',
+  standalone: true,
   imports: [
+    CommonModule,
     MatButtonModule,
     MatIconModule,
-    CommonModule,
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
@@ -35,64 +38,62 @@ interface Sale {
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
 })
-
-
 export class SalesComponent implements OnInit {
-  //Tables of history sales added in inventory
-  displayedColumns: string[] = ['code', 'plates', 'additonal_supplies', 'actions'];
-  dataSource = new MatTableDataSource<any>(
-    [
-      { code: "C7Y5ND2", quantity_plates: 2, quantity_additonal_supplies: 4 },
-      { code: "AQWE4TG", quantity_plates: 3, quantity_additonal_supplies: 8 },
-      { code: "ZSWEDC5", quantity_plates: 3, quantity_additonal_supplies: 4 },
-      { code: "CV8ESXD", quantity_plates: 6, quantity_additonal_supplies: 6 },
-      { code: "BJIWS52", quantity_plates: 5, quantity_additonal_supplies: 2 },
-      { code: "ABVDTB1", quantity_plates: 3, quantity_additonal_supplies: 7 },
-      { code: "BUDCS19", quantity_plates: 11, quantity_additonal_supplies: 4 },
-    ]);
 
-  //Paginator of table
+  // Columns to be displayed in the sales history table
+  displayedColumns: string[] = ['code', 'plates', 'additonal_supplies', 'actions'];
+
+  // Sample data for sales already added to inventory
+  dataSource = new MatTableDataSource<any>([
+    { code: "C7Y5ND2", quantity_plates: 2, quantity_additonal_supplies: 4 },
+    { code: "AQWE4TG", quantity_plates: 3, quantity_additonal_supplies: 8 },
+    { code: "ZSWEDC5", quantity_plates: 3, quantity_additonal_supplies: 4 },
+    { code: "CV8ESXD", quantity_plates: 6, quantity_additonal_supplies: 6 },
+    { code: "BJIWS52", quantity_plates: 5, quantity_additonal_supplies: 2 },
+    { code: "ABVDTB1", quantity_plates: 3, quantity_additonal_supplies: 7 },
+    { code: "BUDCS19", quantity_plates: 11, quantity_additonal_supplies: 4 },
+  ]);
+
+  // Reference to the paginator component
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  // Assign the paginator to the table data after the view initializes
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  //Apllying filter for searching by code
+  // Filter the table by sale code
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
 
+  // Modal flags to control visibility
+  showModalRegisterSale = false;               // Controls visibility of register-sale modal
+  showModalSaleConfirmation = false;           // Controls visibility of sale-confirmation modal
+  showModalSalesNotAddedToInventory = false;   // Controls visibility of pending-sales modal
 
-  //Show the register Modal: register a sale
-  showModalRegistroVenta = false;
-  //Show Confirmation Modal of sale completed
-  showModalSaleConfirmation = false;
-  //Show the sales that hasnt been discounted from inventory yet
-  showModalsalesNotAddedToInventory = false;
-
-  // <-- Sales not added to inventory yet
+  // Array of sales not yet added to inventory
   salesNotAddedToInventory: Sale[] = [];
 
-  //Sales that are added to inventory by the admin_restaurant
-  salesAddedToInventory: Sale[] = [];
+  // Indicates whether there are historical sales already added to inventory
+  showHistorySalesAddedInInventory = true;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
+  // Initialize modal flags based on URL query parameters
   ngOnInit() {
-    //show the register modal if the query from the url registerSale is true
     this.route.queryParams.subscribe(params => {
-      this.showModalRegistroVenta = params['registerSale'] === 'true';
-      this.showModalsalesNotAddedToInventory = params['salesNotAddedToInventory'] === 'true';
+      this.showModalRegisterSale = params['registerSale'] === 'true';
+      this.showModalSalesNotAddedToInventory = params['salesNotAddedToInventory'] === 'true';
     });
   }
 
-  // show the register modal and put the registerSale ==true
-  toggleRegistroVenta() {
+  // Open the register sale modal by updating the URL query param
+  openRegisterSaleModal() {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { registerSale: true },
@@ -100,8 +101,8 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  //show ALL the regsitered sales in a modal component
-  toggleViewSalesNotAddedToInventory() {
+  // Open the modal showing sales not yet added to inventory
+  openSalesNotAddedToInventoryModal() {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { salesNotAddedToInventory: true },
@@ -109,8 +110,8 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  //close the modal: query registerSale == false
-  closeModalRegistroVenta(): void {
+  // Close the register sale modal by clearing the URL query param
+  closeRegisterSaleModal(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { registerSale: null },
@@ -118,8 +119,8 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  //close the modal: query salesNotAddedToInventory == false
-  closeModalsalesNotAddedToInventory(): void {
+  // Close the pending sales modal
+  closeSalesNotAddedToInventoryModal(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { salesNotAddedToInventory: null },
@@ -127,25 +128,24 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  //Register a sale 
-  onRegisterSale(data: { dishes: any[]; additionalSupplies: any[] }) {
-
-    //Simulating creating a sale in backend
-    const newSale: Sale = {
-      fecha: new Date().toISOString(),
-      platos: data.dishes,
-      insumos: data.additionalSupplies
-    };
-
-    //Simulando tener las sales ya registradas en base de datos
-    this.salesNotAddedToInventory.push(newSale);
-
-    // if the sale was created succesfully ,then show saleConfirmation modal
-    this.showModalSaleConfirmation = true;
+  // Close the sale confirmation modal
+  closeSaleConfirmationModal(): void {
+    this.showModalSaleConfirmation = false;
   }
 
+  // Handle registration of a new sale
+  onRegisterSale(data: { dishes: any[]; additionalSupplies: any[] }) {
+    const newSale: Sale = {
+      date: new Date().toISOString(),
+      dishes: data.dishes,
+      supplies: data.additionalSupplies
+    };
 
-  // Check on the backend whether any sales records have the 'AddedInInventory' field = true
-  showHistorySalesAddedinInventory = true;
+    // Simulate storing the new sale in the backend
+    this.salesNotAddedToInventory.push(newSale);
+
+    // Show the confirmation modal if registration was successful
+    this.showModalSaleConfirmation = true;
+  }
 
 }
