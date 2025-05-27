@@ -1,23 +1,17 @@
 import {Injectable} from '@angular/core';
-import {Supplier} from '../model/supplier.entity';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {BaseService} from '../../../../shared/services/base.service';
+import {Observable} from 'rxjs';
+import {Supplier} from '../model/supplier.entity';
 
-const suppliersResourceEndpointPath = environment.suppliersEndpointPath;
+@Injectable({providedIn: 'root'})
+export class SupplierService {
+  private url = `${environment.serverBaseUrl}${environment.suppliersEndpointPath}`;
 
+  constructor(private http: HttpClient) {
+  }
 
-/**
- * Servicio que maneja operaciones CRUD para suppliers,
- * extendiendo la funcionalidad base genérica.
- */
-@Injectable({
-  providedIn: 'root'
-})
-export class SupplierService extends BaseService<Supplier> {
-
-  constructor() {
-    super();
-    // Se define el endpoint específico para este recurso
-    this.resourceEndpoint = suppliersResourceEndpointPath; // Ej: /api/v1/suppliers
+  getAllSuppliers(): Observable<Supplier[]> {
+    return this.http.get<any[]>(this.url);
   }
 }
