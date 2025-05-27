@@ -145,16 +145,5 @@
     }
   ],
   "orders": [],
-  "restaurant_suppliers": [
-    {
-      "restaurant_id": 2,
-      "supplier_id": 1,
-      "id": 1
-    },
-    {
-      "restaurant_id": 2,
-      "supplier_id": 3,
-      "id": 2
-    }
-  ]
+  "restaurant_suppliers": []
 }
