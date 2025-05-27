@@ -128,13 +128,13 @@ export class SalesComponent implements OnInit {
   }
 
   //Register a sale 
-  onRegisterSale(data: { platos: any[]; insumos: any[] }) {
+  onRegisterSale(data: { dishes: any[]; additionalSupplies: any[] }) {
 
     //Simulating creating a sale in backend
     const newSale: Sale = {
       fecha: new Date().toISOString(),
-      platos: data.platos,
-      insumos: data.insumos
+      platos: data.dishes,
+      insumos: data.additionalSupplies
     };
 
     //Simulando tener las sales ya registradas en base de datos

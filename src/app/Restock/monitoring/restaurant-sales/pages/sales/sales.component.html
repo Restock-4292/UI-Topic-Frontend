@@ -1,6 +1,6 @@
 <div class="ventas-container">
     <div class="ventas-header">
-        <h2 class="text-sales">Register your sales</h2>
+        <h2>Register your sales</h2>
         <button mat-raised-button color="primary" class="nueva-venta-btn" (click)="toggleRegistroVenta()">
             <span class="btn-content">
                 NEW SALE
@@ -11,7 +11,7 @@
 
     <mat-divider></mat-divider>
 
-    <P>Want to update your inventory? Select the sales you want here:</P>
+    <p class="text-question">Want to update your inventory? Select the sales you want here:</p>
     <button mat-raised-button class="registered-sales-btn" (click)="toggleViewSalesNotAddedToInventory()">
         <span class="btn-content">
             REGISTERED SALES NOT ADDED TO INVENTORY
@@ -74,7 +74,7 @@
 </div>
 
 <!-- Mostrar el componente si la bandera es true -->
-<app-register-sales *ngIf="showModalRegistroVenta" (cerrar)="closeModalRegistroVenta()"
+<app-register-sales *ngIf="showModalRegistroVenta" (close)="closeModalRegistroVenta()"
     (registersale)="onRegisterSale($event)"></app-register-sales>
 
 <app-sale-confirmation *ngIf="showModalSaleConfirmation"
