@@ -76,6 +76,7 @@ export class ShowSalesNotAddedToInventoryComponent {
   }
 
   registerSalesToInventory() {
+    //cuando haiga backend se debe cambiar el campo addedToinventory de sale como true.
     this.closeComponent();
     this.snackBar.open('Sales added to inventory successfully ✅', 'Close', {
       duration: 3000,
