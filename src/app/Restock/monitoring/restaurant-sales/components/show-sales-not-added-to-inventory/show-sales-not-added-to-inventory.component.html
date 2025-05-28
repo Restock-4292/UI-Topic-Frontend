@@ -7,7 +7,14 @@
         <div>
             <h2 class="title">REGISTERED SALES NOT DISCOUNTED IN INVENTORY</h2>
             <p class="sub-text">Select the sales you want to deduct the supplies used from the inventory..</p>
+            <mat-checkbox class="select-all" [checked]="isAllSelected()"
+                [indeterminate]="selectedSales.length > 0 && !isAllSelected()"
+                (change)="toggleAllSelection($event.checked)">
+                Select All
+            </mat-checkbox>
         </div>
+
+
 
         <div class="content">
             <!-- Todo el contenido que debe hacer scroll va aquí -->

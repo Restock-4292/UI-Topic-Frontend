@@ -43,6 +43,7 @@
     font-family: Poppins;
     font-weight: 400;
     font-size: 20px;
+    max-width: 80%;
 }
 
 .sub-text {
@@ -50,7 +51,6 @@
     font-weight: 400;
     font-size: 15px;
     color: #808D99;
-    margin-bottom: 3rem;
 }
 
 .modal-scrollable {
@@ -93,4 +93,11 @@ mat-table {
 
 .quantity {
     margin-top: 1.2rem;
+}
+
+.select-all {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: end;
+    margin-right: 2rem;
 }
