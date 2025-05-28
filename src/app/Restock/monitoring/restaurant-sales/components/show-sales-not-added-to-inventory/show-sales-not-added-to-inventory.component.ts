@@ -84,4 +84,19 @@ export class ShowSalesNotAddedToInventoryComponent {
     });
   }
 
+  toggleAllSelection(checked: boolean) {
+    if (checked) {
+      this.selectedSales = this.salesNotAddedToInventory.data.slice(); // Copia todos los elementos
+    } else {
+      this.selectedSales = [];
+    }
+    console.log("selected sales: ", this.selectedSales);
+
+  }
+
+  isAllSelected(): boolean {
+    return this.selectedSales.length === this.salesNotAddedToInventory.data.length;
+  }
+
+
 }
