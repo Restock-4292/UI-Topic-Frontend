@@ -1,0 +1,86 @@
+<!-- Modal backdrop: clicking it will close the modal -->
+<div class="modal-overlay" (click)="closeComponent()">
+
+    <!-- Modal content: click propagation is stopped to prevent accidental closure -->
+    <div class="modal-content modal-scrollable" (click)="$event.stopPropagation()">
+
+        <!-- Close button (top-right corner) -->
+        <button mat-icon-button class="close-button" (click)="closeComponent()">
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <!-- Title -->
+        <h2 class="title">SALE DETAIL "{{sale.code}}".</h2>
+
+        <div class="content">
+            <!-- Scrollable content area -->
+            <p class="sub-text">
+                Number of dishes: 5
+            </p>
+            <p class="sub-text">
+                quantity of additional supplies: 4
+            </p>
+
+            <mat-divider></mat-divider>
+
+
+            <!-- Dishes table -->
+            <div class="dishes">
+                <h3>Dishes</h3>
+                <mat-table [dataSource]="dishes" class="mat-elevation-z2">
+
+                    <!-- Dish name column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Dish price column -->
+                    <ng-container matColumnDef="price">
+                        <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{ element.price }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Dish quantity column-->
+                    <ng-container matColumnDef="quantity">
+                        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{ element.quantity }}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsPlatos"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsPlatos;"></mat-row>
+                </mat-table>
+            </div>
+
+            <!-- additional supplies table -->
+            <div class="additionalSupplies">
+                <h3>Additional supplies</h3>
+                <mat-table [dataSource]="additionalSupplies" class="mat-elevation-z2">
+
+                    <!-- Supply name column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Supply price column -->
+                    <ng-container matColumnDef="price">
+                        <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{ element.price }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Supply quantity column with editable input -->
+                    <ng-container matColumnDef="quantity">
+                        <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+                        <mat-cell *matCellDef="let element">S/ {{ element.quantity }}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnsInsumos"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnsInsumos;"></mat-row>
+                </mat-table>
+            </div>
+
+        </div>
+
+    </div>
+</div>

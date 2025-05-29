@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { SaleConfirmationComponent } from '../sale-confirmation/sale-confirmation.component';
 import { MatDivider } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SaleDetailComponent } from '../sale-detail/sale-detail.component';
 
 @Component({
   selector: 'app-show-sales-not-added-to-inventory',
@@ -27,12 +28,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatCheckboxModule,
     MatPaginatorModule,
     SaleConfirmationComponent,
-    MatDivider
+    MatDivider,
+    SaleDetailComponent
   ],
   templateUrl: './show-sales-not-added-to-inventory.component.html',
   styleUrl: './show-sales-not-added-to-inventory.component.css'
 })
 export class ShowSalesNotAddedToInventoryComponent {
+  selectedSale: any = null;
+  showModalSaleDetail = false;   // Controls visibility of sale-detail modal
+
+
   constructor(
     private snackBar: MatSnackBar,
   ) { }
@@ -96,6 +102,17 @@ export class ShowSalesNotAddedToInventoryComponent {
 
   isAllSelected(): boolean {
     return this.selectedSales.length === this.salesNotAddedToInventory.data.length;
+  }
+
+  // Open the modal showing sales detail
+  openSaleDetail(sale: any) {
+    this.selectedSale = sale;
+    this.showModalSaleDetail = true;
+  }
+
+  // Close the sale detail modal
+  closeSaleDetailModal(): void {
+    this.showModalSaleDetail = false;
   }
 
 
