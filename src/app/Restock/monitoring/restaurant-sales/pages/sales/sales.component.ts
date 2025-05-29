@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { ShowSalesNotAddedToInventoryComponent } from '../../components/show-sales-not-added-to-inventory/show-sales-not-added-to-inventory.component';
+import { SaleDetailComponent } from '../../components/sale-detail/sale-detail.component';
 
 // Sale interface to define the shape of sales data
 interface Sale {
@@ -33,12 +34,15 @@ interface Sale {
     MatPaginatorModule,
     RegisterSalesComponent,
     SaleConfirmationComponent,
-    ShowSalesNotAddedToInventoryComponent
+    ShowSalesNotAddedToInventoryComponent,
+    SaleDetailComponent
   ],
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
 })
 export class SalesComponent implements OnInit {
+
+  selectedSale: any = null;
 
   // Columns to be displayed in the sales history table
   displayedColumns: string[] = ['code', 'plates', 'additonal_supplies', 'actions'];
@@ -69,9 +73,11 @@ export class SalesComponent implements OnInit {
   }
 
   // Modal flags to control visibility
-  showModalRegisterSale = false;               // Controls visibility of register-sale modal
+  showModalRegisterSale = false;               // Controls visibility of register-sales modal
   showModalSaleConfirmation = false;           // Controls visibility of sale-confirmation modal
-  showModalSalesNotAddedToInventory = false;   // Controls visibility of pending-sales modal
+  showModalSalesNotAddedToInventory = false;   // Controls visibility of show-sales-not-added-to-inventory modal
+  showModalSaleDetail = false;   // Controls visibility of sale-detail modal
+
 
   // Array of sales not yet added to inventory
   salesNotAddedToInventory: Sale[] = [];
@@ -110,6 +116,12 @@ export class SalesComponent implements OnInit {
     });
   }
 
+  // Open the modal showing sales detail
+  openSaleDetail(sale: any) {
+    this.selectedSale = sale;
+    this.showModalSaleDetail = true;
+  }
+
   // Close the register sale modal by clearing the URL query param
   closeRegisterSaleModal(): void {
     this.router.navigate([], {
@@ -119,13 +131,18 @@ export class SalesComponent implements OnInit {
     });
   }
 
-  // Close the pending sales modal
+  // Close the Sales Not Added To Inventory modal
   closeSalesNotAddedToInventoryModal(): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { salesNotAddedToInventory: null },
       queryParamsHandling: 'merge'
     });
+  }
+
+  // Close the sale detail modal
+  closeSaleDetailModal(): void {
+    this.showModalSaleDetail = false;
   }
 
   // Close the sale confirmation modal

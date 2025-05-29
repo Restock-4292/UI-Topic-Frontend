@@ -67,7 +67,9 @@
                 <!-- Actions column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let row"> <mat-icon>description</mat-icon> </td>
+                    <td mat-cell *matCellDef="let row" (click)="openSaleDetail(row)">
+                        <mat-icon>description</mat-icon>
+                    </td>
                 </ng-container>
 
                 <!-- Table rows -->
@@ -96,3 +98,7 @@
 <app-show-sales-not-added-to-inventory *ngIf="showModalSalesNotAddedToInventory"
     (close)="closeSalesNotAddedToInventoryModal()">
 </app-show-sales-not-added-to-inventory>
+
+<!-- Component: Modal to show sale detail -->
+<app-sale-detail *ngIf="showModalSaleDetail" [sale]="selectedSale" (close)="closeSaleDetailModal()">
+</app-sale-detail>
