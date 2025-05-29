@@ -4,7 +4,7 @@
     "subscription": "Subscription",
     "inventory": "Inventory",
     "suppliers": "Suppliers",
-    "alerts": "Alerts",
+    "notifications": "Notifications",
     "orders": "Orders",
     "recipes": "Recipes",
     "sales": "Sales",
