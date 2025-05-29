@@ -145,5 +145,191 @@
     }
   ],
   "orders": [],
-  "restaurant_suppliers": []
+  "restaurant_suppliers": [],
+  "sales": [
+
+    {
+      "id": 1,
+      "admin_restaurant_id": 1,
+      "comensal_name": "mari",
+      "total_price": 10.00,
+      "date": "10/09/23",
+      "added_inventory": false
+    }
+  ],
+  "sales_recipes": [
+
+    {
+      "sale_is": 1,
+      "recipe_id": "1",
+      "quantity": 10.00
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "order_to_supplier_id": 1,
+      "content": "Great service.",
+      "rating": 3.5,
+      "date": "10/09/23"
+    }
+  ],
+  "order_to_suppliers": [
+    {
+      "id": 1,
+      "date": "10/09/23",
+      "admin_restaurant_id": 1,
+      "supplier_id": 1,
+      "order_to_supplier_state_id": 1,
+      "total_price": 30.55
+    }
+  ],
+  "order_to_supplier_state": [
+    {
+      "id": 1,
+      "name": "preparing"
+    }
+  ],
+  "order_to_supplier_situation": [
+    {
+      "id": 1,
+      "name": "approved"
+    }
+  ],
+  "order_to_suppliers_supplies": [
+    {
+      "order_to_supplier_id": 1,
+      "supply_id": 1,
+      "stock": 10,
+      "price_per_unit_measure": 1.5
+    }
+
+  ],
+  "order_payments": [
+    {
+      "id": 1,
+      "order_to_supplier_id": 1,
+      "amount": 10.5,
+      "payment_method": "paypal",
+      "paid_at": "10/09/23"
+    }
+  ],
+  "sales_additional_supplies": [
+    {
+      "sale_id": 1,
+      "supply_id": 1,
+      "quantity": 1
+    }
+  ],
+  "unit_measurements": [
+    { "id": 1, "name": "kg" },
+    { "id": 2, "name": "liter" },
+    { "id": 3, "name": "unit" }
+  ],
+  "categories": [
+    { "id": 1, "name": "Vegetables" },
+    { "id": 2, "name": "Meats" },
+    { "id": 3, "name": "Dairy" },
+    { "id": 4, "name": "Grains" }
+  ],
+  "supplies": [
+    {
+      "id": 1,
+      "description": "Tomato",
+      "perishable": true,
+      "min_stock": 10,
+      "max_stock": 100,
+      "category_id": 1,
+      "unit_measurement_id": 1,
+      "price": 2.5,
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "description": "Milk",
+      "perishable": true,
+      "min_stock": 20,
+      "max_stock": 200,
+      "category_id": 3,
+      "unit_measurement_id": 2,
+      "price": 3.0,
+      "user_id": 1
+    },
+    {
+      "id": 3,
+      "description": "Rice",
+      "perishable": false,
+      "min_stock": 50,
+      "max_stock": 300,
+      "category_id": 4,
+      "unit_measurement_id": 1,
+      "price": 1.2,
+      "user_id": 1
+    }
+  ],
+  "inventories": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "created_at": "2025-05-28"
+    }
+  ],
+  "batches": [
+    {
+      "id": 1,
+      "inventory_id": 1,
+      "supply_id": 1,
+      "stock": 50,
+      "expiration_date": "2025-06-01"
+    },
+    {
+      "id": 2,
+      "inventory_id": 1,
+      "supply_id": 2,
+      "stock": 100,
+      "expiration_date": "2025-06-03"
+    },
+    {
+      "id": 3,
+      "inventory_id": 1,
+      "supply_id": 3,
+      "stock": 200,
+      "expiration_date": null
+    }
+  ],
+  "alert_states": [
+    { "id": 1, "name": "Expiring Soon" },
+    { "id": 2, "name": "Out of Stock" },
+    { "id": 3, "name": "Overstock" }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "inventory_supply_id": 1,
+      "alert_state_id": 1,
+      "date": "2025-05-28"
+    },
+    {
+      "id": 2,
+      "inventory_supply_id": 2,
+      "alert_state_id": 3,
+      "date": "2025-05-27"
+    },
+    {
+      "id": 3,
+      "inventory_supply_id": 3,
+      "alert_state_id": 2,
+      "date": "2025-05-26"
+    }
+  ],
+  "restaurant_contacts": [
+    {
+      "restaurant_id": 1,
+      "supplier_contact_id": 2
+    },
+    {
+      "restaurant_id": 1,
+      "supplier_contact_id": 3
+    }
+  ]
 }
