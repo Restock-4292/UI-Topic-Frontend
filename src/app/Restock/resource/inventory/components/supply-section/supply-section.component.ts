@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {EmptySection} from '../../../../../shared/components/empty-section/empty-section.component';
 import {MatCardModule} from '@angular/material/card';
+import {EmptySection} from '../../../../../shared/components/empty-section/empty-section.component';
 
 @Component({
   selector: 'app-supplier-supply-section',
