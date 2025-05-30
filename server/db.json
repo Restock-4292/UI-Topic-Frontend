@@ -2,32 +2,30 @@
   "users": [
     {
       "id": 1,
-      "name": "Don Pepe",
       "email": "pepe@gmail.com",
-      "username": "donpepe",
       "password": "password123",
+      "role_id": 1,
       "subscription_id": 1,
       "start_date": "2023-01-01",
-      "subscription_payment_details_id": 1,
-      "avatar": {
-        "url": "https://i.pravatar.cc/150?img=1"
-      },
-      "role_id": 1
+      "subscription_payment_details_id": 1
     },
     {
       "id": 2,
-      "name": "Chef Rosa",
-      "email": "rosa@gmail.com",
-      "username": "rosachef",
-      "password": "password1234",
+      "email": "maria@example.com",
+      "password": "maria456",
+      "role_id": 2,
       "subscription_id": 2,
-      "start_date": "2023-02-01",
-      "profile_id": 2,
-      "subscription_payment_details_id": 2,
-      "avatar": {
-        "url": "https://i.pravatar.cc/150?img=2"
-      },
-      "role_id": 2
+      "start_date": "2023-02-15",
+      "subscription_payment_details_id": 2
+    },
+    {
+      "id": 3,
+      "email": "juanito@gmail.com",
+      "password": "juan123",
+      "role_id": 1,
+      "subscription_id": 1,
+      "start_date": "2023-03-10",
+      "subscription_payment_details_id": 3
     }
   ],
   "roles": [
@@ -43,24 +41,30 @@
   "profiles": [
     {
       "id": 1,
-      "last_name": "Gonzales",
-      "phone": "987654321",
-      "address": "Av. Principal 123",
-      "country": "Perú",
-      "description": "Proveedor de ingredientes frescos",
+      "firstName": "Elon",
+      "lastName": "Musk",
+      "username": "elon777",
+      "avatar": "http//:elonmusk.png",
       "business_name": "Frescos del Valle",
       "business_address": "Calle del Mercado 456",
+      "address": "Calle silicon valley",
+      "phone": "987654321",
+      "country": "Perú",
+      "description": "Proveedor de ingredientes frescos",
       "user_id": 1
     },
     {
       "id": 2,
-      "last_name": "Martinez",
-      "phone": "987645321",
-      "address": "Av. Principal 133",
+      "firstName": "María",
+      "lastName": "Fernández",
+      "username": "maria_f",
+      "avatar": "http://example.com/avatar_maria.png",
+      "business_name": "Sabores Andinos",
+      "business_address": "Av. Cusco 789",
+      "address": "Jr. Lima 321",
+      "phone": "912345678",
       "country": "Perú",
-      "description": "Dueña de restaurante con recetas tradicionales",
-      "business_name": "Raíces del Sabor",
-      "business_address": "Calle del Mercado 346",
+      "description": "Especialista en productos orgánicos de la sierra",
       "user_id": 2
     }
   ],
@@ -441,7 +445,6 @@
       "stock": 10,
       "accepted": false
     }
-
   ],
   "sales_additional_supplies": [
     {
@@ -451,15 +454,36 @@
     }
   ],
   "units_measurement": [
-    { "id": 1, "name": "kg" },
-    { "id": 2, "name": "liter" },
-    { "id": 3, "name": "unit" }
+    {
+      "id": 1,
+      "name": "kg"
+    },
+    {
+      "id": 2,
+      "name": "liter"
+    },
+    {
+      "id": 3,
+      "name": "unit"
+    }
   ],
   "supply_categories": [
-    { "id": 1, "name": "Vegetables" },
-    { "id": 2, "name": "Meats" },
-    { "id": 3, "name": "Dairy" },
-    { "id": 4, "name": "Grains" }
+    {
+      "id": 1,
+      "name": "Vegetables"
+    },
+    {
+      "id": 2,
+      "name": "Meats"
+    },
+    {
+      "id": 3,
+      "name": "Dairy"
+    },
+    {
+      "id": 4,
+      "name": "Grains"
+    }
   ],
   "batches": [
     {
@@ -482,15 +506,23 @@
     }
   ],
   "batch_notifications_states": [
-    { "id": 1, "name": "Expiring Soon" },
-    { "id": 2, "name": "Out of Stock" },
-    { "id": 3, "name": "Overstock" }
+    {
+      "id": 1,
+      "name": "Expiring Soon"
+    },
+    {
+      "id": 2,
+      "name": "Out of Stock"
+    },
+    {
+      "id": 3,
+      "name": "Overstock"
+    }
   ],
   "batch_notifications": [
     {
       "id": 1,
       "inventory_supply_id": 1,
-
       "batch_notification_state_id": 1,
       "date": "2025-05-28"
     },
@@ -525,13 +557,6 @@
       "price": "59.99",
       "status": true,
       "popular": false,
-      "features": [
-        "Automated inventory management",
-        "Ordering and purchasing control",
-        "Reporting and analytics ",
-        "Critical stock notifications",
-        "Integration with suppliers"
-      ],
       "rol_id": "1"
     },
     {
@@ -541,13 +566,6 @@
       "price": "39.99",
       "status": true,
       "popular": true,
-      "features": [
-        "Gestión de inventario automatizado",
-        "Control de pedidos y compras",
-        "Reporte y analítica",
-        "Notificaciones de stock crítico",
-        "Integración con proveedores"
-      ],
       "rol_id": "1"
     },
     {
@@ -557,13 +575,6 @@
       "price": "49.99",
       "status": true,
       "popular": false,
-      "features": [
-        "Automated inventory management",
-        "Ordering and purchasing control",
-        "Reporting and analytics",
-        "Critical stock notifications",
-        "Integration with suppliers"
-      ],
       "rol_id": "1"
     },
     {
@@ -573,13 +584,6 @@
       "price": "59.99",
       "status": true,
       "popular": false,
-      "features": [
-        "Automated Inventory Management",
-        "Order Control",
-        "Reporting and Analytics",
-        "Order Notifications",
-        "Restaurant Rating Section"
-      ],
       "rol_id": "2"
     },
     {
@@ -589,13 +593,6 @@
       "price": "39.99",
       "status": true,
       "popular": true,
-      "features": [
-        "Automated Inventory Management",
-        "Order Control",
-        "Reporting and Analytics",
-        "Order Notifications",
-        "Restaurant Rating Section"
-      ],
       "rol_id": "2"
     },
     {
@@ -605,13 +602,6 @@
       "price": "49.99",
       "status": true,
       "popular": false,
-      "features": [
-        "Automated Inventory Management",
-        "Order Control",
-        "Reporting and Analytics",
-        "Order Notifications",
-        "Restaurant Rating Section"
-      ],
       "rol_id": "2"
     }
   ],
