@@ -1,13 +1,15 @@
-<section class="create-edit-wrapper">
-  <h3>{{ title || (isEdit ? 'Edit Item' : 'Create Item') }}</h3>
+@if (visible) {
+  <app-base-modal
+    [visible]="visible"
+    [title]="title"
+    [width]="'35rem'"
+    [closable]="true"
+    (close)="handleClose()"
+  >
+    <ng-content></ng-content>
 
-  <form>
-    <ng-container [ngTemplateOutlet]="formFields"></ng-container>
-
-    <div class="actions">
-      <button mat-raised-button color="primary" type="submit">
-        {{ isEdit ? 'Update' : 'Create' }}
-      </button>
+    <div modal-footer>
+      <button mat-stroked-button color="primary" (click)="save.emit()">Save</button>
     </div>
-  </form>
-</section>
+  </app-base-modal>
+}

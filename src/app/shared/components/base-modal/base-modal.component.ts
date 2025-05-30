@@ -1,25 +1,24 @@
-import { Component, ContentChild, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-base-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './base-modal.component.html',
   styleUrls: ['./base-modal.component.css']
 })
-export class BaseModal {
-  @Input() title = '';
-  @Input() isOpen = false;
+export class BaseModalComponent {
+  @Input() title: string = '';
+  @Input() width: string = '35rem';
+  @Input() closable: boolean = true;
+  @Input() visible: boolean = false;
 
   @Output() close = new EventEmitter<void>();
 
-  @ContentChild(TemplateRef) projectedContent!: TemplateRef<any>;
-
-  closeModal(): void {
-    this.close.emit();
+  handleClose(): void {
+    if (this.closable) this.close.emit();
   }
 }

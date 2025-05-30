@@ -1,7 +1,14 @@
-<!-- shared/components/empty-section/empty-section.component.html -->
-<div class="empty-wrapper">
-  <p class="empty-text">{{ title }} {{ subtitle }}</p>
+<div class="empty-section">
+  <div class="empty-section__icon">
+    <ng-content select="[icon]"></ng-content>
+    @if (false) {
+      <mat-icon style="font-size: 3rem; color: #6b6a6a;">assignment</mat-icon>
+    }
+  </div>
 
-  <ng-content select="[action]"></ng-content>
-
+  <div class="empty-section__text">
+    <ng-content>
+      No data available.
+    </ng-content>
+  </div>
 </div>
