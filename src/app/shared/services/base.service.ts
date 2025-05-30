@@ -65,4 +65,11 @@ export abstract class BaseService<T> {
         return this.http.get<T>(`${this.resourcePath()}/${id}`, this.httpOptions)
             .pipe(retry(2), catchError(this.handleError));
     }
+
+    public getByQuery(param: string, value: any): Observable<Array<T>> {
+      const url = `${this.resourcePath()}?${param}=${value}`;
+      return this.http.get<Array<T>>(url, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError));
+    }
+
 }
