@@ -32,7 +32,9 @@ import {
 import {
   RestaurantInventoryComponent
 } from './Restock/resource/inventory/pages/restaurant-inventory/restaurant-inventory.component';
-
+import {
+  RestaurantRecipesOverviewComponent
+} from './Restock/planning/recipe/pages/restaurant-recipes-overview/restaurant-recipes-overview.component';
 
 export const routes: Routes = [
 
@@ -47,6 +49,7 @@ export const routes: Routes = [
       { path: 'suppliers/:id', component: SupplierDetailComponent },
       { path: 'sales', component: SalesComponent },
       { path: 'profile', component: ProfileOverviewComponent },
+      { path: 'recipes', component: RestaurantRecipesOverviewComponent },
       { path: 'notifications', component: RestaurantAlertsComponent }
     ]
   },
