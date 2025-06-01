@@ -1,24 +1,49 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, Injector } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { NgComponentOutlet, CommonModule } from '@angular/common';
+import {MatButtonModule, MatIconButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-base-modal',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './base-modal.component.html',
-  styleUrls: ['./base-modal.component.css']
+  styleUrls: ['./base-modal.component.css'],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    NgComponentOutlet,
+    MatIconButton,
+    MatButtonModule
+  ]
 })
 export class BaseModalComponent {
-  @Input() title: string = '';
-  @Input() width: string = '35rem';
-  @Input() closable: boolean = true;
-  @Input() visible: boolean = false;
+  injectorInstance: Injector;
 
-  @Output() close = new EventEmitter<void>();
+  constructor(
+    public dialogRef: MatDialogRef<BaseModalComponent>,
+    private injector: Injector,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      title: string;
+      contentComponent: any;
+      schema?: any;
+      initialData?: any;
+      mode?: 'create' | 'edit';
+    }
+  ) {
+    // Crear el Injector una sola vez para evitar recreaciones infinitas
+    this.injectorInstance = Injector.create({
+      providers: [
+        { provide: 'schema', useValue: data.schema },
+        { provide: 'initialData', useValue: data.initialData },
+        { provide: 'mode', useValue: data.mode }
+      ],
+      parent: this.injector
+    });
+  }
 
-  handleClose(): void {
-    if (this.closable) this.close.emit();
+  close(): void {
+    this.dialogRef.close();
   }
 }
