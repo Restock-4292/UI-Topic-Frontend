@@ -1,0 +1,21 @@
+.recipe-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.recipe-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}

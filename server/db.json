@@ -31,11 +31,11 @@
   "roles": [
     {
       "id": 1,
-      "name": "Supplier"
+      "name": "supplier"
     },
     {
       "id": 2,
-      "name": "Restaurant Administrator"
+      "name": "restaurant"
     }
   ],
   "profiles": [
@@ -126,132 +126,127 @@
       "name": "Lomo Saltado",
       "total_price": 28.5,
       "image_url": "https://jameaperu.com/assets/images/lomo-saltado-de-pollo_800x534.webp",
-      "user_id": 1,
-      "supplies": [
-        {
-          "supply_id": 1,
-          "description": "Papas",
-          "quantity": 2
-        },
-        {
-          "supply_id": 2,
-          "description": "Lomo Fino",
-          "quantity": 1
-        },
-        {
-          "supply_id": 3,
-          "description": "Cebolla Roja",
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 2,
       "name": "Ají de Gallina",
       "total_price": 24.9,
       "image_url": "https://buenazo.cronosmedia.glr.pe/original/2023/06/26/6499bf204fb28f54f91a9289.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "supply_id": 4,
-          "description": "Pechuga de Pollo",
-          "quantity": 1
-        },
-        {
-          "supply_id": 5,
-          "description": "Ají Amarillo",
-          "quantity": 1
-        },
-        {
-          "supply_id": 6,
-          "description": "Pan",
-          "quantity": 2
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 3,
       "name": "Tallarines Verdes con Bistec",
       "total_price": 25,
       "image_url": "https://imgmedia.buenazo.pe/1200x660/buenazo/original/2023/06/19/6490842c015fab27f801c3f6.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "supply_id": 7,
-          "description": "Fideos Tallarín",
-          "quantity": 1
-        },
-        {
-          "supply_id": 8,
-          "description": "Albahaca",
-          "quantity": 1
-        },
-        {
-          "supply_id": 2,
-          "description": "Lomo Fino",
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 4,
       "name": "Seco de Res con Frijoles",
       "total_price": 26,
       "image_url": "https://imgmedia.buenazo.pe/1200x660/buenazo/original/2023/07/24/64bec4147521237a92206504.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "supply_id": 2,
-          "description": "Lomo Fino",
-          "quantity": 1
-        },
-        {
-          "supply_id": 9,
-          "description": "Frijoles",
-          "quantity": 1
-        },
-        {
-          "supply_id": 10,
-          "description": "Culantro",
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 5,
       "name": "Ceviche de Pescado",
       "total_price": 37,
       "image_url": "https://treehouselodge.com/wp-content/uploads/2021/09/peruvian-ceviche.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "supply_id": 11,
-          "description": "Pescado Blanco",
-          "quantity": 1
-        },
-        {
-          "supply_id": 12,
-          "description": "Limón",
-          "quantity": 3
-        },
-        {
-          "supply_id": 3,
-          "description": "Cebolla Roja",
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     }
   ],
   "recipes_supplies": [
     {
+      "id": 1,
       "recipe_id": 1,
       "supply_id": 1,
       "quantity": 2
     },
     {
+      "id": 2,
       "recipe_id": 1,
       "supply_id": 2,
       "quantity": 1
+    },
+    {
+      "id": 3,
+      "recipe_id": 1,
+      "supply_id": 3,
+      "quantity": 1
+    },
+    {
+      "id": 7,
+      "recipe_id": 3,
+      "supply_id": 7,
+      "quantity": 1
+    },
+    {
+      "id": 8,
+      "recipe_id": 3,
+      "supply_id": 8,
+      "quantity": 1
+    },
+    {
+      "id": 9,
+      "recipe_id": 3,
+      "supply_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": 10,
+      "recipe_id": 4,
+      "supply_id": 2,
+      "quantity": 1
+    },
+    {
+      "id": 11,
+      "recipe_id": 4,
+      "supply_id": 9,
+      "quantity": 1
+    },
+    {
+      "id": 12,
+      "recipe_id": 4,
+      "supply_id": 10,
+      "quantity": 1
+    },
+    {
+      "id": 13,
+      "recipe_id": 5,
+      "supply_id": 11,
+      "quantity": 1
+    },
+    {
+      "id": 14,
+      "recipe_id": 5,
+      "supply_id": 12,
+      "quantity": 3
+    },
+    {
+      "id": 15,
+      "recipe_id": 5,
+      "supply_id": 3,
+      "quantity": 1
+    },
+    {
+      "recipe_id": 2,
+      "supply_id": 4,
+      "quantity": 1,
+      "id": 16
+    },
+    {
+      "recipe_id": 2,
+      "supply_id": 5,
+      "quantity": 1,
+      "id": 17
+    },
+    {
+      "recipe_id": 2,
+      "supply_id": 6,
+      "quantity": 2,
+      "id": 18
     }
   ],
   "supplies": [
@@ -393,7 +388,7 @@
       "id": 1,
       "admin_restaurant_id": 1,
       "diner_name": "mari",
-      "total_price": 10.00,
+      "total_price": 10,
       "date": "2025-05-28",
       "added_inventory": false
     }

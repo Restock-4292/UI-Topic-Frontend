@@ -1,7 +1,8 @@
-<!-- shared/components/empty-section/empty-section.component.html -->
-<div class="empty-wrapper">
-  <p class="empty-text">{{ title }} {{ subtitle }}</p>
-
-  <ng-content select="[action]"></ng-content>
-
+<div class="empty-section">
+  <div class="empty-section__icon">
+    <ng-content select="[icon]"></ng-content>
+  </div>
+  <div class="empty-section__text">
+    <ng-content></ng-content>
+  </div>
 </div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmptySectionComponent } from './empty-section.component';
+import { SupplySelectorComponent } from './supply-selector.component';
 
-describe('EmptySectionComponent', () => {
-  let component: EmptySectionComponent;
-  let fixture: ComponentFixture<EmptySectionComponent>;
+describe('SupplySelectorComponent', () => {
+  let component: SupplySelectorComponent;
+  let fixture: ComponentFixture<SupplySelectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmptySectionComponent]
+      imports: [SupplySelectorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EmptySectionComponent);
+    fixture = TestBed.createComponent(SupplySelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

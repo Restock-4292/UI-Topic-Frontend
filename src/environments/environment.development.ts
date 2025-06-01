@@ -2,5 +2,10 @@ export const environment = {
     production: false,
     serverBaseUrl: 'http://localhost:3000',
     subscriptionsEndpointPath: '/subscriptions',
-    suppliersEndpointPath: '/users'
+    suppliersEndpointPath: '/users',
+    recipesEndpointPath: '/recipes',
+    suppliesEndpointPath: '/supplies',
+    recipeSuppliesEndpointPath: '/recipes_supplies',
+    categoriesEndpointPath: '/categories',
+    unitMeasurementsEndpointPath: '/units_measurements',
 };

@@ -1,14 +1,12 @@
-@if (isOpen) {
-  <div class="modal-backdrop" (click)="closeModal()"></div>
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>{{ title }}</h2>
-      <button mat-icon-button (click)="closeModal()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div class="modal-body">
-      <ng-container [ngTemplateOutlet]="projectedContent"></ng-container>
-    </div>
-  </div>
-}
+<div class="modal-header">
+  <h2 class="modal-title">{{ data.title }}</h2>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="modal-content">
+  <ng-container
+    *ngComponentOutlet="data.contentComponent; injector: injectorInstance"
+  ></ng-container>
+</div>

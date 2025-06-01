@@ -5,8 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Supply } from '../../model/supply.entity';
-import { BaseModal } from '../../../../../shared/components/base-modal/base-modal.component';
-import { CreateAndEdit } from '../../../../../shared/components/create-and-edit/create-and-edit.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { mockCategories } from '../../../../../shared/mocks/categories.mock';

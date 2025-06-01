@@ -10,7 +10,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Category</mat-label>
+      <mat-label>CategoryService</mat-label>
       <mat-select [(ngModel)]="form.category_id" name="category">
         <mat-option *ngFor="let c of [ {id: 1, name: 'Bebidas'}, {id: 2, name: 'Legumbres'} ]" [value]="c.id">
           {{ c.name }}
@@ -39,20 +39,20 @@
       <mat-radio-button [value]="true">It’s perishable</mat-radio-button>
     </mat-radio-group>
 
-    <!-- Expiration Date (conditional) -->
-    @if (form.perishable) {
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Expiration date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [(ngModel)]="form.expiration_date"
-          name="expiration_date"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    }
+<!--    &lt;!&ndash; Expiration Date (conditional) &ndash;&gt;-->
+<!--    @if (form.perishable) {-->
+<!--      <mat-form-field appearance="fill" class="w-full">-->
+<!--        <mat-label>Expiration date</mat-label>-->
+<!--        <input-->
+<!--          matInput-->
+<!--          [matDatepicker]="picker"-->
+<!--          [(ngModel)]="form.expiration_date"-->
+<!--          name="expiration_date"-->
+<!--        />-->
+<!--        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--        <mat-datepicker #picker></mat-datepicker>-->
+<!--      </mat-form-field>-->
+<!--    }-->
 
     <!-- Actions -->
     <div class="actions">
