@@ -1,33 +1,33 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import {BaseModalComponent} from '../base-modal/base-modal.component';
+import { Component, inject } from '@angular/core';
+import { BaseModalService } from '../../services/base-modal.service';
+import { CreateAndEditFormComponent, FormFieldSchema } from '../create-and-edit-form/create-and-edit-form.component';
+import { BaseModalComponent } from '../base-modal/base-modal.component';
 
 @Component({
   selector: 'app-create-and-edit',
   standalone: true,
-  imports: [CommonModule, BaseModalComponent, MatDialogModule, MatButtonModule],
-  templateUrl: './create-and-edit.component.html',
-  styleUrls: ['./create-and-edit.component.css']
+  template: '', // no usa template
 })
 export class CreateAndEditComponent {
-  @Input() visible: boolean = false;
-  @Output() visibleChange = new EventEmitter<boolean>();
+  private modalService = inject(BaseModalService);
 
-  @Input() mode: 'create' | 'edit' = 'create';
-  @Input() createTitle: string = 'Create';
-  @Input() editTitle: string = 'Edit';
-
-  @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<void>();
-
-  get title(): string {
-    return this.mode === 'create' ? this.createTitle : this.editTitle;
-  }
-
-  handleClose(): void {
-    this.visibleChange.emit(false);
-    this.close.emit();
-  }
+  // open(
+  //   schema: FormFieldSchema[],
+  //   initialData: any,
+  //   mode: 'create' | 'edit' = 'create',
+  //   title = mode === 'create' ? 'Create' : 'Edit',
+  //   width = '35rem'
+  // ): void {
+  //   this.modalService.open({
+  //       title,
+  //       width,
+  //       contentComponent: CreateAndEditFormComponent,
+  //       contentInputs: {
+  //         schema,
+  //         initialData,
+  //         mode
+  //       }
+  //
+  //   });
+  // }
 }
