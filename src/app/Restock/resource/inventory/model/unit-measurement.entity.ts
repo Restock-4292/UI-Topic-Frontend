@@ -1,11 +1,7 @@
 export class UnitMeasurement {
-  id: number;
-  name: string;
-  symbol: string;
+  constructor(public readonly id: number, public readonly name: string) {}
 
-  constructor(data: { id: number; name: string; symbol: string }) {
-    this.id = data.id;
-    this.name = data.name;
-    this.symbol = data.symbol;
+  static fromPersistence(data: any): UnitMeasurement {
+    return new UnitMeasurement(data.id, data.name);
   }
 }
