@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
   OnInit,
-  AfterViewInit
+  AfterViewInit, SimpleChanges, OnChanges
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Supply } from '../../model/supply.entity';
@@ -18,9 +18,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {MatCard} from '@angular/material/card';
+import {Batch} from '../../model/batch.entity';
 
 @Component({
-  selector: 'app-supplier-inventory-table',
+  selector: 'app-inventory-table',
   standalone: true,
   imports: [
     CommonModule,
@@ -37,30 +38,31 @@ import {MatCard} from '@angular/material/card';
   templateUrl: './inventory-table.component.html',
   styleUrls: ['./inventory-table.component.css']
 })
-export class InventoryTableComponent implements OnInit, AfterViewInit {
-  @Input() supplies: Supply[] = [];
-  @Output() edit = new EventEmitter<Supply>();
-  @Output() delete = new EventEmitter<Supply>();
+export class InventoryTableComponent implements OnInit, OnChanges {
+  @Input() batches: Batch[] = [];
+
+  @Output() edit = new EventEmitter<Batch>();
+  @Output() delete = new EventEmitter<Batch>();
   @Output() create = new EventEmitter<void>();
   @Output() add = new EventEmitter<void>();
 
-  onAddSupply() {
-    this.add.emit();
-  }
+  dataSource = new MatTableDataSource<Batch>();
+  displayedColumns = ['description', 'category', 'unit', 'expiration_date', 'stock', 'perishable', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource = new MatTableDataSource<Supply>();
-  displayedColumns = ['description', 'category', 'unit', 'expiration_date', 'stock', 'perishable', 'actions'];
-
-  showHidden = false;
-
   ngOnInit(): void {
-    this.applyHiddenFilter();
+    this.dataSource.paginator = this.paginator;
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['batches']) {
+      this.dataSource.data = this.batches;
+    }
+  }
+
+  onAddSupply() {
+    this.add.emit();
   }
 
   applyFilter(event: Event): void {
@@ -68,14 +70,9 @@ export class InventoryTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  applyHiddenFilter(): void {
-    this.dataSource.data = this.supplies.filter(s => this.showHidden || !s.hidden);
-  }
-
   isExpired(date?: string): boolean {
     if (!date) return false;
     return new Date(date) < new Date();
   }
-
 
 }
