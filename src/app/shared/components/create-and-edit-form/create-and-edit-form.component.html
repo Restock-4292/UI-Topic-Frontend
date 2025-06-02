@@ -73,7 +73,7 @@
 
         @if (field.type === 'date') {
           <mat-form-field class="form-input" appearance="fill">
-            <mat-label>{{ field.label }}</mat-label>
+            <mat-label>{{ field.placeholder }}</mat-label>
             <input
               matInput
               [matDatepicker]="picker"
@@ -82,7 +82,7 @@
               [name]="field.name"
               [id]="field.name"
             />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         }

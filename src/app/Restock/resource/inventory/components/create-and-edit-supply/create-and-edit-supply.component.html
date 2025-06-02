@@ -1,0 +1,10 @@
+<form class="supply-modal-content" (ngSubmit)="onSubmit()">
+  <app-create-and-edit-form (submit)="handleFormChange($event)" />
+
+  <div class="supply-modal-actions">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-raised-button class="green-button" action type="submit">
+      {{ mode === 'edit' ? 'Update' : 'Save' }}
+    </button>
+  </div>
+</form>
