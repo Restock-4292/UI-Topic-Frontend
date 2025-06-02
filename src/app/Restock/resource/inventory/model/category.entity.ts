@@ -1,9 +1,20 @@
 export class Category {
-  id: number;
-  name: string;
+  private constructor(
+    public readonly id: number,
+    public readonly name: string
+  ) {}
 
-  constructor(data: { id: number; name: string }) {
-    this.id = data.id;
-    this.name = data.name;
+  static fromPersistence(data: any): Category {
+    return new Category(
+      data.id,
+      data.name
+    );
+  }
+
+  static fromForm(data: Omit<Category, 'id'>): Category {
+    return new Category(
+      Math.floor(Math.random() * 100000), // o null si el backend genera el ID
+      data.name
+    );
   }
 }
