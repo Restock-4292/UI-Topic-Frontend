@@ -1,6 +1,6 @@
 export class Supply {
   private constructor(
-    public readonly id: number,
+    public readonly id: number | null,
     public readonly description: string,
     public readonly perishable: boolean,
     public readonly min_stock: number,
@@ -29,7 +29,7 @@ export class Supply {
   // Factory para creación desde un formulario
   static fromForm(data: Omit<Supply, 'id' | 'user_id'>, userId: number): Supply {
     return new Supply(
-      Math.floor(Math.random() * 100000), // o null si el backend genera el ID
+      null,
       data.description,
       data.perishable,
       data.min_stock,
