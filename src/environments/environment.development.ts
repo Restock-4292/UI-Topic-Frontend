@@ -6,6 +6,7 @@ export const environment = {
     recipesEndpointPath: '/recipes',
     suppliesEndpointPath: '/supplies',
     recipeSuppliesEndpointPath: '/recipes_supplies',
-    categoriesEndpointPath: '/categories',
-    unitMeasurementsEndpointPath: '/units_measurements',
+    categoriesEndpointPath: '/supply_categories',
+    unitMeasurementsEndpointPath: '/units_measurement',
+  batchesEndpointPath: '/batches',
 };
