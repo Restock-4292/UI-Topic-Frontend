@@ -1,20 +1,21 @@
 <div class="inventory-container">
 
+  <!-- Carousel (si hay supplies) -->
   @if (supplies.length > 0) {
     <app-supply-carousel [supplies]="supplies" [categories]="categories" />
   }
 
-  <!-- Supplies widget -->
+  <!-- Sección para botón de crear supply -->
   <app-supplier-supply-section
     [suppliesLength]="supplies.length"
     (create)="openCreateModal()"
   />
 
-  <!-- Inventory widget -->
-  <app-supplier-inventory-table
-    [supplies]="supplies"
-    (edit)="editSupply($event)"
-    (delete)="deleteSupply($event)"
+  <!-- Tabla de inventario -->
+  <app-inventory-table
+    [batches]="batches"
+    (edit)="editBatch($event)"
+    (delete)="deleteBatch($event)"
     (create)="openCreateModal()"
     (add)="openAddSupplyToInventory()"
   />

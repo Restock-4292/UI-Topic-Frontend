@@ -1,142 +1,225 @@
-import { Component, OnInit } from '@angular/core';
-import { Supply } from '../../model/supply.entity';
-import { SupplyService } from '../../services/supply.service.service';
-import { BaseModalService } from '../../../../../shared/services/base-modal.service';
-import { mockUser } from '../../../../../shared/mocks/user.mock';
-import { mockCategories } from '../../../../../shared/mocks/categories.mock';
-import { mockSupplies } from '../../../../../shared/mocks/supplies.mock';
-import { mockUnits } from '../../../../../shared/mocks/units-measurements.mock';
-import { SupplyFormModal } from '../../components/supply-form-modal/supply-form-modal.component';
-import { InventoryAddModal } from '../../components/add-inventory-modal/add-inventory-modal.component';
-import { EditSupplyModalComponent } from '../../components/edit-supply-modal/edit-supply-modal.component';
-import { ConfirmDeleteModalComponent } from '../../components/confirm-delete-modal/confirm-delete-modal.component';
-
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTableModule } from '@angular/material/table';
-import { FormsModule } from '@angular/forms';
-import { SupplyCarouselComponent } from '../../components/supply-carousel/supply-carousel.component';
-import { SupplySectionComponent } from '../../components/supply-section/supply-section.component';
-import { InventoryTableComponent } from '../../components/inventory-table/inventory-table.component';
+import {Component, OnInit} from '@angular/core';
+import {Supply} from '../../model/supply.entity';
+import {Category} from '../../model/category.entity';
+import {UnitMeasurement} from '../../model/unit-measurement.entity';
+import {FormFieldSchema} from '../../../../../shared/components/create-and-edit-form/create-and-edit-form.component';
+import {SupplyService} from '../../services/supply.service';
+import {CategoryService} from '../../services/category.service';
+import {UnitMeasurementService} from '../../services/unit-measurement.service';
+import {SupplyCarouselComponent} from '../../components/supply-carousel/supply-carousel.component';
+import {SupplySectionComponent} from '../../components/supply-section/supply-section.component';
+import {InventoryTableComponent} from '../../components/inventory-table/inventory-table.component';
+import {DeleteComponent} from '../../../../../shared/components/delete/delete.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {BaseModalService} from '../../../../../shared/services/base-modal.service';
+import {Batch} from '../../model/batch.entity';
+import {BatchService} from '../../services/batch.service';
+import {AddBatchToInventoryComponent} from '../../components/add-batch-to-inventory/add-batch-to-inventory.component';
+import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-supply/create-and-edit-supply.component';
 
 @Component({
   selector: 'app-restaurant-inventory',
   standalone: true,
   templateUrl: './restaurant-inventory.component.html',
-  styleUrls: ['./restaurant-inventory.component.css'],
   imports: [
-    MatIconModule,
-    MatFormFieldModule,
-    MatSlideToggleModule,
-    MatTableModule,
-    FormsModule,
-    SupplySectionComponent,
-    InventoryTableComponent,
     SupplyCarouselComponent,
-    MatSnackBarModule,
-    MatDialogModule
-  ]
+    SupplySectionComponent,
+    InventoryTableComponent
+  ],
+  styleUrls: ['./restaurant-inventory.component.css']
 })
 export class RestaurantInventoryComponent implements OnInit {
   supplies: Supply[] = [];
-  categories = mockCategories;
+  categories: Category[] = [];
+  units: UnitMeasurement[] = [];
+  batches: Batch[] = [];
+
+  formSchema: FormFieldSchema[] = [
+    {name: 'description', label: 'Description', type: 'text', placeholder: 'Enter name'},
+    {name: 'perishable', label: 'Perishable', type: 'boolean', placeholder: ''},
+    {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
+    {name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100'},
+    {name: 'price', label: 'Unit Price (S/.)', type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
+    {name: 'category_id', label: 'Category ID', type: 'number', placeholder: 'e.g. 1'},
+    {name: 'unit_measurement_id', label: 'Unit ID', type: 'number', placeholder: 'e.g. 1'}
+  ];
 
   constructor(
     private supplyService: SupplyService,
-    private modalService: BaseModalService,
-    private snackBar: MatSnackBar
-  ) {}
-
-  ngOnInit(): void {
-    this.fetchSupplies();
+    private categoryService: CategoryService,
+    private unitService: UnitMeasurementService,
+    private batchService: BatchService,
+    private snackBar: MatSnackBar,
+    private modalService: BaseModalService
+  ) {
   }
 
-  fetchSupplies(): void {
-    this.supplies = mockSupplies
-      .filter(s => s.user_id === mockUser.id)
-      .map(supply => {
-        const category = mockCategories.find(c => c.id === supply.category_id);
-        const unit = mockUnits.find(u => u.id === supply.unit_measurement_id);
-        return {
-          ...supply,
-          category,
-          unit_measurement: unit
-        };
-      });
+  async ngOnInit(): Promise<void> {
+    await this.loadAll();
+    await this.loadSupplies();
+    await this.loadBatches();
+  }
+
+  async loadAll(): Promise<void> {
+    this.categories = await this.categoryService.getAllCategories();
+    this.units = await this.unitService.getAllUnitMeasurements();
+  }
+
+  async loadSupplies(): Promise<void> {
+    this.supplies = await this.supplyService.getAllSupplies();
+  }
+
+  async loadBatches(): Promise<void> {
+    this.batches = await this.batchService.getAllBatches(this.supplies);
   }
 
   openCreateModal(): void {
-    this.modalService.open(SupplyFormModal, {
-      data: {
-        form: {},
-        isEdit: false
-      }
-    }).afterClosed().subscribe(result => {
+    this.modalService.open({
+      title: 'Create Supply',
+      contentComponent: CreateAndEditSupplyComponent,
+      schema: this.formSchema,
+      initialData: {},
+      mode: 'create'
+    }).afterClosed().subscribe(async result => {
       if (result) {
-        const newSupply = {
-          ...result,
-          id: Math.floor(Math.random() * 10000), // ID temporal
-          user_id: mockUser.id,
-          category: mockCategories.find(c => c.id === result.category_id),
-          unit_measurement: mockUnits.find(u => u.id === result.unit_measurement_id)
-        };
-        this.supplies.push(newSupply);
-        this.snackBar.open('Supply created successfully ✅', 'Close', {
-          duration: 3000,
-          panelClass: 'snackbar-success'
-        });
+        const newSupply = Supply.fromForm(result, 1); // 1 = user_id temporal
+        await this.supplyService.createSupply(newSupply);
+        await this.loadSupplies();
       }
     });
   }
 
   editSupply(supply: Supply): void {
-    this.modalService.open(EditSupplyModalComponent, {
-      data: { supply },
-      width: '480px'
-    }).afterClosed().subscribe((result: Partial<Supply> | undefined) => {
+    this.modalService.open({
+      title: 'Edit Supply',
+      contentComponent: CreateAndEditSupplyComponent,
+      schema: this.formSchema,
+      initialData: {...supply},
+      mode: 'edit'
+    }).afterClosed().subscribe(async result => {
       if (result) {
-        const index = this.supplies.findIndex(s => s.id === supply.id);
-        if (index !== -1) {
-          this.supplies[index] = {
-            ...this.supplies[index],
-            ...result
-          };
-        }
-        this.snackBar.open('Supply updated ✅', 'Close', {
-          duration: 3000,
-          panelClass: 'snackbar-success'
-        });
+        const updated = Supply.fromForm(result, supply.user_id);
+        await this.supplyService.updateSupply(supply.id, updated);
+        await this.loadSupplies();
       }
     });
   }
 
   deleteSupply(supply: Supply): void {
-    this.modalService.open(ConfirmDeleteModalComponent, {
-      data: { name: supply.description },
-      width: '400px'
-    }).afterClosed().subscribe((confirmed: boolean | undefined) => {
+    this.modalService.open({
+      title: 'Confirm deletion',
+      contentComponent: DeleteComponent,
+      width: '25rem',
+      initialData: {label: supply.description}
+    }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
-        this.supplies = this.supplies.filter(s => s.id !== supply.id);
-        this.snackBar.open('Supply deleted 🗑️', 'Close', {
-          duration: 3000,
-          panelClass: 'snackbar-success'
-        });
+        await this.supplyService.deleteSupply(supply.id);
+        await this.loadSupplies();
       }
     });
   }
 
+  editBatch(batch: Batch): void {
+    this.modalService.open({
+      title: 'Edit Batch',
+      contentComponent: AddBatchToInventoryComponent,
+      schema: this.formSchema,
+      initialData: { ...batch },
+      mode: 'edit',
+      injectorValues: { supplies: this.supplies }
+    }).afterClosed().subscribe(async result => {
+      if (result) {
+        const updated = Batch.fromForm(result, batch.inventory_id);
+        await this.batchService.updateBatch(batch.id, updated);
+        await this.loadBatches();
+      }
+    });
+  }
+
+  deleteBatch(batch: Batch): void {
+    this.modalService.open({
+      title: 'Confirm deletion',
+      contentComponent: DeleteComponent,
+      width: '25rem',
+      initialData: { label: batch.supply?.description }
+    }).afterClosed().subscribe(async (confirmed: boolean) => {
+      if (confirmed) {
+        await this.batchService.deleteBatch(batch.id);
+        await this.loadBatches();
+      }
+    });
+  }
+
+
   openAddSupplyToInventory(): void {
-    this.modalService.open(InventoryAddModal, {
-      data: {
+    const supplyOptions = this.supplies.map(s => ({
+      value: s.id,
+      label: s.description
+    }));
+
+    const inventoryFormSchemaWithOptions: FormFieldSchema[] = [
+      {
+        name: 'supply_id',
+        label: 'Supply',
+        type: 'select',
+        placeholder: 'Select a supply',
+        options: supplyOptions
+      },
+      {
+        name: 'stock',
+        label: 'Stock',
+        type: 'select',
+        placeholder: 'Select stock amount',
+        options: [
+          {value: 10, label: '10 kg'},
+          {value: 20, label: '20 kg'},
+          {value: 30, label: '30 kg'},
+          {value: 40, label: '40 kg'}
+        ]
+      },
+      {
+        name: 'expiration_date',
+        label: 'Expiration Date',
+        type: 'date',
+        placeholder: 'Select expiration date'
+      }
+    ];
+
+    this.modalService.open({
+      title: 'Add to Inventory',
+      contentComponent: AddBatchToInventoryComponent,
+      schema: inventoryFormSchemaWithOptions,
+      initialData: {},
+      mode: 'create',
+      injectorValues: {
         supplies: this.supplies
       }
-    }).afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(async result => {
       if (result) {
-        console.log('Nuevo lote:', result);
-        // Lógica adicional aquí si se requiere
+        const selectedSupply = this.supplies.find(s => s.id === result.supply_id);
+
+        if (!selectedSupply) {
+          this.snackBar.open('Supply not found', 'Close', {duration: 3000});
+          return;
+        }
+
+        if (selectedSupply.perishable && !result.expiration_date) {
+          this.snackBar.open('Expiration date is required for perishable items', 'Close', {
+            duration: 3000,
+            panelClass: 'snackbar-error'
+          });
+          return;
+        }
+
+        const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
+        await this.batchService.createBatch(batch);
+
+        this.snackBar.open('Batch registered ✅', 'Close', {
+          duration: 3000,
+          panelClass: 'snackbar-success'
+        });
+
+        await this.loadBatches();
       }
     });
   }

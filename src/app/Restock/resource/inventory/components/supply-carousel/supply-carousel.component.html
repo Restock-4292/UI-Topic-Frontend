@@ -6,7 +6,7 @@
   <div #container class="carousel-container">
     @for (supply of supplies; track supply) {
       <div class="supply-card">
-        <h3>{{ supply.name }}</h3>
+        <h3>{{ supply.description }}</h3>
         <p class="category">{{ getCategoryName(supply.category_id) }}</p>
         <p class="description">{{ supply.description || '-' }}</p>
       </div>
