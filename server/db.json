@@ -41,31 +41,59 @@
   "profiles": [
     {
       "id": 1,
-      "firstName": "Elon",
-      "lastName": "Musk",
-      "username": "elon777",
-      "avatar": "http//:elonmusk.png",
-      "business_name": "Frescos del Valle",
-      "business_address": "Calle del Mercado 456",
-      "address": "Calle silicon valley",
+      "name": "Don Pepe",
+      "last_name": "Gonzales",
+      "username": "donpepe",
+      "avatar": "https://i.pravatar.cc/150?img=1",
       "phone": "987654321",
+      "address": "Av. Principal 123",
       "country": "Perú",
       "description": "Proveedor de ingredientes frescos",
+      "business_name": "Frescos del Valle",
+      "business_address": "Calle del Mercado 456",
       "user_id": 1
     },
     {
       "id": 2,
-      "firstName": "María",
-      "lastName": "Fernández",
-      "username": "maria_f",
-      "avatar": "http://example.com/avatar_maria.png",
-      "business_name": "Sabores Andinos",
-      "business_address": "Av. Cusco 789",
-      "address": "Jr. Lima 321",
-      "phone": "912345678",
+      "name": "Chef Rosa",
+      "last_name": "Martinez",
+      "username": "rosachef",
+      "avatar": "https://i.pravatar.cc/150?img=2",
+      "phone": "987645321",
+      "address": "Av. Principal 133",
       "country": "Perú",
-      "description": "Especialista en productos orgánicos de la sierra",
+      "description": "Dueña de restaurante con recetas tradicionales",
+      "business_name": "Raíces del Sabor",
+      "business_address": "Calle del Mercado 346",
       "user_id": 2
+    },
+    {
+      "id": 3,
+      "name": "Prueba",
+      "last_name": "Proveedor",
+      "username": "pruebaproveedor",
+      "avatar": "https://i.pravatar.cc/150?img=3",
+      "phone": "999123456",
+      "address": "Calle Falsa 123",
+      "country": "Perú",
+      "description": "Proveedor de prueba para testeo",
+      "business_name": "Proveedor S.A.C.",
+      "business_address": "Mercado Central 101",
+      "user_id": 3
+    },
+    {
+      "id": 4,
+      "name": "Chef Luis",
+      "last_name": "Salazar",
+      "username": "huariqueluis",
+      "avatar": "https://i.pravatar.cc/150?img=4",
+      "phone": "987601234",
+      "address": "Calle Cevichería 123",
+      "country": "Perú",
+      "description": "Restaurante de cocina marina y criolla",
+      "business_name": "El Huarique del Sabor",
+      "business_address": "Calle Cevichería 123",
+      "user_id": 4
     }
   ],
   "business_categories": [
@@ -118,6 +146,14 @@
     {
       "profile_id": 1,
       "business_category_id": 6
+    },
+    {
+      "profile_id": 3,
+      "business_category_id": 2
+    },
+    {
+      "profile_id": 4,
+      "business_category_id": 4
     }
   ],
   "recipes": [
@@ -133,7 +169,27 @@
       "name": "Ají de Gallina",
       "total_price": 24.9,
       "image_url": "https://buenazo.cronosmedia.glr.pe/original/2023/06/26/6499bf204fb28f54f91a9289.png",
-      "user_id": 1
+      "user_id": 1,
+      "supplies": [
+        {
+          "id": 16,
+          "recipe_id": 2,
+          "supply_id": 4,
+          "quantity": 1
+        },
+        {
+          "id": 17,
+          "recipe_id": 2,
+          "supply_id": 5,
+          "quantity": 1
+        },
+        {
+          "id": 18,
+          "recipe_id": 2,
+          "supply_id": 6,
+          "quantity": 2
+        }
+      ]
     },
     {
       "id": 3,
@@ -154,7 +210,27 @@
       "name": "Ceviche de Pescado",
       "total_price": 37,
       "image_url": "https://treehouselodge.com/wp-content/uploads/2021/09/peruvian-ceviche.png",
-      "user_id": 1
+      "user_id": 1,
+      "supplies": [
+        {
+          "id": 13,
+          "recipe_id": 5,
+          "supply_id": 11,
+          "quantity": 1
+        },
+        {
+          "id": 14,
+          "recipe_id": 5,
+          "supply_id": 12,
+          "quantity": 3
+        },
+        {
+          "id": 15,
+          "recipe_id": 5,
+          "supply_id": 3,
+          "quantity": 1
+        }
+      ]
     }
   ],
   "recipes_supplies": [
@@ -213,40 +289,40 @@
       "quantity": 1
     },
     {
-      "id": 13,
       "recipe_id": 5,
       "supply_id": 11,
-      "quantity": 1
+      "quantity": 1,
+      "id": 19
     },
     {
-      "id": 14,
       "recipe_id": 5,
       "supply_id": 12,
-      "quantity": 3
+      "quantity": 3,
+      "id": 20
     },
     {
-      "id": 15,
       "recipe_id": 5,
       "supply_id": 3,
-      "quantity": 1
+      "quantity": 1,
+      "id": 21
     },
     {
       "recipe_id": 2,
       "supply_id": 4,
       "quantity": 1,
-      "id": 16
+      "id": 22
     },
     {
       "recipe_id": 2,
       "supply_id": 5,
       "quantity": 1,
-      "id": 17
+      "id": 23
     },
     {
       "recipe_id": 2,
       "supply_id": 6,
       "quantity": 2,
-      "id": 18
+      "id": 24
     }
   ],
   "supplies": [
@@ -413,7 +489,7 @@
     {
       "id": 1,
       "date": "2025-05-28",
-      "admin_restaurant_id": 1,
+      "admin_restaurant_id": 2,
       "supplier_id": 1,
       "order_to_supplier_state_id": 1,
       "order_to_supplier_situation_id": 1,
@@ -421,23 +497,43 @@
       "partially_accepted": false
     }
   ],
-  "orders_to_supplier_state": [
+  "orders_to_supplier_states": [
     {
       "id": 1,
-      "name": "preparing"
+      "name": "On Hold"
+    },
+    {
+      "id": 2,
+      "name": "Preparing"
+    },
+    {
+      "id": 3,
+      "name": "On the way"
+    },
+    {
+      "id": 4,
+      "name": "Delivered"
     }
   ],
-  "orders_to_supplier_situation": [
+  "orders_to_supplier_situations": [
     {
       "id": 1,
-      "name": "approved"
+      "name": "Pending"
+    },
+    {
+      "id": 2,
+      "name": "Approved"
+    },
+    {
+      "id": 3,
+      "name": "Declined"
     }
   ],
   "orders_to_supplier_supplies": [
     {
       "order_to_supplier_id": 1,
       "supply_id": 1,
-      "stock": 10,
+      "quantity": 10,
       "accepted": false
     }
   ],
@@ -478,13 +574,6 @@
     {
       "id": 4,
       "name": "Grains"
-    }
-  ],
-  "inventories": [
-    {
-      "id": 1,
-      "user_id": 1,
-      "created_at": "2025-05-01T10:00:00.000Z"
     }
   ],
   "batches": [
@@ -541,16 +630,7 @@
       "date": "2025-05-26"
     }
   ],
-  "restaurant_contacts": [
-    {
-      "restaurant_id": 1,
-      "supplier_contact_id": 2
-    },
-    {
-      "restaurant_id": 1,
-      "supplier_contact_id": 3
-    }
-  ],
+  "restaurant_contacts": [],
   "subscriptions": [
     {
       "id": "1",
@@ -559,6 +639,13 @@
       "price": "59.99",
       "status": true,
       "popular": false,
+      "features": [
+        "Automated inventory management",
+        "Ordering and purchasing control",
+        "Reporting and analytics ",
+        "Critical stock notifications",
+        "Integration with suppliers"
+      ],
       "rol_id": "1"
     },
     {
@@ -568,6 +655,13 @@
       "price": "39.99",
       "status": true,
       "popular": true,
+      "features": [
+        "Gestión de inventario automatizado",
+        "Control de pedidos y compras",
+        "Reporte y analítica",
+        "Notificaciones de stock crítico",
+        "Integración con proveedores"
+      ],
       "rol_id": "1"
     },
     {
@@ -577,6 +671,13 @@
       "price": "49.99",
       "status": true,
       "popular": false,
+      "features": [
+        "Automated inventory management",
+        "Ordering and purchasing control",
+        "Reporting and analytics",
+        "Critical stock notifications",
+        "Integration with suppliers"
+      ],
       "rol_id": "1"
     },
     {
@@ -586,6 +687,13 @@
       "price": "59.99",
       "status": true,
       "popular": false,
+      "features": [
+        "Automated Inventory Management",
+        "Order Control",
+        "Reporting and Analytics",
+        "Order Notifications",
+        "Restaurant Rating Section"
+      ],
       "rol_id": "2"
     },
     {
@@ -595,6 +703,13 @@
       "price": "39.99",
       "status": true,
       "popular": true,
+      "features": [
+        "Automated Inventory Management",
+        "Order Control",
+        "Reporting and Analytics",
+        "Order Notifications",
+        "Restaurant Rating Section"
+      ],
       "rol_id": "2"
     },
     {
@@ -604,6 +719,13 @@
       "price": "49.99",
       "status": true,
       "popular": false,
+      "features": [
+        "Automated Inventory Management",
+        "Order Control",
+        "Reporting and Analytics",
+        "Order Notifications",
+        "Restaurant Rating Section"
+      ],
       "rol_id": "2"
     }
   ],
@@ -619,70 +741,6 @@
       "card_type": "Visa",
       "payment_method": "Paypal",
       "paid_at": "2023-01-01"
-    }
-  ],
-  "features": [
-    {
-      "id": 1,
-      "name": "Automated inventory management"
-    },
-    {
-      "id": 2,
-      "name": "Ordering and purchasing control"
-    },
-    {
-      "id": 3,
-      "name": "Reporting and analytics"
-    },
-    {
-      "id": 4,
-      "name": "Critical stock notifications"
-    },
-    {
-      "id": 5,
-      "name": "Integration with suppliers"
-    }
-  ],
-  "subscription_features": [
-    {
-      "subscription_id": 1,
-      "feature_id": 1
-    },
-    {
-      "subscription_id": 1,
-      "feature_id": 2
-    },
-    {
-      "subscription_id": 1,
-      "feature_id": 3
-    },
-    {
-      "subscription_id": 1,
-      "feature_id": 4
-    },
-    {
-      "subscription_id": 1,
-      "feature_id": 5
-    },
-    {
-      "subscription_id": 2,
-      "feature_id": 1
-    },
-    {
-      "subscription_id": 2,
-      "feature_id": 2
-    },
-    {
-      "subscription_id": 2,
-      "feature_id": 3
-    },
-    {
-      "subscription_id": 2,
-      "feature_id": 4
-    },
-    {
-      "subscription_id": 2,
-      "feature_id": 5
     }
   ]
 }
