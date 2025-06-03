@@ -34,15 +34,7 @@ export class RestaurantInventoryComponent implements OnInit {
   units: UnitMeasurement[] = [];
   batches: Batch[] = [];
 
-  formSchema: FormFieldSchema[] = [
-    {name: 'description', label: 'Description', type: 'text', placeholder: 'Enter name'},
-    {name: 'perishable', label: 'Perishable', type: 'boolean', placeholder: ''},
-    {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
-    {name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100'},
-    {name: 'price', label: 'Unit Price (S/.)', type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
-    {name: 'category_id', label: 'Category ID', type: 'number', placeholder: 'e.g. 1'},
-    {name: 'unit_measurement_id', label: 'Unit ID', type: 'number', placeholder: 'e.g. 1'}
-  ];
+  formSchema: FormFieldSchema[] = [];
 
   constructor(
     private supplyService: SupplyService,
@@ -56,9 +48,72 @@ export class RestaurantInventoryComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.loadAll();
+    this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
   }
+
+  buildFormSchema(): void {
+    const categoryOptions = this.categories.map(c => ({
+      value: c.id,
+      label: c.name
+    }));
+
+    const unitOptions = this.units.map(u => ({
+      value: u.id,
+      label: u.name
+    }));
+
+    this.formSchema = [
+      {name: 'description', label: 'Description', type: 'text', placeholder: 'Enter name'},
+      {name: 'perishable', label: 'Perishable', type: 'boolean', placeholder: ''},
+      {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
+      {name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100'},
+      {name: 'price', label: 'Unit Price (S/.)', type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
+      {
+        name: 'category_id',
+        label: 'Category',
+        type: 'select',
+        placeholder: 'Choose category',
+        options: categoryOptions
+      },
+      {
+        name: 'unit_measurement_id',
+        label: 'Unit',
+        type: 'select',
+        placeholder: 'Choose unit',
+        options: unitOptions
+      }
+    ];
+  }
+
+  buildInventoryFormSchema(selectedSupplyId?: number): FormFieldSchema[] {
+    const supplyOptions = this.supplies.map(s => ({
+      value: s.id,
+      label: s.description
+    }));
+
+    return [
+      {
+        name: 'supply_id',
+        label: 'Supply',
+        type: 'select',
+        placeholder: 'Select a supply',
+        options: supplyOptions
+      },
+      {
+        name: 'stock',
+        label: 'Stock',
+        type: 'number',
+        placeholder: 'Enter stock'
+      },
+      {
+        name: 'expiration_date',
+        label: 'Expiration Date',
+        type: 'date',
+        placeholder: 'Select expiration date'
+      }
+    ];  }
 
   async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
@@ -66,11 +121,11 @@ export class RestaurantInventoryComponent implements OnInit {
   }
 
   async loadSupplies(): Promise<void> {
-    this.supplies = await this.supplyService.getAllSupplies();
+    this.supplies = await this.supplyService.getAllSuppliesEnriched();
   }
 
   async loadBatches(): Promise<void> {
-    this.batches = await this.batchService.getAllBatches(this.supplies);
+    this.batches = await this.batchService.getAllBatchesWithSupplies();
   }
 
   openCreateModal(): void {
@@ -120,13 +175,24 @@ export class RestaurantInventoryComponent implements OnInit {
   }
 
   editBatch(batch: Batch): void {
+    const initialBatchData = {
+      id: batch.id,
+      supply_id: batch.supply_id,
+      stock: batch.stock,
+      expiration_date: batch.expiration_date,
+      inventory_id: batch.inventory_id
+    };
+
+
     this.modalService.open({
-      title: 'Edit Batch',
+      title: 'Edit supply in Inventory',
       contentComponent: AddBatchToInventoryComponent,
-      schema: this.formSchema,
-      initialData: { ...batch },
+      schema: this.buildInventoryFormSchema(batch.supply_id),
+      initialData: initialBatchData,
       mode: 'edit',
-      injectorValues: { supplies: this.supplies }
+      injectorValues: {
+        supplies: this.supplies
+      }
     }).afterClosed().subscribe(async result => {
       if (result) {
         const updated = Batch.fromForm(result, batch.inventory_id);
@@ -152,43 +218,10 @@ export class RestaurantInventoryComponent implements OnInit {
 
 
   openAddSupplyToInventory(): void {
-    const supplyOptions = this.supplies.map(s => ({
-      value: s.id,
-      label: s.description
-    }));
-
-    const inventoryFormSchemaWithOptions: FormFieldSchema[] = [
-      {
-        name: 'supply_id',
-        label: 'Supply',
-        type: 'select',
-        placeholder: 'Select a supply',
-        options: supplyOptions
-      },
-      {
-        name: 'stock',
-        label: 'Stock',
-        type: 'select',
-        placeholder: 'Select stock amount',
-        options: [
-          {value: 10, label: '10 kg'},
-          {value: 20, label: '20 kg'},
-          {value: 30, label: '30 kg'},
-          {value: 40, label: '40 kg'}
-        ]
-      },
-      {
-        name: 'expiration_date',
-        label: 'Expiration Date',
-        type: 'date',
-        placeholder: 'Select expiration date'
-      }
-    ];
-
     this.modalService.open({
       title: 'Add to Inventory',
       contentComponent: AddBatchToInventoryComponent,
-      schema: inventoryFormSchemaWithOptions,
+      schema: this.buildInventoryFormSchema(),
       initialData: {},
       mode: 'create',
       injectorValues: {
