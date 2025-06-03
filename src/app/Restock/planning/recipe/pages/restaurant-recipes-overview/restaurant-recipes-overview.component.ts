@@ -144,8 +144,6 @@ export class RestaurantRecipesOverviewComponent {
   }
 
 
-
-
   openDeleteDialog(recipe: any): void {
     this.modalService.open({
       title: 'Confirm deletion',
