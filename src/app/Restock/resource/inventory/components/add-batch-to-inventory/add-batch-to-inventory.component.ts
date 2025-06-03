@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {
   CreateAndEditFormComponent, FormFieldSchema
 } from '../../../../../shared/components/create-and-edit-form/create-and-edit-form.component';
@@ -17,12 +17,14 @@ export class AddBatchToInventoryComponent implements OnInit {
   form: any = {};
   supplies: Supply[] = [];
 
+
   constructor(
     private dialogRef: MatDialogRef<AddBatchToInventoryComponent>,
     @Inject('schema') public schema: FormFieldSchema[],
     @Inject('initialData') public initialData: any,
     @Inject('mode') public mode: 'create' | 'edit',
-    @Inject('supplies') public injectedSupplies: Supply[]
+    @Inject('supplies') public injectedSupplies: Supply[],
+
   ) {}
 
   ngOnInit(): void {
