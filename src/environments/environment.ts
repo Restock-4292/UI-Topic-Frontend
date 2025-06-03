@@ -8,4 +8,7 @@ export const environment = {
   recipeSuppliesEndpointPath: '/recipes_supplies',
   categoriesEndpointPath: '/supply_categories',
   unitMeasurementsEndpointPath: '/units_measurement',
+  restaurantSales: 'sales',
+  salesRecipes: 'sales_recipes',
+  salesAdditionalSupplies: 'sales_additional_supplies'
 };

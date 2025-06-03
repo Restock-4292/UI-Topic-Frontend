@@ -476,6 +476,13 @@
       "quantity": 10
     }
   ],
+  "sales_additional_supplies": [
+    {
+      "sale_id": 1,
+      "supply_id": 1,
+      "quantity": 1
+    }
+  ],
   "comments": [
     {
       "id": 1,
@@ -535,13 +542,6 @@
       "supply_id": 1,
       "quantity": 10,
       "accepted": false
-    }
-  ],
-  "sales_additional_supplies": [
-    {
-      "sale_id": 1,
-      "supply_id": 1,
-      "quantity": 1
     }
   ],
   "units_measurement": [
