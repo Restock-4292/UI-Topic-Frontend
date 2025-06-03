@@ -56,7 +56,6 @@ export class CreateAndEditFormComponent implements OnInit {
     @Inject('initialData') public initialData: any,
     @Inject('mode') public mode: 'create' | 'edit',
     private cdr: ChangeDetectorRef,
-    private zone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +76,7 @@ export class CreateAndEditFormComponent implements OnInit {
     }
 
     this.cdr.markForCheck();
-    this.emitForm(); // Emit initial state
+    this.emitForm();
   }
 
   handleUpload(event: any, fieldName: string): void {

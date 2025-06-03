@@ -17,7 +17,7 @@
               [type]="field.type === 'currency' ? 'number' : field.type"
               [name]="field.name"
               [step]="field.type === 'currency' ? '0.01' : '1'"
-              [ngModel]="form[field.name]"
+              [(ngModel)]="form[field.name]"
               (ngModelChange)="form[field.name] = $event; emitForm()"
             />
           </mat-form-field>
