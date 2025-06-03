@@ -1,6 +1,10 @@
+import {Category} from './category.entity';
+import {UnitMeasurement} from './unit-measurement.entity';
+
 export class Supply {
-  private constructor(
+  constructor(
     public readonly id: number | null,
+    public readonly user_id: number,
     public readonly description: string,
     public readonly perishable: boolean,
     public readonly min_stock: number,
@@ -8,21 +12,23 @@ export class Supply {
     public readonly price: number,
     public readonly category_id: number,
     public readonly unit_measurement_id: number,
-    public readonly user_id: number
+    public readonly category?: Category,
+    public readonly unit_measurement?: UnitMeasurement
   ) {}
 
-  // Factory para creación desde la base de datos
-  static fromPersistence(data: any): Supply {
+  static fromPersistence(raw: any, category?: Category, unit?: UnitMeasurement): Supply {
     return new Supply(
-      data.id,
-      data.description,
-      data.perishable,
-      data.min_stock,
-      data.max_stock,
-      data.price,
-      data.category_id,
-      data.unit_measurement_id,
-      data.user_id
+      raw.id,
+      raw.user_id,
+      raw.description,
+      raw.perishable,
+      raw.min_stock,
+      raw.max_stock,
+      raw.price,
+      raw.category_id,
+      raw.unit_measurement_id,
+      category,
+      unit
     );
   }
 
@@ -30,14 +36,14 @@ export class Supply {
   static fromForm(data: Omit<Supply, 'id' | 'user_id'>, userId: number): Supply {
     return new Supply(
       null,
+      userId,
       data.description,
       data.perishable,
       data.min_stock,
       data.max_stock,
       data.price,
       data.category_id,
-      data.unit_measurement_id,
-      userId
+      data.unit_measurement_id
     );
   }
 }

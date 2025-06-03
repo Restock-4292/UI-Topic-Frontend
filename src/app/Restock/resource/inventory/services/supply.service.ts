@@ -1,22 +1,37 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { environment } from '../../../../../environments/environment.development';
 import { BaseService } from '../../../../shared/services/base.service';
 import { Supply } from '../model/supply.entity';
 import { SupplyAssembler } from './supply.assembler';
 import {firstValueFrom, map, Observable} from 'rxjs';
+import {CategoryService} from './category.service';
+import {UnitMeasurementService} from './unit-measurement.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
+
+  private readonly categoryService = inject(CategoryService);
+  private readonly unitService = inject(UnitMeasurementService);
+
   constructor() {
     super();
     this.resourceEndpoint = environment.suppliesEndpointPath;
   }
 
-  async getAllSupplies(): Promise<Supply[]> {
-    const response$ = super.getAll();
-    const rawDtos = await firstValueFrom(response$);
-    return rawDtos.map(SupplyAssembler.toEntity);
+  async getAllSuppliesEnriched(): Promise<Supply[]> {
+    const [rawSupplies, categories, units] = await Promise.all([
+      firstValueFrom(super.getAll()),
+      this.categoryService.getAllCategories(),
+      this.unitService.getAllUnitMeasurements()
+    ]);
+
+    return rawSupplies.map(raw => {
+      const category = categories.find(c => c.id === raw.category_id);
+      const unit = units.find(u => u.id === raw.unit_measurement_id);
+      return Supply.fromPersistence(raw, category, unit);
+    });
   }
+
 
 
   async getSupplyById(id: number): Promise<Supply> {
