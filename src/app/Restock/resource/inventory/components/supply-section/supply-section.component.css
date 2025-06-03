@@ -1,17 +1,19 @@
-.supplies-section {
-  margin-bottom: 2rem;
-  font-family: Poppins;
-}
-
 .supplies-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  padding: 0 1.5rem
+}
+
+.supplies-title {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: Poppins;
+  margin: 0;
 }
 
 .create-button {
-  align-items: center;
   gap: 0.5rem;
   background-color: #4F8A5B !important;
   color: white !important;

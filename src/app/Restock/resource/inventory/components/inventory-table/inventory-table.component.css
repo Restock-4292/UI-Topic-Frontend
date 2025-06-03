@@ -8,6 +8,7 @@
 .toolbar-card {
   padding: 1.5rem;
   border-radius: 1rem;
+  box-shadow: none;
 }
 
 .toolbar {
@@ -20,7 +21,7 @@
 
 .title {
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 2rem;
   margin-right: 0.5rem;
 }
 

@@ -14,9 +14,9 @@
         </span>
       </button>
 
-      <mat-slide-toggle color="primary" class="slide-toggle" [(ngModel)]="showHidden" (change)="applyHiddenFilter()">
-        Hidden supplies
-      </mat-slide-toggle>
+<!--      <mat-slide-toggle color="primary" class="slide-toggle" [(ngModel)]="showHidden">-->
+<!--        Hidden supplies-->
+<!--      </mat-slide-toggle>-->
 
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
     </div>
@@ -27,17 +27,17 @@
   <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef> Supply </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.name }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.description || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="category">
       <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.category?.name }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.category?.name || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="unit">
       <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.unit_measurement?.name }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.unit_measurement?.name || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="expiration_date">
@@ -52,8 +52,9 @@
 
     <ng-container matColumnDef="perishable">
       <mat-header-cell *matHeaderCellDef> Perishable </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.perishable ? 'SI' : 'NO' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.perishable ? 'SI' : 'NO' }} </mat-cell>
     </ng-container>
+
 
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>

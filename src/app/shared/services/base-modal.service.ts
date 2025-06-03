@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable, Injector} from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { BaseModalComponent } from '../components/base-modal/base-modal.component';
 
@@ -6,7 +6,9 @@ import { BaseModalComponent } from '../components/base-modal/base-modal.componen
   providedIn: 'root'
 })
 export class BaseModalService {
-  constructor(private dialog: MatDialog) {}
+
+  private readonly dialog = inject(MatDialog);
+  private readonly parentInjector = inject(Injector);
 
   open(
     config: {
@@ -16,8 +18,8 @@ export class BaseModalService {
       initialData?: any;
       mode?: 'create' | 'edit';
       width?: string;
-    }
-  ): MatDialogRef<BaseModalComponent> {
+      injectorValues?: Record<string, any>;
+    }): MatDialogRef<BaseModalComponent> {
     const dialogConfig: MatDialogConfig = {
       disableClose: false,
       autoFocus: true,
@@ -31,6 +33,20 @@ export class BaseModalService {
         mode: config.mode
       }
     };
+
+    if (config.injectorValues && Object.keys(config.injectorValues).length > 0) {
+      const providers = Object.entries(config.injectorValues).map(([key, value]) => ({
+        provide: key,
+        useValue: value
+      }));
+
+      const customInjector = Injector.create({
+        providers,
+        parent: this.parentInjector
+      });
+
+      dialogConfig.injector = customInjector;
+    }
 
     return this.dialog.open(BaseModalComponent, dialogConfig);
   }

@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import {EmptySection} from '../../../../../shared/components/empty-section/empty-section.component';
+import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
 
 @Component({
   selector: 'app-supplier-supply-section',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, EmptySection, MatCardModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, EmptySectionComponent, MatCardModule],
   templateUrl: './supply-section.component.html',
   styleUrls: ['./supply-section.component.css']
 })
