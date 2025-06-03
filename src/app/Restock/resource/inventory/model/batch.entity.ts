@@ -10,13 +10,14 @@ export class Batch {
     public readonly supply?: Supply
   ) {}
 
-  static fromPersistence(data: any): Batch {
+  static fromPersistence(data: any, supply?: Supply): Batch {
     return new Batch(
       data.id,
       data.inventory_id,
       data.supply_id,
       data.stock,
-      data.expiration_date ?? null
+      data.expiration_date ?? null,
+      supply
     );
   }
 

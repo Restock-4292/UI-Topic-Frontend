@@ -4,25 +4,28 @@ import { BatchAssembler } from './batch.assembler';
 import {inject, Injectable} from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {environment} from '../../../../../environments/environment.development';
-import {SupplyAssembler} from './supply.assembler';
-import {Supply} from '../model/supply.entity';
+import {SupplyService} from './supply.service';
 
 @Injectable({ providedIn: 'root' })
 export class BatchService extends BaseService<Batch> {
+  private readonly supplyService = inject(SupplyService);
+
   constructor() {
     super();
     this.resourceEndpoint = environment.batchesEndpointPath;
   }
 
-  async getAllBatches(supplies: Supply[]): Promise<Batch[]> {
-    const rawDtos = await firstValueFrom(super.getAll());
-    return rawDtos.map(dto => {
-      const relatedSupply = supplies.find(s => s.id === dto.supply_id);
-      return BatchAssembler.toEntity(dto, relatedSupply);
-    });
+  async getAllBatchesWithSupplies(): Promise<Batch[]> {
+    const [rawBatches, supplies] = await Promise.all([
+      firstValueFrom(super.getAll()),
+      this.supplyService.getAllSuppliesEnriched()
+    ]);
+
+    return rawBatches.map(b => Batch.fromPersistence(
+      b,
+      supplies.find(s => s.id === b.supply_id)
+    ));
   }
-
-
 
   async createBatch(batch: Batch): Promise<Batch> {
     const dto = BatchAssembler.toDTO(batch);
