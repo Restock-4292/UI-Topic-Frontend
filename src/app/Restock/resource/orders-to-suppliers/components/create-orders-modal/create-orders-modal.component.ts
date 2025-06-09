@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +12,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
-import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
     selector: 'create-orders-modal',
@@ -30,101 +29,132 @@ import { MatToolbar } from '@angular/material/toolbar';
         MatIconModule,
         MatCardModule,
         MatCheckboxModule,
-        MatTabsModule,],
+        MatTabsModule],
 })
 export class CreateOrdersModalComponent {
-    // Aquí puedes definir las propiedades y métodos necesarios para el modal de creación de órdenes
-    // Por ejemplo, para manejar la creación de nuevas órdenes, validaciones, etc.
+    @ViewChild('createOrderModal') createOrderModalRef!: TemplateRef<any>;
 
-    // Métodos para manejar eventos del modal
-    onCreateOrder(): void {
-        // Lógica para crear una nueva orden
-    }
+    // Tabs y selección actual
+    tabIndex = 0;
+    selectedSupply: any = null;
 
-    onCancel(): void {
-        // Lógica para cancelar la creación de una orden
-    }
-    // Modal y creación
-    // Listas simuladas
+    // Datos simulados
     supplies = [
         { id: 1, name: 'Arroz' },
-        { id: 2, name: 'Papa' }
+        { id: 2, name: 'Papa' },
     ];
 
-    suppliers = [
-        { id: 1, name: 'Proveedor A' },
-        { id: 2, name: 'Proveedor B' }
-    ];
-
-    // Órdenes simuladas
-    orders: any[] = [];
-    tabIndex = 0;
-    columns: string[] = ['name', 'price', 'available', 'select'];
+    // Datos de proveedores filtrados por insumo
     filteredSuppliers: any[] = [];
-    selectedSuppliers: any[] = [];
 
-    private _selectedSupply: any = null;
-    get selectedSupply() {
-        return this._selectedSupply;
-    }
-    set selectedSupply(value: any) {
-        this._selectedSupply = value;
-        if (value) {
-            this.loadSuppliersWithPrices(value.id);
-        } else {
-            this.filteredSuppliers = [];
-        }
-    }
+    // Proveedores seleccionados para el insumo actual
+    currentSelections: any[] = [];
 
-    @ViewChild('createOrderModal') createOrderModalRef!: TemplateRef<any>;
+    // Acumulador de todas las selecciones (varios insumos)
+    fullOrder: any[] = [];
+
+    // Orden ascendente/descendente de precios
+    sortAsc = true;
 
     constructor(private dialog: MatDialog) { }
 
-    openCreateOrderModal() {
-        this.tabIndex = 0;
-        this.selectedSupply = null;
-        this.filteredSuppliers = [];
-        this.selectedSuppliers = [];
-
+    openCreateOrderModal(): void {
+        this.resetAll();
         this.dialog.open(this.createOrderModalRef, {
-            width: '800px'
+            width: '500px',
+            height: '85%',
+            minHeight: '600px',
         });
     }
 
-    closeModal() {
+    closeModal(): void {
         this.dialog.closeAll();
     }
 
-    nextTab() {
-        this.selectedSuppliers = this.filteredSuppliers
-            .filter(s => s.selected)
-            .map(s => ({
+    // Paso 1: Seleccionar insumo y proveedores
+    onSupplyChange(): void {
+        if (!this.selectedSupply) {
+            this.filteredSuppliers = [];
+            return;
+        }
+
+        // Buscar proveedores ya seleccionados para este insumo
+        const alreadySelected = this.fullOrder
+            .filter(o => o.supplyId === this.selectedSupply.id)
+            .map(o => o.supplierId);
+
+        // Simula carga de proveedores desde API y desactiva los ya seleccionados
+        this.filteredSuppliers = [
+            { supplierId: 1, name: 'Proveedor A', price: 3.5, available: 100 },
+            { supplierId: 2, name: 'Proveedor B', price: 3.8, available: 50 }
+        ].map(s => {
+            const already = this.fullOrder.find(o =>
+                o.supplierId === s.supplierId && o.supplyId === this.selectedSupply.id
+            );
+            return {
                 ...s,
-                quantity: 0
-            }));
-        this.tabIndex = 1;
+                selected: !!already,
+                disabled: !!already
+            };
+        });
+
     }
 
-    hasSelectedSuppliers(): boolean {
+    toggleSortOrder(): void {
+        this.sortAsc = !this.sortAsc;
+        this.filteredSuppliers.sort((a, b) =>
+            this.sortAsc ? a.price - b.price : b.price - a.price
+        );
+    }
+
+    hasSelection(): boolean {
         return this.filteredSuppliers.some(s => s.selected);
     }
 
-    getTotalOrderPrice(): number {
-        return this.selectedSuppliers.reduce((sum, s) => sum + (s.quantity || 0) * s.price, 0);
+    nextTab(): void {
+        const selected = this.filteredSuppliers.filter(s => s.selected);
+        console.log('Proveedores seleccionados:', selected);
+        this.currentSelections = selected.map(s => ({
+            ...s,
+            supplyId: this.selectedSupply.id,
+            supplyName: this.selectedSupply.name,
+            quantity: 1,
+        }));
+
+        this.tabIndex = 1;
     }
 
-    addMoreSupply() {
-        this.tabIndex = 0;
+    // Paso 2: Confirmar pedido
+    addMoreSupply(): void {
+        this.fullOrder.push(...this.currentSelections);
+        console.log('Pedido acumulado:', this.fullOrder);
+        this.resetStep();
+    }
+
+    onCreateOrder(): void {
+        const finalOrder = [...this.fullOrder, ...this.currentSelections];
+        console.log('Orden final:', finalOrder);
+        this.closeModal();
+    }
+
+    getTotal(): number {
+        return this.currentSelections.reduce((sum, s) => {
+            const qty = s.quantity || 1;
+            return sum + s.price * qty;
+        }, 0);
+    }
+
+
+    // Utilidades
+    private resetStep(): void {
         this.selectedSupply = null;
         this.filteredSuppliers = [];
-        this.selectedSuppliers = [];
+        this.currentSelections = [];
+        this.tabIndex = 0;
     }
 
-    loadSuppliersWithPrices(supplyId: number) {
-        // Simulación: normalmente se hace un llamado a la API con el supplyId
-        this.filteredSuppliers = [
-            { supplierId: 1, name: 'Proveedor A', price: 3.5, available: 100, selected: false },
-            { supplierId: 2, name: 'Proveedor B', price: 3.8, available: 50, selected: false }
-        ];
+    private resetAll(): void {
+        this.fullOrder = [];
+        this.resetStep();
     }
 }

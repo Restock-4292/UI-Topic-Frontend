@@ -1,27 +1,55 @@
-import { Component } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { NgIf, DatePipe, NgClass } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+
+import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 
 @Component({
     selector: 'orders-table',
     templateUrl: './orders-table.component.html',
     styleUrls: ['./orders-table.component.css'],
-    imports: [MatIcon],
+    standalone: true,
+    imports: [NgIf, NgClass, MatIconModule, MatTableModule, MatButtonModule, DatePipe],
 })
 export class OrdersTableComponent {
-    // Aquí puedes definir las propiedades y métodos necesarios para la tabla de órdenes
-    // Por ejemplo, para manejar la visualización de órdenes, selección, etc.
+    @Input() orders: OrderToSupplier[] = [];
+    @Output() orderSelected = new EventEmitter<number>();
+    @Output() deleteOrder = new EventEmitter<number>();
 
-    constructor() {
-        // Inicialización si es necesario
-    }
+    displayedColumns: string[] = [
+        'situation',
+        'state',
+        'date',
+        'supplier',
+        'requestedProducts',
+        'totalPrice',
+        'actions',
+        'notifications'
+    ];
 
-    // Métodos para manejar eventos de la tabla
-    onRowClick(order: any): void {
-        // Lógica para manejar el clic en una fila de la tabla
+    onRowClick(order: OrderToSupplier): void {
+        this.orderSelected.emit(order.id);
     }
 
     onDeleteOrder(orderId: number): void {
-        // Lógica para eliminar una orden por su ID
+        this.deleteOrder.emit(orderId);
     }
 
+    onViewDetails(orderId: number): void {
+        console.log('View details of order', orderId);
+    }
+    getSituationClass(situationName: string | undefined): string {
+        switch ((situationName || '').toLowerCase()) {
+            case 'pending':
+                return 'situation-pending';
+            case 'approved':
+                return 'situation-approved';
+            case 'declined':
+                return 'situation-declined';
+            default:
+                return '';
+        }
+    }
 }

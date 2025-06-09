@@ -1,4 +1,12 @@
 <div class="orders-container">
-  <orders-toolbar />
-  <orders-table />
+  <orders-toolbar (createOrder)="onOpenCreateOrderModal()"></orders-toolbar>
+
+  <!-- Pasamos las órdenes como input y capturamos eventos -->
+  <orders-table 
+    [orders]="orders" 
+    (orderSelected)="onOrderSelected($event)" 
+    (deleteOrder)="onDeleteOrder($event)">
+  </orders-table>
+
+  <create-orders-modal></create-orders-modal>
 </div>
