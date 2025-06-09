@@ -10,5 +10,11 @@ export const environment = {
   unitMeasurementsEndpointPath: '/units_measurement',
   restaurantSales: 'sales',
   salesRecipes: 'sales_recipes',
-  salesAdditionalSupplies: 'sales_additional_supplies'
+  salesAdditionalSupplies: 'sales_additional_supplies',
+
+  rolesEndpointPath: '/roles',
+  profilesEndpointPath: '/profiles',
+  businessCategoriesEndpointPath: '/business_categories',
+  profilesBusinessCategoriesEndpointPath: '/profiles_business_categories',
+  restaurantContactsEndpointPath: '/restaurant_contacts'
 };
