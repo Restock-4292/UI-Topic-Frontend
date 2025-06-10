@@ -1,12 +1,24 @@
 <div class="orders-container">
-  <orders-toolbar (createOrder)="onOpenCreateOrderModal()"></orders-toolbar>
+  <orders-toolbar
+    (createOrder)="onOpenCreateOrderModal()"
+    [suppliers]="supplierOptions"
+    (supplierFilterChanged)="onSupplierFilterChanged($event)"
+    (searchChanged)="onSearchChanged($event)"
+  >
+  </orders-toolbar>
 
-  <!-- Pasamos las órdenes como input y capturamos eventos -->
-  <orders-table 
-    [orders]="orders" 
-    (orderSelected)="onOrderSelected($event)" 
-    (deleteOrder)="onDeleteOrder($event)">
+  <orders-table
+    [orders]="filteredOrders"
+    [suppliers]="supplierOptions"
+    (orderSelected)="onOrderSelected($event)"
+    (viewDetails)="openDetails($event)"
+    (deleteOrder)="onDeleteOrder($event)"
+  >
   </orders-table>
 
   <create-orders-modal></create-orders-modal>
+
+  <order-details-modal 
+  [order]="selectedOrder" 
+  />
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,26 +26,31 @@ import { FormsModule } from '@angular/forms';
 })
 export class OrdersToolbarComponent {
   @Output() createOrder = new EventEmitter<void>();
+  @Output() supplierFilterChanged = new EventEmitter<number | null>();
+  @Output() searchChanged = new EventEmitter<string>();
+
+  @Input() suppliers: { id: number; name: string }[] = [];
 
   searchControl = new FormControl('');
   selectedSupply: number | null = null;
   selectedSupplierFilter: number | null = null;
-
+  constructor() {
+    this.searchControl.valueChanges.subscribe(value => {
+      this.searchChanged.emit(value?.trim().toLowerCase() ?? '');
+    });
+  }
   supplies = [
     { id: 1, name: 'Arroz' },
     { id: 2, name: 'Papa' }
   ];
 
-  suppliers = [
-    { id: 1, name: 'Proveedor A' },
-    { id: 2, name: 'Proveedor B' }
-  ];
 
   onCreateOrder(): void {
     this.createOrder.emit();
   }
 
-  onFilterChange(): void {
-    // Lógica opcional si necesitas emitir eventos al cambiar filtros
+  onSupplierChange(value: number | null): void {
+    this.selectedSupplierFilter = value;
+    this.supplierFilterChanged.emit(value);
   }
 }

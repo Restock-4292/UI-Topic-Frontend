@@ -1,4 +1,5 @@
 export class Profile {
+  id: number; 
   name: string;
   lastName: string;
   email: string;
@@ -12,6 +13,7 @@ export class Profile {
   image: string;
 
   constructor() {
+    this.id = 0;
     this.name = 'Elon';
     this.lastName = 'Musk';
     this.email = 'elon@gmail.com';

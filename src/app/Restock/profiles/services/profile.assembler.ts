@@ -3,6 +3,7 @@ import { Profile } from '../model/profile.entity';
 export class ProfileAssembler {
   static fromDto(dto: any): Profile {
     const profile = new Profile();
+    profile.id = dto.id;
     profile.name = dto.name;
     profile.lastName = dto.last_name;
     profile.email = '';

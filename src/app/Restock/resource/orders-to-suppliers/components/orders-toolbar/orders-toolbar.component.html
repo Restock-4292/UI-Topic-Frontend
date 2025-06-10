@@ -27,7 +27,11 @@
 
     <mat-form-field appearance="outline" class="filter-field">
       <mat-label>Filter by Supplier</mat-label>
-      <mat-select [(ngModel)]="selectedSupplierFilter">
+      <mat-select
+        [value]="selectedSupplierFilter"
+        (selectionChange)="onSupplierChange($event.value)"
+      >
+        <mat-option [value]="null">All</mat-option>
         <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">
           {{ supplier.name }}
         </mat-option>

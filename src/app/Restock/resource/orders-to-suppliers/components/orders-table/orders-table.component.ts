@@ -15,8 +15,11 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 })
 export class OrdersTableComponent {
     @Input() orders: OrderToSupplier[] = [];
+    @Input() suppliers: { id: number; name: string }[] = [];
+
     @Output() orderSelected = new EventEmitter<number>();
     @Output() deleteOrder = new EventEmitter<number>();
+    @Output() viewDetails = new EventEmitter<OrderToSupplier>();
 
     displayedColumns: string[] = [
         'situation',
@@ -37,8 +40,12 @@ export class OrdersTableComponent {
         this.deleteOrder.emit(orderId);
     }
 
-    onViewDetails(orderId: number): void {
-        console.log('View details of order', orderId);
+    onViewDetails(order: any): void {
+        this.viewDetails.emit(order);
+    }
+    getSupplierName(supplierId: number): string {
+        const supplier = this.suppliers.find(s => s.id === supplierId);
+        return supplier ? supplier.name : 'Unknown';
     }
     getSituationClass(situationName: string | undefined): string {
         switch ((situationName || '').toLowerCase()) {
