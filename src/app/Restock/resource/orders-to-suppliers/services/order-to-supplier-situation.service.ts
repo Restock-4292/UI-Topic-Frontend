@@ -7,7 +7,7 @@ import { OrderToSupplierSituation } from '../model/order-to-supplier-situation.e
 import { OrderToSupplierSituationAssembler } from './order-to-supplier-situation.assembler';
 
 @Injectable({ providedIn: 'root' })
-export class OrderSituationService extends BaseService<any> {
+export class OrderSituationService extends BaseService<OrderToSupplierSituation> {
   constructor() {
     super();
     this.resourceEndpoint = environment.ordersToSupplierSituationsEndpointPath;

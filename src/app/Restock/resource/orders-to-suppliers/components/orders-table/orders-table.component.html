@@ -28,8 +28,7 @@
   <!-- Requested Products Column -->
   <ng-container matColumnDef="requestedProducts">
     <th mat-header-cell *matHeaderCellDef>N° Requested Products</th>
-    <td mat-cell *matCellDef="let order">0</td>
-    <!-- Puedes reemplazar con la lógica correcta luego -->
+    <td mat-cell *matCellDef="let order">{{ order.supplies?.length }}</td>
   </ng-container>
 
   <!-- Total Price Column -->

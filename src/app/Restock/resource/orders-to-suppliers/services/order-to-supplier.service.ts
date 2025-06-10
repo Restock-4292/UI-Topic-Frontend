@@ -7,28 +7,49 @@ import { OrderToSupplier } from '../model/order-to-supplier.entity';
 import { OrderToSupplierAssembler } from './order-to-supplier.assembler';
 import { OrderStateService } from './order-to-supplier-state.service';
 import { OrderSituationService } from './order-to-supplier-situation.service';
+import { OrderToSupplierSupplyService } from './order-to-supplier-supply.service';
+
+import { SupplyService } from '../../inventory/services/supply.service';
 
 @Injectable({ providedIn: 'root' })
-export class OrderToSupplierService extends BaseService<any> {
+export class OrderToSupplierService extends BaseService<OrderToSupplier> {
     private readonly stateService = inject(OrderStateService);
     private readonly situationService = inject(OrderSituationService);
+    private readonly supplyService = inject(OrderToSupplierSupplyService);
+    private readonly supplyDomainService = inject(SupplyService);
+
     constructor() {
         super();
         this.resourceEndpoint = environment.ordersToSupplierEndpointPath;
     }
     async getAllEnriched(): Promise<OrderToSupplier[]> {
-        const [rawOrders, states, situations] = await Promise.all([
+        const [rawOrders, states, situations, allOrderSupplies, allSupplies] = await Promise.all([
             firstValueFrom(this.getAll()),
             this.stateService.getAllStates(),
             this.situationService.getAllSituations(),
+            this.supplyService.getAllSupplies(),
+            this.supplyDomainService.getAllSuppliesEnriched()
         ]);
 
         return rawOrders.map(raw => {
             const state = states.find(s => s.id === raw.order_to_supplier_state_id);
             const situation = situations.find(s => s.id === raw.order_to_supplier_situation_id);
-            return OrderToSupplierAssembler.toEntity(raw, state, situation);
+
+            const supplies = allOrderSupplies
+                .filter(os => os.order_to_supplier_id === raw.id)
+                .map(os => {
+                    const fullSupply = allSupplies.find(s => s.id === os.supply_id);
+                    return { ...os, supply: fullSupply };
+                });
+
+            return new OrderToSupplier({
+                ...OrderToSupplierAssembler.toEntity(raw, state, situation),
+                supplies,
+            });
         });
     }
+
+
     async getAllOrders(): Promise<OrderToSupplier[]> {
         const rawOrders = await firstValueFrom(this.getAll());
         return rawOrders.map(dto => OrderToSupplierAssembler.toEntity(dto));

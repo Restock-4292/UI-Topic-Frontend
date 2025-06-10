@@ -7,7 +7,7 @@ import { OrderToSupplierSupply } from '../model/order-to-supplier-supply.entity'
 import { OrderToSupplierSupplyAssembler } from './order-to-supplier-supply.assembler';
 
 @Injectable({ providedIn: 'root' })
-export class OrderToSupplierSupplyService extends BaseService<any> {
+export class OrderToSupplierSupplyService extends BaseService<OrderToSupplierSupply> {
   constructor() {
     super();
     this.resourceEndpoint = environment.ordersToSupplierSuppliesEndpointPath;

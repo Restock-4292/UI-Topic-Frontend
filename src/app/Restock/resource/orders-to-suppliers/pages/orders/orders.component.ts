@@ -4,6 +4,9 @@ import { OrdersTableComponent } from '../../components/orders-table/orders-table
 import { CreateOrdersModalComponent } from '../../components/create-orders-modal/create-orders-modal.component';
 import { OrderToSupplierService } from '../../services/order-to-supplier.service';
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
+import { ProfileService } from '../../../../profiles/services/profile.service';
+import { Profile } from '../../../../profiles/model/profile.entity';
+import { UserService } from '../../../../iam/services/user.service';
 
 @Component({
   selector: 'orders',
@@ -13,12 +16,18 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 })
 export class OrdersComponent {
   orders: OrderToSupplier[] = [];
+  providerProfiles: Profile[] = [];
 
   @ViewChild(CreateOrdersModalComponent)
   createOrdersModalComponent!: CreateOrdersModalComponent;
 
-  constructor(private orderService: OrderToSupplierService) {
+  constructor(
+    private orderService: OrderToSupplierService,
+    private userService: UserService,
+    private profileService: ProfileService
+  ) {
     this.loadOrders();
+    this.loadProviderProfiles();
   }
 
   async loadOrders() {
@@ -26,18 +35,28 @@ export class OrdersComponent {
     console.log('Orders loaded:', this.orders);
   }
 
+  async loadProviderProfiles() {
+    try {
+      const providerUserIds = await this.userService.getSupplierUserIds();
+      this.profileService.loadProfilesByUserIds(providerUserIds).subscribe((profiles) => {
+        this.providerProfiles = profiles;
+        console.log('Loaded provider profiles:', this.providerProfiles);
+      });
+    } catch (error) {
+      console.error('Error loading provider profiles:', error);
+    }
+  }
+
   onOpenCreateOrderModal() {
     this.createOrdersModalComponent.openCreateOrderModal();
   }
 
-  // Recibe el evento cuando se selecciona una orden en la tabla
   onOrderSelected(orderId: number): void {
-    // Aquí puedes agregar lógica adicional si es necesario
+    // lógica adicional
   }
 
-  // Recibe el evento para eliminar una orden
   async onDeleteOrder(orderId: number): Promise<void> {
     await this.orderService.deleteOrder(orderId);
-    await this.loadOrders(); // refrescar la lista
+    await this.loadOrders(); // refrescar lista
   }
 }

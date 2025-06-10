@@ -1,6 +1,9 @@
 export const environment = {
   production: true,
   serverBaseUrl: 'http://localhost:3000',
+  usersEndpointPath: '/users',
+  rolesEndpointPath: '/roles',
+  profilesEndpointPath: '/profiles',
   subscriptionsEndpointPath: '/subscriptions',
   suppliersEndpointPath: '/users',
   recipesEndpointPath: '/recipes',
