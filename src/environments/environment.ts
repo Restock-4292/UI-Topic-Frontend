@@ -8,7 +8,11 @@ export const environment = {
   recipeSuppliesEndpointPath: '/recipes_supplies',
   categoriesEndpointPath: '/supply_categories',
   unitMeasurementsEndpointPath: '/units_measurement',
-  restaurantSales: 'sales',
-  salesRecipes: 'sales_recipes',
-  salesAdditionalSupplies: 'sales_additional_supplies'
+  restaurantSales: '/sales',
+  salesRecipes: '/sales_recipes',
+  salesAdditionalSupplies: '/sales_additional_supplies',
+  ordersToSupplierEndpointPath: '/orders_to_supplier',
+  ordersToSupplierStatesEndpointPath: '/orders_to_supplier_states',
+  ordersToSupplierSituationsEndpointPath: '/orders_to_supplier_situations',
+  ordersToSupplierSuppliesEndpointPath: '/orders_to_supplier_supplies',
 };
