@@ -6,12 +6,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {Supply} from '../../model/supply.entity';
 import {MatDialogRef} from '@angular/material/dialog';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-batch-to-inventory',
   standalone: true,
   templateUrl: './add-batch-to-inventory.component.html',
-  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule]
+  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule, TranslatePipe]
 })
 /**
  * Component for adding a batch to the inventory.

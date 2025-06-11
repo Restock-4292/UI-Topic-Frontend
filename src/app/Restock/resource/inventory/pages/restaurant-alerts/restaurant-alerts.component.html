@@ -1,9 +1,9 @@
 <mat-card class="toolbar-card">
   <div class="toolbar">
-    <h2 class="title">Registered alerts</h2>
+    <h2 class="title">{{ 'inventory.registeredAlerts' | translate }}</h2>
 
     <div class="filter">
-      <label class="filter-label">Filter by:</label>
+      <label class="filter-label">{{ 'inventory.filterBy' | translate }}</label>
       <mat-select [(ngModel)]="filter" class="filter-select">
         @for (option of filterOptions; track option) {
           <mat-option [value]="option">{{ option }}</mat-option>
@@ -16,10 +16,10 @@
 <table class="alert-table">
   <thead>
   <tr>
-    <th>Ingredients</th>
-    <th>Location</th>
-    <th>Status</th>
-    <th>Last update</th>
+    <th>{{ 'inventory.ingredients' | translate }}</th>
+    <th>{{ 'inventory.location' | translate }}</th>
+    <th>{{ 'inventory.status' | translate }}</th>
+    <th>{{ 'inventory.lastUpdate' | translate }}</th>
   </tr>
   </thead>
   <tbody>

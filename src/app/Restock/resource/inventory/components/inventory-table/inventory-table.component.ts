@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {MatCard} from '@angular/material/card';
 import {Batch} from '../../model/batch.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-inventory-table',
@@ -33,7 +34,8 @@ import {Batch} from '../../model/batch.entity';
     MatIconModule,
     MatSlideToggleModule,
     FormsModule,
-    MatCard
+    MatCard,
+    TranslatePipe
   ],
   templateUrl: './inventory-table.component.html',
   styleUrls: ['./inventory-table.component.css']
