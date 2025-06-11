@@ -1,0 +1,22 @@
+<ng-template #orderDetailsTemplate>
+  <div class="order-modal-container">
+    <h2 mat-dialog-title>Order Details</h2>
+    <mat-dialog-content>
+      <p><strong>State:</strong> {{ order.state?.name }}</p>
+      <p><strong>Situation:</strong> {{ order.situation?.name }}</p>
+      <p><strong>Ship Date:</strong> {{ order.date | date : "dd/MM/yyyy" }}</p>
+      <p><strong>Supplier:</strong> sup</p>
+
+      <h3>Supplies</h3>
+      <ul>
+        <li *ngFor="let supply of order?.supplies">
+          test
+        </li>
+      </ul>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="close()">Close</button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>

@@ -1,0 +1,50 @@
+<!-- Top actions: search, filters and create -->
+<div class="custom-toolbar">
+  <div class="toolbar-left">
+    <span class="title">Orders</span>
+  </div>
+
+  <div class="toolbar-center">
+    <div class="search-container">
+      <mat-icon>search</mat-icon>
+      <input
+        matInput
+        [formControl]="searchControl"
+        placeholder="Search orders"
+      />
+    </div>
+  </div>
+
+  <div class="toolbar-right">
+    <!-- <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Filter by Supply</mat-label>
+      <mat-select [(ngModel)]="selectedSupply">
+        <mat-option *ngFor="let supply of supplies" [value]="supply.id">
+          {{ supply.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Filter by Supplier</mat-label>
+      <mat-select
+        [value]="selectedSupplierFilter"
+        (selectionChange)="onSupplierChange($event.value)"
+      >
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">
+          {{ supplier.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      class="custom-green-button"
+      (click)="onCreateOrder()"
+    >
+      CREATE
+      <mat-icon>add_circle</mat-icon>
+    </button>
+  </div>
+</div>

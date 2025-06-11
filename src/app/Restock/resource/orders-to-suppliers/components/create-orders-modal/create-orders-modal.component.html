@@ -1,0 +1,118 @@
+<ng-template #createOrderModal>
+  <div class="order-modal-container">
+    <h2 mat-dialog-title>Create Order</h2>
+
+    <mat-dialog-content>
+      <mat-tab-group [(selectedIndex)]="tabIndex">
+        <!-- Paso 1 -->
+        <mat-tab label="Select Supply">
+          <mat-form-field appearance="fill" class="supply-select">
+            <mat-label>Supply</mat-label>
+            <mat-select
+              [(ngModel)]="selectedSupply"
+              (selectionChange)="onSupplyChange()"
+            >
+              <mat-option *ngFor="let supply of providerSupplies" [value]="supply">{{
+                supply.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div *ngIf="selectedSupply">
+            <div class="sort-section">
+              <span>Order by Price</span>
+              <button mat-icon-button (click)="toggleSortOrder()">
+                <mat-icon>swap_vert</mat-icon>
+              </button>
+            </div>
+
+            <table
+              mat-table
+              [dataSource]="filteredSuppliers"
+              class="mat-elevation-z1 full-width"
+            >
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Supplier</th>
+                <td mat-cell *matCellDef="let el">{{ el.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef>Price</th>
+                <td mat-cell *matCellDef="let el">S/ {{ el.price }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="available">
+                <th mat-header-cell *matHeaderCellDef>Available</th>
+                <td mat-cell *matCellDef="let el">{{ el.available }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>Select</th>
+                <td mat-cell *matCellDef="let el">
+                  <mat-checkbox [(ngModel)]="el.selected" [disabled]="el.disabled"></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="['name', 'price', 'available', 'select']"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let row;
+                  columns: ['name', 'price', 'available', 'select']
+                "
+              ></tr>
+            </table>
+          </div>
+
+          <div class="modal-actions">
+            <button mat-flat-button color="warn" (click)="closeModal()">
+              CANCEL
+            </button>
+            <button
+              mat-flat-button
+              color="accent"
+              (click)="nextTab()"
+              [disabled]="!hasSelection()"
+            >
+              NEXT
+            </button>
+          </div>
+        </mat-tab>
+
+        <!-- Paso 2 -->
+        <mat-tab label="Confirm Order">
+          <div *ngIf="fullOrder.length === 0 && currentSelections.length === 0">
+            No suppliers selected.
+          </div>
+
+          <div *ngFor="let s of fullOrder.concat(currentSelections)">
+            <strong>{{ s.supplyName }}</strong> - {{ s.name }}:
+            <input
+              type="number"
+              [(ngModel)]="s.quantity"
+              min="1"
+              style="width: 60px"
+            />
+            units S/ {{ s.price }}
+          </div>
+
+          <p>
+            <strong>Total: S/ {{ getTotal() }}</strong>
+          </p>
+
+          <div class="modal-actions">
+            <button mat-flat-button color="primary" (click)="onCreateOrder()">
+              PLACE ORDER
+            </button>
+            <button mat-stroked-button color="accent" (click)="addMoreSupply()">
+              ADD MORE
+            </button>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-dialog-content>
+  </div>
+</ng-template>

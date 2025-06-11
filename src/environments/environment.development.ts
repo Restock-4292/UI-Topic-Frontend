@@ -1,6 +1,9 @@
 export const environment = {
   production: false,
-  serverBaseUrl: 'http://localhost:3000',
+   serverBaseUrl: 'http://localhost:3000',
+  usersEndpointPath: '/users',
+  rolesEndpointPath: '/roles',
+  profilesEndpointPath: '/profiles',
   subscriptionsEndpointPath: '/subscriptions',
   suppliersEndpointPath: '/users',
   recipesEndpointPath: '/recipes',
@@ -12,9 +15,10 @@ export const environment = {
   restaurantSales: 'sales',
   salesRecipes: 'sales_recipes',
   salesAdditionalSupplies: 'sales_additional_supplies',
-
-  rolesEndpointPath: '/roles',
-  profilesEndpointPath: '/profiles',
+  ordersToSupplierEndpointPath: '/orders_to_supplier',
+  ordersToSupplierStatesEndpointPath: '/orders_to_supplier_states',
+  ordersToSupplierSituationsEndpointPath: '/orders_to_supplier_situations',
+  ordersToSupplierSuppliesEndpointPath: '/orders_to_supplier_supplies',
   businessCategoriesEndpointPath: '/business_categories',
   profilesBusinessCategoriesEndpointPath: '/profiles_business_categories',
   restaurantContactsEndpointPath: '/restaurant_contacts'

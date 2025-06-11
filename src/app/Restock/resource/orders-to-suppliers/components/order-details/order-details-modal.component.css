@@ -1,0 +1,17 @@
+mat-dialog-content {
+  font-size: 14px;
+  color: #333;
+}
+
+h3 {
+  margin-top: 1em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 4px 0;
+}
