@@ -4,12 +4,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {mockRestaurantAlerts} from '../../../../../shared/mocks/alerts.mock';
 import {MatCardModule} from '@angular/material/card';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-restaurant-alerts',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, FormsModule, MatCardModule],
+  imports: [CommonModule, MatSelectModule, FormsModule, MatCardModule, TranslatePipe],
   templateUrl: './restaurant-alerts.component.html',
   styleUrls: ['./restaurant-alerts.component.css']
 })

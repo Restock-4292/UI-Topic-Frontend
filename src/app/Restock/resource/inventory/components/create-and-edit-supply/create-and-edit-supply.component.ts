@@ -3,12 +3,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { CreateAndEditFormComponent, FormFieldSchema } from '../../../../../shared/components/create-and-edit-form/create-and-edit-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-and-edit-supply',
   standalone: true,
   templateUrl: './create-and-edit-supply.component.html',
-  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule]
+  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule, TranslatePipe]
 })
 export class CreateAndEditSupplyComponent implements OnInit {
   form: any = {};
