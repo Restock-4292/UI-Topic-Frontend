@@ -1,4 +1,4 @@
-import { Component, Inject, Injector } from '@angular/core';
+import {AfterViewInit, Component, ComponentRef, Inject, Injector, ViewChild, ViewContainerRef} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { NgComponentOutlet, CommonModule } from '@angular/common';
@@ -12,13 +12,28 @@ import {MatButtonModule, MatIconButton} from '@angular/material/button';
   imports: [
     CommonModule,
     MatIconModule,
-    NgComponentOutlet,
     MatIconButton,
     MatButtonModule
   ]
 })
-export class BaseModalComponent {
+/**
+ * BaseModalComponent is a generic modal component that can be used to display
+ * any content component passed to it.
+ * It uses Angular's ViewContainerRef to dynamically create
+ * the content component inside the modal.
+ */
+export class BaseModalComponent implements AfterViewInit {
+  /**
+   * Injector instance to provide dependencies to the content component.
+   */
   injectorInstance: Injector;
+  /**
+   * ViewContainerRef to dynamically create the content component.
+   * This allows the modal to host any component
+   * passed to it via the `data` property.
+   */
+  @ViewChild('container', { read: ViewContainerRef }) containerRef!: ViewContainerRef;
+  contentComponentRef?: ComponentRef<any>;
 
   constructor(
     public dialogRef: MatDialogRef<BaseModalComponent>,
@@ -32,7 +47,6 @@ export class BaseModalComponent {
       mode?: 'create' | 'edit';
     }
   ) {
-    // Crear el Injector una sola vez para evitar recreaciones infinitas
     this.injectorInstance = Injector.create({
       providers: [
         { provide: 'schema', useValue: data.schema },
@@ -41,6 +55,18 @@ export class BaseModalComponent {
       ],
       parent: this.injector
     });
+  }
+
+  /**
+   * Lifecycle hook that is called after the view has been initialized.
+   * This is where the content component is dynamically created
+   * and inserted into the modal.
+   */
+  ngAfterViewInit(): void {
+    this.contentComponentRef = this.containerRef.createComponent(
+      this.data.contentComponent,
+      { injector: this.injectorInstance }
+    );
   }
 
   close(): void {
