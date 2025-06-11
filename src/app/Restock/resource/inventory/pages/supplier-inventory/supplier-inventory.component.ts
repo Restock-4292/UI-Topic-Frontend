@@ -94,7 +94,7 @@ export class SupplierInventory implements OnInit {
       label: s.description
     }));
 
-    return [
+    const schema: FormFieldSchema[] = [
       {
         name: 'supply_id',
         label: 'Supply',
@@ -107,14 +107,23 @@ export class SupplierInventory implements OnInit {
         label: 'Stock',
         type: 'number',
         placeholder: 'Enter stock'
-      },
-      {
-        name: 'expiration_date',
-        label: 'Expiration Date',
-        type: 'date',
-        placeholder: 'Select expiration date'
       }
-    ];  }
+    ];
+
+    if (selectedSupplyId) {
+      const selected = this.supplies.find(s => s.id === selectedSupplyId);
+      if (selected?.perishable) {
+        schema.push({
+          name: 'expiration_date',
+          label: 'Expiration Date',
+          type: 'date',
+          placeholder: 'Select expiration date'
+        });
+      }
+    }
+
+    return schema;
+  }
 
   async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
@@ -219,7 +228,7 @@ export class SupplierInventory implements OnInit {
 
 
   openAddSupplyToInventory(): void {
-    this.modalService.open({
+    const dialogRef = this.modalService.open({
       title: 'Add to Inventory',
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(),
@@ -228,7 +237,25 @@ export class SupplierInventory implements OnInit {
       injectorValues: {
         supplies: this.supplies
       }
-    }).afterClosed().subscribe(async result => {
+    });
+
+    const instance = dialogRef.componentInstance.contentComponentRef?.instance as AddBatchToInventoryComponent | undefined;
+    instance?.supplyChange.subscribe((supplyId: number) => {
+      instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+      instance.updateSchema();
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      const instance = dialogRef.componentInstance
+        .contentComponentRef?.instance as
+        AddBatchToInventoryComponent | undefined;
+      instance?.supplyChange.subscribe((supplyId: number) => {
+        instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+        instance.updateSchema();
+      });
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const selectedSupply = this.supplies.find(s => s.id === result.supply_id);
 

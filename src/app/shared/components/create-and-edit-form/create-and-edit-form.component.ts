@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Inject, NgZone,
-  OnInit,
+  Inject, Input, NgZone,
+  OnInit, Optional,
   Output
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
@@ -47,18 +47,60 @@ export interface FormFieldSchema {
   styleUrls: ['./create-and-edit-form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+/**
+ * Component for creating and editing forms.
+ * This component dynamically generates a form based on the provided schema,
+ * allowing users to create or edit data entries.
+ */
 export class CreateAndEditFormComponent implements OnInit {
   form: any = {};
+  /**
+   * Event emitter for form submission.
+   */
   @Output() submit = new EventEmitter<any>();
+  /**
+   * Schema for the form fields.
+   */
+  @Input() schema: FormFieldSchema[] | null = null;
+  /**
+   * Initial data for the form.
+   */
+  @Input() initialData: any = null;
+  /**
+   * Mode of the form, either 'create' or 'edit'.
+   */
+  @Input() mode: 'create' | 'edit' | null = null;
 
+  /**
+   * Constructor for CreateAndEditFormComponent.
+   * @param injectedSchema
+   * @param injectedInitialData
+   * @param injectedMode
+   * @param cdr
+   */
   constructor(
-    @Inject('schema') public schema: FormFieldSchema[],
-    @Inject('initialData') public initialData: any,
-    @Inject('mode') public mode: 'create' | 'edit',
+    @Optional() @Inject('schema') private injectedSchema: FormFieldSchema[] | null,
+    @Optional() @Inject('initialData') private injectedInitialData: any,
+    @Optional() @Inject('mode') private injectedMode: 'create' | 'edit' | null,
     private cdr: ChangeDetectorRef,
   ) {}
 
+  /**
+   * Lifecycle hook that is called after the component has been initialized.
+   */
   ngOnInit(): void {
+    if (!this.schema) {
+      this.schema = this.injectedSchema ?? [];
+    }
+
+    if (this.mode === null) {
+      this.mode = this.injectedMode ?? 'create';
+    }
+
+    if (this.initialData === null) {
+      this.initialData = this.injectedInitialData ?? {};
+    }
+
     this.form = {};
 
     if (this.initialData) {
