@@ -12,7 +12,7 @@
               [(ngModel)]="selectedSupply"
               (selectionChange)="onSupplyChange()"
             >
-              <mat-option *ngFor="let supply of supplies" [value]="supply">{{
+              <mat-option *ngFor="let supply of providerSupplies" [value]="supply">{{
                 supply.name
               }}</mat-option>
             </mat-select>

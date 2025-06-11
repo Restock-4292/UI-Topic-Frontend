@@ -16,9 +16,10 @@
   >
   </orders-table>
 
-  <create-orders-modal></create-orders-modal>
+  <create-orders-modal
+    [providerSupplies]="providerSupplies"
+    [providerProfiles]="providerProfiles"
+  ></create-orders-modal>
 
-  <order-details-modal 
-  [order]="selectedOrder" 
-  />
+  <order-details-modal [order]="selectedOrder" />
 </div>

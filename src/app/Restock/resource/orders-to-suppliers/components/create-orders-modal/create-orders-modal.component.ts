@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -32,17 +32,14 @@ import { FormsModule } from '@angular/forms';
         MatTabsModule],
 })
 export class CreateOrdersModalComponent {
+    @Input() providerSupplies: any[] = [];
+    @Input() providerProfiles: any[] = [];
+
     @ViewChild('createOrderModal') createOrderModalRef!: TemplateRef<any>;
 
     // Tabs y selección actual
     tabIndex = 0;
     selectedSupply: any = null;
-
-    // Datos simulados
-    supplies = [
-        { id: 1, name: 'Arroz' },
-        { id: 2, name: 'Papa' },
-    ];
 
     // Datos de proveedores filtrados por insumo
     filteredSuppliers: any[] = [];
@@ -71,34 +68,33 @@ export class CreateOrdersModalComponent {
         this.dialog.closeAll();
     }
 
-    // Paso 1: Seleccionar insumo y proveedores
     onSupplyChange(): void {
         if (!this.selectedSupply) {
             this.filteredSuppliers = [];
             return;
         }
 
-        // Buscar proveedores ya seleccionados para este insumo
-        const alreadySelected = this.fullOrder
-            .filter(o => o.supplyId === this.selectedSupply.id)
-            .map(o => o.supplierId);
+        const supplyId = this.selectedSupply.id;
 
-        // Simula carga de proveedores desde API y desactiva los ya seleccionados
-        this.filteredSuppliers = [
-            { supplierId: 1, name: 'Proveedor A', price: 3.5, available: 100 },
-            { supplierId: 2, name: 'Proveedor B', price: 3.8, available: 50 }
-        ].map(s => {
+        const matchingProviders = this.providerSupplies.filter(p => String(p.id) === String(supplyId));
+
+        this.filteredSuppliers = matchingProviders.map(s => {
             const already = this.fullOrder.find(o =>
-                o.supplierId === s.supplierId && o.supplyId === this.selectedSupply.id
+                o.supplierId === s.supplierId && o.id === supplyId
             );
+
+            const profile = this.providerProfiles.find(p => p.id === s.id);
+
             return {
                 ...s,
                 selected: !!already,
-                disabled: !!already
+                disabled: !!already,
+                name: `${profile?.name || ''} ${profile?.lastName || ''}`.trim(),
             };
         });
 
     }
+
 
     toggleSortOrder(): void {
         this.sortAsc = !this.sortAsc;

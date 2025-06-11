@@ -7,9 +7,9 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 import { ProfileService } from '../../../../profiles/services/profile.service';
 import { Profile } from '../../../../profiles/model/profile.entity';
 import { UserService } from '../../../../iam/services/user.service';
-import { MatDialog } from '@angular/material/dialog';
 import { OrderDetailsModalComponent } from '../../components/order-details/order-details-modal.component';
-
+import { SupplyService } from '../../../inventory/services/supply.service';
+import { Supply } from '../../../inventory/model/supply.entity';
 
 @Component({
   selector: 'orders',
@@ -30,6 +30,7 @@ export class OrdersComponent implements OnInit {
   supplierOptions: { id: number; name: string }[] = [];
   searchTerm: string = '';
   selectedSupplierId: number | null = null;
+  providerSupplies: Supply[] = [];
 
   @ViewChild(CreateOrdersModalComponent)
   createOrdersModalComponent!: CreateOrdersModalComponent;
@@ -41,7 +42,7 @@ export class OrdersComponent implements OnInit {
     private orderService: OrderToSupplierService,
     private userService: UserService,
     private profileService: ProfileService,
-    private dialog: MatDialog
+    private supplyService: SupplyService,
   ) { }
 
   async ngOnInit() {
@@ -51,13 +52,14 @@ export class OrdersComponent implements OnInit {
 
   async loadOrders() {
     this.orders = await this.orderService.getAllEnriched();
-    this.filteredOrders = [...this.orders]; // Inicializa con todas
+    this.filteredOrders = [...this.orders];
     console.log('Orders loaded:', this.orders);
   }
 
   async loadProviderProfiles() {
     try {
       const providerUserIds = await this.userService.getSupplierUserIds();
+
       this.profileService.loadProfilesByUserIds(providerUserIds).subscribe((profiles) => {
         this.providerProfiles = profiles;
         this.supplierOptions = profiles.map(profile => ({
@@ -66,11 +68,15 @@ export class OrdersComponent implements OnInit {
         }));
         console.log('Loaded provider profiles:', this.providerProfiles);
       });
+
+      const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
+      console.log('Enriched supplies from providers:', enrichedSupplies);
+      this.providerSupplies = enrichedSupplies;
+
     } catch (error) {
-      console.error('Error loading provider profiles:', error);
+      console.error('Error loading provider profiles or supplies:', error);
     }
   }
-
   async onDeleteOrder(orderId: number): Promise<void> {
     await this.orderService.deleteOrder(orderId);
     await this.loadOrders();
