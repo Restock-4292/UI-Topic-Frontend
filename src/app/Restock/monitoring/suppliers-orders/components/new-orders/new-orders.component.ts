@@ -4,7 +4,6 @@ import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {FilterSectionComponent} from '../filter-section/filter-section.component';
 import {MatIcon} from '@angular/material/icon';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTabsModule} from '@angular/material/tabs';
 import {CurrencyPipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatOption} from '@angular/material/core';
@@ -12,13 +11,8 @@ import {MatSelect} from '@angular/material/select';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {ManageNewOrdersComponent} from '../manage-new-orders/manage-new-orders.component';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
-import {Profile} from '../../../../profiles/model/profile.entity';
-import {OrderToSupplierSupply} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-supply.entity';
-import {Batch} from '../../../../resource/inventory/model/batch.entity';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
-import {
-  OrderToSupplierSituation
-} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
+import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 
 @Component({
   selector: 'app-new-orders',
@@ -45,7 +39,7 @@ export class NewOrdersComponent {
   @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
 
   @Input() orderSuppliesDetails: { orderId: number; supplies: Supply[] }[] = [];
-  @Input() suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierSupply[] }[] = [];
+  @Input() suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierBatch[] }[] = [];
 
 
   displayedColumns: string[] = ['orderDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];

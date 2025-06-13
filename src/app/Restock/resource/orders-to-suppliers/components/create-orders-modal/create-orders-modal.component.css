@@ -48,3 +48,18 @@
   display: flex;
   justify-content: space-around;
 }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+ padding: 1rem;
+}
+
+.supply-card {
+  height: 100%;
+   background-color:rgb(240, 237, 237);
+}
+
+.quantity-field {
+  width: 100%;
+}

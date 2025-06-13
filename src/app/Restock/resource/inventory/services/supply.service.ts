@@ -6,12 +6,14 @@ import { SupplyAssembler } from './supply.assembler';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { CategoryService } from './category.service';
 import { UnitMeasurementService } from './unit-measurement.service';
+import { BatchService } from './batch.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
 
   private readonly categoryService = inject(CategoryService);
   private readonly unitService = inject(UnitMeasurementService);
+  private readonly batchService = inject(BatchService);
 
   constructor() {
     super();
@@ -33,21 +35,33 @@ export class SupplyService extends BaseService<any> {
   }
 
   async getSuppliesEnrichedByUserIds(userIds: number[]): Promise<Supply[]> {
-    const [rawSupplies, categories, units] = await Promise.all([
+    const [rawSupplies, categories, units, rawBatches] = await Promise.all([
       firstValueFrom(super.getAll()),
       this.categoryService.getAllCategories(),
-      this.unitService.getAllUnitMeasurements()
+      this.unitService.getAllUnitMeasurements(),
+      firstValueFrom(this.batchService.getAll())
     ]);
 
     const filteredSupplies = rawSupplies.filter(supply =>
       userIds.includes(supply.user_id)
     );
+
     return filteredSupplies.map(raw => {
       const category = categories.find(c => c.id === raw.category_id);
       const unit = units.find(u => u.id === raw.unit_measurement_id);
-      return Supply.fromPersistence(raw, category, unit);
+
+      const supply = Supply.fromPersistence(raw, category, unit);
+
+      const relatedBatches = rawBatches.filter(
+        b => b.supply_id === raw.id && b.user_id === raw.user_id
+      );
+
+      (supply as any).batches = relatedBatches;
+
+      return supply;
     });
   }
+
 
   async getSupplyById(id: number): Promise<Supply> {
     const response$ = super.getById(id);

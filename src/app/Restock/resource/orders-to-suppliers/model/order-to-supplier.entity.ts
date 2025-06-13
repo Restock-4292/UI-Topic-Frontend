@@ -1,5 +1,6 @@
 import { OrderToSupplierState } from './order-to-supplier-state.entity';
 import { OrderToSupplierSituation } from './order-to-supplier-situation.entity';
+import { OrderToSupplierBatch } from './order-to-supplier-batch.entity';
 
 export class OrderToSupplier {
   id: number;
@@ -13,6 +14,7 @@ export class OrderToSupplier {
   partially_accepted: boolean;
   state?: OrderToSupplierState;
   situation?: OrderToSupplierSituation;
+  supplies?: OrderToSupplierBatch[];
 
   constructor(data: Partial<OrderToSupplier> = {}) {
     this.id = data.id || 0;
@@ -24,8 +26,8 @@ export class OrderToSupplier {
     this.total_price = data.total_price || 0;
     this.requested_products_count = data.requested_products_count || 0;
     this.partially_accepted = data.partially_accepted || false;
-
     this.state = data.state;
     this.situation = data.situation;
+    this.supplies = data.supplies || [];
   }
 }

@@ -1,18 +1,23 @@
 import { BaseService } from '../../../../shared/services/base.service';
 import { Batch } from '../model/batch.entity';
 import { BatchAssembler } from './batch.assembler';
-import {inject, Injectable} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import {environment} from '../../../../../environments/environment.development';
-import {SupplyService} from './supply.service';
+import { environment } from '../../../../../environments/environment.development';
+import { SupplyService } from './supply.service';
 
 @Injectable({ providedIn: 'root' })
 export class BatchService extends BaseService<Batch> {
-  private readonly supplyService = inject(SupplyService);
+  private readonly injector: Injector;
 
-  constructor() {
+  constructor(injector: Injector) {
     super();
     this.resourceEndpoint = environment.batchesEndpointPath;
+    this.injector = injector;
+  }
+
+  private get supplyService(): SupplyService {
+    return this.injector.get(SupplyService);
   }
 
   async getAllBatchesWithSupplies(): Promise<Batch[]> {
@@ -45,4 +50,3 @@ export class BatchService extends BaseService<Batch> {
     return BatchAssembler.toEntity(updated);
   }
 }
-

@@ -192,7 +192,7 @@ export class SupplierInventory implements OnInit {
       supply_id: batch.supply_id,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
-      inventory_id: batch.inventory_id
+      user_id: batch.user_id
     };
 
 
@@ -207,7 +207,8 @@ export class SupplierInventory implements OnInit {
       }
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const updated = Batch.fromForm(result, batch.inventory_id);
+        //User ID is not needed in the form, it will be set by the service
+        const updated = Batch.fromForm(result, 1);
         await this.batchService.updateBatch(batch.id, updated);
         await this.loadBatches();
       }

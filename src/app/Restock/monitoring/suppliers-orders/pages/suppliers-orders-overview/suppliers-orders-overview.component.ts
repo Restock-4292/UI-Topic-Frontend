@@ -5,15 +5,15 @@ import {ApprovedOrdersComponent} from '../../components/approved-orders/approved
 import {DeliveredOrdersComponent} from '../../components/delivered-orders/delivered-orders.component';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {Profile} from '../../../../profiles/model/profile.entity';
-import {OrderToSupplierSupply} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-supply.entity';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier.service';
-import {
-  OrderToSupplierSupplyService
-} from '../../../../resource/orders-to-suppliers/services/order-to-supplier-supply.service';
 import {BatchService} from '../../../../resource/inventory/services/batch.service';
 import {UserService} from '../../../../iam/services/user.service';
 import {ProfileService} from '../../../../profiles/services/profile.service';
+import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
+import {
+  OrderToSupplierBatchService
+} from '../../../../resource/orders-to-suppliers/services/order-to-supplier-batch.service';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -33,11 +33,11 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
   restaurantNameMap: { [orderId: number]: string } = {};
   detailedSuppliesGroupedByOrder: { orderId: number; supplies: Supply[] }[] = [];
-  suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierSupply[] }[] = [];
+  suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierBatch[] }[] = [];
 
   constructor(
     private orderService: OrderToSupplierService,
-    private orderToSupplierSupplyService: OrderToSupplierSupplyService,
+    private orderToSupplierBatchService: OrderToSupplierBatchService,
     private batchService: BatchService,
     private userService: UserService,
     private profileService: ProfileService,
@@ -82,7 +82,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
       const result = await Promise.all(
         this.orders.map(async (order) => {
-          const orderSupplies = await this.orderToSupplierSupplyService.getSupplyByOrder(order.id);
+          const orderSupplies = await this.orderToSupplierBatchService.getSupplyByOrder(order.id);
 
           // supplyGroupedByOrder: directamente la lista original
           const supplyGroup = {
