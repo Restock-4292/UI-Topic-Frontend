@@ -8,13 +8,17 @@ import { OrderToSupplierAssembler } from './order-to-supplier.assembler';
 import { OrderStateService } from './order-to-supplier-state.service';
 import { OrderSituationService } from './order-to-supplier-situation.service';
 
+
+const ordersToSupplierResourceEndpointPath = environment.ordersToSupplierEndpointPath;
+
 @Injectable({ providedIn: 'root' })
 export class OrderToSupplierService extends BaseService<OrderToSupplier> {
   private readonly stateService = inject(OrderStateService);
   private readonly situationService = inject(OrderSituationService);
+
   constructor() {
     super();
-    this.resourceEndpoint = environment.ordersToSupplierEndpointPath;
+    this.resourceEndpoint = ordersToSupplierResourceEndpointPath;
   }
   async getAllEnriched(): Promise<OrderToSupplier[]> {
     const [rawOrders, states, situations] = await Promise.all([
