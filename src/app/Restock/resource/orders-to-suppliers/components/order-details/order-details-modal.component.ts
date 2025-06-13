@@ -11,7 +11,7 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, NgForOf],
   templateUrl: './order-details-modal.component.html',
-  styleUrls: ['./order-details-modal.component.css']
+  styleUrl: './order-details-modal.component.css'
 })
 export class OrderDetailsModalComponent {
   @Input() order!: OrderToSupplier;
