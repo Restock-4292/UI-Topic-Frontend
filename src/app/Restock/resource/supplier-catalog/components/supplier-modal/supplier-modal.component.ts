@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
+  EventEmitter, OnDestroy, OnInit,
   Output,
   ViewChild
 } from '@angular/core';
@@ -30,7 +30,6 @@ import {
   MatButton,
   MatIconButton
 } from '@angular/material/button';
-import {Supplier} from '../../model/supplier.entity';
 import {SupplierService} from '../../services/supplier.service';
 
 @Component({
@@ -58,14 +57,17 @@ import {SupplierService} from '../../services/supplier.service';
     MatPrefix
   ]
 })
-export class SupplierModalComponent implements AfterViewInit {
+export class SupplierModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  dataSource = new MatTableDataSource<any>([]);
+  suppliers: any[] = [];
+  filteredSuppliers: any[] = [];
+
   displayedColumns: string[] = ['name', 'email', 'address', 'catalog'];
   mobileColumns: string[] = ['name', 'email', 'catalog'];
-  dataSource = new MatTableDataSource<Supplier>([]);
-  suppliers: Supplier[] = [];
+  isMobile = false;
 
   constructor(
     private router: Router,
@@ -73,55 +75,14 @@ export class SupplierModalComponent implements AfterViewInit {
   ) {
   }
 
-  loadSuppliers(): void {
-    this.supplierService.getAllSuppliers().subscribe({
-      next: (users: any[]) => {
-        this.suppliers = users
-          .filter(u => u.role_id?.name === 'supplier')
-          .map(u => ({
-            id: u.id,
-            name: u.name,
-            email: u.email,
-            address: u.address || '-',
-            ruc: '',
-            category: '',
-            status: true,
-            registrationDate: '',
-            lastUpdate: '',
-            phone: '',
-            contactPerson: '',
-            position: '',
-            added: false
-          }));
-        this.dataSource = new MatTableDataSource(this.suppliers);
-        this.dataSource.paginator = this.paginator;
-      },
-      error: err => console.error('Failed to load users:', err)
-    });
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  applyFilter(event: Event): void {
-    this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
-  }
-
-  goToDetail(id: number): void {
-    this.router.navigate(['/dashboard/restaurant/suppliers', id]);
-  }
-
-  closeModal(): void {
-    this.close.emit();
-  }
-
-  isMobile = false;
-
   ngOnInit(): void {
     this.checkViewport();
     window.addEventListener('resize', this.checkViewport.bind(this));
     this.loadSuppliers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
@@ -134,5 +95,33 @@ export class SupplierModalComponent implements AfterViewInit {
 
   getColumns(): string[] {
     return this.isMobile ? this.mobileColumns : this.displayedColumns;
+  }
+
+  loadSuppliers(): void {
+    this.supplierService.getAllSuppliers().subscribe({
+      next: (suppliers) => {
+        this.suppliers = suppliers;
+        this.filteredSuppliers = [...suppliers];
+        this.dataSource = new MatTableDataSource(this.filteredSuppliers);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: err => console.error('Failed to load suppliers:', err)
+    });
+  }
+
+  applyFilter(event: Event): void {
+    const query = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filteredSuppliers = this.suppliers.filter(s =>
+      (s.name || '').toLowerCase().includes(query)
+    );
+    this.dataSource.data = this.filteredSuppliers;
+  }
+
+  goToDetail(id: number): void {
+    this.router.navigate(['/dashboard/restaurant/suppliers', id]);
+  }
+
+  closeModal(): void {
+    this.close.emit();
   }
 }

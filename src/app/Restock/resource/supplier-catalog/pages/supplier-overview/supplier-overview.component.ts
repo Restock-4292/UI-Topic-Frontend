@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 import {MatPaginator} from '@angular/material/paginator';
 import {
   MatCell, MatCellDef,
@@ -22,12 +21,13 @@ import {MatIcon} from '@angular/material/icon';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {firstValueFrom} from 'rxjs';
+import { RestaurantContactService } from '../../services/restaurant-contact.service';
 
 interface Supplier {
   id: number;
   name: string;
   email: string;
-  category: string;
+  categories: string[];
   status?: boolean;
   added?: boolean;
 }
@@ -83,7 +83,7 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit, OnDestr
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private restaurantContactService: RestaurantContactService
   ) {
   }
 
@@ -103,33 +103,20 @@ export class SupplierOverviewComponent implements OnInit, AfterViewInit, OnDestr
 
   async loadSuppliers(): Promise<void> {
     try {
-      const links = await firstValueFrom(
-        this.http.get<any[]>(`${this.API_URL}/restaurant_suppliers?restaurant_id=${this.RESTAURANT_ID}`)
-      );
-      const supplierPromises = links.map(link =>
-        firstValueFrom(this.http.get<any>(`${this.API_URL}/users/${link.supplier_id}`))
-      );
-
-      const supplierData = await Promise.all(supplierPromises);
-
-      this.suppliers = supplierData.map(s => ({
-        id: s.id,
-        name: s.name,
-        email: s.email,
-        category: s.category || 'Uncategorized',
-        status: s.status ?? true,
-        added: true
+      const restaurantId = this.RESTAURANT_ID;
+      const suppliers = await firstValueFrom(this.restaurantContactService.getRestaurantSuppliers(restaurantId));
+      this.suppliers = suppliers.map(s => ({
+        ...s,
+        category: Array.isArray(s.categories) ? s.categories.join(', ') : s.category
       }));
-
-      this.categories = [...new Set(this.suppliers.map(s => s.category))];
+      this.categories = [...new Set(this.suppliers.flatMap(s => s.categories || []))];
       this.dataSource.data = this.suppliers;
       this.dataSource.filterPredicate = (data: Supplier, _: string): boolean => {
         const matchesText = data.name.toLowerCase().includes(this.searchText.toLowerCase());
-        const matchesCategory = this.selectedCategory ? data.category === this.selectedCategory : true;
+        const matchesCategory = this.selectedCategory ? data.categories.includes(this.selectedCategory) : true;
         const matchesStatus = this.onlyActive ? data.status === true : true;
         return matchesText && matchesCategory && matchesStatus;
       };
-
     } catch (error) {
       console.error('Error loading suppliers:', error);
     }

@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {MatCard} from '@angular/material/card';
 import {Batch} from '../../model/batch.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-inventory-table',
@@ -33,12 +34,17 @@ import {Batch} from '../../model/batch.entity';
     MatIconModule,
     MatSlideToggleModule,
     FormsModule,
-    MatCard
+    MatCard,
+    TranslatePipe
   ],
   templateUrl: './inventory-table.component.html',
   styleUrls: ['./inventory-table.component.css']
 })
-export class InventoryTableComponent implements OnInit, OnChanges {
+/**
+ * @summary
+ * Component for displaying and managing inventory batches.
+ */
+export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() batches: Batch[] = [];
 
   @Output() edit = new EventEmitter<Batch>();
@@ -46,15 +52,43 @@ export class InventoryTableComponent implements OnInit, OnChanges {
   @Output() create = new EventEmitter<void>();
   @Output() add = new EventEmitter<void>();
 
+  /**
+   * Data source for the inventory table.
+   */
   dataSource = new MatTableDataSource<Batch>();
+  /**
+   * Columns to be displayed in the inventory table.
+   */
   displayedColumns = ['description', 'category', 'unit', 'expiration_date', 'stock', 'perishable', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  /**
+   * Initializes the component.
+   * Sets up the filter predicate for the data source
+   * to filter batches based on supply description or name.
+   */
   ngOnInit(): void {
+    this.dataSource.filterPredicate = (data: Batch, filter: string) => {
+      const search = filter.trim().toLowerCase();
+      const description= data.supply?.description?.toLowerCase() || '';
+      const name = (data.supply as any)?.name?.toLowerCase() || '';
+      return description.includes(search) || name.includes(search);
+    }
+  }
+
+  /**
+   * After view initialization, sets the paginator for the data source.
+   * This allows the table to paginate through the batches.
+   */
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
+  /**
+   * Handles changes to the input properties of the component.
+   * @param changes
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['batches']) {
       this.dataSource.data = this.batches;

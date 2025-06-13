@@ -1,22 +1,18 @@
 <section class="inventory-section">
   <mat-card class="toolbar-card">
     <div class="toolbar">
-      <span class="title">Inventory</span>
+      <span class="title">{{ 'inventory.inventoryTitle' | translate }}</span>
 
       <div class="search-container">
         <mat-icon>search</mat-icon>
-        <input matInput placeholder="Search supplies" (keyup)="applyFilter($event)" />
+        <input matInput placeholder="{{ 'inventory.searchPlaceholder' | translate }}" (keyup)="applyFilter($event)" />
       </div>
 
       <button mat-raised-button color="primary" class="add-btn" (click)="onAddSupply()">
         <span class="btn-content">
-          ADD<mat-icon>control_point</mat-icon>
+          {{ 'inventory.add' | translate }}<mat-icon>control_point</mat-icon>
         </span>
       </button>
-
-<!--      <mat-slide-toggle color="primary" class="slide-toggle" [(ngModel)]="showHidden">-->
-<!--        Hidden supplies-->
-<!--      </mat-slide-toggle>-->
 
       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
     </div>
@@ -26,38 +22,38 @@
   @if (dataSource.data.length > 0) {
   <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
     <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef> Supply </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableSupply' | translate }} </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.supply?.description || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableCategory' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.supply?.category?.name || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="unit">
-      <mat-header-cell *matHeaderCellDef> Unit </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableUnit' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.supply?.unit_measurement?.name || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="expiration_date">
-      <mat-header-cell *matHeaderCellDef> Expiration </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableExpiration' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.expiration_date || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="stock">
-      <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableStock' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.stock }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="perishable">
-      <mat-header-cell *matHeaderCellDef> Perishable </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tablePerishable' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e"> {{ e.supply?.perishable ? 'SI' : 'NO' }} </mat-cell>
     </ng-container>
 
 
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableActions' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e">
         <button mat-icon-button (click)="edit.emit(e)">
           <mat-icon>edit</mat-icon>

@@ -16,6 +16,7 @@ import {Batch} from '../../model/batch.entity';
 import {BatchService} from '../../services/batch.service';
 import {AddBatchToInventoryComponent} from '../../components/add-batch-to-inventory/add-batch-to-inventory.component';
 import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-supply/create-and-edit-supply.component';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restaurant-inventory',
@@ -42,7 +43,8 @@ export class RestaurantInventoryComponent implements OnInit {
     private unitService: UnitMeasurementService,
     private batchService: BatchService,
     private snackBar: MatSnackBar,
-    private modalService: BaseModalService
+    private modalService: BaseModalService,
+    private translate: TranslateService
   ) {
   }
 
@@ -65,21 +67,21 @@ export class RestaurantInventoryComponent implements OnInit {
     }));
 
     this.formSchema = [
-      {name: 'description', label: 'Description', type: 'text', placeholder: 'Enter name'},
-      {name: 'perishable', label: 'Perishable', type: 'boolean', placeholder: ''},
+      {name: 'description', label: this.translate.instant('inventory.descriptionOptional'), type: 'text', placeholder: this.translate.instant('inventory.descriptionOptional')},
+      {name: 'perishable', label: this.translate.instant('inventory.perishable'), type: 'boolean', placeholder: ''},
       {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
       {name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100'},
-      {name: 'price', label: 'Unit Price (S/.)', type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
+      {name: 'price', label: this.translate.instant('inventory.unitPrice'), type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
       {
         name: 'category_id',
-        label: 'Category',
+        label: this.translate.instant('inventory.category'),
         type: 'select',
         placeholder: 'Choose category',
         options: categoryOptions
       },
       {
         name: 'unit_measurement_id',
-        label: 'Unit',
+        label: this.translate.instant('inventory.unitMeasure'),
         type: 'select',
         placeholder: 'Choose unit',
         options: unitOptions
@@ -93,27 +95,36 @@ export class RestaurantInventoryComponent implements OnInit {
       label: s.description
     }));
 
-    return [
+    const schema: FormFieldSchema[] = [
       {
         name: 'supply_id',
-        label: 'Supply',
+        label: this.translate.instant('inventory.supply'),
         type: 'select',
-        placeholder: 'Select a supply',
+        placeholder: this.translate.instant('inventory.supply'),
         options: supplyOptions
       },
       {
         name: 'stock',
         label: 'Stock',
         type: 'number',
-        placeholder: 'Enter stock'
-      },
-      {
-        name: 'expiration_date',
-        label: 'Expiration Date',
-        type: 'date',
-        placeholder: 'Select expiration date'
+        placeholder: 'Stock'
       }
-    ];  }
+    ];
+
+    if (selectedSupplyId) {
+      const selected = this.supplies.find(s => s.id === selectedSupplyId);
+      if (selected?.perishable) {
+        schema.push({
+          name: 'expiration_date',
+          label: this.translate.instant('inventory.expirationDate'),
+          type: 'date',
+          placeholder: this.translate.instant('inventory.expirationDate')
+        });
+      }
+    }
+
+    return schema;
+  }
 
   async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
@@ -130,7 +141,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
   openCreateModal(): void {
     this.modalService.open({
-      title: 'Create Supply',
+      title: this.translate.instant('inventory.createSupplyTitle'),
       contentComponent: CreateAndEditSupplyComponent,
       schema: this.formSchema,
       initialData: {},
@@ -146,7 +157,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
   editSupply(supply: Supply): void {
     this.modalService.open({
-      title: 'Edit Supply',
+      title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: CreateAndEditSupplyComponent,
       schema: this.formSchema,
       initialData: {...supply},
@@ -185,7 +196,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
 
     this.modalService.open({
-      title: 'Edit supply in Inventory',
+      title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(batch.supply_id),
       initialData: initialBatchData,
@@ -218,8 +229,8 @@ export class RestaurantInventoryComponent implements OnInit {
 
 
   openAddSupplyToInventory(): void {
-    this.modalService.open({
-      title: 'Add to Inventory',
+    const dialogRef = this.modalService.open({
+        title: this.translate.instant('inventory.addInventoryTitle'),
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(),
       initialData: {},
@@ -227,7 +238,25 @@ export class RestaurantInventoryComponent implements OnInit {
       injectorValues: {
         supplies: this.supplies
       }
-    }).afterClosed().subscribe(async result => {
+    });
+
+    const instance = dialogRef.componentInstance.contentComponentRef?.instance as AddBatchToInventoryComponent | undefined;
+    instance?.supplyChange.subscribe((supplyId: number) => {
+      instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+      instance.updateSchema();
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      const instance = dialogRef.componentInstance
+        .contentComponentRef?.instance as
+        AddBatchToInventoryComponent | undefined;
+      instance?.supplyChange.subscribe((supplyId: number) => {
+        instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+        instance.updateSchema();
+      });
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const selectedSupply = this.supplies.find(s => s.id === result.supply_id);
 

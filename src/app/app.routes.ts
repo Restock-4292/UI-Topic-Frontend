@@ -35,6 +35,7 @@ import {
 import {
   RestaurantRecipesOverviewComponent
 } from './Restock/planning/recipe/pages/restaurant-recipes-overview/restaurant-recipes-overview.component';
+import { OrdersComponent } from './Restock/resource/orders-to-suppliers/pages/orders/orders.component';
 import {
   SuppliersOrdersOverviewComponent
 } from './Restock/monitoring/suppliers-orders/pages/suppliers-orders-overview/suppliers-orders-overview.component';
@@ -51,6 +52,7 @@ export const routes: Routes = [
       { path: 'suppliers', component: SupplierOverviewComponent },
       { path: 'suppliers/:id', component: SupplierDetailComponent },
       { path: 'sales', component: SalesComponent },
+      { path: 'orders', component: OrdersComponent },
       { path: 'profile', component: ProfileOverviewComponent },
       { path: 'recipes', component: RestaurantRecipesOverviewComponent },
       { path: 'notifications', component: RestaurantAlertsComponent }

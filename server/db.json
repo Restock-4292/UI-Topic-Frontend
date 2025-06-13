@@ -328,6 +328,7 @@
   "supplies": [
     {
       "id": 1,
+      "name": "Papas Blancas",
       "description": "Papas",
       "perishable": true,
       "min_stock": 5,
@@ -339,6 +340,7 @@
     },
     {
       "id": 2,
+      "name": "Lomo Fino de Res",
       "description": "Lomo Fino",
       "perishable": true,
       "min_stock": 2,
@@ -350,6 +352,7 @@
     },
     {
       "id": 3,
+      "name": "Cebolla Roja Grande",
       "description": "Cebolla Roja",
       "perishable": true,
       "min_stock": 3,
@@ -357,10 +360,11 @@
       "category_id": 1,
       "unit_measurement_id": 1,
       "price": 1,
-      "user_id": 1
+      "user_id": 2
     },
     {
       "id": 4,
+      "name": "Pechuga sin Hueso",
       "description": "Pechuga de Pollo",
       "perishable": true,
       "min_stock": 2,
@@ -372,6 +376,7 @@
     },
     {
       "id": 5,
+      "name": "Ají Amarillo Fresco",
       "description": "Ají Amarillo",
       "perishable": true,
       "min_stock": 1,
@@ -379,10 +384,11 @@
       "category_id": 3,
       "unit_measurement_id": 1,
       "price": 1.5,
-      "user_id": 1
+      "user_id": 2
     },
     {
       "id": 6,
+      "name": "Pan Francés",
       "description": "Pan",
       "perishable": true,
       "min_stock": 10,
@@ -394,6 +400,7 @@
     },
     {
       "id": 7,
+      "name": "Fideos Tallarín Nº5",
       "description": "Fideos Tallarín",
       "perishable": false,
       "min_stock": 10,
@@ -401,10 +408,11 @@
       "category_id": 1,
       "unit_measurement_id": 1,
       "price": 2,
-      "user_id": 1
+      "user_id": 2
     },
     {
       "id": 8,
+      "name": "Hojas de Albahaca",
       "description": "Albahaca",
       "perishable": true,
       "min_stock": 5,
@@ -416,6 +424,7 @@
     },
     {
       "id": 9,
+      "name": "Frijoles Canarios",
       "description": "Frijoles",
       "perishable": false,
       "min_stock": 5,
@@ -427,6 +436,7 @@
     },
     {
       "id": 10,
+      "name": "Culantro Fresco",
       "description": "Culantro",
       "perishable": true,
       "min_stock": 2,
@@ -434,10 +444,11 @@
       "category_id": 1,
       "unit_measurement_id": 1,
       "price": 0.8,
-      "user_id": 1
+      "user_id": 2
     },
     {
       "id": 11,
+      "name": "Pescado Blanco Fresco",
       "description": "Pescado Blanco",
       "perishable": true,
       "min_stock": 3,
@@ -449,6 +460,7 @@
     },
     {
       "id": 12,
+      "name": "Limón Sutil",
       "description": "Limón",
       "perishable": true,
       "min_stock": 10,
@@ -456,7 +468,7 @@
       "category_id": 1,
       "unit_measurement_id": 1,
       "price": 0.4,
-      "user_id": 1
+      "user_id": 2
     }
   ],
   "sales": [
@@ -502,6 +514,36 @@
       "order_to_supplier_situation_id": 1,
       "total_price": 30.55,
       "partially_accepted": false
+    },
+    {
+      "id": 2,
+      "date": "2025-06-01",
+      "admin_restaurant_id": 2,
+      "supplier_id": 3,
+      "order_to_supplier_state_id": 2,
+      "order_to_supplier_situation_id": 2,
+      "total_price": 145.75,
+      "partially_accepted": true
+    },
+    {
+      "id": 3,
+      "date": "2025-06-02",
+      "admin_restaurant_id": 2,
+      "supplier_id": 2,
+      "order_to_supplier_state_id": 3,
+      "order_to_supplier_situation_id": 3,
+      "total_price": 79.99,
+      "partially_accepted": false
+    },
+    {
+      "id": 4,
+      "date": "2025-06-03",
+      "admin_restaurant_id": 2,
+      "supplier_id": 1,
+      "order_to_supplier_state_id": 2,
+      "order_to_supplier_situation_id": 2,
+      "total_price": 212.4,
+      "partially_accepted": true
     }
   ],
   "orders_to_supplier_states": [
@@ -594,6 +636,27 @@
       "supply_id": 3,
       "stock": 200,
       "expiration_date": null
+    },
+    {
+      "id": 4,
+      "inventory_id": 1,
+      "supply_id": 9,
+      "stock": "12",
+      "expiration_date": "2025-03-12T05:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "inventory_id": 1,
+      "supply_id": 2,
+      "stock": "12",
+      "expiration_date": "2025-12-03T05:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "inventory_id": 1,
+      "supply_id": 12,
+      "stock": "50",
+      "expiration_date": "2001-01-01T05:00:00.000Z"
     }
   ],
   "batch_notifications_states": [

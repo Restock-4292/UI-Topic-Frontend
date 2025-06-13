@@ -16,4 +16,7 @@ export const environment = {
   ordersToSupplierStatesEndpointPath: '/orders_to_supplier_states',
   ordersToSupplierSituationsEndpointPath: '/orders_to_supplier_situations',
   ordersToSupplierSuppliesEndpointPath: '/orders_to_supplier_supplies',
+ businessCategoriesEndpointPath: '/business_categories',
+  profilesBusinessCategoriesEndpointPath: '/profiles_business_categories',
+  restaurantContactsEndpointPath: '/restaurant_contacts'
 };

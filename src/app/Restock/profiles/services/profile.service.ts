@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Profile } from '../model/profile.entity';
 
@@ -31,5 +31,60 @@ export class ProfileService {
       description: '',
       image: 'assets/admin-avatar.png'
     };
+  }
+}
+ */
+
+
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Profile } from '../model/profile.entity';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
+import { ProfileAssembler } from './profile.assembler';
+
+@Injectable({ providedIn: 'root' })
+export class ProfileService {
+  private profileSubject = new BehaviorSubject<Profile>(this.loadInitialProfile());
+  profile$ = this.profileSubject.asObservable();
+
+  constructor(private http: HttpClient) { }
+
+  getCurrentProfile(): Profile {
+    return { ...this.profileSubject.value };
+  }
+  loadProfilesByUserIds(userIds: number[]): Observable<Profile[]> {
+    if (userIds.length === 0) {
+      return new BehaviorSubject<Profile[]>([]);
+    }
+
+    const query = userIds.map(id => `user_id=${id}`).join('&');
+    const url = `${environment.serverBaseUrl}/profiles?${query}`;
+
+    return this.http.get<any[]>(url).pipe(
+      map((dtos) => dtos.map(dto => ProfileAssembler.fromDto(dto)))
+    );
+  }
+  updateProfile(updated: Profile): void {
+    this.profileSubject.next(updated);
+  }
+
+
+  loadProfileByUserId(userId: number): Observable<Profile> {
+    return this.http
+      .get<any[]>(`${environment.serverBaseUrl}/profiles?user_id=${userId}`)
+      .pipe(
+        map((profiles) => profiles[0]), // se espera solo uno
+        map((dto) => ProfileAssembler.fromDto(dto)),
+        map((profile) => {
+          this.profileSubject.next(profile);
+          return profile;
+        })
+      );
+  }
+
+  private loadInitialProfile(): Profile {
+    return new Profile();
   }
 }
