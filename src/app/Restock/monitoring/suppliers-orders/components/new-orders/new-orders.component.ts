@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {FilterSectionComponent} from '../filter-section/filter-section.component';
@@ -11,6 +11,14 @@ import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {ManageNewOrdersComponent} from '../manage-new-orders/manage-new-orders.component';
+import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {Profile} from '../../../../profiles/model/profile.entity';
+import {OrderToSupplierSupply} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-supply.entity';
+import {Batch} from '../../../../resource/inventory/model/batch.entity';
+import {Supply} from '../../../../resource/inventory/model/supply.entity';
+import {
+  OrderToSupplierSituation
+} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
 
 @Component({
   selector: 'app-new-orders',
@@ -33,27 +41,16 @@ import {ManageNewOrdersComponent} from '../manage-new-orders/manage-new-orders.c
 })
 
 export class NewOrdersComponent {
+  @Input() orders: Array<OrderToSupplier> = [];
+  @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
+
+  @Input() orderSuppliesDetails: { orderId: number; supplies: Supply[] }[] = [];
+  @Input() suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierSupply[] }[] = [];
+
+
   displayedColumns: string[] = ['orderDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
-  orders = new MatTableDataSource([
-    {
-      orderDate: '2025-06-08',
-      restaurantName: 'Pizzería Bella',
-      requestedProducts: 3,
-      finalPrice: 89.90
-    },
-    {
-      orderDate: '2025-06-07',
-      restaurantName: 'Sushi Express',
-      requestedProducts: 5,
-      finalPrice: 145.50
-    }
-  ]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.orders.paginator = this.paginator;
-  }
 
   searchTerm: string = '';
   dateRange: string = '';
@@ -62,7 +59,6 @@ export class NewOrdersComponent {
   onSearchChange(value: string): void {
     this.searchTerm = value;
     // Implementar lógica de búsqueda
-    this.orders.filter = value.trim().toLowerCase();
   }
 
   onDateRangeChange(value: string): void {

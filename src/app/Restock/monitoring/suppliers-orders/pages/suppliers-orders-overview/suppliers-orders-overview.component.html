@@ -1,7 +1,12 @@
 <div class="supplier-orders-container">
   <mat-tab-group>
     <mat-tab label="New Orders" >
-      <app-new-orders/>
+      <app-new-orders
+        [orders]="orders"
+        [adminRestaurantsProfiles]="restaurantNameMap"
+        [orderSuppliesDetails]="detailedSuppliesGroupedByOrder"
+        [suppliesGroupedByOrder]="suppliesGroupedByOrder"
+      />
     </mat-tab>
 
     <mat-tab label="Orders In Progress">
