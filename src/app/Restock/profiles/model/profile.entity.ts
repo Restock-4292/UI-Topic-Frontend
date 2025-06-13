@@ -1,5 +1,5 @@
 export class Profile {
-  id: number; 
+  id: number;
   name: string;
   lastName: string;
   email: string;
@@ -11,6 +11,7 @@ export class Profile {
   companyAddress: string;
   companyCategories: string[];
   image: string;
+ userId: number;
 
   constructor() {
     this.id = 0;
@@ -25,6 +26,7 @@ export class Profile {
     this.companyAddress = 'Av. Paseo de la República cuadra 3';
     this.companyCategories = ['Fast Food', 'Beverages', 'Desserts', 'Grill', 'Pizzeria', 'Buffet'];
     this.image = 'assets/admin-avatar.png';
+    this.userId = 0;
   }
 }
 
