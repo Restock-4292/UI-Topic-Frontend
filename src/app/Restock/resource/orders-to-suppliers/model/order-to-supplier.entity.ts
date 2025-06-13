@@ -9,6 +9,7 @@ export class OrderToSupplier {
   order_to_supplier_state_id: number;
   order_to_supplier_situation_id: number;
   total_price: number;
+  requested_products_count: number;
   partially_accepted: boolean;
   state?: OrderToSupplierState;
   situation?: OrderToSupplierSituation;
@@ -21,6 +22,7 @@ export class OrderToSupplier {
     this.order_to_supplier_state_id = data.order_to_supplier_state_id || 0;
     this.order_to_supplier_situation_id = data.order_to_supplier_situation_id || 0;
     this.total_price = data.total_price || 0;
+    this.requested_products_count = data.requested_products_count || 0;
     this.partially_accepted = data.partially_accepted || false;
 
     this.state = data.state;
