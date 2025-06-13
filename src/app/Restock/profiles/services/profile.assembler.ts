@@ -6,7 +6,7 @@ export class ProfileAssembler {
     profile.id = dto.id;
     profile.name = dto.name;
     profile.lastName = dto.last_name;
-    profile.email = '';
+    profile.username = dto.username;
     profile.phone = dto.phone;
     profile.address = dto.address;
     profile.country = dto.country;

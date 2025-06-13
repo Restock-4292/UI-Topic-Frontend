@@ -2,7 +2,7 @@ export class Profile {
   id: number;
   name: string;
   lastName: string;
-  email: string;
+  username: string;
   phone: string;
   address: string;
   country: string;
@@ -11,13 +11,13 @@ export class Profile {
   companyAddress: string;
   companyCategories: string[];
   image: string;
- userId: number;
+  userId: number;
 
   constructor() {
     this.id = 0;
     this.name = 'Elon';
     this.lastName = 'Musk';
-    this.email = 'elon@gmail.com';
+    this.username = 'donpepe';
     this.phone = '+51 940 163 699';
     this.address = 'Av. Paseo de la República cuadra 2 ';
     this.country = 'Peru';

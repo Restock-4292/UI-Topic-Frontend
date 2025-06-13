@@ -5,7 +5,10 @@ import { OrderToSupplierBatch } from './order-to-supplier-batch.entity';
 export class OrderToSupplier {
   id: number;
   date: string;
+  description: string;
   admin_restaurant_id: number;
+  estimated_ship_date: Date;
+  estimated_ship_time: Date;
   supplier_id: number;
   order_to_supplier_state_id: number;
   order_to_supplier_situation_id: number;
@@ -19,6 +22,9 @@ export class OrderToSupplier {
   constructor(data: Partial<OrderToSupplier> = {}) {
     this.id = data.id || 0;
     this.date = data.date || '';
+    this.description = data.description || '';
+    this.estimated_ship_date = data.estimated_ship_date ? new Date(data.estimated_ship_date) : new Date();
+    this.estimated_ship_time = data.estimated_ship_time ? new Date(data.estimated_ship_time) : new Date();
     this.admin_restaurant_id = data.admin_restaurant_id || 0;
     this.supplier_id = data.supplier_id || 0;
     this.order_to_supplier_state_id = data.order_to_supplier_state_id || 0;
