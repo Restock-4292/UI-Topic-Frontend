@@ -191,7 +191,7 @@ export class RestaurantInventoryComponent implements OnInit {
       supply_id: batch.supply_id,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
-      inventory_id: batch.inventory_id
+      user_id: batch.user_id
     };
 
 
@@ -206,7 +206,8 @@ export class RestaurantInventoryComponent implements OnInit {
       }
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const updated = Batch.fromForm(result, batch.inventory_id);
+        //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
+        const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
         await this.batchService.updateBatch(batch.id, updated);
         await this.loadBatches();
       }

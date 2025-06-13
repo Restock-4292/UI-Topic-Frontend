@@ -12,6 +12,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
+import { OrderToSupplier } from '../../model/order-to-supplier.entity';
+import { OrderToSupplierService } from '../../services/order-to-supplier.service';
+import { OrderToSupplierBatch } from '../../model/order-to-supplier-batch.entity';
+import { OrderToSupplierBatchService } from '../../services/order-to-supplier-batch.service';
 
 @Component({
     selector: 'create-orders-modal',
@@ -53,7 +57,14 @@ export class CreateOrdersModalComponent {
     // Orden ascendente/descendente de precios
     sortAsc = true;
 
-    constructor(private dialog: MatDialog) { }
+    constructor(private dialog: MatDialog,
+        private orderToSupplierService: OrderToSupplierService,
+        private orderToSupplierBatchService: OrderToSupplierBatchService) {
+
+    }
+
+
+
 
     openCreateOrderModal(): void {
         this.resetAll();
@@ -77,25 +88,65 @@ export class CreateOrdersModalComponent {
         const supplyId = this.selectedSupply.id;
 
         const matchingProviders = this.providerSupplies.filter(p => String(p.id) === String(supplyId));
+        console.log('Proveedores que coinciden con el insumo seleccionado:', matchingProviders);
+        const totalAvailable = (this.selectedSupply.batches || []).reduce((sum: number, batch: any) => {
+            return sum + Number(batch.stock || 0);
+        }, 0);
 
         this.filteredSuppliers = matchingProviders.map(s => {
             const already = this.fullOrder.find(o =>
                 o.supplierId === s.supplierId && o.id === supplyId
             );
 
-            const profile = this.providerProfiles.find(p => p.id === s.id);
-
+            const profile = this.providerProfiles.find(p => p.id === s.user_id);
+            console.log('Perfil del proveedor:', profile);
             return {
                 ...s,
                 selected: !!already,
                 disabled: !!already,
                 name: `${profile?.name || ''} ${profile?.lastName || ''}`.trim(),
+                available: totalAvailable
             };
         });
-
     }
+    removeSupply(supplyToRemove: any): void {
+        this.currentSelections = this.currentSelections.filter(
+            s =>
+                !(
+                    s.supplyId === supplyToRemove.supplyId &&
+                    s.supplierId === supplyToRemove.supplierId
+                )
+        );
 
-//test
+        this.fullOrder = this.fullOrder.filter(
+            s =>
+                !(
+                    s.supplyId === supplyToRemove.supplyId &&
+                    s.supplierId === supplyToRemove.supplierId
+                )
+        );
+
+        this.filteredSuppliers = this.filteredSuppliers.map(s => {
+            if (
+                s.supplierId === supplyToRemove.supplierId &&
+                s.id === supplyToRemove.supplyId
+            ) {
+                return {
+                    ...s,
+                    selected: false,
+                    disabled: false
+                };
+            }
+            return s;
+        });
+
+        if (
+            this.selectedSupply &&
+            this.selectedSupply.id === supplyToRemove.supplyId
+        ) {
+            this.selectedSupply = null;
+        }
+    }
     toggleSortOrder(): void {
         this.sortAsc = !this.sortAsc;
         this.filteredSuppliers.sort((a, b) =>
@@ -106,35 +157,103 @@ export class CreateOrdersModalComponent {
     hasSelection(): boolean {
         return this.filteredSuppliers.some(s => s.selected);
     }
-
     nextTab(): void {
         const selected = this.filteredSuppliers.filter(s => s.selected);
-        console.log('Proveedores seleccionados:', selected);
+        if (!selected.length || !this.selectedSupply) return;
+
+        const supplyId = this.selectedSupply.id;
+        const alreadyExists = this.fullOrder.some(o => o.supplyId === supplyId);
+        console.log('¿Ya existe ese supplyId en fullOrder?:', alreadyExists);
+
+        if (alreadyExists) {
+            alert('Este insumo ya ha sido agregado a la orden. No puedes agregarlo de nuevo.');
+            return;
+        }
+
         this.currentSelections = selected.map(s => ({
             ...s,
-            supplyId: this.selectedSupply.id,
+            supplyId: supplyId,
             supplyName: this.selectedSupply.name,
             quantity: 1,
         }));
 
-        this.tabIndex = 1;
+        setTimeout(() => {
+            this.tabIndex = 1;
+        });
     }
 
-    // Paso 2: Confirmar pedido
+
+
     addMoreSupply(): void {
-        this.fullOrder.push(...this.currentSelections);
-        console.log('Pedido acumulado:', this.fullOrder);
+        const supplyId = this.selectedSupply?.id;
+        console.log("Lista actual de selecciones:", this.currentSelections);
+        console.log("Lista completa de órdenes:", this.fullOrder);
+        if (!this.currentSelections.length) {
+            console.warn('currentSelections está vacío. No se agregará nada.');
+            return;
+        }
+
+        this.fullOrder = this.fullOrder.filter(o => o.supplyId !== supplyId);
+        this.fullOrder.push(...this.currentSelections.map(o => ({ ...o })));
+
         this.resetStep();
     }
-
-    onCreateOrder(): void {
+    /*    onCreateOrder(): void {
+           const finalOrder = [...this.fullOrder, ...this.currentSelections];
+           console.log('Orden final:', finalOrder);
+           this.closeModal();
+       } */
+    async onCreateOrder(): Promise<void> {
         const finalOrder = [...this.fullOrder, ...this.currentSelections];
         console.log('Orden final:', finalOrder);
-        this.closeModal();
+
+        try {
+            for (const supply of finalOrder) {
+                const batch = supply.batches?.[0];
+                console.log('Procesando insumo:', supply, 'con batch:', batch);
+                if (!batch || !batch.id) {
+                    console.warn('No se encontró batch válido para el insumo:', supply);
+                    continue;
+                }
+
+                // Crear una orden individual para este insumo
+                const newOrder = new OrderToSupplier({
+                    date: new Date().toISOString(),
+                    admin_restaurant_id: 2,
+                    supplier_id: supply.user_id,
+                    order_to_supplier_state_id: 1,
+                    order_to_supplier_situation_id: 1,
+                    partially_accepted: false,
+                    total_price: supply.quantity * supply.price
+                });
+                console.log('Creando orden para el insumo:', newOrder);
+                // Crear orden
+                const createdOrder = await this.orderToSupplierService.createOrder(newOrder);
+console.log('Orden creada:', createdOrder);
+                // Crear relación con el batch
+                console.log('Creando relación con el batch:', batch);
+                
+                const newSupplyRelation = new OrderToSupplierBatch({
+                    order_to_supplier_id: createdOrder.id,
+                    batch_id: batch.id,
+                    quantity: supply.quantity,
+                    accepted: false,
+                });
+                console.log('Nueva relación de suministro:', newSupplyRelation);
+                await this.orderToSupplierBatchService.createSupply(newSupplyRelation);
+                console.log('Orden creada:', createdOrder);
+            }
+
+            console.log('Todas las órdenes y relaciones fueron creadas correctamente');
+            this.closeModal();
+        } catch (error) {
+            console.error('Error al crear una de las órdenes o relaciones:', error);
+        }
     }
 
     getTotal(): number {
-        return this.currentSelections.reduce((sum, s) => {
+        const allItems = [...this.fullOrder, ...this.currentSelections];
+        return allItems.reduce((sum, s) => {
             const qty = s.quantity || 1;
             return sum + s.price * qty;
         }, 0);
