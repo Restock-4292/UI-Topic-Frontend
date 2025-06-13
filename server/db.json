@@ -581,7 +581,7 @@
   "orders_to_supplier_supplies": [
     {
       "order_to_supplier_id": 1,
-      "supply_id": 1,
+      "batch_id": 1,
       "quantity": 10,
       "accepted": false
     }
