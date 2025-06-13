@@ -7,7 +7,7 @@ import { OrderToSupplier } from '../model/order-to-supplier.entity';
 import { OrderToSupplierAssembler } from './order-to-supplier.assembler';
 import { OrderStateService } from './order-to-supplier-state.service';
 import { OrderSituationService } from './order-to-supplier-situation.service';
-import { OrderToSupplierSupplyService } from './order-to-supplier-supply.service';
+import { OrderToSupplierBatchService } from './order-to-supplier-batch.service';
 
 import { SupplyService } from '../../inventory/services/supply.service';
 
@@ -15,7 +15,7 @@ import { SupplyService } from '../../inventory/services/supply.service';
 export class OrderToSupplierService extends BaseService<OrderToSupplier> {
     private readonly stateService = inject(OrderStateService);
     private readonly situationService = inject(OrderSituationService);
-    private readonly supplyService = inject(OrderToSupplierSupplyService);
+    private readonly supplyService = inject(OrderToSupplierBatchService);
     private readonly supplyDomainService = inject(SupplyService);
 
     constructor() {
@@ -38,7 +38,7 @@ export class OrderToSupplierService extends BaseService<OrderToSupplier> {
             const supplies = allOrderSupplies
                 .filter(os => os.order_to_supplier_id === raw.id)
                 .map(os => {
-                    const fullSupply = allSupplies.find(s => s.id === os.supply_id);
+                    const fullSupply = allSupplies.find(s => s.id === os.batch_id);
                     return { ...os, supply: fullSupply };
                 });
 
@@ -62,6 +62,7 @@ export class OrderToSupplierService extends BaseService<OrderToSupplier> {
 
     async createOrder(order: OrderToSupplier): Promise<OrderToSupplier> {
         const dto = OrderToSupplierAssembler.toDTO(order);
+        console.log('Creating order (before DTO):', dto);
         const created = await firstValueFrom(this.create(dto));
         return OrderToSupplierAssembler.toEntity(created);
     }

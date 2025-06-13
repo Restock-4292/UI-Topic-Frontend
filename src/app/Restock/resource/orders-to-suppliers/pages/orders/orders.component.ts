@@ -53,7 +53,6 @@ export class OrdersComponent implements OnInit {
   async loadOrders() {
     this.orders = await this.orderService.getAllEnriched();
     this.filteredOrders = [...this.orders];
-    console.log('Orders loaded:', this.orders);
   }
 
   async loadProviderProfiles() {
@@ -62,17 +61,17 @@ export class OrdersComponent implements OnInit {
 
       this.profileService.loadProfilesByUserIds(providerUserIds).subscribe((profiles) => {
         this.providerProfiles = profiles;
+        console.log('Provider profiles loaded:', this.providerProfiles);
         this.supplierOptions = profiles.map(profile => ({
           id: profile.id,
           name: profile.name
         }));
-        console.log('Loaded provider profiles:', this.providerProfiles);
+        console.log('Supplier options:', this.supplierOptions);
       });
 
       const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
-      console.log('Enriched supplies from providers:', enrichedSupplies);
       this.providerSupplies = enrichedSupplies;
-
+      console.log('Provider supplies loaded:', this.providerSupplies);
     } catch (error) {
       console.error('Error loading provider profiles or supplies:', error);
     }
