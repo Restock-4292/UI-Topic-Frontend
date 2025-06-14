@@ -1,4 +1,5 @@
 import { Batch } from "../../inventory/model/batch.entity";
+import { Supply } from "../../inventory/model/supply.entity";
 
 export class OrderToSupplierBatch {
   id: number; 
@@ -7,6 +8,7 @@ export class OrderToSupplierBatch {
   accepted: boolean;
   batch_id: number;
   batch?: Batch;
+  supply?: Supply;
 
   constructor(data: Partial<OrderToSupplierBatch> = {}) {
     this.id = data.id || 0;
@@ -15,5 +17,6 @@ export class OrderToSupplierBatch {
     this.quantity = data.quantity || 0;
     this.accepted = data.accepted || false;
     this.batch = data.batch;
+    this.supply = data.supply;
   }
 }
