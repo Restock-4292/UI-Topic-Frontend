@@ -62,8 +62,8 @@ export class AddBatchToInventoryComponent implements OnInit {
     this.supplyChange.emit(this.form.supply_id);
   }
 
-  onSubmit(): void {
-    this.dialogRef.close(this.form);
+  onSubmit(result: any): void {
+    this.dialogRef.close(result);
   }
 
   cancel(): void {

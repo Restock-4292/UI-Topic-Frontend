@@ -1,5 +1,5 @@
-<div class="edit-form">
-  @for (field of schema; track field) {
+<form class="edit-form" (ngSubmit)="onSubmit()">
+  @for (field of fieldsForCurrentStep(); track field) {
 
 
     <ng-container>
@@ -18,7 +18,7 @@
               [name]="field.name"
               [step]="field.type === 'currency' ? '0.01' : '1'"
               [(ngModel)]="form[field.name]"
-              (ngModelChange)="form[field.name] = $event; emitForm()"
+              (ngModelChange)="updateField(field.name, $event)"
             />
           </mat-form-field>
         }
@@ -29,7 +29,7 @@
             class="form-toggle"
             [id]="field.name"
             [(ngModel)]="form[field.name]"
-            (ngModelChange)="emitForm()"
+            (ngModelChange)="updateField(field.name, $event)"
             [name]="field.name"
           >
             {{ field.label }}
@@ -58,7 +58,7 @@
             <mat-label>{{ field.label }}</mat-label>
             <mat-select
               [(ngModel)]="form[field.name]"
-              (ngModelChange)="emitForm()"
+              (ngModelChange)="updateField(field.name, $event)"
               [name]="field.name"
             >
               <mat-option
@@ -78,7 +78,7 @@
               matInput
               [matDatepicker]="picker"
               [(ngModel)]="form[field.name]"
-              (ngModelChange)="emitForm()"
+              (ngModelChange)="updateField(field.name, $event)"
               [name]="field.name"
               [id]="field.name"
             />
@@ -89,4 +89,38 @@
       </div>
     </ng-container>
   }
-</div>
+
+  <div class="form-actions">
+    @if (hasSteps && currentStep > 1) {
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="prevStep()"
+      >
+        {{ 'inventory.back' | translate }}
+      </button>
+    }
+
+    @if (hasSteps && currentStep < totalSteps) {
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="!validateCurrentStep()"
+      >
+        {{ 'inventory.next' | translate }}
+      </button>
+    }
+
+    @if (!hasSteps || currentStep === totalSteps) {
+      <button
+        mat-raised-button
+        class="green-button"
+        action
+        type="submit"
+      >
+        {{ mode === 'edit' ? ('inventory.update' | translate) : ('inventory.save' | translate) }}
+      </button>
+    }
+
+  </div>
+</form>
