@@ -7,6 +7,7 @@ import {MatIcon} from '@angular/material/icon';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {MatIconButton} from '@angular/material/button';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
 
 @Component({
   selector: 'app-delivered-orders',
@@ -18,7 +19,8 @@ import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/or
     MatTableModule,
     OrderDetailsComponent,
     MatIconButton,
-    DatePipe
+    DatePipe,
+    EmptySectionComponent
   ],
   templateUrl: './delivered-orders.component.html',
   styleUrl: './delivered-orders.component.css'
