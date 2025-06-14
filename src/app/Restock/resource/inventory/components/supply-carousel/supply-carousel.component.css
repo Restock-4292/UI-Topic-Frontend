@@ -44,6 +44,12 @@
   color: #444;
 }
 
+.edit-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+
 .nav-button {
   position: absolute;
   z-index: 2;
