@@ -3,8 +3,9 @@ import { NgIf, DatePipe, NgClass } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-
+Order
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
+import { Order } from '../../model/order.entity';
 
 @Component({
     selector: 'orders-table',
@@ -20,6 +21,7 @@ export class OrdersTableComponent {
     @Output() orderSelected = new EventEmitter<number>();
     @Output() deleteOrder = new EventEmitter<number>();
     @Output() viewDetails = new EventEmitter<OrderToSupplier>();
+@Output() leaveFeedback = new EventEmitter<OrderToSupplier>();
 
     displayedColumns: string[] = [
         'situation',
@@ -29,7 +31,6 @@ export class OrdersTableComponent {
         'requestedProducts',
         'totalPrice',
         'actions',
-        'notifications'
     ];
 
     onRowClick(order: OrderToSupplier): void {
@@ -47,6 +48,12 @@ export class OrdersTableComponent {
         const supplier = this.suppliers.find(s => s.id === supplierId);
         return supplier ? supplier.name : 'Unknown';
     }
+    shouldShowNotification(order: OrderToSupplier): boolean {
+        return order.state?.name === 'Pending'; // O cualquier lógica de negocio real
+    }
+    onFeedback(order: OrderToSupplier): void {
+  this.leaveFeedback.emit(order);
+}
     getSituationClass(situationName: string | undefined): string {
         switch ((situationName || '').toLowerCase()) {
             case 'pending':

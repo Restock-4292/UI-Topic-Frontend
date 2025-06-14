@@ -41,20 +41,11 @@ export class CreateOrdersModalComponent {
 
     @ViewChild('createOrderModal') createOrderModalRef!: TemplateRef<any>;
 
-    // Tabs y selección actual
     tabIndex = 0;
     selectedSupply: any = null;
-
-    // Datos de proveedores filtrados por insumo
     filteredSuppliers: any[] = [];
-
-    // Proveedores seleccionados para el insumo actual
     currentSelections: any[] = [];
-
-    // Acumulador de todas las selecciones (varios insumos)
     fullOrder: any[] = [];
-
-    // Orden ascendente/descendente de precios
     sortAsc = true;
 
     constructor(private dialog: MatDialog,
@@ -88,7 +79,6 @@ export class CreateOrdersModalComponent {
         const supplyId = this.selectedSupply.id;
 
         const matchingProviders = this.providerSupplies.filter(p => String(p.id) === String(supplyId));
-        console.log('Proveedores que coinciden con el insumo seleccionado:', matchingProviders);
         const totalAvailable = (this.selectedSupply.batches || []).reduce((sum: number, batch: any) => {
             return sum + Number(batch.stock || 0);
         }, 0);
@@ -99,7 +89,6 @@ export class CreateOrdersModalComponent {
             );
 
             const profile = this.providerProfiles.find(p => p.id === s.user_id);
-            console.log('Perfil del proveedor:', profile);
             return {
                 ...s,
                 selected: !!already,
@@ -182,8 +171,6 @@ export class CreateOrdersModalComponent {
         });
     }
 
-
-
     addMoreSupply(): void {
         const supplyId = this.selectedSupply?.id;
         console.log("Lista actual de selecciones:", this.currentSelections);
@@ -255,8 +242,6 @@ export class CreateOrdersModalComponent {
         }, 0);
     }
 
-
-    // Utilidades
     private resetStep(): void {
         this.selectedSupply = null;
         this.filteredSuppliers = [];

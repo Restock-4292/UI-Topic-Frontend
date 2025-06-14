@@ -1,32 +1,48 @@
-// order-details-modal.component.ts
 import { Component, TemplateRef, ViewChild, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { CommonModule, NgForOf } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
+import { CommonModule, DatePipe, NgForOf } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 
 @Component({
   selector: 'order-details-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, NgForOf],
+  imports: [
+    CommonModule,
+    DatePipe,
+    NgForOf,
+    MatDialogModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatDividerModule
+  ],
   templateUrl: './order-details-modal.component.html',
   styleUrls: ['./order-details-modal.component.css']
 })
 export class OrderDetailsModalComponent {
   @Input() order!: OrderToSupplier;
-
+  @Input() providerProfiles: any[] = [];
   @ViewChild('orderDetailsTemplate') orderDetailsRef!: TemplateRef<any>;
+  constructor(private dialog: MatDialog) { }
+  providerProfile: any;
 
-  constructor(private dialog: MatDialog) {}
-
-  open(): void {
-    this.dialog.open(this.orderDetailsRef, {
-      width: '600px',
-    });
+  open(order: OrderToSupplier): void {
+    this.order = order;
+    this.providerProfile = this.providerProfiles.find(
+      profile => profile.id === this.order.supplier_id
+    );
+    this.dialog.open(this.orderDetailsRef, { width: '600px' });
   }
 
   close(): void {
     this.dialog.closeAll();
   }
+
+  get hasSupplies(): boolean {
+  return Array.isArray(this.order?.supplies) && this.order!.supplies.length > 0;
+}
 }

@@ -24,3 +24,16 @@
 .situation-declined {
   background-color: rgb(226, 164, 161);
 }
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.icon-placeholder {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
