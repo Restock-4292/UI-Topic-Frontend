@@ -198,25 +198,17 @@ export class CreateOrdersModalComponent {
 
         this.resetStep();
     }
-    /*    onCreateOrder(): void {
-           const finalOrder = [...this.fullOrder, ...this.currentSelections];
-           console.log('Orden final:', finalOrder);
-           this.closeModal();
-       } */
+
     async onCreateOrder(): Promise<void> {
         const finalOrder = [...this.fullOrder, ...this.currentSelections];
-        console.log('Orden final:', finalOrder);
 
         try {
             for (const supply of finalOrder) {
-                const batch = supply.batches?.[0];
-                console.log('Procesando insumo:', supply, 'con batch:', batch);
-                if (!batch || !batch.id) {
-                    console.warn('No se encontró batch válido para el insumo:', supply);
+                if (!supply.batches || supply.batches.length === 0) {
+                    console.warn('No se encontraron batches para el insumo:', supply);
                     continue;
                 }
 
-                // Crear una orden individual para este insumo
                 const newOrder = new OrderToSupplier({
                     date: new Date().toISOString(),
                     admin_restaurant_id: 2,
@@ -224,33 +216,36 @@ export class CreateOrdersModalComponent {
                     order_to_supplier_state_id: 1,
                     order_to_supplier_situation_id: 1,
                     partially_accepted: false,
-                    total_price: supply.quantity * supply.price
+                    total_price: supply.quantity * supply.price,
+                    estimated_ship_date: null,
+                    estimated_ship_hour: null,
+                    requested_products: supply.batches.length
                 });
-                console.log('Creando orden para el insumo:', newOrder);
-                // Crear orden
+
                 const createdOrder = await this.orderToSupplierService.createOrder(newOrder);
-console.log('Orden creada:', createdOrder);
-                // Crear relación con el batch
-                console.log('Creando relación con el batch:', batch);
-                
-                const newSupplyRelation = new OrderToSupplierBatch({
-                    order_to_supplier_id: createdOrder.id,
-                    batch_id: batch.id,
-                    quantity: supply.quantity,
-                    accepted: false,
-                });
-                console.log('Nueva relación de suministro:', newSupplyRelation);
-                await this.orderToSupplierBatchService.createSupply(newSupplyRelation);
-                console.log('Orden creada:', createdOrder);
+
+                for (const batch of supply.batches) {
+                    if (!batch.id) {
+                        console.warn('Batch inválido para el insumo:', supply);
+                        continue;
+                    }
+
+                    const newSupplyRelation = new OrderToSupplierBatch({
+                        order_to_supplier_id: createdOrder.id,
+                        batch_id: batch.id,
+                        quantity: supply.quantity,
+                        accepted: false,
+                    });
+
+                    await this.orderToSupplierBatchService.createSupply(newSupplyRelation);
+                }
             }
 
-            console.log('Todas las órdenes y relaciones fueron creadas correctamente');
             this.closeModal();
         } catch (error) {
             console.error('Error al crear una de las órdenes o relaciones:', error);
         }
     }
-
     getTotal(): number {
         const allItems = [...this.fullOrder, ...this.currentSelections];
         return allItems.reduce((sum, s) => {
