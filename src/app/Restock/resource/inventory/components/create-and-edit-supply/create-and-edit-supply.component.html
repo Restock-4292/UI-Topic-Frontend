@@ -1,10 +1,9 @@
-<form class="supply-modal-content" (ngSubmit)="onSubmit()">
-  <app-create-and-edit-form (submit)="handleFormChange($event)" />
+<div class="supply-modal-content">
+  <app-create-and-edit-form
+    [schema]="schema"
+    [initialData]="initialData"
+    [mode]="mode"
+    (submit)="onSubmit($event)"
+  />
 
-  <div class="supply-modal-actions">
-    <button mat-button type="button" (click)="cancel()">{{ 'inventory.cancel' | translate }}</button>
-    <button mat-raised-button class="green-button" action type="submit">
-      {{ mode === 'edit' ? ( 'inventory.update' | translate ) : ( 'inventory.save' | translate ) }}
-    </button>
-  </div>
-</form>
+</div>

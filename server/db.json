@@ -329,7 +329,7 @@
     {
       "id": 1,
       "name": "Papas Blancas",
-      "description": "Papas",
+      "description": "Papa Yungay",
       "perishable": true,
       "min_stock": 5,
       "max_stock": 50,
@@ -781,9 +781,7 @@
     },
     {
       "id": 2,
-      "supply_id": 2,
-      "stock": 100,
-      "expiration_date": "2025-06-03",
+      "expiration_date": null,
       "user_id": 1
     },
     {
@@ -811,11 +809,8 @@
     },
     {
       "id": 6,
-      "inventory_id": 1,
-      "supply_id": 12,
-      "stock": "50",
-      "expiration_date": "2001-01-01T05:00:00.000Z",
-      "user_id": 2
+      "expiration_date": null,
+      "user_id": 1
     }
   ],
   "batch_notifications_states": [

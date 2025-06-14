@@ -14,6 +14,8 @@
     "suppliesTitle": "Supplies",
     "create": "CREATE",
     "edit": "Edit",
+    "next": "Next",
+    "back": "Back",
     "createSupplyTitle": "Create supply",
     "emptyTitle": "You have not added inputs yet.",
     "emptySubtitle": "Add them to start managing your inventory.",
