@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {CurrencyPipe} from "@angular/common";
+import {Component, Input, ViewChild} from '@angular/core';
+import {CurrencyPipe, DatePipe} from "@angular/common";
 import {FilterSectionComponent} from "../filter-section/filter-section.component";
 import {
   MatCell,
@@ -16,6 +16,9 @@ import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {MatIconButton} from '@angular/material/button';
 import {EditOrderComponent} from '../edit-order/edit-order.component';
 import {MatDialog} from '@angular/material/dialog';
+import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {Supply} from '../../../../resource/inventory/model/supply.entity';
+import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 
 @Component({
   selector: 'app-approved-orders',
@@ -35,37 +38,19 @@ import {MatDialog} from '@angular/material/dialog';
     MatTableModule,
     OrderDetailsComponent,
     MatIconButton,
-    EditOrderComponent
+    EditOrderComponent,
+    DatePipe
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'
 })
 export class ApprovedOrdersComponent {
+  @Input() orders: Array<OrderToSupplier> = [];
+  @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
+
   displayedColumns: string[] = ['orderDate', 'state', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
-  orders = new MatTableDataSource([
-    {
-      orderDate: '2025-06-08',
-      state: 'On Hold',
-      shipDate: '2025-04-08',
-      restaurantName: 'Pizzería Bella',
-      requestedProducts: 3,
-      finalPrice: 89.90
-    },
-    {
-      orderDate: '2025-04-07',
-      state: 'On the Way',
-      shipDate: '2025-06-07',
-      restaurantName: 'Sushi Express',
-      requestedProducts: 5,
-      finalPrice: 145.50
-    }
-  ]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.orders.paginator = this.paginator;
-  }
 
   showModal = false;
 
@@ -96,7 +81,23 @@ export class ApprovedOrdersComponent {
     this.showEditModal = value;
   }
 
+  // Method to get CSS class according to the order state
+  getRowClass(order: OrderToSupplier): string {
+    if (!order.state || !order.state.name) return '';
 
+    switch (order.state.name.toLowerCase()) {
+      case 'on hold':
+        return 'row-on-hold';
+      case 'on the way':
+        return 'row-on-the-way';
+      case 'delivered':
+        return 'row-delivered';
+      case 'preparing':
+        return 'row-preparing';
+      default:
+        return '';
+    }
+  }
 
 
 }
