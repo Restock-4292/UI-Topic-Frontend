@@ -6,7 +6,7 @@
       <mat-select [(ngModel)]="selectedSupply">
         @for (supply of availableSupplies; track supply){
           <mat-option [value]="supply">
-            {{ supply.description }}
+            {{ supply.name }}
           </mat-option>
         }
       </mat-select>
@@ -47,7 +47,7 @@
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Supply </th>
         <td mat-cell *matCellDef="let element">
-          {{ getSupplyDescription(element.supply_id) }}
+          {{ getSupplyName(element.supply_id) }}
         </td>
       </ng-container>
 

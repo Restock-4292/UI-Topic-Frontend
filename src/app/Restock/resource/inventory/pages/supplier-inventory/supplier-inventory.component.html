@@ -8,7 +8,11 @@
 
   <!-- Carousel (si hay supplies) -->
   @if (supplies.length > 0) {
-    <app-supply-carousel [supplies]="supplies" [categories]="categories" />
+    <app-supply-carousel
+      [supplies]="supplies"
+      [categories]="categories"
+      (edit)="editSupply($event)"
+    />
   }
 
   <!-- Tabla de inventario -->

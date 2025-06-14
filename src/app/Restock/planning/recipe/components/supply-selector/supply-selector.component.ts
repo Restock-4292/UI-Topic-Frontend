@@ -69,8 +69,8 @@ export class SupplySelectorComponent implements OnInit {
     this.suppliesChange.emit(updated);
   }
 
-  getSupplyDescription(id: number): string {
+  getSupplyName(id: number): string {
     const match = this.availableSupplies.find(s => s.id === id);
-    return match ? match.description : 'Unknown';
+    return match ? (match as any).name : 'Unknown';
   }
 }
