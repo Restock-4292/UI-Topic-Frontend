@@ -97,7 +97,7 @@ export class RestaurantInventoryComponent implements OnInit {
         type: 'select',
         placeholder: 'Choose category',
         options: categoryOptions,
-        step: 2
+        step: 3
       },
       {
         name: 'unit_measurement_id',
@@ -105,7 +105,7 @@ export class RestaurantInventoryComponent implements OnInit {
         type: 'select',
         placeholder: 'Choose unit',
         options: unitOptions,
-        step: 2
+        step: 3
       }
     ];
   }
@@ -219,7 +219,7 @@ export class RestaurantInventoryComponent implements OnInit {
     };
 
 
-    this.modalService.open({
+    const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(batch.supply_id),
@@ -228,7 +228,22 @@ export class RestaurantInventoryComponent implements OnInit {
       injectorValues: {
         supplies: this.supplies
       }
-    }).afterClosed().subscribe(async result => {
+    });
+
+    const instance = dialogRef.componentInstance.contentComponentRef?.instance as AddBatchToInventoryComponent | undefined;
+    instance?.supplyChange.subscribe((supplyId: number) => {
+      instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+      instance.updateSchema();
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      instance?.supplyChange.subscribe((supplyId: number) => {
+        instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+        instance.updateSchema();
+      })
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
         const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
@@ -244,7 +259,7 @@ export class RestaurantInventoryComponent implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      initialData: { label: batch.supply?.description }
+      initialData: { label: batch.supply?.name ?? ''}
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);

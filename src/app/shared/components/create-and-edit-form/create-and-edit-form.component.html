@@ -1,4 +1,4 @@
-<form class="edit-form" (ngSubmit)="onSubmit()">
+<div class="edit-form">
   @for (field of fieldsForCurrentStep(); track field) {
 
 
@@ -105,6 +105,7 @@
       <button
         mat-stroked-button
         type="button"
+        (click)="nextStep()"
         [disabled]="!validateCurrentStep()"
       >
         {{ 'inventory.next' | translate }}
@@ -115,12 +116,12 @@
       <button
         mat-raised-button
         class="green-button"
-        action
-        type="submit"
+        type="button"
+        (click)="onSubmit()"
       >
         {{ mode === 'edit' ? ('inventory.update' | translate) : ('inventory.save' | translate) }}
       </button>
     }
 
   </div>
-</form>
+</div>

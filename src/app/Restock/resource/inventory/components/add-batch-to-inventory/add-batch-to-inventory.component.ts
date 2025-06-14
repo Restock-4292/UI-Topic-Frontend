@@ -63,7 +63,7 @@ export class AddBatchToInventoryComponent implements OnInit {
   }
 
   onSubmit(result: any): void {
-    this.dialogRef.close(result);
+      this.dialogRef.close(result);
   }
 
   cancel(): void {
