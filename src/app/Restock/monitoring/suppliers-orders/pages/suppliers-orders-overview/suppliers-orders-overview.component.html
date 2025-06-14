@@ -2,19 +2,27 @@
   <mat-tab-group>
     <mat-tab label="New Orders" >
       <app-new-orders
-        [orders]="orders"
+        [orders]="newOrders"
         [adminRestaurantsProfiles]="restaurantNameMap"
         [orderSuppliesDetails]="detailedSuppliesGroupedByOrder"
-        [suppliesGroupedByOrder]="suppliesGroupedByOrder"
+        [batchesGroupedByOrder]="batchesGroupedByOrder"
+        (declineDialog)="openDeclineOrderDialog($event, 'decline')"
       />
     </mat-tab>
 
     <mat-tab label="Orders In Progress">
-      <app-approved-orders/>
+      <app-approved-orders
+        [orders]="ordersInProcess"
+        [adminRestaurantsProfiles]="restaurantNameMap"
+        (deleteDialog)="openDeclineOrderDialog($event, 'cancel')"
+      />
     </mat-tab>
 
     <mat-tab label="Orders History">
-      <app-delivered-orders/>
+      <app-delivered-orders
+        [orders]="deliveredOrders"
+        [adminRestaurantsProfiles]="restaurantNameMap"
+      />
     </mat-tab>
   </mat-tab-group>
 </div>

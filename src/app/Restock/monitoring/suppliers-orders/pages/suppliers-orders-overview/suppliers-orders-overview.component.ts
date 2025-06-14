@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {NewOrdersComponent} from '../../components/new-orders/new-orders.component';
 import {ApprovedOrdersComponent} from '../../components/approved-orders/approved-orders.component';
@@ -14,6 +14,21 @@ import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/mod
 import {
   OrderToSupplierBatchService
 } from '../../../../resource/orders-to-suppliers/services/order-to-supplier-batch.service';
+import {DeleteComponent} from '../../../../../shared/components/delete/delete.component';
+import {BaseModalService} from '../../../../../shared/services/base-modal.service';
+import {
+  OrderDetailsModalComponent
+} from '../../../../resource/orders-to-suppliers/components/order-details/order-details-modal.component';
+import {firstValueFrom} from 'rxjs';
+import {
+  CreateAndEditRecipeComponent
+} from '../../../../planning/recipe/components/create-and-edit-recipe/create-and-edit-recipe.component';
+import {OrderToSupplierState} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-state.entity';
+import {
+  OrderToSupplierSituation
+} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
+import {ManageNewOrdersComponent} from '../../components/manage-new-orders/manage-new-orders.component';
+import {SupplyService} from '../../../../resource/inventory/services/supply.service';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -28,12 +43,21 @@ import {
 })
 export class SuppliersOrdersOverviewComponent implements OnInit {
     orders: Array<OrderToSupplier> = [];
-  readonly adminRestaurantsProfiles: Profile[] = [];
-
+    readonly adminRestaurantsProfiles: Profile[] = [];
 
   restaurantNameMap: { [orderId: number]: string } = {};
   detailedSuppliesGroupedByOrder: { orderId: number; supplies: Supply[] }[] = [];
-  suppliesGroupedByOrder: { orderId: number; supplies: OrderToSupplierBatch[] }[] = [];
+  batchesGroupedByOrder: { orderId: number; batches: OrderToSupplierBatch[] }[] = [];
+  deliveredOrders: Array<OrderToSupplier> = [];
+  ordersInProcess: Array<OrderToSupplier> = [];
+  newOrders: Array<OrderToSupplier> = [];
+
+  @ViewChild(DeleteComponent) orderDeclineModal!: DeleteComponent;
+
+  selectedOrder: OrderToSupplier | null = null;
+  detailedSuppliesPerOrder: Supply[] = [];
+  batchesPerOrder: OrderToSupplierBatch[] = [];
+  restaurantNameOrderSelected: string = '';
 
   constructor(
     private orderService: OrderToSupplierService,
@@ -41,6 +65,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     private batchService: BatchService,
     private userService: UserService,
     private profileService: ProfileService,
+    private modalService: BaseModalService
   ) { }
 
   async ngOnInit() {
@@ -53,17 +78,33 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     this.restaurantNameMap = {};
 
     this.orders.forEach(order => {
-      const profile = this.adminRestaurantsProfiles.find(p => p.id === order.admin_restaurant_id);
+      const profile = this.adminRestaurantsProfiles.find(p => Number(p.id) === Number(order.admin_restaurant_id));
       this.restaurantNameMap[order.id] = profile?.companyName ?? 'Unknown Restaurant';
     });
   }
 
-
   async loadOrders() {
     this.orders = await this.orderService.getAllEnriched();
     console.log('Orders loaded:', this.orders);
-  }
 
+    // Filter delivered orders
+    this.deliveredOrders = this.orders.filter(order =>
+      order.state?.name.toLowerCase() === 'delivered'
+    );
+
+    // Filter orders in process: situation = approved && state != delivered
+    this.ordersInProcess = this.orders.filter(order =>
+      order.situation?.name.toLowerCase() === 'approved' &&
+      order.state?.name.toLowerCase() !== 'delivered'
+    );
+
+    this.newOrders = this.orders.filter(order =>
+      order.situation?.name.toLowerCase() === 'pending'
+    );
+
+    console.log('Delivered Orders:', this.deliveredOrders);
+    console.log('Orders In Process:', this.ordersInProcess);
+  }
   async loadUsersAndProfiles() {
     const restaurantUsersId = await this.userService.getRestaurantAdminUserIds();
 
@@ -82,21 +123,22 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
       const result = await Promise.all(
         this.orders.map(async (order) => {
-          const orderSupplies = await this.orderToSupplierBatchService.getSupplyByOrder(order.id);
+          const orderSupplies = order.supplies || await this.orderToSupplierBatchService.getSupplyByOrder(order.id);
 
-          // supplyGroupedByOrder: directamente la lista original
+          // supplyGroupedByOrder: original list
           const supplyGroup = {
             orderId: order.id,
-            supplies: orderSupplies,
+            batches: orderSupplies,
           };
 
-          // detailedSuppliesGroupedByOrder: la lista de Supply a partir del batch
+          // detailedSuppliesGroupedByOrder: list with detailed supply information of each batch
           const detailedGroup = {
             orderId: order.id,
             supplies: orderSupplies
               .map(os => {
-                const batch = batches.find(b => b.id === os.batch_id);
-                return batch?.supply || null;
+                const batch = batches.find(b => Number(b.id) === Number(os.batch_id));
+
+                return batch? batch.supply : null;
               })
               .filter((s): s is Supply => s !== null),
           };
@@ -105,11 +147,11 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
         })
       );
 
-      // Separar los resultados
-      this.suppliesGroupedByOrder = result.map(r => r.supplyGroup);
+      // Map the results to the component properties
+      this.batchesGroupedByOrder = result.map(r => r.supplyGroup);
       this.detailedSuppliesGroupedByOrder = result.map(r => r.detailedGroup);
 
-      console.log('Supplies grouped:', this.suppliesGroupedByOrder);
+      console.log('Supplies grouped:', this.batchesGroupedByOrder);
       console.log('Detailed supplies grouped:', this.detailedSuppliesGroupedByOrder);
 
     } catch (error) {
@@ -117,6 +159,100 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     }
   }
 
+  //MODALS METHODS
+  openDeclineOrderDialog(order: OrderToSupplier, action: string): void {
+    let titleContent = '';
 
+    if(action === 'decline')
+      titleContent = 'Decline Order';
+    else
+      titleContent = 'Cancel Order';
+
+    this.modalService.open({
+      title: titleContent,
+      contentComponent: DeleteComponent,
+      width: '25rem',
+      label: action + ' this order',
+    }).afterClosed().subscribe(async (confirmed: boolean) => {
+      if (confirmed) {
+        try {
+          const updatedOrder: OrderToSupplier = {
+            id: order.id,
+            date: order.date,
+            description: order.description,
+            estimated_ship_date: order.estimated_ship_date,
+            estimated_ship_time: order.estimated_ship_time,
+            admin_restaurant_id: order.admin_restaurant_id,
+            supplier_id: order.supplier_id,
+            order_to_supplier_situation_id: 3, // ID of "Declined"
+            order_to_supplier_state_id: 1, // ID of "On Hold"
+            requested_products_count: order.requested_products_count,
+            total_price: order.total_price,
+            partially_accepted: order.partially_accepted
+          };
+
+          await firstValueFrom(this.orderService.update(order.id, updatedOrder));
+
+          // Reload all data to ensure UI consistency
+          await this.loadOrders();
+          await this.loadGroupedSupplies();
+
+          console.log('Order updated successfully');
+        } catch (error) {
+          console.error('Error updating order situation to Declined:', error);
+        }
+      }
+    });
+  }
+
+
+
+  getDetailedOrderSupplies(orderId: number): Supply[] {
+    const orderGroup = this.detailedSuppliesGroupedByOrder.find(group =>
+      Number(group.orderId) === Number(orderId)
+    );
+    return orderGroup ? orderGroup.supplies : [];
+  }
+
+  getOrderBatches(orderId: number) {
+    const orderGroup = this.batchesGroupedByOrder.find(group =>
+      Number(group.orderId) === Number(orderId)
+    );
+    console.log('Batches for order ID', orderId, ':', orderGroup?.batches);
+    return orderGroup ? orderGroup.batches : [];
+
+  }
+
+  openManageOrdersModal(order: OrderToSupplier): void {
+    this.detailedSuppliesPerOrder = this.getDetailedOrderSupplies(order.id);
+    this.batchesPerOrder = this.getOrderBatches(order.id);
+    this.selectedOrder = order;
+    this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
+
+    // Callback para manejar cuando se envía el pedido
+    const handleOrderSubmitted = (data: any) => {
+      console.log('Pedido enviado:', data);
+      // Aquí puedes manejar la lógica del negocio
+      // como guardar en el servidor, actualizar listas, etc.
+    };
+
+    // Abrir el modal usando BaseModalService
+    const dialogRef = this.modalService.open({
+      title: 'Gestionar Nuevo Pedido',
+      contentComponent: ManageNewOrdersComponent,
+      width: '80%', // Modal más ancho para este componente
+      initialData: {
+        order: order,
+        suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
+        batchesOfOrder: this.batchesPerOrder,
+        adminRestaurantName: this.restaurantNameOrderSelected
+      }
+    });
+
+    // Opcional: manejar el cierre del modal
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Modal cerrado');
+    });
+  }
 }
 
