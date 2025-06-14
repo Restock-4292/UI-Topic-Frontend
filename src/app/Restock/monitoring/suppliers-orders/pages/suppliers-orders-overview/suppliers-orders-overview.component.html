@@ -7,6 +7,7 @@
         [orderSuppliesDetails]="detailedSuppliesGroupedByOrder"
         [batchesGroupedByOrder]="batchesGroupedByOrder"
         (declineDialog)="openDeclineOrderDialog($event, 'decline')"
+        (manageNewOrderModal)="openManageOrdersModal($event)"
       />
     </mat-tab>
 
@@ -20,7 +21,7 @@
 
     <mat-tab label="Orders History">
       <app-delivered-orders
-        [orders]="deliveredOrders"
+        [orders]="ordersInProcess"
         [adminRestaurantsProfiles]="restaurantNameMap"
       />
     </mat-tab>
