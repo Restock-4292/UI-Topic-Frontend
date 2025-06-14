@@ -208,7 +208,7 @@ export class CreateOrdersModalComponent {
                     console.warn('No se encontraron batches para el insumo:', supply);
                     continue;
                 }
-
+//Falta agregar id de usuario del proveedor
                 const newOrder = new OrderToSupplier({
                     date: new Date().toISOString(),
                     admin_restaurant_id: 2,
@@ -246,6 +246,7 @@ export class CreateOrdersModalComponent {
             console.error('Error al crear una de las órdenes o relaciones:', error);
         }
     }
+    
     getTotal(): number {
         const allItems = [...this.fullOrder, ...this.currentSelections];
         return allItems.reduce((sum, s) => {
