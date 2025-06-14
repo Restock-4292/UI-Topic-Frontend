@@ -176,7 +176,7 @@ export class RestaurantInventoryComponent implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      initialData: {label: supply.description}
+      label: supply.description
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.supplyService.deleteSupply(supply.id);
@@ -219,7 +219,7 @@ export class RestaurantInventoryComponent implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      initialData: { label: batch.supply?.description }
+      label: 'delete ' + batch.supply?.description
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
