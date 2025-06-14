@@ -16,6 +16,7 @@ export class BaseModalService {
       contentComponent: any;
       schema?: any;
       initialData?: any;
+      label?: any;
       mode?: 'create' | 'edit';
       width?: string;
       injectorValues?: Record<string, any>;
@@ -30,6 +31,7 @@ export class BaseModalService {
         contentComponent: config.contentComponent,
         schema: config.schema,
         initialData: config.initialData,
+        label: config.label,
         mode: config.mode
       }
     };
