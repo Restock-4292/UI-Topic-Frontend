@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CurrencyPipe, DatePipe} from "@angular/common";
 import {FilterSectionComponent} from "../filter-section/filter-section.component";
 import {
@@ -19,6 +19,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
+import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
 
 @Component({
   selector: 'app-approved-orders',
@@ -39,7 +40,8 @@ import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/mod
     OrderDetailsComponent,
     MatIconButton,
     EditOrderComponent,
-    DatePipe
+    DatePipe,
+    EmptySectionComponent
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'
@@ -48,9 +50,17 @@ export class ApprovedOrdersComponent {
   @Input() orders: Array<OrderToSupplier> = [];
   @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
 
+  @Output() deleteDialog = new EventEmitter<OrderToSupplier>();
+
   displayedColumns: string[] = ['orderDate', 'state', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
+
+  openDeleteDialog(order: any): void {
+    this.deleteDialog.emit(order);
+  }
 
   showModal = false;
 
