@@ -6,14 +6,20 @@
     <p class="subtitle">Complete the order details to start tracking your order.</p>
 
     <!-- Step 1: Supply Selection -->
+
+    <div class="section-subtitle">
+      <p> <strong>Restaurant name:</strong> {{ adminRestaurantName }} </p>
+    </div>
+
     <div *ngIf="step === 1" class="step-content">
       <div class="section-header">
         <h4 class="section-title">Supplies</h4>
         <p class="section-description">Select the supplies you have available for the order.</p>
       </div>
 
+
       <div class="table-container">
-        <table mat-table [dataSource]="suppliesPerOrder" class="supplies-table">
+        <table mat-table [dataSource]="batchesOfOrder" class="supplies-table">
 
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
@@ -25,11 +31,11 @@
                 Select All
               </mat-checkbox>
             </th>
-            <td mat-cell *matCellDef="let supply">
+            <td mat-cell *matCellDef="let batchOrdered">
               <mat-checkbox
                 (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(supply.supplyId) : null"
-                [checked]="selection.isSelected(supply.supplyId)">
+                (change)="$event ? selection.toggle(batchOrdered.supplyId) : null"
+                [checked]="selection.isSelected(batchOrdered.supplyId)">
               </mat-checkbox>
             </td>
           </ng-container>
@@ -37,19 +43,19 @@
           <!-- Product Name Column -->
           <ng-container matColumnDef="productName">
             <th mat-header-cell *matHeaderCellDef>Product Name</th>
-            <td mat-cell *matCellDef="let supply">{{ productName(supply.supplyId) }}</td>
+            <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.batch.supply.name }}</td>
           </ng-container>
 
           <!-- Quantity Column -->
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Quantity</th>
-            <td mat-cell *matCellDef="let supply">{{ supply.quantity }}</td>
+            <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.quantity }}</td>
           </ng-container>
 
           <!-- Unit Measure Column -->
           <ng-container matColumnDef="unitMeasure">
             <th mat-header-cell *matHeaderCellDef>Unit Measure</th>
-            <td mat-cell *matCellDef="let supply">{{ productUnitMeasurement(supply.supplyId) }}</td>
+            <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.batch.supply.unit_measurement.name }}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -64,7 +70,7 @@
       </div>
 
       <div class="total-price">
-        <strong>Total Price: ${{ order.totalPrice | number:'1.2-2' }}</strong>
+        <strong>Total Price: ${{ order?.total_price | number:'1.2-2' }}</strong>
       </div>
 
       <!-- Description -->
@@ -115,7 +121,6 @@
           <mat-list-item *ngFor="let supplyId of selection.selected" class="summary-item">
             <mat-icon matListItemIcon>inventory_2</mat-icon>
             <div matListItemTitle>{{ productName(supplyId) }}</div>
-            <div matListItemLine>({{ productUnitMeasurement(supplyId) }})</div>
           </mat-list-item>
         </mat-list>
 
@@ -124,7 +129,7 @@
         </div>
       </div>
     </div>
-  </mat-dialog-content>
+   </mat-dialog-content>
 
   <mat-dialog-actions class="modal-footer">
     <div class="footer-left">
@@ -161,7 +166,6 @@
         *ngIf="step === 2"
         mat-raised-button
         color="accent"
-        (click)="submitOrder()"
         class="btn-accept">
         <mat-icon>check</mat-icon>
         Accept Selection
