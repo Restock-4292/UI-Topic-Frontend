@@ -84,7 +84,7 @@ export class Supply {
       unit
     );
   }
-
+//test
   static fromForm(data: Omit<Supply, 'id' | 'user_id'>, userId: number): Supply {
     return new Supply(
       null,

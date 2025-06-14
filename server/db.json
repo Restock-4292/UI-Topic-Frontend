@@ -342,21 +342,21 @@
       "perishable": true,
       "min_stock": 5,
       "max_stock": 50,
+      "price": 2.5,
       "category_id": 1,
       "unit_measurement_id": 1,
-      "price": 2.5,
       "user_id": 1
     },
     {
       "id": 2,
-      "name": "Lomo Fino de Res",
+      "name": "Lomo Fino",
       "description": "Lomo Fino",
-      "perishable": true,
-      "min_stock": 2,
+      "perishable": false,
+      "min_stock": 5,
       "max_stock": 20,
-      "category_id": 2,
-      "unit_measurement_id": 2,
       "price": 12,
+      "category_id": 2,
+      "unit_measurement_id": 1,
       "user_id": 1
     },
     {
@@ -366,9 +366,9 @@
       "perishable": true,
       "min_stock": 3,
       "max_stock": 30,
+      "price": 1,
       "category_id": 1,
       "unit_measurement_id": 1,
-      "price": 1,
       "user_id": 2
     },
     {
@@ -531,13 +531,13 @@
     {
       "id": 2,
       "date": "2025-01-01T05:00:00.000Z",
-      "description": null,
+      "description": "",
       "estimated_ship_date": "2025-01-06T05:00:00.000Z",
       "estimated_ship_time": "2025-01-06T07:50:00.000Z",
       "admin_restaurant_id": 2,
       "supplier_id": 1,
+      "order_to_supplier_situation_id": 3,
       "order_to_supplier_state_id": 1,
-      "order_to_supplier_situation_id": 1,
       "requested_products_count": 2,
       "total_price": 30.55,
       "partially_accepted": false

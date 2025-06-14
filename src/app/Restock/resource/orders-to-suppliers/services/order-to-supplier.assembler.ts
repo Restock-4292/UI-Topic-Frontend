@@ -13,8 +13,6 @@ export class OrderToSupplierAssembler {
       id: dto.id,
       date: dto.date,
       description: dto.description,
-      estimated_ship_date: dto.estimated_ship_date ? new Date(dto.estimated_ship_date) : new Date(),
-      estimated_ship_time: dto.estimated_ship_time ? new Date(dto.estimated_ship_time) : new Date(),
       admin_restaurant_id: dto.admin_restaurant_id,
       supplier_id: dto.supplier_id,
       order_to_supplier_state_id: dto.order_to_supplier_state_id,
@@ -22,12 +20,14 @@ export class OrderToSupplierAssembler {
       total_price: dto.total_price,
       requested_products_count: dto.requested_products_count,
       partially_accepted: dto.partially_accepted,
+      estimated_ship_date: dto.estimated_ship_date ? new Date(dto.estimated_ship_date) : undefined,
+      estimated_ship_time: dto.estimated_ship_time ? new Date(dto.estimated_ship_time) : undefined,
     });
 
-    if(state) {
+    if (state) {
       entity.state = state;
     }
-    if(situation) {
+    if (situation) {
       entity.situation = situation;
     }
 
@@ -39,8 +39,6 @@ export class OrderToSupplierAssembler {
       id: entity.id,
       date: entity.date,
       description: entity.description,
-      estimated_ship_date: entity.estimated_ship_date.toISOString(),
-      estimated_ship_time: entity.estimated_ship_time.toISOString(),
       admin_restaurant_id: entity.admin_restaurant_id,
       supplier_id: entity.supplier_id,
       order_to_supplier_state_id: entity.order_to_supplier_state_id,
@@ -48,6 +46,8 @@ export class OrderToSupplierAssembler {
       requested_products_count: entity.requested_products_count,
       total_price: entity.total_price,
       partially_accepted: entity.partially_accepted,
+      estimated_ship_date: entity.estimated_ship_date?.toISOString(),
+      estimated_ship_time: entity.estimated_ship_time?.toISOString()
     };
   }
 }

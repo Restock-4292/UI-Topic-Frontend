@@ -13,6 +13,7 @@
   "inventory": {
     "suppliesTitle": "Insumos",
     "create": "CREAR",
+    "edit": "Editar",
     "createSupplyTitle": "Crear insumo",
     "emptyTitle": "Aún no has agregado insumos.",
     "emptySubtitle": "Agrégalos para empezar a gestionar tu inventario.",

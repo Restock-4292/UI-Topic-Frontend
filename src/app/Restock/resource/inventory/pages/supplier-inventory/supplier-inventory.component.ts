@@ -68,6 +68,7 @@ export class SupplierInventory implements OnInit {
     }));
 
     this.formSchema = [
+      {name: 'name', label: this.translate.instant('inventory.name'), type : 'text', placeholder: this.translate.instant('inventory.name')},
       {name: 'description', label: this.translate.instant('inventory.descriptionOptional'), type: 'text', placeholder: this.translate.instant('inventory.descriptionOptional')},
       {name: 'perishable', label: this.translate.instant('inventory.perishable'), type: 'boolean', placeholder: ''},
       {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
@@ -93,7 +94,7 @@ export class SupplierInventory implements OnInit {
   buildInventoryFormSchema(selectedSupplyId?: number): FormFieldSchema[] {
     const supplyOptions = this.supplies.map(s => ({
       value: s.id,
-      label: s.description
+      label: s.name
     }));
 
     const schema: FormFieldSchema[] = [
@@ -152,6 +153,7 @@ export class SupplierInventory implements OnInit {
         const newSupply = Supply.fromForm(result, 1); // 1 = user_id temporal
         await this.supplyService.createSupply(newSupply);
         await this.loadSupplies();
+        await this.loadBatches();
       }
     });
   }
@@ -168,6 +170,7 @@ export class SupplierInventory implements OnInit {
         const updated = Supply.fromForm(result, supply.user_id);
         await this.supplyService.updateSupply(supply.id, updated);
         await this.loadSupplies();
+        await this.loadBatches();
       }
     });
   }
@@ -182,6 +185,7 @@ export class SupplierInventory implements OnInit {
       if (confirmed) {
         await this.supplyService.deleteSupply(supply.id);
         await this.loadSupplies();
+        await this.loadBatches();
       }
     });
   }
@@ -207,9 +211,10 @@ export class SupplierInventory implements OnInit {
       }
     }).afterClosed().subscribe(async result => {
       if (result) {
-        //User ID is not needed in the form, it will be set by the service
-        const updated = Batch.fromForm(result, 1);
+        //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
+        const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
         await this.batchService.updateBatch(batch.id, updated);
+        await this.loadSupplies();
         await this.loadBatches();
       }
     });
@@ -224,6 +229,7 @@ export class SupplierInventory implements OnInit {
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
+        await this.loadSupplies();
         await this.loadBatches();
       }
     });
@@ -278,11 +284,12 @@ export class SupplierInventory implements OnInit {
         const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
         await this.batchService.createBatch(batch);
 
-        this.snackBar.open('Batch registered ✅', 'Close', {
+        this.snackBar.open('Batch registered', 'Close', {
           duration: 3000,
           panelClass: 'snackbar-success'
         });
 
+        await this.loadSupplies();
         await this.loadBatches();
       }
     });

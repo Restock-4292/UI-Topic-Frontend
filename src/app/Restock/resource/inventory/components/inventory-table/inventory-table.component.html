@@ -23,7 +23,7 @@
   <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableSupply' | translate }} </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.supply?.description || '-' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.name || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="category">

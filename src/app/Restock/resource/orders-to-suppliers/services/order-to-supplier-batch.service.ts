@@ -39,11 +39,8 @@ export class OrderToSupplierBatchService extends BaseService<OrderToSupplierBatc
   }
 
   async createSupply(supply: OrderToSupplierBatch): Promise<OrderToSupplierBatch> {
-    console.log('Creating supply (before DTO):', supply);
     const dto = OrderToSupplierBatchAssembler.toDTO(supply);
-    console.log('Creating supply (after DTO):', dto);
     const created = await firstValueFrom(this.create(dto));
-    console.log('Created supply:', created);
     return OrderToSupplierBatchAssembler.toEntity(created);
   }
   async updateSupply(id: number, supply: OrderToSupplierBatch): Promise<OrderToSupplierBatch> {

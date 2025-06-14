@@ -13,7 +13,8 @@
   "inventory": {
     "suppliesTitle": "Supplies",
     "create": "CREATE",
-    "createSupply": "Create supply",
+    "edit": "Edit",
+    "createSupplyTitle": "Create supply",
     "emptyTitle": "You have not added inputs yet.",
     "emptySubtitle": "Add them to start managing your inventory.",
     "addInventoryTitle": "Add supply to inventory",

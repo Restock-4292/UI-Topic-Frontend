@@ -8,6 +8,7 @@ import { ProfileService } from '../../../../profiles/services/profile.service';
 import { Profile } from '../../../../profiles/model/profile.entity';
 import { UserService } from '../../../../iam/services/user.service';
 import { OrderDetailsModalComponent } from '../../components/order-details/order-details-modal.component';
+import { OrderFeedbackModalComponent } from '../../components/order-feedback-modal/order-feedback-modal.component';
 import { SupplyService } from '../../../inventory/services/supply.service';
 import { Supply } from '../../../inventory/model/supply.entity';
 
@@ -20,7 +21,8 @@ import { Supply } from '../../../inventory/model/supply.entity';
     OrdersToolbarComponent,
     OrdersTableComponent,
     CreateOrdersModalComponent,
-    OrderDetailsModalComponent
+    OrderDetailsModalComponent,
+    OrderFeedbackModalComponent
   ],
 })
 export class OrdersComponent implements OnInit {
@@ -37,6 +39,9 @@ export class OrdersComponent implements OnInit {
 
   @ViewChild(OrderDetailsModalComponent) orderDetailsModal!: OrderDetailsModalComponent;
   selectedOrder!: OrderToSupplier;
+
+  @ViewChild(OrderFeedbackModalComponent)
+  orderFeedbackModal!: OrderFeedbackModalComponent;
 
   constructor(
     private orderService: OrderToSupplierService,
@@ -61,17 +66,14 @@ export class OrdersComponent implements OnInit {
 
       this.profileService.loadProfilesByUserIds(providerUserIds).subscribe((profiles) => {
         this.providerProfiles = profiles;
-        console.log('Provider profiles loaded:', this.providerProfiles);
         this.supplierOptions = profiles.map(profile => ({
           id: profile.id,
           name: profile.name
         }));
-        console.log('Supplier options:', this.supplierOptions);
       });
 
       const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
       this.providerSupplies = enrichedSupplies;
-      console.log('Provider supplies loaded:', this.providerSupplies);
     } catch (error) {
       console.error('Error loading provider profiles or supplies:', error);
     }
@@ -112,10 +114,13 @@ export class OrdersComponent implements OnInit {
   }
   openDetails(order: OrderToSupplier): void {
     this.selectedOrder = order;
-    this.orderDetailsModal.open();
+    this.orderDetailsModal.open(order);
   }
   onOrderSelected(orderId: number): void {
     const selectedOrder = this.orders.find(order => order.id === orderId);
   }
-
+  openFeedback(order: OrderToSupplier): void {
+    this.selectedOrder = order;
+    this.orderFeedbackModal.open(order);
+  }
 }

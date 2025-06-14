@@ -63,7 +63,6 @@ export class OrderToSupplierService extends BaseService<OrderToSupplier> {
 
     async createOrder(order: OrderToSupplier): Promise<OrderToSupplier> {
         const dto = OrderToSupplierAssembler.toDTO(order);
-        console.log('Creating order (before DTO):', dto);
         const created = await firstValueFrom(this.create(dto));
         return OrderToSupplierAssembler.toEntity(created);
     }

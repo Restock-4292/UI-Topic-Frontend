@@ -41,20 +41,11 @@ export class CreateOrdersModalComponent {
 
     @ViewChild('createOrderModal') createOrderModalRef!: TemplateRef<any>;
 
-    // Tabs y selección actual
     tabIndex = 0;
     selectedSupply: any = null;
-
-    // Datos de proveedores filtrados por insumo
     filteredSuppliers: any[] = [];
-
-    // Proveedores seleccionados para el insumo actual
     currentSelections: any[] = [];
-
-    // Acumulador de todas las selecciones (varios insumos)
     fullOrder: any[] = [];
-
-    // Orden ascendente/descendente de precios
     sortAsc = true;
 
     constructor(private dialog: MatDialog,
@@ -88,7 +79,6 @@ export class CreateOrdersModalComponent {
         const supplyId = this.selectedSupply.id;
 
         const matchingProviders = this.providerSupplies.filter(p => String(p.id) === String(supplyId));
-        console.log('Proveedores que coinciden con el insumo seleccionado:', matchingProviders);
         const totalAvailable = (this.selectedSupply.batches || []).reduce((sum: number, batch: any) => {
             return sum + Number(batch.stock || 0);
         }, 0);
@@ -99,7 +89,6 @@ export class CreateOrdersModalComponent {
             );
 
             const profile = this.providerProfiles.find(p => p.id === s.user_id);
-            console.log('Perfil del proveedor:', profile);
             return {
                 ...s,
                 selected: !!already,
@@ -182,8 +171,6 @@ export class CreateOrdersModalComponent {
         });
     }
 
-
-
     addMoreSupply(): void {
         const supplyId = this.selectedSupply?.id;
         console.log("Lista actual de selecciones:", this.currentSelections);
@@ -198,25 +185,17 @@ export class CreateOrdersModalComponent {
 
         this.resetStep();
     }
-    /*    onCreateOrder(): void {
-           const finalOrder = [...this.fullOrder, ...this.currentSelections];
-           console.log('Orden final:', finalOrder);
-           this.closeModal();
-       } */
+
     async onCreateOrder(): Promise<void> {
         const finalOrder = [...this.fullOrder, ...this.currentSelections];
-        console.log('Orden final:', finalOrder);
 
         try {
             for (const supply of finalOrder) {
-                const batch = supply.batches?.[0];
-                console.log('Procesando insumo:', supply, 'con batch:', batch);
-                if (!batch || !batch.id) {
-                    console.warn('No se encontró batch válido para el insumo:', supply);
+                if (!supply.batches || supply.batches.length === 0) {
+                    console.warn('No se encontraron batches para el insumo:', supply);
                     continue;
                 }
-
-                // Crear una orden individual para este insumo
+//Falta agregar id de usuario del proveedor
                 const newOrder = new OrderToSupplier({
                     date: new Date().toISOString(),
                     admin_restaurant_id: 2,
@@ -224,27 +203,31 @@ export class CreateOrdersModalComponent {
                     order_to_supplier_state_id: 1,
                     order_to_supplier_situation_id: 1,
                     partially_accepted: false,
-                    total_price: supply.quantity * supply.price
+                    total_price: supply.quantity * supply.price,
+                    estimated_ship_date: null,
+                    estimated_ship_time: null,
+                    requested_products_count: supply.batches.length
                 });
-                console.log('Creando orden para el insumo:', newOrder);
-                // Crear orden
+
                 const createdOrder = await this.orderToSupplierService.createOrder(newOrder);
-console.log('Orden creada:', createdOrder);
-                // Crear relación con el batch
-                console.log('Creando relación con el batch:', batch);
-                
-                const newSupplyRelation = new OrderToSupplierBatch({
-                    order_to_supplier_id: createdOrder.id,
-                    batch_id: batch.id,
-                    quantity: supply.quantity,
-                    accepted: false,
-                });
-                console.log('Nueva relación de suministro:', newSupplyRelation);
-                await this.orderToSupplierBatchService.createSupply(newSupplyRelation);
-                console.log('Orden creada:', createdOrder);
+
+                for (const batch of supply.batches) {
+                    if (!batch.id) {
+                        console.warn('Batch inválido para el insumo:', supply);
+                        continue;
+                    }
+
+                    const newSupplyRelation = new OrderToSupplierBatch({
+                        order_to_supplier_id: createdOrder.id,
+                        batch_id: batch.id,
+                        quantity: supply.quantity,
+                        accepted: false,
+                    });
+
+                    await this.orderToSupplierBatchService.createSupply(newSupplyRelation);
+                }
             }
 
-            console.log('Todas las órdenes y relaciones fueron creadas correctamente');
             this.closeModal();
         } catch (error) {
             console.error('Error al crear una de las órdenes o relaciones:', error);
@@ -259,8 +242,6 @@ console.log('Orden creada:', createdOrder);
         }, 0);
     }
 
-
-    // Utilidades
     private resetStep(): void {
         this.selectedSupply = null;
         this.filteredSuppliers = [];
