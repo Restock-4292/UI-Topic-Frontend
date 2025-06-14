@@ -845,140 +845,140 @@
     {
       "id": 1,
       "order_to_supplier_id": 1,
-      "supply_id": 1,
+      "batch_id": 1,
       "quantity": 10,
       "accepted": false
     },
     {
       "id": 2,
       "order_to_supplier_id": 1,
-      "supply_id": 2,
+      "batch_id": 2,
       "quantity": 4,
       "accepted": false
     },
     {
       "id": 3,
       "order_to_supplier_id": 2,
-      "supply_id": 3,
+      "batch_id": 3,
       "quantity": 5,
       "accepted": false
     },
     {
       "id": 4,
       "order_to_supplier_id": 3,
-      "supply_id": 5,
+      "batch_id": 5,
       "quantity": 5,
       "accepted": true
     },
     {
       "id": 5,
       "order_to_supplier_id": 3,
-      "supply_id": 4,
+      "batch_id": 4,
       "quantity": 2,
       "accepted": true
     },
     {
       "id": 6,
       "order_to_supplier_id": 4,
-      "supply_id": 6,
+      "batch_id": 6,
       "quantity": 2,
       "accepted": true
     },
     {
       "id": 7,
       "order_to_supplier_id": 4,
-      "supply_id": 7,
+      "batch_id": 7,
       "quantity": 3,
       "accepted": true
     },
     {
       "id": 8,
       "order_to_supplier_id": 4,
-      "supply_id": 8,
+      "batch_id": 8,
       "quantity": 2,
       "accepted": false
     },
     {
       "id": 9,
       "order_to_supplier_id": 5,
-      "supply_id": 6,
+      "batch_id": 6,
       "quantity": 2,
       "accepted": true
     },
     {
       "id": 10,
       "order_to_supplier_id": 5,
-      "supply_id": 5,
+      "batch_id": 5,
       "quantity": 3,
       "accepted": false
     },
     {
       "id": 11,
       "order_to_supplier_id": 2,
-      "supply_id": 4,
+      "batch_id": 4,
       "quantity": 1,
       "accepted": false
     },
     {
       "id": 12,
       "order_to_supplier_id": 6,
-      "supply_id": 8,
+      "batch_id": 8,
       "quantity": 2,
       "accepted": true
     },
     {
       "id": 13,
       "order_to_supplier_id": 6,
-      "supply_id": 2,
+      "batch_id": 2,
       "quantity": 3,
       "accepted": true
     },
     {
       "id": 14,
       "order_to_supplier_id": 6,
-      "supply_id": 3,
+      "batch_id": 3,
       "quantity": 5,
       "accepted": true
     },
     {
       "id": 15,
       "order_to_supplier_id": 7,
-      "supply_id": 4,
+      "batch_id": 4,
       "quantity": 2,
       "accepted": false
     },
     {
       "id": 16,
       "order_to_supplier_id": 7,
-      "supply_id": 5,
+      "batch_id": 5,
       "quantity": 3,
       "accepted": false
     },
     {
       "id": 17,
       "order_to_supplier_id": 7,
-      "supply_id": 1,
+      "batch_id": 1,
       "quantity": 3,
       "accepted": false
     },
     {
       "id": 18,
       "order_to_supplier_id": 8,
-      "supply_id": 1,
+      "batch_id": 1,
       "quantity": 4,
       "accepted": false
     },
     {
       "id": 19,
       "order_to_supplier_id": 8,
-      "supply_id": 2,
+      "batch_id": 2,
       "quantity": 2,
       "accepted": false
     },
     {
       "id": 20,
       "order_to_supplier_id": 8,
-      "supply_id": 3,
+      "batch_id": 3,
       "quantity": 4,
       "accepted": false
     }
