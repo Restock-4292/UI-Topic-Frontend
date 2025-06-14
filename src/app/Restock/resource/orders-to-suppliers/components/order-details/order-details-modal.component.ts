@@ -9,7 +9,7 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 @Component({
   selector: 'order-details-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, NgForOf],
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './order-details-modal.component.html',
   styleUrl: './order-details-modal.component.css'
 })
