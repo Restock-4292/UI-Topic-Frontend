@@ -1,6 +1,11 @@
-<form class="recipe-modal-content" (ngSubmit)="onSubmit()">
-  <app-create-and-edit-form (submit)="handleFormChange($event)" />
-
+<div class="recipe-modal-content">
+  <app-create-and-edit-form
+    [schema]="schema"
+    [initialData]="initialData"
+    [mode]="mode"
+    (formChange)="handleFormChange($event)"
+    (submit)="onSubmit($event)"
+  />
   <app-supply-selector
     [supplies]="supplies"
     (suppliesChange)="handleSuppliesChange($event)"
@@ -8,8 +13,5 @@
 
 
   <div class="recipe-modal-actions">
-    <button mat-raised-button class="green-button" action type="submit">
-      {{ mode === 'create' ? 'Save' : 'Update' }}
-    </button>
   </div>
-</form>
+</div>

@@ -1,15 +1,9 @@
-<form class="batch-modal-content" (ngSubmit)="onSubmit()">
+<div class="batch-modal-content">
   <app-create-and-edit-form
     [schema]="currentSchema"
     [initialData]="initialData"
     [mode]="mode"
-    (submit)="handleFormChange($event)"
+    (formChange)="handleFormChange($event)"
+    (submit)="onSubmit($event)"
   />
-
-  <div class="batch-modal-actions">
-    <button mat-button type="button" (click)="cancel()">{{ 'inventory.cancel' | translate }}</button>
-    <button mat-raised-button class="green-button" action type="submit">
-      {{ mode === 'edit' ? ( 'inventory.update' | translate ) : ( 'inventory.save' | translate ) }}
-    </button>
-  </div>
-</form>
+</div>

@@ -17,6 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {TranslatePipe} from '@ngx-translate/core';
 
 export interface FormFieldSchema {
   name: string;
@@ -25,6 +26,7 @@ export interface FormFieldSchema {
   placeholder: string;
   format?: 'currency';
   options?: { value: any; label: string }[];
+  step?: number;
 }
 
 @Component({
@@ -41,7 +43,8 @@ export interface FormFieldSchema {
     MatSelectModule,
     MatOptionModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    TranslatePipe
   ],
   templateUrl: './create-and-edit-form.component.html',
   styleUrls: ['./create-and-edit-form.component.css'],
@@ -54,10 +57,14 @@ export interface FormFieldSchema {
  */
 export class CreateAndEditFormComponent implements OnInit {
   form: any = {};
+  currentStep = 1;
+  hasSteps = false;
+  totalSteps = 1;
   /**
    * Event emitter for form submission.
    */
   @Output() submit = new EventEmitter<any>();
+  @Output() formChange = new EventEmitter<any>();
   /**
    * Schema for the form fields.
    */
@@ -117,8 +124,12 @@ export class CreateAndEditFormComponent implements OnInit {
       }
     }
 
+    this.hasSteps = this.schema.some(f => typeof f.step === 'number');
+    if (this.hasSteps) {
+      this.totalSteps = Math.max(...this.schema.map(f => f.step ?? 1));
+    }
+
     this.cdr.markForCheck();
-    this.emitForm();
   }
 
   handleUpload(event: any, fieldName: string): void {
@@ -134,13 +145,51 @@ export class CreateAndEditFormComponent implements OnInit {
       .then(res => res.json())
       .then(data => {
         this.form[fieldName] = data.secure_url;
-        this.emitForm();
+        this.emitChange();
         this.cdr.markForCheck();
       })
       .catch(error => console.error('❌ Upload failed:', error));
   }
 
-  emitForm(): void {
+  emitChange(): void {
+    this.formChange.emit(this.form);
+  }
+
+  updateField(name: string, value: any): void {
+    this.form[name] = value;
+    this.emitChange();
+  }
+
+  fieldsForCurrentStep(): FormFieldSchema[] {
+    if (!this.hasSteps) {
+      return this.schema ?? [];
+    }
+    return (this.schema ?? []).filter(f => (f.step ?? 1) === this.currentStep);
+  }
+
+  validateCurrentStep(): boolean {
+    if (!this.hasSteps) {
+      return true;
+    }
+    return this.fieldsForCurrentStep().every(field => {
+      const value = this.form[field.name];
+      return value !== undefined && value !== null && value !== '';
+    });
+  }
+
+  nextStep(): void {
+    if (this.currentStep < this.totalSteps && this.validateCurrentStep()) {
+      this.currentStep++;
+    }
+  }
+
+  prevStep(): void {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
+  onSubmit(): void {
     this.submit.emit(this.form);
   }
 }

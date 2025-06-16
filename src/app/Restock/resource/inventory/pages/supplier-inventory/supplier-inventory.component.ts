@@ -225,7 +225,7 @@ export class SupplierInventory implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      label: 'delete ' + batch.supply?.description,
+      label: 'delete ' + batch.supply?.name,
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);

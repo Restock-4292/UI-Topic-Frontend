@@ -46,9 +46,9 @@ export class CreateAndEditRecipeComponent implements OnInit {
     this.supplies = updatedSupplies;
   }
 
-  onSubmit(): void {
+  onSubmit(result: any): void {
     this.dialogRef.close({
-      ...this.form,
+      ...result,
       supplies: this.supplies
     });
   }

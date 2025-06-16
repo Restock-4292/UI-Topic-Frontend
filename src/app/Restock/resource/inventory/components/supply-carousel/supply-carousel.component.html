@@ -10,7 +10,7 @@
         <p class="category">{{ getCategoryName(supply.category_id) }}</p>
         <p class="description">{{ supply.description || '-' }}</p>
         <button mat-stroked-button class="edit-btn" (click)="edit.emit(supply)">
-          {{'inventory.edit' | translate }}
+          {{ 'inventory.edit' | translate }}
         </button>
       </div>
     }

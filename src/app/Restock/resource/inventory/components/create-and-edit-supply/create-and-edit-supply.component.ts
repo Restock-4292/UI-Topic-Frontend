@@ -25,12 +25,8 @@ export class CreateAndEditSupplyComponent implements OnInit {
     this.form = { ...this.initialData };
   }
 
-  handleFormChange(updatedForm: any): void {
-    this.form = updatedForm;
-  }
-
-  onSubmit(): void {
-    this.dialogRef.close(this.form);
+  onSubmit(result: any): void {
+    this.dialogRef.close(result);
   }
 
   cancel(): void {
