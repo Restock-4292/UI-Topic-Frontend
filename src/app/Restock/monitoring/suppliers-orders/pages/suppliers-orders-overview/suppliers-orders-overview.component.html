@@ -6,7 +6,7 @@
         [adminRestaurantsProfiles]="restaurantNameMap"
         [orderSuppliesDetails]="detailedSuppliesGroupedByOrder"
         [batchesGroupedByOrder]="batchesGroupedByOrder"
-        (declineDialog)="openDeclineOrderDialog($event, 'decline')"
+        (declineDialog)="openDeleteOrderDialog($event, 'decline')"
         (manageNewOrderModal)="openManageOrdersModal($event)"
       />
     </mat-tab>
@@ -15,7 +15,7 @@
       <app-approved-orders
         [orders]="ordersInProcess"
         [adminRestaurantsProfiles]="restaurantNameMap"
-        (deleteDialog)="openDeclineOrderDialog($event, 'cancel')"
+        (deleteDialog)="openDeleteOrderDialog($event, 'cancel')"
       />
     </mat-tab>
 

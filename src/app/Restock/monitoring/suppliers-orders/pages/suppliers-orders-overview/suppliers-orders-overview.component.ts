@@ -160,13 +160,20 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   }
 
   //MODALS METHODS
-  openDeclineOrderDialog(order: OrderToSupplier, action: string): void {
+  openDeleteOrderDialog(order: OrderToSupplier, action: string): void {
     let titleContent = '';
+    let newIdSituation = 0; // Default situation ID
 
     if(action === 'decline')
+    {
       titleContent = 'Decline Order';
+      newIdSituation = 3; // ID of "Declined"
+    }
     else
+    {
       titleContent = 'Cancel Order';
+      newIdSituation = 4; // ID of "Cancelled"
+    }
 
     this.modalService.open({
       title: titleContent,
@@ -184,8 +191,8 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
             estimated_ship_time: order.estimated_ship_time,
             admin_restaurant_id: order.admin_restaurant_id,
             supplier_id: order.supplier_id,
-            order_to_supplier_situation_id: 3, // ID of "Declined"
             order_to_supplier_state_id: 1, // ID of "On Hold"
+            order_to_supplier_situation_id: newIdSituation, // ID of "Declined"
             requested_products_count: order.requested_products_count,
             total_price: order.total_price,
             partially_accepted: order.partially_accepted
@@ -238,9 +245,11 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
     // Abrir el modal usando BaseModalService
     const dialogRef = this.modalService.open({
-      title: 'Gestionar Nuevo Pedido',
+      title: 'New Order Management',
       contentComponent: ManageNewOrdersComponent,
-      width: '80%', // Modal más ancho para este componente
+      width: '40vw',
+      height: '90vh',
+      description: 'Complete the order details to start tracking your order',
       initialData: {
         order: order,
         suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
