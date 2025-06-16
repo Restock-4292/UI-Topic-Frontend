@@ -8,6 +8,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 const httpLoaderFactory: (http: HttpClient) =>
   TranslateLoader = (http: HttpClient) =>
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
+    provideNativeDateAdapter(),
     provideTranslateService({
       loader: {
         provide: TranslateLoader,
