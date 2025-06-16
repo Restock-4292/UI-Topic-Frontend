@@ -42,6 +42,7 @@ export class BaseModalComponent implements AfterViewInit {
     public data: {
       title: string;
       contentComponent: any;
+      description?: string;
       schema?: any;
       initialData?: any;
       mode?: 'create' | 'edit';
