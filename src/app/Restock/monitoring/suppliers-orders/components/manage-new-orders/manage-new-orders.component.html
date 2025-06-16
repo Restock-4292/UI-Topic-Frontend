@@ -1,44 +1,23 @@
 <!-- manage-new-orders.component.html -->
 <div class="order-management-dialog">
-  <h2 mat-dialog-title>New Order Management</h2>
 
   <mat-dialog-content class="modal-content">
-    <p class="subtitle">Complete the order details to start tracking your order.</p>
-
     <!-- Step 1: Supply Selection -->
 
-    <div class="section-subtitle">
-      <p> <strong>Restaurant name:</strong> {{ adminRestaurantName }} </p>
-    </div>
-
     <div *ngIf="step === 1" class="step-content">
+
+      <div class="section-subtitle">
+        <p> <span class="subtitle">Restaurant name:</span> {{ adminRestaurantName }} </p>
+      </div>
+
       <div class="section-header">
-        <h4 class="section-title">Supplies</h4>
+        <h4 class="subtitle">Supplies</h4>
         <p class="section-description">Select the supplies you have available for the order.</p>
       </div>
 
 
       <div class="table-container">
-        <table mat-table [dataSource]="batchesOfOrder" class="supplies-table">
-
-          <!-- Checkbox Column -->
-          <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox
-                (change)="$event ? masterToggle() : null"
-                [checked]="selection.hasValue() && isAllSelected"
-                [indeterminate]="selection.hasValue() && !isAllSelected">
-                Select All
-              </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let batchOrdered">
-              <mat-checkbox
-                (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(batchOrdered.supplyId) : null"
-                [checked]="selection.isSelected(batchOrdered.supplyId)">
-              </mat-checkbox>
-            </td>
-          </ng-container>
+        <table mat-table [dataSource]="dataSource" class="supplies-table">
 
           <!-- Product Name Column -->
           <ng-container matColumnDef="productName">
@@ -58,14 +37,37 @@
             <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.batch.supply.unit_measurement.name }}</td>
           </ng-container>
 
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="masterToggle()"
+                [checked]="isAllSelected"
+                [indeterminate]="selection.hasValue() && !isAllSelected">
+                Select All
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let batchOrdered">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="toggleSelection(batchOrdered.batch.supply_id)"
+                [checked]="isSelected(batchOrdered.batch.supply_id)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
         </table>
 
+
         <mat-paginator
+          class="paginator"
           [pageSizeOptions]="[2, 3, 4]"
           [pageSize]="4"
-          showFirstLastButtons>
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
         </mat-paginator>
       </div>
 
@@ -89,20 +91,23 @@
 
     <!-- Step 2: Summary and Shipping -->
     <div *ngIf="step === 2" class="step-content">
+
       <div class="date-time-section">
+        <h3 class="subtitle">Estimated Shipping Date</h3>
         <div class="date-section">
           <mat-form-field appearance="outline">
             <mat-label>Estimated Shipping Date</mat-label>
             <input
               matInput
-              [matDatepicker]="datePicker"
+              [matDatepicker]="picker"
               [(ngModel)]="localOrder.estimatedShipDate"
               placeholder="Select date">
-            <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-            <mat-datepicker #datePicker></mat-datepicker>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
 
+        <h3 class="subtitle">Estimated Shipping Time</h3>
         <div class="time-section">
           <mat-form-field appearance="outline">
             <mat-label>Estimated Shipping Time</mat-label>
@@ -115,19 +120,22 @@
         </div>
       </div>
 
-      <div class="summary-section">
-        <h3 class="summary-title">Order Summary</h3>
-        <mat-list class="summary-list" *ngIf="selection.selected.length > 0">
-          <mat-list-item *ngFor="let supplyId of selection.selected" class="summary-item">
-            <mat-icon matListItemIcon>inventory_2</mat-icon>
-            <div matListItemTitle>{{ productName(supplyId) }}</div>
-          </mat-list-item>
-        </mat-list>
+      @if(selection.selected.length > 0)
+      {
+        <div class="summary-section">
+          <h3 class="subtitle">Order Summary</h3>
+          <ul class="summary-list-bullets">
+            <li *ngFor="let supplyId of selection.selected" class="summary-item">
+              {{ productName(supplyId) }}
+            </li>
+          </ul>
 
-        <div class="calculated-total" *ngIf="selection.selected.length > 0">
-          <strong>Selected Items Total: ${{ calculateNewTotalPrice() | number:'1.2-2' }}</strong>
+          <div class="calculated-total" *ngIf="selection.selected.length > 0">
+            <h3 class="subtitle"><strong>Selected Items Total: ${{ calculateNewTotalPrice() | number:'1.2-2' }}</strong> </h3>
+          </div>
         </div>
-      </div>
+      }
+
     </div>
    </mat-dialog-content>
 

@@ -13,7 +13,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -34,6 +34,7 @@ import {BaseModalComponent} from '../../../../../shared/components/base-modal/ba
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {Profile} from '../../../../profiles/model/profile.entity';
+import {MatNativeDateModule} from '@angular/material/core';
 
 interface LocalOrder {
   description: string;
@@ -59,8 +60,7 @@ interface LocalOrder {
     MatIcon,
     MatPaginator,
     MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle
+    MatDialogContent
   ],
   templateUrl: './manage-new-orders.component.html',
   styleUrl: './manage-new-orders.component.css'
@@ -84,14 +84,14 @@ export class ManageNewOrdersComponent implements OnInit {
     estimatedShipDate: null,
     estimatedShipTime: null
   };
-
+  dataSource = new MatTableDataSource<any>();
   step = 1;
   selection = new SelectionModel<number>(true, []);
 
   // Callback para manejar el envío del pedido
   onOrderSubmitted?: (data: any) => void;
 
-  displayedColumns: string[] = ['select', 'productName', 'quantity', 'unitMeasure'];
+  displayedColumns: string[] = ['productName', 'quantity', 'unitMeasure', 'select'];
 
   // Propiedades para los datos del modal
   order: OrderToSupplier | null = null;
@@ -123,6 +123,9 @@ export class ManageNewOrdersComponent implements OnInit {
       batches: this.batchesOfOrder,
       restaurantName: this.adminRestaurantName
     });
+
+
+    this.dataSource.data = this.batchesOfOrder;
   }
   // Add this method to get unit measurement
   getUnitMeasurement(supplyId: number): string {
@@ -132,6 +135,8 @@ export class ManageNewOrdersComponent implements OnInit {
     // Assuming the Supply entity has unit measurement information
     // You may need to adjust this based on your actual Supply entity structure
     return supply.unit_measurement?.name || 'N/A';
+
+
   }
 
   // ngOnInit(): void {
@@ -167,20 +172,27 @@ export class ManageNewOrdersComponent implements OnInit {
     if (this.isAllSelected) {
       this.selection.clear();
     } else {
-      // this.suppliesGroupedByOrder.forEach(supply =>
-      //   this.selection.select(supply.supplies.id)
-      // );
+      this.batchesOfOrder.forEach(batch =>
+        this.selection.select(Number(batch.batch?.supply_id))
+      );
     }
+  }
+  isSelected(supplyId: number): boolean {
+    return this.selection.isSelected(supplyId);
+  }
+
+  toggleSelection(supplyId: number): void {
+    this.selection.toggle(supplyId);
   }
 
   calculateNewTotalPrice(): number {
     return this.selection.selected.reduce((total, supplyId) => {
-      const supplyInOrder = this.batchesOfOrder.find(s => s.id === supplyId);
+      const supplyInOrder = this.batchesOfOrder.find(s => s.batch?.supply_id === supplyId);
       const supplyDetails = this.suppliesDetailsOfOrder.find(s => s.id === supplyId);
 
-      // if (supplyInOrder && supplyDetails) {
-      //   return total + (supplyDetails.price * supplyInOrder.quantity);
-      // }
+      if (supplyInOrder && supplyDetails) {
+        return total + (supplyDetails.price * supplyInOrder.quantity);
+      }
       return total;
     }, 0);
   }
