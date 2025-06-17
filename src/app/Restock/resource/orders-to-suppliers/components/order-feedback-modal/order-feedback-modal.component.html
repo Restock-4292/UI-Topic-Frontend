@@ -2,44 +2,81 @@
   <div class="feedback-container">
     <h2 mat-dialog-title>
       <mat-icon class="feedback-icon">feedback</mat-icon>
-      Dejar Feedback
-      <span *ngIf="getSupplierProfile()">a {{ getSupplierProfile()?.name }}</span>
+      {{ "order-to-supplier.order-feedback-modal.title" | translate }}
+      {{ getSupplierProfile()?.name }}
     </h2>
 
     <mat-dialog-content class="dialog-content">
-
-      <!-- Resumen de la orden -->
-      <mat-card class="summary-card" *ngIf="getSupplierProfile(); else noProfile">
+      <mat-card
+        class="summary-card"
+        *ngIf="getSupplierProfile(); else noProfile"
+      >
         <mat-card-header>
-          <mat-card-title>Resumen de la Orden</mat-card-title>
+          <mat-card-title>{{
+            "order-to-supplier.order-feedback-modal.order-feedback-card.title"
+              | translate
+          }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="summary-item">
             <mat-icon>business</mat-icon>
-            <span><strong>Proveedor:</strong> {{ getSupplierProfile()?.name }}</span>
+            <span>
+              <strong
+                >{{
+                  "order-to-supplier.order-feedback-modal.order-feedback-card.supplier"
+                    | translate
+                }}:</strong
+              >
+              {{ getSupplierProfile()?.name }}
+            </span>
           </div>
           <div class="summary-item">
             <mat-icon>call</mat-icon>
-            <span><strong>Teléfono:</strong> {{ getSupplierProfile()?.phone }}</span>
+            <span>
+              <strong
+                >{{
+                  "order-to-supplier.order-feedback-modal.order-feedback-card.phone"
+                    | translate
+                }}:</strong
+              >
+              {{ getSupplierProfile()?.phone }}
+            </span>
           </div>
           <div class="summary-item">
             <mat-icon>event</mat-icon>
-            <span><strong>Fecha:</strong> {{ order.date | date : "dd/MM/yyyy" }}</span>
+            <span>
+              <strong
+                >{{
+                  "order-to-supplier.order-feedback-modal.order-feedback-card.date"
+                    | translate
+                }}:</strong
+              >
+              {{ order.date | date : "dd/MM/yyyy" }}
+            </span>
           </div>
           <div class="summary-item">
             <mat-icon>attach_money</mat-icon>
-            <span><strong>Total:</strong> S/. {{ order.total_price | number : "1.2-2" }}</span>
+            <span>
+              <strong
+                >{{
+                  "order-to-supplier.order-feedback-modal.order-feedback-card.totalPrice"
+                    | translate
+                }}:</strong
+              >
+              S/. {{ order.total_price | number : "1.2-2" }}
+            </span>
           </div>
         </mat-card-content>
       </mat-card>
 
       <ng-template #noProfile>
-        <p class="no-profile">Información del proveedor no disponible.</p>
+        <p class="no-profile">{{ "common.noProviderInfoFound" | translate }}</p>
       </ng-template>
 
-      <!-- Calificación -->
       <div class="section">
-        <h3>Calificación</h3>
+        <h3>
+          {{ "order-to-supplier.order-feedback-modal.rating" | translate }}
+        </h3>
         <div class="stars">
           <mat-icon
             *ngFor="let star of [1, 2, 3, 4, 5]"
@@ -51,23 +88,27 @@
         </div>
       </div>
 
-      <!-- Comentario -->
       <mat-form-field appearance="outline" class="comment-box">
-        <mat-label>Comentario</mat-label>
+        <mat-label>{{
+          "order-to-supplier.order-feedback-modal.comments" | translate
+        }}</mat-label>
         <textarea matInput rows="4" [(ngModel)]="comment"></textarea>
       </mat-form-field>
     </mat-dialog-content>
 
-    <!-- Acciones -->
     <mat-dialog-actions align="end">
-      <button mat-button (click)="close()">Cancelar</button>
+      <button mat-button (click)="close()">
+        {{ "order-to-supplier.order-feedback-modal.cancel" | translate }}
+      </button>
       <button
         mat-raised-button
         color="primary"
         (click)="submitFeedback()"
         [disabled]="rating === 0"
       >
-        Enviar
+        {{
+          "order-to-supplier.order-feedback-modal.submitFeedback" | translate
+        }}
       </button>
     </mat-dialog-actions>
   </div>

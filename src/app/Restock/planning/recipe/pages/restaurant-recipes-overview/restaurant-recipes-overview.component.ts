@@ -149,9 +149,7 @@ export class RestaurantRecipesOverviewComponent {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      initialData: {
-        label: recipe.name
-      }
+      label: 'delete ' +  recipe.name
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await firstValueFrom(this.recipeService.delete(recipe.id));

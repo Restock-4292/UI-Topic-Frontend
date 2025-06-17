@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { BaseService } from '../../../../shared/services/base.service';
 import { environment } from '../../../../../environments/environment.development';
 import { firstValueFrom } from 'rxjs';
 
 import { OrderToSupplierBatch } from '../model/order-to-supplier-batch.entity';
 import { OrderToSupplierBatchAssembler } from './order-to-supplier-batch.assembler';
+import {BatchService} from '../../inventory/services/batch.service';
 
 @Injectable({ providedIn: 'root' })
 export class OrderToSupplierBatchService extends BaseService<OrderToSupplierBatch> {
@@ -13,9 +14,23 @@ export class OrderToSupplierBatchService extends BaseService<OrderToSupplierBatc
     this.resourceEndpoint = environment.ordersToSupplierBatchesEndpointPath;
   }
 
+  private readonly batchService = inject(BatchService);
+
+  // async getAllSupplies(): Promise<OrderToSupplierBatch[]> {
+  //   const raw = await firstValueFrom(this.getAll());
+  //   return raw.map(dto => OrderToSupplierBatchAssembler.toEntity(dto));
+  // }
+
   async getAllSupplies(): Promise<OrderToSupplierBatch[]> {
-    const raw = await firstValueFrom(this.getAll());
-    return raw.map(dto => OrderToSupplierBatchAssembler.toEntity(dto));
+    const [rawRelations, batches] = await Promise.all([
+      firstValueFrom(super.getAll()),
+      this.batchService.getAllBatchesWithSupplies()
+    ]);
+
+    return rawRelations.map(raw => {
+      const batch = batches.find(b => Number(b.id) === Number(raw.batch_id));
+      return OrderToSupplierBatchAssembler.toEntity(raw, batch);
+    });
   }
 
   async getSupplyByOrder(orderId: number): Promise<OrderToSupplierBatch[]> {

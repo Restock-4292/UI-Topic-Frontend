@@ -16,6 +16,7 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 import { OrderToSupplierService } from '../../services/order-to-supplier.service';
 import { OrderToSupplierBatch } from '../../model/order-to-supplier-batch.entity';
 import { OrderToSupplierBatchService } from '../../services/order-to-supplier-batch.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'create-orders-modal',
@@ -33,7 +34,9 @@ import { OrderToSupplierBatchService } from '../../services/order-to-supplier-ba
         MatIconModule,
         MatCardModule,
         MatCheckboxModule,
-        MatTabsModule],
+        MatTabsModule,
+        TranslatePipe
+    ],
 })
 export class CreateOrdersModalComponent {
     @Input() providerSupplies: any[] = [];
@@ -195,9 +198,9 @@ export class CreateOrdersModalComponent {
                     console.warn('No se encontraron batches para el insumo:', supply);
                     continue;
                 }
-//Falta agregar id de usuario del proveedor
+
                 const newOrder = new OrderToSupplier({
-                    date: new Date().toISOString(),
+                    date: new Date(),
                     admin_restaurant_id: 2,
                     supplier_id: supply.user_id,
                     order_to_supplier_state_id: 1,
@@ -205,8 +208,8 @@ export class CreateOrdersModalComponent {
                     partially_accepted: false,
                     total_price: supply.quantity * supply.price,
                     estimated_ship_date: null,
-                    estimated_ship_hour: null,
-                    requested_products: supply.batches.length
+                    estimated_ship_time: null,
+                    requested_products_count: supply.batches.length
                 });
 
                 const createdOrder = await this.orderToSupplierService.createOrder(newOrder);
@@ -233,7 +236,7 @@ export class CreateOrdersModalComponent {
             console.error('Error al crear una de las órdenes o relaciones:', error);
         }
     }
-    
+
     getTotal(): number {
         const allItems = [...this.fullOrder, ...this.currentSelections];
         return allItems.reduce((sum, s) => {

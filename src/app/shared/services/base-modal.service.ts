@@ -14,22 +14,28 @@ export class BaseModalService {
     config: {
       title: string;
       contentComponent: any;
+      description?: string;
       schema?: any;
       initialData?: any;
+      label?: any;
       mode?: 'create' | 'edit';
       width?: string;
+      height?: string;
       injectorValues?: Record<string, any>;
     }): MatDialogRef<BaseModalComponent> {
     const dialogConfig: MatDialogConfig = {
       disableClose: false,
       autoFocus: true,
       width: config.width || '35rem',
+      height: config.height || 'auto',
       panelClass: 'dialog-unified-size',
       data: {
         title: config.title,
         contentComponent: config.contentComponent,
         schema: config.schema,
+        description: config.description,
         initialData: config.initialData,
+        label: config.label,
         mode: config.mode
       }
     };

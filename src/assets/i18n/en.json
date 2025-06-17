@@ -56,5 +56,100 @@
     "status": "Status",
     "lastUpdate": "Last update",
     "confirmDeletePlaceholder": "confirm-delete-modal works!"
+  },
+  "order-to-supplier": {
+    "title": "Orders",
+    "emptyState": "You currently have no orders registered. Create a new order to start managing your purchases and supplies from this section.",
+    "searchOrderPlaceholder": "Search orders",
+    "filterBySupplier": "Filter by supplier",
+    "createOrder": "CREATE",
+    "create-order-modal": {
+      "select-supply-tab": {
+        "title": "Select Supply",
+        "selectSupply": "Select Supply",
+        "orderByPrice": "Order by Price",
+        "table": {
+          "supplier": "Supplier",
+          "price": "Price",
+          "availableStock": "Available Stock",
+          "select": "Select"
+        },
+        "cancel": "CANCEL",
+        "next": "NEXT"
+      },
+      "order-details-tab": {
+        "title": "Order Details",
+        "noSuppliesSelected": "No supplies selected.",
+        "order-details-card": {
+          "price": "Price",
+          "availableStock": "Available Stock",
+          "quantity": "Quantity"
+        },
+        "total": "Total",
+        "placeOrder": "Place Order",
+        "addMoreSupplies": "Add more supplies"
+      }
+    },
+    "table": {
+      "situation": "Situation",
+      "state": "State",
+      "shippingDate": "Shipping Date",
+      "supplier": "Supplier",
+      "requestedProducts": "Requested Products",
+      "finalPrice": "Final Price",
+      "actions": "Actions"
+    },
+    "order-details-modal": {
+      "title": "Order Details",
+      "subtitle": "Order information",
+      "state": "State",
+      "situation": "Situation",
+      "orderCreationDate": "Order Creation Date",
+      "estimedShippingDate": "Estimated Shipping Date",
+      "estimatedShippingHour": "Estimated Shipping Hour",
+      "totalPrice": "Total Price",
+      "requestedProducts": "Requested Products",
+      "supplier": "Supplier",
+      "supplierPhone": "Supplier Phone",
+      "supplierAddress": "Supplier Address",
+      "supplies": "Supplies",
+      "supply-description": "Description",
+      "supply-price": "Price",
+      "supply-category": "Category",
+      "supply-unit": "Unit",
+      "supply-requested-quantity": "Requested Quantity",
+      "supply-status": "Accepted"
+    },
+    "order-feedback-modal": {
+      "title": "Send Feedback to ",
+      "subtitle": "Please provide your feedback on the order",
+      "order-feedback-card": {
+        "title": "Order Feedback",
+        "supplier": "Supplier",
+        "phone": "Phone",
+        "date": "Date",
+        "totalPrice": "Total Price"
+      },
+      "rating": "Rating",
+      "comments": "Comments (optional)",
+      "submitFeedback": "Submit Feedback",
+      "cancel": "Cancel"
+    }
+  },
+  "common": {
+    "noOrderDataFound": "No order data found.",
+    "notSpecified": "Not specified",
+    "noProviderInfoFound": "No provider information found.",
+    "unnamedSupply": "Unnamed supply",
+    "noDescription": "No description",
+    "notDefined": "Not defined",
+    "noSuppliesInOrder": "No supplies registered in this order.",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again later.",
+    "success": "Operation completed successfully.",
+    "all": "All"
   }
 }

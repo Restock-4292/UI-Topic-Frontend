@@ -1,0 +1,118 @@
+<div class="edit-order-dialog">
+  <h2 mat-dialog-title>Update Order</h2>
+
+  <mat-dialog-content class="dialog-content">
+    <!-- Situation Section -->
+    <div class="situation-section">
+      <p class="situation-label">
+        Situation
+        <mat-chip class="approved-chip">Approved</mat-chip>
+      </p>
+    </div>
+
+    <p class="subtitle">Update the details of a registered order</p>
+
+    <!-- State Section -->
+    <h4 class="section-title">State</h4>
+
+    <!-- Stepper Container -->
+    <div class="stepper-container">
+      <!-- Progress Line -->
+      <div class="progress-line">
+        <div class="progress-fill" [style.width]="getProgressWidth()"></div>
+      </div>
+
+      <!-- Steps Wrapper -->
+      <div class="steps-wrapper">
+        <div
+          *ngFor="let stepName of steps; let i = index"
+          class="step-item"
+          (dragover)="onDragOver($event)"
+          (drop)="onDrop($event, i)"
+        >
+          <!-- Truck Icon -->
+          <div
+            *ngIf="isStepActive(i)"
+            class="truck-container"
+            draggable="true"
+            (dragstart)="onDragStart($event)"
+          >
+            <mat-icon class="truck-icon">local_shipping</mat-icon>
+          </div>
+
+          <!-- Step Point -->
+          <div
+            class="step-point"
+            [class.completed]="isStepCompleted(i)"
+            [class.active]="isStepActive(i)"
+            [class.pending]="isStepPending(i)"
+          >
+            <mat-icon *ngIf="isStepCompleted(i)" class="check-icon">check</mat-icon>
+          </div>
+
+          <!-- Step Label -->
+          <span
+            class="step-label"
+            [class.active]="isStepActive(i)"
+          >
+            {{ stepName }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <form [formGroup]="orderForm" class="order-form">
+      <!-- Date Section -->
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Estimated Shipping Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="datePicker"
+            formControlName="estimatedShipDate"
+            placeholder="Select date"
+          >
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Time Section -->
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Estimated Shipping Time</mat-label>
+          <input
+            matInput
+            type="time"
+            formControlName="estimatedShipTime"
+            placeholder="Select time"
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- Description Section -->
+      <div class="form-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Order Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Description"
+            rows="3"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <!-- Dialog Actions -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button color="warn" (click)="onClose()">
+      Close
+    </button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Update Order
+    </button>
+  </mat-dialog-actions>
+</div>

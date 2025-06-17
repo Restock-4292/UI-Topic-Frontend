@@ -259,7 +259,7 @@ export class RestaurantInventoryComponent implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      initialData: { label: batch.supply?.name ?? ''}
+      label: 'delete ' + batch.supply?.description
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
@@ -318,7 +318,7 @@ export class RestaurantInventoryComponent implements OnInit {
         const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
         await this.batchService.createBatch(batch);
 
-        this.snackBar.open('Batch registered ✅', 'Close', {
+        this.snackBar.open('Batch registered', 'Close', {
           duration: 3000,
           panelClass: 'snackbar-success'
         });

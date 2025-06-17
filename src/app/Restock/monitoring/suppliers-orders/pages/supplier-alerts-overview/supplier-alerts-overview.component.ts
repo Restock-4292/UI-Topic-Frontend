@@ -62,7 +62,7 @@ export class SupplierAlertsOverviewComponent implements OnInit {
               profile: this.profileService.getByQuery("user_id", user.id)
             }).pipe(
               map(({ situation, profile }) => {
-                const orderDate = new Date(order.date);
+                const orderDate = new Date(order.date ?? '');
                 const now = new Date();
                 const diffMs = now.getTime() - orderDate.getTime();
                 const diffMins = Math.floor(diffMs / (1000 * 60));

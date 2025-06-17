@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'order-details-modal',
@@ -18,10 +19,11 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslatePipe
   ],
   templateUrl: './order-details-modal.component.html',
-  styleUrls: ['./order-details-modal.component.css']
+  styleUrl: './order-details-modal.component.css'
 })
 export class OrderDetailsModalComponent {
   @Input() order!: OrderToSupplier;
@@ -42,7 +44,7 @@ export class OrderDetailsModalComponent {
     this.dialog.closeAll();
   }
 
-  get hasSupplies(): boolean {
-  return Array.isArray(this.order?.supplies) && this.order!.supplies.length > 0;
+  get hasOrderBatches(): boolean {
+  return Array.isArray(this.order?.orderBatches) && this.order!.orderBatches.length > 0;
 }
 }
