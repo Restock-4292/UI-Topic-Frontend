@@ -1055,7 +1055,21 @@
       "id": 6,
       "supply_id": 6,
       "stock": 120,
-      "expiration_date": null,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 7,
+      "supply_id": 10,
+      "stock": 60,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 8,
+      "supply_id": 11,
+      "stock": 70,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
       "user_id": 1
     }
   ],
