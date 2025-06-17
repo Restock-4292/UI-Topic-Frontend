@@ -1,6 +1,7 @@
 
 export class RestaurantSale {
-    id: number;
+    id?: number;
+    code: string;
     admin_restaurant_id: number;
     diner_name: string;
     total_price: number;
@@ -9,6 +10,7 @@ export class RestaurantSale {
 
     constructor(restaurantSale: {
         id?: number,
+        code?: string,
         admin_restaurant_id?: number,
         diner_name?: string,
         total_price?: number,
@@ -16,6 +18,7 @@ export class RestaurantSale {
         added_inventory?: boolean,
     }) {
         this.id = restaurantSale.id || 0;
+        this.code = restaurantSale.code || '';
         this.admin_restaurant_id = restaurantSale.admin_restaurant_id || 0;
         this.diner_name = restaurantSale.diner_name || '';
         this.total_price = restaurantSale.total_price || 0;

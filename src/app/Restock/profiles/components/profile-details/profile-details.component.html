@@ -4,40 +4,39 @@
       <mat-card-title class="text">Profile Details</mat-card-title>
     </mat-card-header>
 
-    <img mat-card-image [src]="profile.image" alt="User photo" class="profile-photo" />
+    <img mat-card-image [src]="profile[0].avatar" alt="User photo" class="profile-photo" />
 
     <mat-card-content class="text">
       <div class="personal-details-form">
-        <h4 class="name">{{ profile.name }}  {{ profile.lastName }}</h4>
+        <h4 class="name">{{ profile[0].name }} {{ profile[0].last_name }}</h4>
 
-<!--        &lt;!&ndash; Email &ndash;&gt;-->
-<!--        <p class="info"><mat-icon>person</mat-icon> {{ profile.email }}</p>-->
+        <p class="info"><mat-icon>person</mat-icon> {{ profile.email }}</p>
 
         <!-- Phone -->
-        <p class="info"><mat-icon>phone</mat-icon> {{ profile.phone }}</p>
+        <p class="info"><mat-icon>phone</mat-icon> {{ profile[0].phone }}</p>
 
         <!-- Address -->
-        <p class="info"><mat-icon>location_on</mat-icon> {{ profile.address }} - {{ profile.country }} </p>
+        <p class="info"><mat-icon>location_on</mat-icon> {{ profile[0].address }} - {{ profile.country }} </p>
 
         <hr>
 
         <!-- Company Name -->
         <h5 class="subtitle">Company Name:</h5>
-        <p> {{ profile.companyName }} </p>
+        <p> {{ profile[0].business_name }} </p>
 
         <!-- Company Address -->
         <h5 class="subtitle">Company Address:</h5>
-        <p> {{ profile.companyAddress }} </p>
+        <p> {{ profile[0].business_address }} </p>
 
-        <h5 class="subtitle">Categories:</h5>
+        <!-- <h5 class="subtitle">Categories:</h5>
 
         <div class="category-chip-list">
           @for (category of profile.companyCategories; track category) {
-            <mat-chip color="primary" disabled>
-              {{ category }}
-            </mat-chip>
+          <mat-chip color="primary" disabled>
+            {{ category }}
+          </mat-chip>
           }
-        </div>
+        </div> -->
 
       </div>
     </mat-card-content>

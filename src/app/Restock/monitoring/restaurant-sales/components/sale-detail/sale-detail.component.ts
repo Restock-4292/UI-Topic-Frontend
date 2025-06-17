@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -31,7 +31,7 @@ import { MatDivider } from '@angular/material/divider';
   templateUrl: './sale-detail.component.html',
   styleUrl: './sale-detail.component.css'
 })
-export class SaleDetailComponent {
+export class SaleDetailComponent implements OnInit {
   @Output() close = new EventEmitter<void>(); // Emits when modal should be closed
   @Input() sale: any;
 
@@ -44,20 +44,13 @@ export class SaleDetailComponent {
   displayedColumnsPlatos: string[] = ['name', 'price', 'quantity'];
   displayedColumnsInsumos: string[] = ['name', 'price', 'quantity'];
 
-  dishes = new MatTableDataSource<any>([
-    { id: 1, name: 'Lomo Saltado', price: 20.5, quantity: 2 },
-    { id: 2, name: 'Arroz con Pollo', price: 21.5, quantity: 3 },
-    { id: 3, name: 'Arroz con mariscos', price: 34.5, quantity: 1 }
-  ]);
+  dishes = new MatTableDataSource<any>([]);
+  additionalSupplies = new MatTableDataSource<any>([]);
 
-
-  additionalSupplies = new MatTableDataSource<any>([
-    { id: 1, name: 'Huevo', price: 1, quantity: 1 },
-    { id: 2, name: 'Arroz', price: 0.5, quantity: 2 },
-    { id: 3, name: 'Papa', price: 3.5, quantity: 4 }
-  ]);
-
-
+  ngOnInit() {
+    this.dishes.data = this.sale.dishes || [];
+    this.additionalSupplies.data = this.sale.additionalSupplies || [];
+  }
 
 
 }

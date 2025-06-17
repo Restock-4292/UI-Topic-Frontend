@@ -11,8 +11,8 @@ export const mockUser = {
         "alt": "User Avatar"
     },
     role_id: {
-        id: 1,
+        //1: restaurant 2:supplier
+        id: 2,
         name: "supplier",
     }
-
 }

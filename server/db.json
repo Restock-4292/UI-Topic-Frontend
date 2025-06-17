@@ -178,27 +178,7 @@
       "name": "Ají de Gallina",
       "total_price": 24.9,
       "image_url": "https://buenazo.cronosmedia.glr.pe/original/2023/06/26/6499bf204fb28f54f91a9289.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "id": 16,
-          "recipe_id": 2,
-          "supply_id": 4,
-          "quantity": 1
-        },
-        {
-          "id": 17,
-          "recipe_id": 2,
-          "supply_id": 5,
-          "quantity": 1
-        },
-        {
-          "id": 18,
-          "recipe_id": 2,
-          "supply_id": 6,
-          "quantity": 2
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 3,
@@ -219,27 +199,7 @@
       "name": "Ceviche de Pescado",
       "total_price": 37,
       "image_url": "https://treehouselodge.com/wp-content/uploads/2021/09/peruvian-ceviche.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "id": 13,
-          "recipe_id": 5,
-          "supply_id": 11,
-          "quantity": 1
-        },
-        {
-          "id": 14,
-          "recipe_id": 5,
-          "supply_id": 12,
-          "quantity": 3
-        },
-        {
-          "id": 15,
-          "recipe_id": 5,
-          "supply_id": 3,
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     }
   ],
   "recipes_supplies": [
@@ -342,9 +302,9 @@
       "perishable": true,
       "min_stock": 5,
       "max_stock": 50,
-      "price": 2.5,
       "category_id": 1,
       "unit_measurement_id": 1,
+      "price": 2.5,
       "user_id": 1
     },
     {
@@ -483,25 +443,38 @@
   "sales": [
     {
       "id": 1,
-      "admin_restaurant_id": 1,
-      "diner_name": "mari",
-      "total_price": 10,
-      "date": "2025-05-28",
-      "added_inventory": false
+      "code": "K10JXZ",
+      "recipeCount": 2,
+      "additionalSupplyCount": 7,
+      "added_inventory": true
     }
   ],
   "sales_recipes": [
     {
       "sale_id": 1,
       "recipe_id": 1,
-      "quantity": 10
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "sale_id": 1,
+      "recipe_id": 3,
+      "quantity": 1,
+      "id": 2
     }
   ],
   "sales_additional_supplies": [
     {
       "sale_id": 1,
-      "supply_id": 1,
-      "quantity": 1
+      "supply_id": 4,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "sale_id": 1,
+      "supply_id": 3,
+      "quantity": 6,
+      "id": 2
     }
   ],
   "comments": [
@@ -516,12 +489,9 @@
   "orders_to_supplier": [
     {
       "id": 1,
-      "date": "2025-05-28T05:00:00.000Z",
-      "estimated_ship_date": "2025-06-01T05:00:00.000Z",
-      "estimated_ship_time": "2025-06-01T05:11:40.000Z",
-      "description": "Order for fresh supplies",
-      "admin_restaurant_id": 4,
-      "supplier_id": 3,
+      "date": "2025-05-28",
+      "admin_restaurant_id": 2,
+      "supplier_id": 1,
       "order_to_supplier_state_id": 1,
       "order_to_supplier_situation_id": 3,
       "requested_products_count": 2,
@@ -530,10 +500,7 @@
     },
     {
       "id": 2,
-      "date": "2025-01-01T05:00:00.000Z",
-      "description": "",
-      "estimated_ship_date": "2025-01-06T05:00:00.000Z",
-      "estimated_ship_time": "2025-01-06T07:50:00.000Z",
+      "date": "2025-06-01",
       "admin_restaurant_id": 2,
       "supplier_id": 1,
       "order_to_supplier_situation_id": 3,
@@ -778,35 +745,9 @@
       "order_to_supplier_situation_id": 1,
       "requested_products_count": 5,
       "total_price": 30,
-      "partially_accepted": false
-    },
-    {
-      "id": 20,
-      "date": "2025-06-13T19:24:02.843Z",
-      "description": "Order for meals supplies",
-      "estimated_ship_date": "2025-06-20T05:00:00.000Z",
-      "estimated_ship_time": "2025-06-20T08:50:00.000Z",
-      "admin_restaurant_id": 2,
-      "supplier_id": 1,
-      "order_to_supplier_state_id": 1,
-      "order_to_supplier_situation_id": 1,
-      "requested_products_count": 5,
-      "total_price": 30,
-      "partially_accepted": false
-    },
-    {
-      "id": 21,
-      "date": "2025-06-13T19:25:16.568Z",
-      "description": "Order for meals supplies",
-      "estimated_ship_date": "2025-06-20T05:00:00.000Z",
-      "estimated_ship_time": "2025-06-20T08:50:00.000Z",
-      "admin_restaurant_id": 2,
-      "supplier_id": 1,
-      "order_to_supplier_state_id": 1,
-      "order_to_supplier_situation_id": 1,
-      "requested_products_count": 5,
-      "total_price": 30,
-      "partially_accepted": false
+      "partially_accepted": false,
+      "estimated_ship_hour": "2025-06-14T06:55:07.531Z",
+      "requested_products": 1
     }
   ],
   "orders_to_supplier_states": [
@@ -980,6 +921,27 @@
       "order_to_supplier_id": 8,
       "batch_id": 3,
       "quantity": 4,
+      "accepted": false
+    },
+    {
+      "id": 9,
+      "order_to_supplier_id": 12,
+      "batch_id": 1,
+      "quantity": 6,
+      "accepted": false
+    },
+    {
+      "id": 10,
+      "order_to_supplier_id": 13,
+      "batch_id": 1,
+      "quantity": 34,
+      "accepted": false
+    },
+    {
+      "id": 11,
+      "order_to_supplier_id": 14,
+      "batch_id": 1,
+      "quantity": 44,
       "accepted": false
     }
   ],

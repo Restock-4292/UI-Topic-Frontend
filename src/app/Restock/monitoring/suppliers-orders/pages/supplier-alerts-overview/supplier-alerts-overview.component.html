@@ -4,7 +4,7 @@
         <h2>Orders Notifications</h2>
     </div>
 
-    <mat-table [dataSource]="alerts" class="mat-elevation-z1">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
         <!-- Restaurant -->
         <ng-container matColumnDef="restaurant">
             <mat-header-cell *matHeaderCellDef> Restaurant </mat-header-cell>
@@ -23,14 +23,14 @@
         <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
             <mat-cell *matCellDef="let alert">
-                <button mat-flat-button>{{ alert.status }}</button>
+                <button mat-flat-button>{{ alert.situation }}</button>
             </mat-cell>
         </ng-container>
 
         <!-- Last update -->
         <ng-container matColumnDef="orderPlaced">
             <mat-header-cell *matHeaderCellDef> Last update </mat-header-cell>
-            <mat-cell *matCellDef="let notification"> {{ notification.orderPlaced }} </mat-cell>
+            <mat-cell *matCellDef="let notification"> {{ notification.elapsedTime }} </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

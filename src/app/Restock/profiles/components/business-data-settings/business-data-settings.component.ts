@@ -1,17 +1,17 @@
-import {Component} from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card';
-import {MatButton} from '@angular/material/button';
-import {MatChipsModule} from '@angular/material/chips';
-import {NgForOf} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {MatSelect} from '@angular/material/select';
-import {MatOption} from '@angular/material/core';
-import {MatIcon} from '@angular/material/icon';
+import { Component } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgForOf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatIcon } from '@angular/material/icon';
 
-import {ProfileService} from '../../services/profile.service';
-import {Profile} from '../../model/profile.entity';
+import { ProfileService } from '../../services/profile.service';
+import { Profile } from '../../model/profile.entity';
 
 @Component({
   selector: 'app-business-data-settings',
@@ -39,7 +39,7 @@ export class BusinessDataSettingsComponent {
   constructor(private profileService: ProfileService) {
     const current = this.profileService.getCurrentProfile();
     this.profile = { ...current };
-    this.selectedCategories = [...current.companyCategories];
+    // this.selectedCategories = [...current.companyCategories];
   }
 
   removeCategory(category: string) {
@@ -49,7 +49,7 @@ export class BusinessDataSettingsComponent {
   saveChanges() {
     const updatedProfile: Profile = {
       ...this.profile,
-      companyCategories: [...this.selectedCategories] // aseguramos copia
+      // companyCategories: [...this.selectedCategories] // aseguramos copia
     };
 
     this.profileService.updateProfile(updatedProfile);
