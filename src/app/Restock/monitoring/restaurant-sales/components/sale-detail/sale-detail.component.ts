@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SaleConfirmationComponent } from '../sale-confirmation/sale-confirmation.component';
 import { MatDivider } from '@angular/material/divider';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sale-detail',
@@ -26,7 +27,8 @@ import { MatDivider } from '@angular/material/divider';
     MatCheckboxModule,
     MatPaginatorModule,
     SaleConfirmationComponent,
-    MatDivider
+    MatDivider,
+    TranslatePipe
   ],
   templateUrl: './sale-detail.component.html',
   styleUrl: './sale-detail.component.css'

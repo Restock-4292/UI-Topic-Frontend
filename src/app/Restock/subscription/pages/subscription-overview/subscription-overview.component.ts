@@ -3,10 +3,13 @@ import { SubscriptionService } from '../../services/subscription.service';
 import { mockUser } from '../../../../shared/mocks/user.mock';
 import { SubscriptionsCardsComponent } from '../../components/subscriptions-cards/subscriptions-cards.component';
 import { Subscription } from '../../model/subscription.entity';
+import { TranslatePipe } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-subscription-overview',
   imports: [
-    SubscriptionsCardsComponent
+    SubscriptionsCardsComponent,
+    TranslatePipe
   ],
   templateUrl: './subscription-overview.component.html',
   styleUrl: './subscription-overview.component.css'

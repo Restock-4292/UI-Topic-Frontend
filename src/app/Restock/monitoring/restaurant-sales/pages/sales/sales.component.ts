@@ -14,7 +14,7 @@ import { ShowSalesNotAddedToInventoryComponent } from '../../components/show-sal
 import { SaleDetailComponent } from '../../components/sale-detail/sale-detail.component';
 import { RestaurantSale } from '../../model/restaurant-sale.entity';
 import { forkJoin } from 'rxjs';
-
+import { TranslatePipe } from '@ngx-translate/core';
 import { RestaurantSaleService } from '../../services/restaurant-sale.service';
 import { SalesAdditionalSupplyService } from '../../services/sales-additional-supply.service';
 import { SalesRecipeService } from '../../services/sales-recipe.service';
@@ -59,7 +59,8 @@ function getRandomName(): string {
     RegisterSalesComponent,
     SaleConfirmationComponent,
     ShowSalesNotAddedToInventoryComponent,
-    SaleDetailComponent
+    SaleDetailComponent,
+    TranslatePipe
   ],
   templateUrl: './sales.component.html',
   styleUrl: './sales.component.css'
@@ -311,7 +312,12 @@ export class SalesComponent implements OnInit {
         }
       });
     });
+
+
+    // if the sale was created succesfully ,then show saleConfirmation modal
+    this.showModalSaleConfirmation = true;
   }
+
 
 
 }

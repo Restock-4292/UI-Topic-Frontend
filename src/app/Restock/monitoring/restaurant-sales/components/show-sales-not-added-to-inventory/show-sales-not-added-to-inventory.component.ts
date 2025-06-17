@@ -19,6 +19,7 @@ import { SalesRecipeService } from '../../services/sales-recipe.service';
 import { SalesAdditionalSupplyService } from '../../services/sales-additional-supply.service';
 import { SupplyService } from '../../../../resource/inventory/services/supply.service';
 import { RecipeService } from '../../../../planning/recipe/services/recipe.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-show-sales-not-added-to-inventory',
@@ -35,7 +36,8 @@ import { RecipeService } from '../../../../planning/recipe/services/recipe.servi
     MatPaginatorModule,
     SaleConfirmationComponent,
     MatDivider,
-    SaleDetailComponent
+    SaleDetailComponent,
+    TranslatePipe
   ],
   templateUrl: './show-sales-not-added-to-inventory.component.html',
   styleUrl: './show-sales-not-added-to-inventory.component.css'

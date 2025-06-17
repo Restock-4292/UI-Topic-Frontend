@@ -151,5 +151,51 @@
     "error": "An error occurred. Please try again later.",
     "success": "Operation completed successfully.",
     "all": "All"
+  },
+  "notifications_suppliers": {
+    "title": "Orders Notifications",
+    "restaurant": "Restaurant",
+    "evaluate": "Evaluate",
+    "status": "Status",
+    "last-update": "Last Update"
+  },
+  "subscription": {
+    "title1": "FLEXIBLE PLANS TO TAKE YOUR RESTAURANT MANAGEMENT",
+    "title2": "TO THE NEXT LEVEL"
+  },
+  "sales_restaurant": {
+    "register_sale": "Register your sales",
+    "new_sale": "NEW SALE",
+    "update_inventory": "Want to update your inventory? Select the sales you want here:",
+    "registered_sales_not_discounted": "REGISTERED SALES NOT DISCOUNTED IN INVENTORY",
+    "history_sales": "History of sales updated in inventory",
+    "registered_sales": "Registered sales that have already deducted supplies from inventory",
+    "search": "Search for sale by code",
+    "code": "Code",
+    "quantity_dishes": "Quantity of dishes",
+    "quantity_additional_supplies": "Quantity of additional supplies",
+    "actions": "Actions",
+    "sale_details": {
+      "title": "SALE DETAIL",
+      "number_dishes": "Number of dishes",
+      "number_additional_supplies": "Number of additional supplies",
+      "dishes": "Dishes",
+      "additional_supplies": "Additional Supplies",
+      "name": "Name",
+      "unit_price": "Unit Price",
+      "quantity": "Quantity"
+    },
+    "sales_not_added_in_inventory": {
+      "title": "REGISTERED SALES NOT DISCOUNTED IN INVENTORY",
+      "subtitle": "Select the sales you want to deduct the supplies used from the inventory",
+      "selectAll": "Select All",
+      "code": "Code",
+      "quantityDishes": "Quantity of Dishes",
+      "quantityAdditionalSupplies": "Quantity of Additional Supplies",
+      "actions": "Actions"
+    },
+    "sale_confirmation": {
+      "title": "Sale Registered Successfully"
+    }
   }
 }
