@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
     this.orders = await this.orderService.getAllEnriched();
     this.filteredOrders = [...this.orders];
   }
-//tester
+  //tester
   async loadProviderProfiles() {
     try {
       const providerUserIds = await this.userService.getSupplierUserIds(); // esto ya es un array de IDs
@@ -81,9 +81,12 @@ export class OrdersComponent implements OnInit {
           name: profile.name
         }));
 
-        // luego cargamos los supplies enriquecidos
         const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
-        this.providerSupplies = enrichedSupplies;
+
+        this.providerSupplies = enrichedSupplies.filter((supply: any) =>
+          Array.isArray(supply.batches) &&
+          supply.batches.some((batch: any) => batch.stock > 0)
+        );
       });
 
     } catch (error) {
