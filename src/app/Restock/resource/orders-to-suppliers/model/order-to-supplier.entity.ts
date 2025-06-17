@@ -5,7 +5,7 @@ import { OrderToSupplierBatch } from './order-to-supplier-batch.entity';
 export class OrderToSupplier {
   id: number;
   date: Date | null;
-  description: string;
+  description: string | null;
   admin_restaurant_id: number;
   supplier_id: number;
   order_to_supplier_state_id: number;
