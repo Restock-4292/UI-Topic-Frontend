@@ -34,6 +34,7 @@ export class OrderDetailsModalComponent {
 
   open(order: OrderToSupplier): void {
     this.order = order;
+    console.log('Opening order details for:', this.order);
     this.providerProfile = this.providerProfiles.find(
       profile => profile.id === this.order.supplier_id
     );
