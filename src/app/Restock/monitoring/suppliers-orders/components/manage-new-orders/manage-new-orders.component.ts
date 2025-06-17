@@ -2,13 +2,10 @@
 import {
   Component,
   OnInit,
-  Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
   Optional,
-  Inject, ViewChild
+  Inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,22 +22,10 @@ import { MatList, MatListModule } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { MatPaginator } from '@angular/material/paginator';
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
-import {DeleteComponent} from '../../../../../shared/components/delete/delete.component';
-import {firstValueFrom} from 'rxjs';
-import {BaseModalService} from '../../../../../shared/services/base-modal.service';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {OrderToSupplierService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier.service';
-import {BaseModalComponent} from '../../../../../shared/components/base-modal/base-modal.component';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
-import {Profile} from '../../../../profiles/model/profile.entity';
-import {MatNativeDateModule} from '@angular/material/core';
-
-interface LocalOrder {
-  description: string;
-  estimatedShipDate: Date | null;
-  estimatedShipTime: string | null;
-}
 
 
 @Component({
@@ -67,37 +52,25 @@ interface LocalOrder {
 })
 export class ManageNewOrdersComponent implements OnInit {
 
-  // @Input() order: OrderToSupplier | null = null;
-  // @Input() adminRestaurantName: string = '';
-  //
-  // @Input() suppliesDetailsOfOrder: Array<Supply> = [];
-  // @Input() batchesOfOrder: Array<OrderToSupplierBatch> = [];
-
-  @Output() openModal = new EventEmitter<OrderToSupplier>();
-
-  openManageNewOrderModal(order: any): void {
-    this.openModal.emit(order);
-  }
-
-  localOrder: LocalOrder = {
+  localOrder = {
     description: '',
     estimatedShipDate: null,
-    estimatedShipTime: null
+    estimatedShipTime: null,
   };
-  dataSource = new MatTableDataSource<any>();
+
+  dataSource = new MatTableDataSource<OrderToSupplierBatch>();
   step = 1;
   selection = new SelectionModel<number>(true, []);
 
-  // Callback para manejar el envío del pedido
-  onOrderSubmitted?: (data: any) => void;
-
   displayedColumns: string[] = ['productName', 'quantity', 'unitMeasure', 'select'];
 
-  // Propiedades para los datos del modal
+  // Input data from the modal with injected data
   order: OrderToSupplier | null = null;
   adminRestaurantName: string = '';
   suppliesDetailsOfOrder: Array<Supply> = [];
   batchesOfOrder: Array<OrderToSupplierBatch> = [];
+
+  @Output() acceptSelection = new EventEmitter<OrderToSupplier>();
 
   constructor(
     private orderService: OrderToSupplierService,
@@ -124,65 +97,64 @@ export class ManageNewOrdersComponent implements OnInit {
       restaurantName: this.adminRestaurantName
     });
 
-
     this.dataSource.data = this.batchesOfOrder;
   }
-  // Add this method to get unit measurement
-  getUnitMeasurement(supplyId: number): string {
-    const supply = this.suppliesDetailsOfOrder.find(s => Number(s.id) === Number(supplyId));
-    if (!supply) return 'Unknown unit';
 
-    // Assuming the Supply entity has unit measurement information
-    // You may need to adjust this based on your actual Supply entity structure
-    return supply.unit_measurement?.name || 'N/A';
-
-
+  onAcceptSelection(): void
+  {
+    const updateData = this.buildUpdateData();
+    console.log("voy a enviar los datos actualizados:", updateData);
+    this.acceptSelection.emit(updateData);
   }
 
-  // ngOnInit(): void {
-  //   this.resetForm();
-  // }
+  //Methods for build update data
+  private buildUpdateData(): OrderToSupplier {
 
-  get isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.batchesOfOrder.length;
-    return numSelected === numRows && numRows > 0;
+    const approvedSituationId = 2; // 2 is the ID for 'Approved' situation
+    const onHoldStateId = 1; // 1 is the ID for 'on hold' state
+
+    return {
+      id: this.order?.id || 0,
+      date: this.order?.date || new Date(),
+      description: this.localOrder.description || this.order?.description || '',
+      admin_restaurant_id: this.order?.admin_restaurant_id || 0,
+      supplier_id: this.order?.supplier_id || 0,
+      order_to_supplier_state_id: onHoldStateId,
+      order_to_supplier_situation_id: approvedSituationId,
+      total_price: this.calculateNewTotalPrice(),
+      estimated_ship_date: this.localOrder.estimatedShipDate || new Date(),
+      estimated_ship_time: this.localOrder.estimatedShipTime || new Date(),
+      requested_products_count: this.newProductsCount(),
+      partially_accepted: this.selection.selected.length < this.batchesOfOrder.length,
+      orderBatches: this.getSelectedOrderBatches(),
+    };
   }
 
-  // get selectedSupplies(): SupplyPerOrder[] {
-  //   return this.suppliesPerOrder.filter(supply =>
-  //     this.selection.isSelected(supply.supplyId)
-  //   );
-  // }
-  //
-  productName(supplyId: number): string {
-    const supply = this.suppliesDetailsOfOrder.find(s => Number(s.id) === Number(supplyId));
-    return supply ? supply.name : 'Unknown Product';
-  }
-  //
-  // productUnitMeasurement(supplyId: number): string {
-  //   const supply = this.detailedSuppliesPerOrder.find(s => Number(s.id) === Number(supplyId));
-  //   if (!supply) return 'Unknown unit';
-  //
-  //   const unitMeasurement = this.unitsMeasurement.find(u => Number(u.id) === Number(supply.unit_measurement_id));
-  //   return unitMeasurement ? unitMeasurement.name : 'Unknown unit';
-  // }
-
-  masterToggle(): void {
-    if (this.isAllSelected) {
-      this.selection.clear();
-    } else {
-      this.batchesOfOrder.forEach(batch =>
-        this.selection.select(Number(batch.batch?.supply_id))
+  private newProductsCount(): number {
+    return this.selection.selected.reduce((sum, supplyId) => {
+      const batchInOrder = this.batchesOfOrder.find(b =>
+        Number(b.batch?.supply_id) === Number(supplyId)
       );
-    }
-  }
-  isSelected(supplyId: number): boolean {
-    return this.selection.isSelected(supplyId);
+      return sum + (batchInOrder ? 1 : 0);
+    }, 0);
   }
 
-  toggleSelection(supplyId: number): void {
-    this.selection.toggle(supplyId);
+  private getSelectedOrderBatches(): OrderToSupplierBatch[] {
+    return this.selection.selected
+      .map(supplyId => {
+        const batchInOrder = this.batchesOfOrder.find(
+          b => b.batch?.supply_id === supplyId
+        );
+        if (batchInOrder) {
+          batchInOrder.accepted = true;
+          batchInOrder.supply = this.suppliesDetailsOfOrder.find(
+            s => Number(s.id) === Number(batchInOrder.batch?.supply_id)
+          )
+          return batchInOrder;
+        }
+        return undefined;
+      })
+      .filter((b): b is OrderToSupplierBatch => b !== undefined)
   }
 
   calculateNewTotalPrice(): number {
@@ -197,6 +169,38 @@ export class ManageNewOrdersComponent implements OnInit {
     }, 0);
   }
 
+  //Methods for get data from the order
+  productName(supplyId: number): string {
+    const supply = this.suppliesDetailsOfOrder.find(s => Number(s.id) === Number(supplyId));
+    return supply ? supply.name : 'Unknown Product';
+  }
+
+  //Methods for selection management
+  get isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.batchesOfOrder.length;
+    return numSelected === numRows && numRows > 0;
+  }
+
+  masterToggle(): void {
+    if (this.isAllSelected) {
+      this.selection.clear();
+    } else {
+      this.batchesOfOrder.forEach(batch =>
+        this.selection.select(Number(batch.batch?.supply_id))
+      );
+    }
+  }
+
+  isSelected(supplyId: number): boolean {
+    return this.selection.isSelected(supplyId);
+  }
+
+  toggleSelection(supplyId: number): void {
+    this.selection.toggle(supplyId);
+  }
+
+  // Methods for stepper navigation
   nextStep(): void {
     if (this.step < 2) {
       this.step++;
@@ -212,52 +216,5 @@ export class ManageNewOrdersComponent implements OnInit {
   closeDialog(): void {
     this.dialogRef?.close();
   }
-  //
-  // resetForm(): void {
-  //   this.selection.clear();
-  //   this.step = 1;
-  //   this.localOrder = {
-  //     description: '',
-  //     estimatedShipDate: null,
-  //     estimatedShipTime: null
-  //   };
-  // }
-  //
-  // submitOrder(): void {
-  //   if (this.selection.selected.length === 0) {
-  //     this.snackBar.open('Please select at least one supply', 'Close', {
-  //       duration: 3000,
-  //       panelClass: ['warning-snackbar']
-  //     });
-  //     return;
-  //   }
-  //
-  //   const newProductsCount = this.selection.selected.reduce((sum, supplyId) => {
-  //     const supplyInOrder = this.suppliesPerOrder.find(s => s.supplyId === supplyId);
-  //     return sum + (supplyInOrder ? supplyInOrder.quantity : 0);
-  //   }, 0);
-  //
-  //   const updateData = {
-  //     order: this.order,
-  //     partiallyAccepted: this.selection.selected.length < this.suppliesPerOrder.length,
-  //     newEstimatedShipDate: this.localOrder.estimatedShipDate,
-  //     newEstimatedShipTime: this.localOrder.estimatedShipTime,
-  //     newTotalPrice: this.calculateNewTotalPrice(),
-  //     newDescription: this.localOrder.description,
-  //     newRequestedProductsCount: newProductsCount,
-  //     selectedSupplies: this.selection.selected,
-  //   };
-  //
-  //   // Ejecutar callback si existe
-  //   if (this.onOrderSubmitted) {
-  //     this.onOrderSubmitted(updateData);
-  //   }
-  //
-  //   this.snackBar.open('Order submitted successfully!', 'Close', {
-  //     duration: 3000,
-  //     panelClass: ['success-snackbar']
-  //   });
-  //
-  //   this.closeDialog();
-  // }
+
 }

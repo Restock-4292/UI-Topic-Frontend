@@ -101,7 +101,8 @@
               matInput
               [matDatepicker]="picker"
               [(ngModel)]="localOrder.estimatedShipDate"
-              placeholder="Select date">
+              placeholder="Select date"
+              aria-label="Estimated Shipping Date">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -120,7 +121,7 @@
         </div>
       </div>
 
-      @if(selection.selected.length > 0)
+      @if(this.selection.selected.length > 0)
       {
         <div class="summary-section">
           <h3 class="subtitle">Order Summary</h3>
@@ -130,7 +131,7 @@
             </li>
           </ul>
 
-          <div class="calculated-total" *ngIf="selection.selected.length > 0">
+          <div class="calculated-total">
             <h3 class="subtitle"><strong>Selected Items Total: ${{ calculateNewTotalPrice() | number:'1.2-2' }}</strong> </h3>
           </div>
         </div>
@@ -174,6 +175,7 @@
         *ngIf="step === 2"
         mat-raised-button
         color="accent"
+        (click)="onAcceptSelection()"
         class="btn-accept">
         <mat-icon>check</mat-icon>
         Accept Selection
