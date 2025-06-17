@@ -73,7 +73,6 @@ export class ManageNewOrdersComponent implements OnInit {
   @Output() acceptSelection = new EventEmitter<OrderToSupplier>();
 
   constructor(
-    private orderService: OrderToSupplierService,
     private snackBar: MatSnackBar,
     @Optional() @Inject('initialData') private injectedData?: any,
     @Optional() private dialogRef?: MatDialogRef<ManageNewOrdersComponent>
