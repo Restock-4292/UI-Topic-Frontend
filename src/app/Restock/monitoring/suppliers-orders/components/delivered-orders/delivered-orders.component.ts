@@ -1,13 +1,12 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CurrencyPipe, DatePipe} from "@angular/common";
 import {FilterSectionComponent} from "../filter-section/filter-section.component";
-import { MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatIcon} from '@angular/material/icon';
-import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {MatIconButton} from '@angular/material/button';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   selector: 'app-delivered-orders',
@@ -17,7 +16,6 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatIcon,
     MatPaginator,
     MatTableModule,
-    OrderDetailsComponent,
     MatIconButton,
     DatePipe,
     EmptySectionComponent
@@ -35,19 +33,8 @@ export class DeliveredOrdersComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
-  showModal = false;
-
   openOrderDetails(order: OrderToSupplier) {
     this.detailsModal.emit(order);
-  }
-
-  onModalChange(value: boolean) {
-    this.showModal = value;
-  }
-
-  onModalClose(value: boolean) {
-    this.showModal = value;
   }
 
   // Method to get CSS class according to the order state
