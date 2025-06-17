@@ -84,9 +84,9 @@
       <!-- Suministros -->
       <div class="section">
         <h3>Insumos</h3>
-        <ng-container *ngIf="hasSupplies; else noSupplies">
+        <ng-container *ngIf="hasOrderBatches; else noOrderBatches">
           <mat-card
-            *ngFor="let supplyRelation of order!.supplies"
+            *ngFor="let supplyRelation of order!.orderBatches"
             class="supply-card"
           >
             <mat-card-title>{{
@@ -125,7 +125,7 @@
             </mat-card-content>
           </mat-card>
         </ng-container>
-        <ng-template #noSupplies>
+        <ng-template #noOrderBatches>
           <p>No se registraron suministros en esta orden.</p>
         </ng-template>
       </div>

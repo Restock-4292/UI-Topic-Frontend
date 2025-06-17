@@ -42,7 +42,7 @@ export class OrderDetailsModalComponent {
     this.dialog.closeAll();
   }
 
-  get hasSupplies(): boolean {
-  return Array.isArray(this.order?.supplies) && this.order!.supplies.length > 0;
+  get hasOrderBatches(): boolean {
+  return Array.isArray(this.order?.orderBatches) && this.order!.orderBatches.length > 0;
 }
 }
