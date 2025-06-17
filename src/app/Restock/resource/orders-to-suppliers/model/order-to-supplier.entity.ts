@@ -22,7 +22,7 @@ export class OrderToSupplier {
   constructor(data: Partial<OrderToSupplier> = {}) {
     this.id = data.id || 0;
     this.date = new Date(data.date || new Date());
-    this.description = data.description || '';
+    this.description = data.description || 'No description provided';
     this.admin_restaurant_id = data.admin_restaurant_id || 0;
     this.supplier_id = data.supplier_id || 0;
     this.order_to_supplier_state_id = data.order_to_supplier_state_id || 0;
