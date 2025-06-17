@@ -73,14 +73,13 @@ export class ManageNewOrdersComponent implements OnInit {
   @Output() acceptSelection = new EventEmitter<OrderToSupplier>();
 
   constructor(
-    private orderService: OrderToSupplierService,
     private snackBar: MatSnackBar,
     @Optional() @Inject('initialData') private injectedData?: any,
     @Optional() private dialogRef?: MatDialogRef<ManageNewOrdersComponent>
   ) {}
 
   ngOnInit(): void {
-    // Si hay datos inyectados del modal, usarlos
+
     if (this.injectedData) {
       console.log('Datos inyectados:', this.injectedData);
 
@@ -102,6 +101,14 @@ export class ManageNewOrdersComponent implements OnInit {
 
   onAcceptSelection(): void
   {
+    if (this.selection.selected.length <= 0) {
+      this.snackBar.open('Please select at least one supply to approve the order', 'Close', {
+        duration: 4000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
     const updateData = this.buildUpdateData();
     console.log("voy a enviar los datos actualizados:", updateData);
     this.acceptSelection.emit(updateData);
@@ -116,7 +123,7 @@ export class ManageNewOrdersComponent implements OnInit {
     return {
       id: this.order?.id || 0,
       date: this.order?.date || new Date(),
-      description: this.localOrder.description || this.order?.description || '',
+      description: this.localOrder.description || this.order?.description || 'No description provided',
       admin_restaurant_id: this.order?.admin_restaurant_id || 0,
       supplier_id: this.order?.supplier_id || 0,
       order_to_supplier_state_id: onHoldStateId,

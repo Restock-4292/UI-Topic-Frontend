@@ -1,3 +1,51 @@
+.date-section mat-form-field,
+.time-section mat-form-field,
+.description-section mat-form-field {
+  width: 100%;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 6px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-button {
+  color: #666;
+}
+
+.modal-content {
+  padding: 1rem;
+  color: #333;
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+
 .edit-order-dialog {
   min-width: 500px;
   max-width: 600px;
@@ -42,16 +90,22 @@
   margin-bottom: 1rem;
 }
 
+.btn-close {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
 /* Stepper Styles */
 .stepper-container {
   position: relative;
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: 0.25rem 0 2rem;
+  margin-top: 1rem;
 }
 
 .progress-line {
   position: absolute;
-  top: 3rem;
+  top: 1.25rem;
   left: 5%;
   right: 5%;
   height: 2px;
@@ -128,6 +182,8 @@
 .check-icon {
   font-size: 0.75rem !important;
   font-weight: bold;
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
 }
 
 .step-label {

@@ -1,16 +1,11 @@
-<div class="edit-order-dialog">
-  <h2 mat-dialog-title>Update Order</h2>
-
-  <mat-dialog-content class="dialog-content">
+<div class="modal-content">
     <!-- Situation Section -->
     <div class="situation-section">
       <p class="situation-label">
         Situation
-        <mat-chip class="approved-chip">Approved</mat-chip>
+        <mat-chip class="approved-chip">{{ this.order?.situation?.name }}</mat-chip>
       </p>
     </div>
-
-    <p class="subtitle">Update the details of a registered order</p>
 
     <!-- State Section -->
     <h4 class="section-title">State</h4>
@@ -61,57 +56,58 @@
       </div>
     </div>
 
-    <!-- Form Section -->
-    <form [formGroup]="orderForm" class="order-form">
       <!-- Date Section -->
-      <div class="form-section">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Estimated Shipping Date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="datePicker"
-            formControlName="estimatedShipDate"
-            placeholder="Select date"
-          >
-          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-          <mat-datepicker #datePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <div class="input-section">
+    <h3 class="subtitle">Estimated Shipping Date</h3>
+    <div class="date-section">
+      <mat-form-field appearance="outline">
+        <mat-label>Estimated Shipping Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="localOrder.estimatedShipDate"
+          placeholder="Select date"
+          aria-label="Estimated Shipping Date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
 
-      <!-- Time Section -->
-      <div class="form-section">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Estimated Shipping Time</mat-label>
-          <input
-            matInput
-            type="time"
-            formControlName="estimatedShipTime"
-            placeholder="Select time"
-          >
-        </mat-form-field>
-      </div>
+    <!-- Time Section -->
+    <h3 class="subtitle">Estimated Shipping Time</h3>
+    <div class="time-section">
+      <mat-form-field appearance="outline">
+        <mat-label>Estimated Shipping Time</mat-label>
+        <input
+          matInput
+          type="time"
+          [(ngModel)]="localOrder.estimatedShipTime"
+          placeholder="Select time">
+      </mat-form-field>
+    </div>
 
-      <!-- Description Section -->
-      <div class="form-section">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Order Description</mat-label>
-          <textarea
-            matInput
-            formControlName="description"
-            placeholder="Description"
-            rows="3"
-          ></textarea>
-        </mat-form-field>
-      </div>
-    </form>
-  </mat-dialog-content>
+    <!-- Description -->
+      <h3 class="subtitle">Description</h3>
+    <div class="description-section">
+      <mat-form-field appearance="outline" class="description-field">
+        <mat-label>Order Description</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="localOrder.description"
+          placeholder="Enter order description"
+          aria-label="Order Description"
+          rows="2">
+          </textarea>
+      </mat-form-field>
+    </div>
+    </div>
 
   <!-- Dialog Actions -->
   <mat-dialog-actions class="dialog-actions">
-    <button mat-button color="warn" (click)="onClose()">
+    <button mat-button color="warn" class="btn-close" (click)="onClose()">
       Close
     </button>
-    <button mat-raised-button color="primary" (click)="onSubmit()">
+    <button mat-raised-button color="primary" (click)="onUpdateOrder()">
       Update Order
     </button>
   </mat-dialog-actions>

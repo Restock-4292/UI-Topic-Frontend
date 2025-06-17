@@ -23,6 +23,9 @@ import {
 } from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
 import {ManageNewOrdersComponent} from '../../components/manage-new-orders/manage-new-orders.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {OrderDetailsComponent} from '../../components/order-details/order-details.component';
+import {EditOrderComponent} from '../../components/edit-order/edit-order.component';
+import {OrderStateService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier-state.service';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -52,6 +55,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   detailedSuppliesPerOrder: Supply[] = [];
   batchesPerOrder: OrderToSupplierBatch[] = [];
   restaurantNameOrderSelected: string = '';
+  states: OrderToSupplierState[] = [];
 
   constructor(
     private orderService: OrderToSupplierService,
@@ -59,6 +63,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     private batchService: BatchService,
     private userService: UserService,
     private profileService: ProfileService,
+    private stateService: OrderStateService,
     private modalService: BaseModalService,
     private snackBar: MatSnackBar
   ) { }
@@ -67,6 +72,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     await this.loadOrders();
     await this.loadGroupedSupplies();
     await this.loadUsersAndProfiles();
+    await this.loadStates();
   }
 
   buildRestaurantNameMap() {
@@ -76,6 +82,15 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
       const profile = this.adminRestaurantsProfiles.find(p => Number(p.id) === Number(order.admin_restaurant_id));
       this.restaurantNameMap[order.id] = profile?.business_name ?? 'Unknown Restaurant';
     });
+  }
+
+  async loadStates() {
+    try {
+      this.states = await this.stateService.getAllStates();
+      console.log('States loaded:', this.states);
+    } catch (error) {
+      console.error('Error loading states:', error);
+    }
   }
 
   async loadOrders() {
@@ -155,6 +170,32 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   }
 
   //MODALS METHODS
+
+  openOrderDetailsModal(order: OrderToSupplier,  hideState: boolean): void {
+    this.selectedOrder = order;
+    this.detailedSuppliesPerOrder = this.getDetailedOrderSupplies(order.id);
+    this.batchesPerOrder = this.getOrderBatches(order.id);
+    this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
+
+    this.modalService.open({
+      title: 'Order Details',
+      contentComponent: OrderDetailsComponent,
+      description: 'View the details of a new order.',
+      width: '40vw',
+      height: '85vh',
+      initialData: {
+        order: order,
+        suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
+        batchesOfOrder: this.batchesPerOrder,
+        adminRestaurantName: this.restaurantNameOrderSelected,
+        hideState: hideState
+      }
+    }).afterClosed().subscribe(async (confirmed: boolean) => {
+
+    });
+
+  }
+
   openDeleteOrderDialog(order: OrderToSupplier, action: string): void {
     let titleContent = '';
     let newIdSituation = 0; // Default situation ID
@@ -207,8 +248,6 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     });
   }
 
-
-
   getDetailedOrderSupplies(orderId: number): Supply[] {
     const orderGroup = this.detailedSuppliesGroupedByOrder.find(group =>
       Number(group.orderId) === Number(orderId)
@@ -225,13 +264,12 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
   }
 
-  openManageOrdersModal(order: OrderToSupplier): void {
+  openManageOrderModal(order: OrderToSupplier): void {
     this.detailedSuppliesPerOrder = this.getDetailedOrderSupplies(order.id);
     this.batchesPerOrder = this.getOrderBatches(order.id);
     this.selectedOrder = order;
     this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
 
-    // Abrir el modal usando BaseModalService
     const dialogRef = this.modalService.open({
       title: 'New Order Management',
       contentComponent: ManageNewOrdersComponent,
@@ -251,17 +289,12 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
         .contentComponentRef?.instance as ManageNewOrdersComponent;
 
       instance?.acceptSelection.subscribe((order) => {
-        console.log('¡Padre/abuelo recibió el order!', order);
         try {
-          console.log('Padre recibió order:', order);
-          // Marcar lotes como aceptados
           order.orderBatches?.forEach(orderBatch => (orderBatch.accepted = true));
 
-          // Actualizar estado y situación
-          order.state = new OrderToSupplierState({ id: 1, name: 'On Hold' });
+          order.state =  this.states.find(state => state.id === order.order_to_supplier_state_id);
           order.situation = new OrderToSupplierSituation({ id: 2, name: 'Approved' });
 
-          // Hacer update con await porque tu servicio es async
            this.orderService.updateOrder(order.id, order);
 
           this.snackBar.open('Order updated successfully', 'Close', { duration: 3000 });
@@ -274,11 +307,43 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
       });
     });
 
-
-    // Opcional: manejar el cierre del modal
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Modal cerrado');
-    });
   }
+
+  openEditOrderModal(order: OrderToSupplier): void {
+
+    const dialogRef = this.modalService.open({
+      title: 'Update Order',
+      contentComponent: EditOrderComponent,
+      width: '40vw',
+      height: '90vh',
+      description: 'Update the details of a registered order',
+      initialData: {
+        order: order
+      }
+    });
+
+    setTimeout(() => {
+      const instance = dialogRef.componentInstance
+        .contentComponentRef?.instance as EditOrderComponent;
+
+      instance?.updateOrder.subscribe((order) => {
+        try {
+          // Update state
+          order.state = this.states.find(state => state.id === order.order_to_supplier_state_id);
+
+          this.orderService.updateOrder(order.id, order);
+
+          this.snackBar.open('Order updated successfully', 'Close', { duration: 3000 });
+          dialogRef.close();
+          this.loadOrders();
+        } catch (error) {
+          console.error('Error updating order:', error);
+          this.snackBar.open('Failed to update order', 'Close', { duration: 3000 });
+        }
+      });
+    });
+
+  }
+
 }
 

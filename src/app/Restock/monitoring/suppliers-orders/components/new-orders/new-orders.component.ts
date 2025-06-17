@@ -28,8 +28,6 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatOption,
     MatIconButton,
     MatButton,
-    OrderDetailsComponent,
-    ManageNewOrdersComponent,
     EmptySectionComponent,
     DatePipe
   ],
@@ -46,10 +44,15 @@ export class NewOrdersComponent {
 
   @Output() manageNewOrderModal = new EventEmitter<OrderToSupplier>();
   @Output() declineDialog = new EventEmitter<OrderToSupplier>();
+  @Output() detailsModal = new EventEmitter<OrderToSupplier>();
 
   displayedColumns: string[] = ['orderDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  openOrderDetails(order: OrderToSupplier): void {
+    this.detailsModal.emit(order);
+  }
 
   openDeclineDialog(order: any): void {
     this.declineDialog.emit(order);
@@ -65,46 +68,50 @@ export class NewOrdersComponent {
 
   onSearchChange(value: string): void {
     this.searchTerm = value;
-    // Implementar lógica de búsqueda
   }
 
   onDateRangeChange(value: string): void {
     this.dateRange = value;
-    // Implementar lógica de filtro por fecha
   }
 
   onToggleSort(): void {
     this.currentSortOrder = this.currentSortOrder === 1 ? -1 : 1;
-    // Implementar lógica de ordenamiento
   }
 
+  get filteredOrders(): OrderToSupplier[] {
+    let filtered = [...this.orders];
 
-  showModal = false;
+    // Filtrar por término de búsqueda
+    if (this.searchTerm.trim()) {
+      filtered = filtered.filter(order =>
+        order.description?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        this.adminRestaurantsProfiles[order.id]?.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
 
-  openOrderDetails() {
-    this.showModal = true;
-  }
+    // Filtrar por rango de fechas (ejemplo simple)
+    if (this.dateRange === '7days') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= sevenDaysAgo);
+    } else if (this.dateRange === '30days') {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= thirtyDaysAgo);
+    } else if (this.dateRange === '3months') {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= threeMonthsAgo);
+    }
 
-  onModalChange(value: boolean) {
-    this.showModal = value;
-  }
+    // Ordenar
+    filtered.sort((a, b) => {
+      const dateA = a.estimated_ship_time?.getTime() || 0;
+      const dateB = b.estimated_ship_time?.getTime() || 0;
+      return this.currentSortOrder * (dateA - dateB);
+    });
 
-  onModalClose(value: boolean) {
-    this.showModal = value;
-  }
-
-  showManageNewOrderModal = false;
-
-  openManageNewOrder() {
-    this.showManageNewOrderModal = true;
-  }
-
-  onManageNewOrderModalChange(value: boolean) {
-    this.showManageNewOrderModal = value;
-  }
-
-  onManageNewOrderModalClose(value: boolean) {
-    this.showManageNewOrderModal = value;
+    return filtered;
   }
 
 }

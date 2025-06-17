@@ -1,53 +1,22 @@
 // order-details.component.ts
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  Component,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  AfterViewInit, ChangeDetectorRef, OnInit, Optional, Inject
+} from '@angular/core';
+import {CommonModule, DatePipe} from '@angular/common';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
-
-export interface Supply {
-  id: number;
-  name: string;
-  unit_measurement_id: number;
-}
-
-export interface SupplyPerOrder {
-  supplyId: number;
-  quantity: number;
-}
-
-export interface UnitMeasurement {
-  id: number;
-  name: string;
-}
-
-export interface OrderState {
-  id: number;
-  name: string;
-}
-
-export interface OrderSituation {
-  id: number;
-  name: string;
-}
-
-export interface AdminRestaurantProfile {
-  userId: number;
-  businessName: string;
-}
-
-export interface Order {
-  id: number;
-  totalPrice: number;
-  estimatedShipDate: string;
-  estimatedShipTime: string;
-  description: string;
-  adminRestaurantId: number;
-}
+import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
+import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {Supply} from '../../../../resource/inventory/model/supply.entity';
 
 @Component({
   selector: 'app-order-details',
@@ -60,24 +29,21 @@ export interface Order {
     MatPaginatorModule,
     MatChipsModule,
     MatIconModule,
-    MatStepperModule
+    MatStepperModule,
+    DatePipe
   ],
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.css'
 })
-export class OrderDetailsComponent implements OnChanges {
-  @Input() hideState: boolean = false;
-  @Input() modelValue: boolean = true;
-  @Input() suppliesPerOrder: SupplyPerOrder[] = [];
-  @Input() detailedSuppliesPerOrder: Supply[] = [];
-  @Input() order: Order | null = null;
-  @Input() orderState: OrderState | null = null;
-  @Input() orderSituation: OrderSituation | null = null;
-  @Input() unitsMeasurement: UnitMeasurement[] = [];
-  @Input() adminRestaurantsProfiles: AdminRestaurantProfile[] = [];
+export class OrderDetailsComponent implements OnInit, OnChanges, AfterViewInit  {
+ //Injected data
+  hideState: boolean = false;
+  orderBatches: OrderToSupplierBatch[] = [];
+  order: OrderToSupplier | null = null;
+  adminRestaurantName: string = '';
+  orderSuppliesDetails: Supply[] = [];
 
-  @Output() modelValueChange = new EventEmitter<boolean>();
-  @Output() close = new EventEmitter<boolean>();
+  dataSource = new MatTableDataSource<OrderToSupplierBatch>();
 
   step: number = 1;
   steps: string[] = ["On hold", "Preparing", "On the way", "Delivered"];
@@ -90,82 +56,67 @@ export class OrderDetailsComponent implements OnChanges {
 
   displayedColumns: string[] = ['productName', 'quantity', 'unitMeasure'];
 
-  // Datos constantes de ejemplo
-  constantData = {
-    suppliesPerOrder: [
-      { supplyId: 1, quantity: 50 },
-      { supplyId: 2, quantity: 25 },
-      { supplyId: 3, quantity: 100 },
-      { supplyId: 4, quantity: 30 }
-    ],
-    detailedSuppliesPerOrder: [
-      { id: 1, name: 'Tomatoes', unit_measurement_id: 1 },
-      { id: 2, name: 'Chicken Breast', unit_measurement_id: 1 },
-      { id: 3, name: 'Rice', unit_measurement_id: 1 },
-      { id: 4, name: 'Olive Oil', unit_measurement_id: 2 }
-    ],
-    unitsMeasurement: [
-      { id: 1, name: 'kg' },
-      { id: 2, name: 'liters' },
-      { id: 3, name: 'units' }
-    ],
-    order: {
-      id: 1,
-      totalPrice: 450.75,
-      estimatedShipDate: '2025-06-15',
-      estimatedShipTime: '2025-06-15T14:30:00',
-      description: 'Weekly supply order for restaurant operations including fresh vegetables, proteins, and essential cooking ingredients.',
-      adminRestaurantId: 1
-    },
-    orderState: {
-      id: 2,
-      name: 'Preparing'
-    },
-    orderSituation: {
-      id: 1,
-      name: 'Active'
-    },
-    adminRestaurantsProfiles: [
-      { userId: 1, businessName: 'La Bella Vista Restaurant' },
-      { userId: 2, businessName: 'El Buen Sabor' }
-    ]
-  };
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Optional() @Inject('initialData') private injectedData?: any,
+    @Optional() private dialogRef?: MatDialogRef<OrderDetailsComponent>
+  ) {}
+
+
+  ngOnInit(): void {
+
+    if (this.injectedData) {
+      console.log('Datos inyectados:', this.injectedData);
+
+      this.order = this.injectedData.order || null;
+      this.adminRestaurantName = this.injectedData.adminRestaurantName || '';
+      this.orderSuppliesDetails = this.injectedData.suppliesDetailsOfOrder || [];
+      this.orderBatches = this.injectedData.batchesOfOrder || [];
+      this.hideState = this.injectedData.hideState || false;
+
+    }
+
+    console.log('Datos finales:', {
+      order: this.order,
+      supplies: this.orderSuppliesDetails,
+      batches: this.orderBatches,
+      restaurantName: this.adminRestaurantName
+    });
+
+    this.dataSource.data = this.orderBatches;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['orderBatches']) {
+
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+        this.cdr.detectChanges();
+      }
+    }
+
+
     if (changes['modelValue'] && changes['modelValue'].currentValue) {
       this.step = 1;
     }
   }
 
+  ngAfterViewInit(): void {
+    // Esperamos al siguiente ciclo de detección de cambios
+    Promise.resolve().then(() => {
+      if (this.paginator && this.dataSource.data.length > 0) {
+        this.dataSource.paginator = this.paginator;
+      }
+    });
+  }
+
   get computedCurrentIndex(): number {
-    const currentOrderState = this.orderState || this.constantData.orderState;
+    const currentOrderState = this.order?.state;
     return currentOrderState?.id !== undefined
       ? this.statusToStepIndex[currentOrderState.id] ?? 0
       : 1;
-  }
-
-  get currentSuppliesPerOrder(): SupplyPerOrder[] {
-    return this.suppliesPerOrder.length > 0 ? this.suppliesPerOrder : this.constantData.suppliesPerOrder;
-  }
-
-  get currentDetailedSupplies(): Supply[] {
-    return this.detailedSuppliesPerOrder.length > 0 ? this.detailedSuppliesPerOrder : this.constantData.detailedSuppliesPerOrder;
-  }
-
-  get currentOrder(): Order {
-    return this.order || this.constantData.order;
-  }
-
-  get currentOrderSituation(): OrderSituation {
-    return this.orderSituation || this.constantData.orderSituation;
-  }
-
-  get currentUnitsOfMeasurement(): UnitMeasurement[] {
-    return this.unitsMeasurement.length > 0 ? this.unitsMeasurement : this.constantData.unitsMeasurement;
-  }
-
-  get currentAdminProfiles(): AdminRestaurantProfile[] {
-    return this.adminRestaurantsProfiles.length > 0 ? this.adminRestaurantsProfiles : this.constantData.adminRestaurantsProfiles;
   }
 
   nextStep(): void {
@@ -177,45 +128,12 @@ export class OrderDetailsComponent implements OnChanges {
   }
 
   productName(supplyId: number): string {
-    const supply = this.currentDetailedSupplies.find(s => Number(s.id) === Number(supplyId));
+    const supply = this.orderSuppliesDetails.find(s => Number(s.id) === Number(supplyId));
     return supply ? supply.name : 'Unknown Product';
   }
 
-  productUnitMeasurement(supplyId: number): string {
-    const supply = this.currentDetailedSupplies.find(s => Number(s.id) === Number(supplyId));
-    if (!supply) return 'Unknown unit';
-
-    const unitMeasurement = this.currentUnitsOfMeasurement.find(u => Number(u.id) === Number(supply.unit_measurement_id));
-    return unitMeasurement ? unitMeasurement.name : 'Unknown unit';
-  }
-
-  formatDate(dateStr: string): string {
-    if (!dateStr) return 'Not set';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('es-PE', {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit'
-    });
-  }
-
-  formatTime(dateStr: string): string {
-    if (!dateStr) return 'Not set';
-    const date = new Date(dateStr);
-    return date.toLocaleTimeString('es-PE', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
-
-  restaurantBusinessName(order: Order): string {
-    const profile = this.currentAdminProfiles.find(p => p.userId === order.adminRestaurantId);
-    return profile ? profile.businessName : 'Unknown Restaurant';
-  }
-
   onClose(): void {
-    this.modelValueChange.emit(false);
-    this.close.emit(false);
+    this.dialogRef?.close();
   }
 
   getStepClass(index: number): string {

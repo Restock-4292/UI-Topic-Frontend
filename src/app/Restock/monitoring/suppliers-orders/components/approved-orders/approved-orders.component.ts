@@ -8,18 +8,15 @@ import {
   MatHeaderCell,
   MatHeaderRow,
   MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable, MatTableDataSource, MatTableModule
+  MatRow, MatRowDef, MatTableModule
 } from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatIcon} from '@angular/material/icon';
-import {OrderDetailsComponent} from '../order-details/order-details.component';
-import {MatIconButton} from '@angular/material/button';
-import {EditOrderComponent} from '../edit-order/edit-order.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
-import {Supply} from '../../../../resource/inventory/model/supply.entity';
-import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-approved-orders',
@@ -37,11 +34,12 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatRow,
     MatRowDef,
     MatTableModule,
-    OrderDetailsComponent,
     MatIconButton,
-    EditOrderComponent,
     DatePipe,
-    EmptySectionComponent
+    EmptySectionComponent,
+    MatButton,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'
@@ -51,44 +49,23 @@ export class ApprovedOrdersComponent {
   @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
 
   @Output() deleteDialog = new EventEmitter<OrderToSupplier>();
+  @Output() detailsModal = new EventEmitter<OrderToSupplier>();
+  @Output() editModal = new EventEmitter<OrderToSupplier>();
 
   displayedColumns: string[] = ['orderDate', 'state', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
+  openOrderDetails(order: OrderToSupplier): void {
+    this.detailsModal.emit(order);
+  }
 
   openDeleteDialog(order: any): void {
     this.deleteDialog.emit(order);
   }
 
-  showModal = false;
-
-  openOrderDetails() {
-    this.showModal = true;
-  }
-
-  onModalChange(value: boolean) {
-    this.showModal = value;
-  }
-
-  onModalClose(value: boolean) {
-    this.showModal = value;
-  }
-
-
-  showEditModal = false;
-
-  openEditOrderDetails() {
-    this.showEditModal = true;
-  }
-
-  onEditModalChange(value: boolean) {
-    this.showEditModal = value;
-  }
-
-  onEditModalClose(value: boolean) {
-    this.showEditModal = value;
+  openEditOrder(order: any): void  {
+    this.editModal.emit(order);
   }
 
   // Method to get CSS class according to the order state
@@ -109,5 +86,62 @@ export class ApprovedOrdersComponent {
     }
   }
 
+  searchTerm: string = '';
+  dateRange: string = '';
+  currentSortOrder: number = 1;
+  selectedState: number = 0;
+
+  onSearchChange(value: string): void {
+    this.searchTerm = value;
+  }
+
+  onDateRangeChange(value: string): void {
+    this.dateRange = value;
+  }
+
+  onToggleSort(): void {
+    this.currentSortOrder = this.currentSortOrder === 1 ? -1 : 1;
+  }
+
+  get filteredOrders(): OrderToSupplier[] {
+    let filtered = [...this.orders];
+
+    // Filtrar por término de búsqueda
+    if (this.searchTerm.trim()) {
+      filtered = filtered.filter(order =>
+        order.description?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        this.adminRestaurantsProfiles[order.id]?.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    // Filtrar por rango de fechas (ejemplo simple)
+    if (this.dateRange === '7days') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= sevenDaysAgo);
+    } else if (this.dateRange === '30days') {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= thirtyDaysAgo);
+    } else if (this.dateRange === '3months') {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= threeMonthsAgo);
+    }
+
+    // Filtrar por estado seleccionado
+    if (this.selectedState > 0) {
+      filtered = filtered.filter(order => order.order_to_supplier_state_id === this.selectedState);
+    }
+
+    // Ordenar
+    filtered.sort((a, b) => {
+      const dateA = a.estimated_ship_time?.getTime() || 0;
+      const dateB = b.estimated_ship_time?.getTime() || 0;
+      return this.currentSortOrder * (dateA - dateB);
+    });
+
+    return filtered;
+  }
 
 }

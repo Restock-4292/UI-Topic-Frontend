@@ -9,11 +9,31 @@
       You currently have not orders approved.
     </app-empty-section>
   } @else {
+    <app-filter-section
+      [title]="'My Orders'"
+      [searchQuery]="searchTerm"
+      [selectedDateRange]="dateRange"
+      [searchPlaceholder]="'Search orders...'"
+      [sortOrder]="currentSortOrder"
+      [sortLabel]="'Order Date'"
+      (searchQueryChange)="onSearchChange($event)"
+      (selectedDateRangeChange)="onDateRangeChange($event)"
+      (toggleSort)="onToggleSort()">
+      <!-- Custom filters  -->
+      <div slot="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [(value)]="selectedState">
+            <mat-option [value]="1">On Hold</mat-option>
+            <mat-option [value]="2">Preparing</mat-option>
+            <mat-option [value]="3">On the way</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
+    </app-filter-section>
 
-    <app-filter-section></app-filter-section>
-
-    <table mat-table [dataSource]="orders" class="mat-elevation-z1">
+    <table mat-table [dataSource]="filteredOrders" class="mat-elevation-z1">
 
       <!-- Order Date -->
       <ng-container matColumnDef="orderDate">
@@ -59,10 +79,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let order">
-          <button mat-icon-button  (click)="openOrderDetails()" class="open-modal-btn" >
+          <button mat-icon-button  (click)="openOrderDetails(order)" class="open-modal-btn" >
             <mat-icon>menu_book</mat-icon>
           </button>
-          <button mat-icon-button  (click)="openEditOrderDetails()" class="open-modal-btn"> <mat-icon>edit</mat-icon></button>
+          <button mat-icon-button  (click)="openEditOrder(order)" class="open-modal-btn"> <mat-icon>edit</mat-icon></button>
 
          <button mat-icon-button (click)="openDeleteDialog(order)" class="open-modal-btn">
             <mat-icon>delete</mat-icon>
@@ -77,20 +97,6 @@
     </table>
 
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 6, 10]" showFirstLastButtons></mat-paginator>
-
-    <app-order-details
-      [modelValue]="showModal"
-      [hideState]="false"
-      (modelValueChange)="onModalChange($event)"
-      (close)="onModalClose($event)">
-    </app-order-details>
-
-    <app-edit-order
-      [modelValue]="showEditModal"
-      [hideState]="false"
-      (modelValueChange)="onEditModalChange($event)"
-      (close)="onEditModalClose($event)">
-    </app-edit-order>
 
   }
 

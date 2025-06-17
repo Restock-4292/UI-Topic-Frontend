@@ -43,7 +43,7 @@ export class OrderToSupplierAssembler {
     return {
       id: entity.id,
       date: entity.date,
-      description: entity.description,
+      description: entity.description ? entity.description : 'No description provided',
       admin_restaurant_id: entity.admin_restaurant_id,
       supplier_id: entity.supplier_id,
       order_to_supplier_state_id: entity.order_to_supplier_state_id,
