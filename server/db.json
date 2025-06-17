@@ -442,154 +442,56 @@
   ],
   "sales": [
     {
-      "id": 1,
-      "code": "K10JXZ",
-      "recipeCount": 2,
-      "additionalSupplyCount": 7,
-      "added_inventory": true
-    },
-    {
-      "id": 2,
-      "code": "KIF51P",
-      "recipeCount": 6,
-      "additionalSupplyCount": 0,
-      "added_inventory": true
-    },
-    {
-      "code": "PEK2Q7",
-      "diner_name": "Carlos",
+      "code": "G6HSXR",
+      "diner_name": "Valeria",
       "admin_restaurant_id": 1,
       "total_price": 10,
       "date": "2025-06-17",
-      "added_inventory": false,
-      "id": 3
+      "added_inventory": true,
+      "id": 1
     },
     {
-      "code": "QI72BM",
+      "code": "NOY1D3",
       "diner_name": "Luis",
       "admin_restaurant_id": 1,
       "total_price": 10,
       "date": "2025-06-17",
-      "added_inventory": false,
-      "id": 4
-    },
-    {
-      "code": "1U6GVQ",
-      "diner_name": "Sofía",
-      "admin_restaurant_id": 1,
-      "total_price": 10,
-      "date": "2025-06-17",
-      "added_inventory": false,
-      "id": 5
-    },
-    {
-      "code": "EFR177",
-      "diner_name": "Juan",
-      "admin_restaurant_id": 1,
-      "total_price": 10,
-      "date": "2025-06-17",
-      "added_inventory": false,
-      "id": 6
+      "added_inventory": true,
+      "id": 2
     }
   ],
   "sales_recipes": [
     {
       "sale_id": 1,
-      "recipe_id": 1,
+      "recipe_id": 3,
       "quantity": 1,
       "id": 1
     },
     {
-      "sale_id": 1,
+      "sale_id": 2,
       "recipe_id": 3,
       "quantity": 1,
       "id": 2
     },
     {
       "sale_id": 2,
-      "recipe_id": 2,
-      "quantity": 6,
+      "recipe_id": 4,
+      "quantity": 4,
       "id": 3
-    },
-    {
-      "sale_id": 3,
-      "recipe_id": 1,
-      "quantity": 39,
-      "id": 4
-    },
-    {
-      "sale_id": 3,
-      "recipe_id": 4,
-      "quantity": 1,
-      "id": 5
-    },
-    {
-      "sale_id": 3,
-      "recipe_id": 3,
-      "quantity": 1,
-      "id": 6
-    },
-    {
-      "sale_id": 4,
-      "recipe_id": 2,
-      "quantity": 1,
-      "id": 7
-    },
-    {
-      "sale_id": 5,
-      "recipe_id": 3,
-      "quantity": 1,
-      "id": 8
-    },
-    {
-      "sale_id": 5,
-      "recipe_id": 4,
-      "quantity": 1,
-      "id": 9
-    },
-    {
-      "sale_id": 6,
-      "recipe_id": 2,
-      "quantity": 1,
-      "id": 10
     }
   ],
   "sales_additional_supplies": [
     {
       "sale_id": 1,
-      "supply_id": 4,
+      "supply_id": 3,
       "quantity": 1,
       "id": 1
     },
     {
-      "sale_id": 1,
-      "supply_id": 3,
-      "quantity": 6,
-      "id": 2
-    },
-    {
-      "sale_id": 3,
-      "supply_id": 5,
-      "quantity": 9,
-      "id": 3
-    },
-    {
-      "sale_id": 3,
-      "supply_id": 4,
+      "sale_id": 2,
+      "supply_id": 2,
       "quantity": 4,
-      "id": 4
-    },
-    {
-      "sale_id": 4,
-      "supply_id": 3,
-      "quantity": 1,
-      "id": 5
-    },
-    {
-      "sale_id": 5,
-      "supply_id": 3,
-      "quantity": 13,
-      "id": 6
+      "id": 2
     }
   ],
   "comments": [
