@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
+import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { ProfileService } from '../../services/profile.service';
-import {Profile} from '../../model/profile.entity';
+import { Profile } from '../../model/profile.entity';
 
 @Component({
   selector: 'app-profile-details',
@@ -24,10 +24,11 @@ export class ProfileDetailsComponent {
   //  companyAddress: string;
   //  companyCategories: string[];
   // };
-  profile!: Profile;
+  profile: any = {};
 
   constructor(private profileService: ProfileService) {
-    this.profileService.profile$.subscribe(data => {
+    this.profileService.getByQuery("user_id", 1).subscribe(data => {
+      console.log("profile data: ", data);
       this.profile = data;
     });
   }

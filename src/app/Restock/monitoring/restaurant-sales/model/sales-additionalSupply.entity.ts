@@ -1,5 +1,5 @@
 
-export class SalesAdditonalSupply {
+export class SalesAdditionalSupply {
     sale_id: number;
     supply_id: number;
     quantity: number;

@@ -6,7 +6,7 @@
 
         <div>
             <h2 class="title">REGISTERED SALES NOT DISCOUNTED IN INVENTORY</h2>
-            <p class="sub-text">Select the sales you want to deduct the supplies used from the inventory..</p>
+            <p class="sub-text">Select the sales you want to deduct the supplies used from the inventory</p>
             <mat-checkbox class="select-all" [checked]="isAllSelected()"
                 [indeterminate]="selectedSales.length > 0 && !isAllSelected()"
                 (change)="toggleAllSelection($event.checked)">
@@ -20,20 +20,20 @@
             <!-- Todo el contenido que debe hacer scroll va aquí -->
             <div>
                 <!-- Tabla de platos -->
-                <mat-table [dataSource]="salesNotAddedToInventory" class="mat-elevation-z2">
+                <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
                     <ng-container matColumnDef="code">
                         <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
                         <mat-cell *matCellDef="let element">{{element.code}}</mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="quantity_plates">
-                        <mat-header-cell *matHeaderCellDef>Quantity of plates</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.quantity_plates}}</mat-cell>
+                        <mat-header-cell *matHeaderCellDef>Quantity of dishes</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.recipeCount}}</mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="quantity_additonal_supplies">
                         <mat-header-cell *matHeaderCellDef>Quantity of additonal supplies</mat-header-cell>
-                        <mat-cell *matCellDef="let element">{{element.quantity_additonal_supplies}}</mat-cell>
+                        <mat-cell *matCellDef="let element">{{element.additionalSupplyCount}}</mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
