@@ -197,7 +197,7 @@ export class CreateOrdersModalComponent {
                 }
 //Falta agregar id de usuario del proveedor
                 const newOrder = new OrderToSupplier({
-                    date: new Date().toISOString(),
+                    date: new Date(),
                     admin_restaurant_id: 2,
                     supplier_id: supply.user_id,
                     order_to_supplier_state_id: 1,
