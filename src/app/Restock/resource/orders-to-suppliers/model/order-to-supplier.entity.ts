@@ -4,7 +4,7 @@ import { OrderToSupplierBatch } from './order-to-supplier-batch.entity';
 
 export class OrderToSupplier {
   id: number;
-  date: string;
+  date: Date | null;
   description: string;
   admin_restaurant_id: number;
   supplier_id: number;
@@ -17,11 +17,11 @@ export class OrderToSupplier {
   partially_accepted: boolean;
   state?: OrderToSupplierState;
   situation?: OrderToSupplierSituation;
-  supplies?: OrderToSupplierBatch[];
+  orderBatches?: OrderToSupplierBatch[];
 
   constructor(data: Partial<OrderToSupplier> = {}) {
     this.id = data.id || 0;
-    this.date = data.date || '';
+    this.date = new Date(data.date || new Date());
     this.description = data.description || '';
     this.admin_restaurant_id = data.admin_restaurant_id || 0;
     this.supplier_id = data.supplier_id || 0;
@@ -34,6 +34,6 @@ export class OrderToSupplier {
     this.partially_accepted = data.partially_accepted || false;
     this.state = data.state;
     this.situation = data.situation;
-    this.supplies = data.supplies || [];
+    this.orderBatches = data.orderBatches || [];
   }
 }

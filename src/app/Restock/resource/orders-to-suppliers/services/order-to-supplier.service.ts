@@ -10,42 +10,38 @@ import { OrderSituationService } from './order-to-supplier-situation.service';
 import { OrderToSupplierBatchService } from './order-to-supplier-batch.service';
 
 import { SupplyService } from '../../inventory/services/supply.service';
+import {BatchService} from '../../inventory/services/batch.service';
 const ordersToSupplierResourceEndpointPath = environment.ordersToSupplierEndpointPath;
 
 @Injectable({ providedIn: 'root' })
 export class OrderToSupplierService extends BaseService<OrderToSupplier> {
     private readonly stateService = inject(OrderStateService);
     private readonly situationService = inject(OrderSituationService);
-    private readonly supplyService = inject(OrderToSupplierBatchService);
-    private readonly supplyDomainService = inject(SupplyService);
+    private readonly batchOrderService = inject(OrderToSupplierBatchService);
+    private readonly batchDomainService = inject(BatchService);
 
     constructor() {
         super();
         this.resourceEndpoint = ordersToSupplierResourceEndpointPath;
     }
     async getAllEnriched(): Promise<OrderToSupplier[]> {
-        const [rawOrders, states, situations, allOrderSupplies, allSupplies] = await Promise.all([
+        const [rawOrders, states, situations, allOrderBatches] = await Promise.all([
             firstValueFrom(this.getAll()),
             this.stateService.getAllStates(),
             this.situationService.getAllSituations(),
-            this.supplyService.getAllSupplies(),
-            this.supplyDomainService.getAllSuppliesEnriched()
+            this.batchOrderService.getAllSupplies(),
+            this.batchDomainService.getAllBatchesWithSupplies()
         ]);
 
         return rawOrders.map(raw => {
             const state = states.find(s => s.id === raw.order_to_supplier_state_id);
             const situation = situations.find(s => s.id === raw.order_to_supplier_situation_id);
 
-            const supplies = allOrderSupplies
-                .filter(os => os.order_to_supplier_id === raw.id)
-                .map(os => {
-                    const fullSupply = allSupplies.find(s => s.id === os.batch_id);
-                    return { ...os, supply: fullSupply };
-                });
+            const batchesOrder = allOrderBatches
+                .filter(ob => ob.order_to_supplier_id === raw.id)
 
             return new OrderToSupplier({
-                ...OrderToSupplierAssembler.toEntity(raw, state, situation),
-                supplies,
+                ...OrderToSupplierAssembler.toEntity(raw, state, situation, batchesOrder)
             });
         });
     }
