@@ -431,9 +431,43 @@
       "user_id": 2
     }
   ],
-  "sales": [],
-  "sales_recipes": [],
-  "sales_additional_supplies": [],
+  "sales": [
+    {
+      "id": 1,
+      "code": "K10JXZ",
+      "recipeCount": 2,
+      "additionalSupplyCount": 7,
+      "added_inventory": true
+    }
+  ],
+  "sales_recipes": [
+    {
+      "sale_id": 1,
+      "recipe_id": 1,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "sale_id": 1,
+      "recipe_id": 3,
+      "quantity": 1,
+      "id": 2
+    }
+  ],
+  "sales_additional_supplies": [
+    {
+      "sale_id": 1,
+      "supply_id": 4,
+      "quantity": 1,
+      "id": 1
+    },
+    {
+      "sale_id": 1,
+      "supply_id": 3,
+      "quantity": 6,
+      "id": 2
+    }
+  ],
   "comments": [
     {
       "id": 1,
@@ -612,6 +646,19 @@
       "estimated_ship_date": "2025-06-17T05:33:00.672Z",
       "estimated_ship_hour": "2025-06-17T05:33:00.672Z",
       "requested_products": 1
+    },
+    {
+      "id": 14,
+      "date": "2025-06-17T06:03:10.683Z",
+      "admin_restaurant_id": 2,
+      "supplier_id": 1,
+      "order_to_supplier_state_id": 1,
+      "order_to_supplier_situation_id": 1,
+      "total_price": 110,
+      "partially_accepted": false,
+      "estimated_ship_date": "2025-06-17T06:03:10.683Z",
+      "estimated_ship_hour": "2025-06-17T06:03:10.683Z",
+      "requested_products": 1
     }
   ],
   "orders_to_supplier_states": [
@@ -715,6 +762,13 @@
       "order_to_supplier_id": 13,
       "batch_id": 1,
       "quantity": 34,
+      "accepted": false
+    },
+    {
+      "id": 11,
+      "order_to_supplier_id": 14,
+      "batch_id": 1,
+      "quantity": 44,
       "accepted": false
     }
   ],
