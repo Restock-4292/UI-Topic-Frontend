@@ -624,7 +624,7 @@
       "order_to_supplier_situation_id": 1,
       "requested_products_count": 5,
       "total_price": 64.55,
-      "partially_accepted": true
+      "partially_accepted": false
     },
     {
       "id": 9,
@@ -1025,6 +1025,8 @@
     },
     {
       "id": 2,
+      "supply_id": 2,
+      "stock": 50,
       "expiration_date": null,
       "user_id": 1
     },
@@ -1037,22 +1039,22 @@
     },
     {
       "id": 4,
-      "inventory_id": 1,
       "supply_id": 9,
-      "stock": "12",
+      "stock": 12,
       "expiration_date": "2025-03-12T05:00:00.000Z",
       "user_id": 2
     },
     {
       "id": 5,
-      "inventory_id": 1,
-      "supply_id": 2,
-      "stock": "12",
+      "supply_id": 5,
+      "stock": 110,
       "expiration_date": "2025-12-03T05:00:00.000Z",
       "user_id": 1
     },
     {
       "id": 6,
+      "supply_id": 6,
+      "stock": 120,
       "expiration_date": null,
       "user_id": 1
     }
