@@ -16,19 +16,13 @@ import {
 } from '../../../../resource/orders-to-suppliers/services/order-to-supplier-batch.service';
 import {DeleteComponent} from '../../../../../shared/components/delete/delete.component';
 import {BaseModalService} from '../../../../../shared/services/base-modal.service';
-import {
-  OrderDetailsModalComponent
-} from '../../../../resource/orders-to-suppliers/components/order-details/order-details-modal.component';
 import {firstValueFrom} from 'rxjs';
-import {
-  CreateAndEditRecipeComponent
-} from '../../../../planning/recipe/components/create-and-edit-recipe/create-and-edit-recipe.component';
 import {OrderToSupplierState} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-state.entity';
 import {
   OrderToSupplierSituation
 } from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
 import {ManageNewOrdersComponent} from '../../components/manage-new-orders/manage-new-orders.component';
-import {SupplyService} from '../../../../resource/inventory/services/supply.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -65,7 +59,8 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     private batchService: BatchService,
     private userService: UserService,
     private profileService: ProfileService,
-    private modalService: BaseModalService
+    private modalService: BaseModalService,
+    private snackBar: MatSnackBar
   ) { }
 
   async ngOnInit() {
@@ -123,20 +118,20 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
       const result = await Promise.all(
         this.orders.map(async (order) => {
-          const orderSupplies = order.supplies || await this.orderToSupplierBatchService.getSupplyByOrder(order.id);
+          const orderBatches = order.orderBatches || await this.orderToSupplierBatchService.getSupplyByOrder(order.id);
 
           // supplyGroupedByOrder: original list
           const supplyGroup = {
             orderId: order.id,
-            batches: orderSupplies,
+            batches: orderBatches,
           };
 
           // detailedSuppliesGroupedByOrder: list with detailed supply information of each batch
           const detailedGroup = {
             orderId: order.id,
-            supplies: orderSupplies
-              .map(os => {
-                const batch = batches.find(b => Number(b.id) === Number(os.batch_id));
+            supplies: orderBatches
+              .map(ob => {
+                const batch = batches.find(b => Number(b.id) === Number(ob.batch_id));
 
                 return batch? batch.supply : null;
               })
@@ -236,13 +231,6 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     this.selectedOrder = order;
     this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
 
-    // Callback para manejar cuando se envía el pedido
-    const handleOrderSubmitted = (data: any) => {
-      console.log('Pedido enviado:', data);
-      // Aquí puedes manejar la lógica del negocio
-      // como guardar en el servidor, actualizar listas, etc.
-    };
-
     // Abrir el modal usando BaseModalService
     const dialogRef = this.modalService.open({
       title: 'New Order Management',
@@ -257,6 +245,35 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
         adminRestaurantName: this.restaurantNameOrderSelected
       }
     });
+
+    setTimeout(() => {
+      const instance = dialogRef.componentInstance
+        .contentComponentRef?.instance as ManageNewOrdersComponent;
+
+      instance?.acceptSelection.subscribe((order) => {
+        console.log('¡Padre/abuelo recibió el order!', order);
+        try {
+          console.log('Padre recibió order:', order);
+          // Marcar lotes como aceptados
+          order.orderBatches?.forEach(orderBatch => (orderBatch.accepted = true));
+
+          // Actualizar estado y situación
+          order.state = new OrderToSupplierState({ id: 1, name: 'On Hold' });
+          order.situation = new OrderToSupplierSituation({ id: 2, name: 'Approved' });
+
+          // Hacer update con await porque tu servicio es async
+           this.orderService.updateOrder(order.id, order);
+
+          this.snackBar.open('Order updated successfully', 'Close', { duration: 3000 });
+          dialogRef.close();
+           this.loadOrders();
+        } catch (error) {
+          console.error('Error updating order:', error);
+          this.snackBar.open('Failed to update order', 'Close', { duration: 3000 });
+        }
+      });
+    });
+
 
     // Opcional: manejar el cierre del modal
     dialogRef.afterClosed().subscribe(result => {
