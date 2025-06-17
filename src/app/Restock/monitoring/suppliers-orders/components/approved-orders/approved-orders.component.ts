@@ -8,17 +8,12 @@ import {
   MatHeaderCell,
   MatHeaderRow,
   MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable, MatTableDataSource, MatTableModule
+  MatRow, MatRowDef, MatTableModule
 } from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatIcon} from '@angular/material/icon';
-import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {MatIconButton} from '@angular/material/button';
-import {EditOrderComponent} from '../edit-order/edit-order.component';
-import {MatDialog} from '@angular/material/dialog';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
-import {Supply} from '../../../../resource/inventory/model/supply.entity';
-import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
 
 @Component({
@@ -37,9 +32,7 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatRow,
     MatRowDef,
     MatTableModule,
-    OrderDetailsComponent,
     MatIconButton,
-    EditOrderComponent,
     DatePipe,
     EmptySectionComponent
   ],
@@ -52,6 +45,7 @@ export class ApprovedOrdersComponent {
 
   @Output() deleteDialog = new EventEmitter<OrderToSupplier>();
   @Output() detailsModal = new EventEmitter<OrderToSupplier>();
+  @Output() editModal = new EventEmitter<OrderToSupplier>();
 
   displayedColumns: string[] = ['orderDate', 'state', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
@@ -65,21 +59,8 @@ export class ApprovedOrdersComponent {
     this.deleteDialog.emit(order);
   }
 
-  showModal = false;
-
-
-  showEditModal = false;
-
-  openEditOrderDetails() {
-    this.showEditModal = true;
-  }
-
-  onEditModalChange(value: boolean) {
-    this.showEditModal = value;
-  }
-
-  onEditModalClose(value: boolean) {
-    this.showEditModal = value;
+  openEditOrder(order: any): void  {
+    this.editModal.emit(order);
   }
 
   // Method to get CSS class according to the order state
@@ -99,6 +80,4 @@ export class ApprovedOrdersComponent {
         return '';
     }
   }
-
-
 }

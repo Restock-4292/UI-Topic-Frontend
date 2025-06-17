@@ -62,7 +62,7 @@
           <button mat-icon-button  (click)="openOrderDetails(order)" class="open-modal-btn" >
             <mat-icon>menu_book</mat-icon>
           </button>
-          <button mat-icon-button  (click)="openEditOrderDetails()" class="open-modal-btn"> <mat-icon>edit</mat-icon></button>
+          <button mat-icon-button  (click)="openEditOrder(order)" class="open-modal-btn"> <mat-icon>edit</mat-icon></button>
 
          <button mat-icon-button (click)="openDeleteDialog(order)" class="open-modal-btn">
             <mat-icon>delete</mat-icon>
@@ -77,20 +77,6 @@
     </table>
 
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 6, 10]" showFirstLastButtons></mat-paginator>
-
-<!--    <app-order-details-->
-<!--      [modelValue]="showModal"-->
-<!--      [hideState]="false"-->
-<!--      (modelValueChange)="onModalChange($event)"-->
-<!--      (close)="onModalClose($event)">-->
-<!--    </app-order-details>-->
-
-    <app-edit-order
-      [modelValue]="showEditModal"
-      [hideState]="false"
-      (modelValueChange)="onEditModalChange($event)"
-      (close)="onEditModalClose($event)">
-    </app-edit-order>
 
   }
 
