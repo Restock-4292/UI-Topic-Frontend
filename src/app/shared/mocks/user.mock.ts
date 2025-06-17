@@ -15,5 +15,4 @@ export const mockUser = {
         id: 2,
         name: "supplier",
     }
-
 }
