@@ -95,30 +95,35 @@ export class ShowSalesNotAddedToInventoryComponent implements OnInit {
     //traer el sale original de db.json
     this.restaurantSaleService.getAll().subscribe(sales => {
       this.selectedSales = sales;
+
+      const updateCalls = this.selectedSales.map(sale =>
+        this.restaurantSaleService.update(sale.id, {
+          ...sale,
+          added_inventory: true
+        })
+      );
+
+      forkJoin(updateCalls).subscribe({
+        next: () => {
+          this.snackBar.open('Sales added to inventory successfully ✅', 'Close', {
+            duration: 3000,
+            panelClass: 'snackbar-success'
+          });
+          this.closeComponent();
+        },
+        error: () => {
+          this.snackBar.open('Error updating sales ❌', 'Close', {
+            duration: 3000,
+            panelClass: 'snackbar-error'
+          });
+        }
+      });
     })
 
-    const updateCalls = this.selectedSales.map(sale =>
-      this.restaurantSaleService.update(sale.id, {
-        ...sale,
-        added_inventory: true
-      })
-    );
 
-    forkJoin(updateCalls).subscribe({
-      next: () => {
-        this.snackBar.open('Sales added to inventory successfully ✅', 'Close', {
-          duration: 3000,
-          panelClass: 'snackbar-success'
-        });
-        this.closeComponent();
-      },
-      error: () => {
-        this.snackBar.open('Error updating sales ❌', 'Close', {
-          duration: 3000,
-          panelClass: 'snackbar-error'
-        });
-      }
-    });
+
+
+
   }
 
 
