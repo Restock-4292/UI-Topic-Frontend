@@ -108,7 +108,6 @@ export class RegisterSalesComponent implements OnInit {
   registerSale() {
     const dishes = this.selectedDishes.data;
     const supplies = this.selectedAdditionalSupplies.data;
-    console.log("patito: ", dishes);
 
     if (dishes.length === 0 && supplies.length === 0) {
       alert('Please select at least one dish or supply before registering the sale.');

@@ -9,6 +9,7 @@ import { OrderSituationService } from '../../../../resource/orders-to-suppliers/
 import { ProfileService } from '../../../../profiles/services/profile.service';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { UserService } from '../../../../iam/services/user.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-supplier-alerts-overview',
@@ -18,6 +19,7 @@ import { UserService } from '../../../../iam/services/user.service';
     MatSelectModule,
     MatFormFieldModule,
     MatButtonModule,
+    TranslatePipe
   ],
   templateUrl: './supplier-alerts-overview.component.html',
   styleUrl: './supplier-alerts-overview.component.css'

@@ -1,19 +1,19 @@
 <div class="table-container">
 
     <div class="header">
-        <h2>Orders Notifications</h2>
+        <h2>{{'notifications_suppliers.title' | translate}}</h2>
     </div>
 
     <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
         <!-- Restaurant -->
         <ng-container matColumnDef="restaurant">
-            <mat-header-cell *matHeaderCellDef> Restaurant </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'notifications_suppliers.restaurant' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let alert"> {{ alert.restaurant }} </mat-cell>
         </ng-container>
 
         <!-- Details -->
         <ng-container matColumnDef="details">
-            <mat-header-cell *matHeaderCellDef> Evaluate </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'notifications_suppliers.evaluate' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let alert">
                 <mat-icon>menu_book</mat-icon>
             </mat-cell>
@@ -21,7 +21,7 @@
 
         <!-- Status -->
         <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'notifications_suppliers.status' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let alert">
                 <button mat-flat-button>{{ alert.situation }}</button>
             </mat-cell>
@@ -29,7 +29,7 @@
 
         <!-- Last update -->
         <ng-container matColumnDef="orderPlaced">
-            <mat-header-cell *matHeaderCellDef> Last update </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'notifications_suppliers.last-update' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let notification"> {{ notification.elapsedTime }} </mat-cell>
         </ng-container>
 
