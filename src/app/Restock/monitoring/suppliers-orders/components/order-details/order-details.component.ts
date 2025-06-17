@@ -1,9 +1,6 @@
 // order-details.component.ts
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output,
   OnChanges,
   SimpleChanges,
   ViewChild,
@@ -39,10 +36,7 @@ import {Supply} from '../../../../resource/inventory/model/supply.entity';
   styleUrl: './order-details.component.css'
 })
 export class OrderDetailsComponent implements OnInit, OnChanges, AfterViewInit  {
-
-  @Output() close = new EventEmitter<boolean>();
-
-  //Injected data
+ //Injected data
   hideState: boolean = false;
   orderBatches: OrderToSupplierBatch[] = [];
   order: OrderToSupplier | null = null;
@@ -136,25 +130,6 @@ export class OrderDetailsComponent implements OnInit, OnChanges, AfterViewInit  
   productName(supplyId: number): string {
     const supply = this.orderSuppliesDetails.find(s => Number(s.id) === Number(supplyId));
     return supply ? supply.name : 'Unknown Product';
-  }
-
-  formatDate(dateStr: string): string {
-    if (!dateStr) return 'Not set';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('es-PE', {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit'
-    });
-  }
-
-  formatTime(dateStr: string): string {
-    if (!dateStr) return 'Not set';
-    const date = new Date(dateStr);
-    return date.toLocaleTimeString('es-PE', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
   }
 
   onClose(): void {
