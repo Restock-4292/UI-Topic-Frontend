@@ -945,6 +945,43 @@
       "accepted": false
     }
   ],
+  "orders_comments": [
+    {
+      "id": 1,
+      "order_to_supplier_id": 1,
+      "content": "El pedido llegó a tiempo y en buen estado. Muy satisfecho.",
+      "rating": 5,
+      "date": "2025-06-10T14:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "order_to_supplier_id": 2,
+      "content": "Algunos productos estaban dañados, pero se resolvió rápido.",
+      "rating": 3,
+      "date": "2025-06-12T10:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "order_to_supplier_id": 3,
+      "content": "El proveedor se retrasó más de una hora.",
+      "rating": 2,
+      "date": "2025-06-14T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "order_to_supplier_id": 1,
+      "content": "Buen servicio, aunque el embalaje podría mejorar.",
+      "rating": 4,
+      "date": "2025-06-15T16:45:00.000Z"
+    },
+    {
+      "id": 5,
+      "order_to_supplier_id": 5,
+      "content": "que ricas gaselas",
+      "rating": 3,
+      "date": "2025-06-17T10:28:44.236Z"
+    }
+  ],
   "units_measurement": [
     {
       "id": 1,

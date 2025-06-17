@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-
+import {TranslatePipe} from '@ngx-translate/core';
 @Component({
   selector: 'orders-toolbar',
   templateUrl: './orders-toolbar.component.html',
@@ -21,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    TranslatePipe
   ],
 })
 export class OrdersToolbarComponent {

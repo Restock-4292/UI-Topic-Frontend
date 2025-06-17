@@ -1,11 +1,14 @@
 <ng-template #orderDetailsTemplate>
   <div class="order-modal-container">
-    <h2 mat-dialog-title>Detalles de la Orden</h2>
+    <h2 mat-dialog-title>
+      {{ "order-to-supplier.order-details-modal.title" | translate }}
+    </h2>
 
     <mat-dialog-content class="dialog-content">
-      <!-- Información general -->
       <div class="section">
-        <h3>Información de la Orden</h3>
+        <h3>
+          {{ "order-to-supplier.order-details-modal.subtitle" | translate }}
+        </h3>
         <div
           *ngIf="
             order?.state || order?.situation || order?.date;
@@ -14,50 +17,99 @@
           class="info-grid"
         >
           <p>
-            <strong>Estado:</strong>
-            {{ order.state?.name || "No especificado" }}
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.state" | translate
+              }}:</strong
+            >
+            {{
+              order.state?.name ||
+                ("order-to-supplier.order-details-modal.state" | translate) +
+                  " - " +
+                  ("common.notSpecified" | translate)
+            }}
           </p>
           <p>
-            <strong>Situación:</strong>
-            {{ order.situation?.name || "No especificado" }}
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.situation" | translate
+              }}:</strong
+            >
+            {{
+              order.situation?.name ||
+                ("order-to-supplier.order-details-modal.situation"
+                  | translate) +
+                  " - " +
+                  ("common.notSpecified" | translate)
+            }}
           </p>
           <p>
-            <strong>Fecha de Orden:</strong>
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.orderCreationDate"
+                  | translate
+              }}:</strong
+            >
             {{ order.date | date : "dd/MM/yyyy" }}
           </p>
           <p>
-            <strong>Fecha de Envío Estimada:</strong>
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.estimedShippingDate"
+                  | translate
+              }}:</strong
+            >
             {{ order.estimated_ship_date | date : "dd/MM/yyyy" }}
           </p>
           <p>
-            <strong>Hora Estimada:</strong>
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.estimatedShippingHour"
+                  | translate
+              }}:</strong
+            >
             {{ order.estimated_ship_time | date : "shortTime" }}
           </p>
           <p>
-            <strong>Precio Total:</strong> S/.
-            {{ order.total_price | number : "1.2-2" }}
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.totalPrice" | translate
+              }}:</strong
+            >
+            S/. {{ order.total_price | number : "1.2-2" }}
           </p>
           <p>
-            <strong>Productos Solicitados:</strong>
-            {{ order.requested_products_count || "No especificado" }}
+            <strong
+              >{{
+                "order-to-supplier.order-details-modal.requestedProducts"
+                  | translate
+              }}:</strong
+            >
+            {{
+              order.requested_products_count ||
+                ("common.notSpecified" | translate)
+            }}
           </p>
         </div>
         <ng-template #noGeneralInfo>
-          <p>No se encontraron datos de la orden.</p>
+          <p>{{ "common.noOrderDataFound" | translate }}</p>
         </ng-template>
       </div>
 
       <mat-divider></mat-divider>
 
-      <!-- Información del proveedor -->
       <div class="section">
-        <h3>Proveedor</h3>
+        <h3>
+          {{ "order-to-supplier.order-details-modal.supplier" | translate }}
+        </h3>
         <ng-container *ngIf="providerProfile; else noProvider">
           <div class="provider-info">
             <img
               class="provider-avatar"
               [src]="providerProfile.image"
-              alt="Proveedor"
+              alt="{{
+                'order-to-supplier.order-details-modal.supplier' | translate
+              }}"
             />
             <div>
               <p>
@@ -67,72 +119,132 @@
                 >
               </p>
               <p>{{ providerProfile.companyName }}</p>
-              <p><strong>Teléfono:</strong> {{ providerProfile.phone }}</p>
               <p>
-                <strong>Dirección:</strong> {{ providerProfile.companyAddress }}
+                <strong
+                  >{{
+                    "order-to-supplier.order-details-modal.supplierPhone"
+                      | translate
+                  }}:</strong
+                >
+                {{ providerProfile.phone }}
+              </p>
+              <p>
+                <strong
+                  >{{
+                    "order-to-supplier.order-details-modal.supplierAddress"
+                      | translate
+                  }}:</strong
+                >
+                {{ providerProfile.companyAddress }}
               </p>
             </div>
           </div>
         </ng-container>
         <ng-template #noProvider>
-          <p>No se encontró información del proveedor.</p>
+          <p>{{ "common.noProviderInfoFound" | translate }}</p>
         </ng-template>
       </div>
 
       <mat-divider></mat-divider>
 
-      <!-- Suministros -->
       <div class="section">
-        <h3>Insumos</h3>
+        <h3>
+          {{ "order-to-supplier.order-details-modal.supplies" | translate }}
+        </h3>
         <ng-container *ngIf="hasOrderBatches; else noOrderBatches">
           <mat-card
             *ngFor="let supplyRelation of order!.orderBatches"
             class="supply-card"
           >
-            <mat-card-title>{{
-              supplyRelation.supply?.name || "Insumo sin nombre"
-            }}</mat-card-title>
+            <mat-card-title>
+              {{
+                supplyRelation.supply?.name ||
+                  ("common.unnamedSupply" | translate)
+              }}
+            </mat-card-title>
             <mat-card-content>
               <div class="supply-grid">
                 <p>
-                  <strong>Descripción:</strong>
-                  {{ supplyRelation.supply?.description || "Sin descripción" }}
-                </p>
-                <p>
-                  <strong>Categoría:</strong>
-                  {{ supplyRelation.supply?.category?.name || "No definida" }}
-                </p>
-                <p>
-                  <strong>Unidad:</strong>
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-description"
+                        | translate
+                    }}:</strong
+                  >
                   {{
-                    supplyRelation.supply?.unit_measurement?.name ||
-                      "No definida"
+                    supplyRelation.supply?.description ||
+                      ("common.noDescription" | translate)
                   }}
                 </p>
                 <p>
-                  <strong>Precio:</strong> S/.
-                  {{ supplyRelation.supply?.price ?? "0.00" }}
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-category"
+                        | translate
+                    }}:</strong
+                  >
+                  {{
+                    supplyRelation.supply?.category?.name ||
+                      ("common.notDefined" | translate)
+                  }}
                 </p>
                 <p>
-                  <strong>Cantidad Solicitada:</strong>
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-unit"
+                        | translate
+                    }}:</strong
+                  >
+                  {{
+                    supplyRelation.supply?.unit_measurement?.name ||
+                      ("common.notDefined" | translate)
+                  }}
+                </p>
+                <p>
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-price"
+                        | translate
+                    }}:</strong
+                  >
+                  S/. {{ supplyRelation.supply?.price ?? "0.00" }}
+                </p>
+                <p>
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-requested-quantity"
+                        | translate
+                    }}:</strong
+                  >
                   {{ supplyRelation.quantity }}
                 </p>
                 <p>
-                  <strong>Aceptado:</strong>
-                  {{ supplyRelation.accepted ? "Sí" : "No" }}
+                  <strong
+                    >{{
+                      "order-to-supplier.order-details-modal.supply-status"
+                        | translate
+                    }}:</strong
+                  >
+                  {{
+                    supplyRelation.accepted
+                      ? ("common.yes" | translate)
+                      : ("common.no" | translate)
+                  }}
                 </p>
               </div>
             </mat-card-content>
           </mat-card>
         </ng-container>
         <ng-template #noOrderBatches>
-          <p>No se registraron suministros en esta orden.</p>
+          <p>{{ "common.noSuppliesInOrder" | translate }}</p>
         </ng-template>
       </div>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cerrar</button>
+      <button mat-button mat-dialog-close>
+        {{ "common.close" | translate }}
+      </button>
     </mat-dialog-actions>
   </div>
 </ng-template>

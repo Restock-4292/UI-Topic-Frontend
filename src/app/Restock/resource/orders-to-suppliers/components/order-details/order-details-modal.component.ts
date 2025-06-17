@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'order-details-modal',
@@ -18,7 +19,8 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslatePipe
   ],
   templateUrl: './order-details-modal.component.html',
   styleUrl: './order-details-modal.component.css'

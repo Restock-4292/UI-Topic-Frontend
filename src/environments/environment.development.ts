@@ -21,5 +21,6 @@ export const environment = {
   ordersToSupplierBatchesEndpointPath: '/orders_to_supplier_batches',
   businessCategoriesEndpointPath: '/business_categories',
   profilesBusinessCategoriesEndpointPath: '/profiles_business_categories',
-  restaurantContactsEndpointPath: '/restaurant_contacts'
+  restaurantContactsEndpointPath: '/restaurant_contacts',
+  orderCommentsEndpointPath: '/orders_comments',
 };

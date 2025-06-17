@@ -92,10 +92,13 @@ export class ProfileService {
 
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { BaseService } from '../../../shared/services/base.service';
 import { Profile } from '../model/profile.entity';
+import { ProfileAssembler } from './profile.assembler';
+import { ProfileDto } from './profile.assembler';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService extends BaseService<Profile> {
@@ -115,6 +118,31 @@ export class ProfileService extends BaseService<Profile> {
     this.profileSubject.next(updated);
   }
 
+  loadProfilesByUserIds(userIds: number[]): Observable<Profile[]> {
+    if (!userIds || userIds.length === 0) {
+      return of([]);
+    }
+
+    const query = userIds.map(id => `user_id=${id}`).join('&');
+    const url = `${environment.serverBaseUrl}${this.resourceEndpoint}?${query}`;
+
+    return this.http.get<ProfileDto[]>(url).pipe(
+      map(dtos => dtos.map(dto => ProfileAssembler.fromDto(dto)))
+    );
+  }
+
+  loadProfileByUserId(userId: number): Observable<Profile> {
+    const url = `${environment.serverBaseUrl}${this.resourceEndpoint}?user_id=${userId}`;
+
+    return this.http.get<ProfileDto[]>(url).pipe(
+      map(profiles => profiles[0]), // Se espera solo uno
+      map(dto => ProfileAssembler.fromDto(dto)),
+      map(profile => {
+        this.profileSubject.next(profile);
+        return profile;
+      })
+    );
+  }
   private loadInitialProfile(): Profile {
     return new Profile();
   }

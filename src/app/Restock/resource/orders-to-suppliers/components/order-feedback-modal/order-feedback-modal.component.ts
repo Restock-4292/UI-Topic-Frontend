@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 import { Profile } from '../../../../profiles/model/profile.entity';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { OrderCommentService } from '../../services/order-comment.service';
+import { OrderComment } from '../../model/order-comment.entity';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'order-feedback-modal',
@@ -24,7 +27,8 @@ import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/m
         MatCard,
         MatCardContent,
         MatCardHeader,
-        MatCardTitle
+        MatCardTitle,
+        TranslatePipe
     ],
     templateUrl: './order-feedback-modal.component.html',
     styleUrls: ['./order-feedback-modal.component.css']
@@ -37,7 +41,7 @@ export class OrderFeedbackModalComponent {
     rating: number = 0;
     comment: string = '';
 
-    constructor(private dialog: MatDialog) { }
+    constructor(private dialog: MatDialog, private commentService: OrderCommentService) { }
 
     open(order: OrderToSupplier): void {
         this.order = order;
@@ -57,12 +61,25 @@ export class OrderFeedbackModalComponent {
     }
 
     submitFeedback(): void {
-        console.log('Feedback enviado:', {
-            orderId: this.order.id,
+        if (!this.rating || !this.comment.trim()) {
+            alert('Por favor, completa tanto el comentario como la calificación.');
+            return;
+        }
+
+        const newComment = new OrderComment({
+            order_to_supplier_id: this.order.id,
+            content: this.comment.trim(),
             rating: this.rating,
-            comment: this.comment
+            date: new Date()
         });
 
-        this.close();
+        this.commentService.createComment(newComment)
+            .then(() => {
+                console.log('Comentario guardado con éxito');
+                this.close();
+            })
+            .catch(err => {
+                console.error('Error al guardar comentario:', err);
+            });
     }
 }

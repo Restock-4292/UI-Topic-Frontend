@@ -74,7 +74,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
     this.orders.forEach(order => {
       const profile = this.adminRestaurantsProfiles.find(p => Number(p.id) === Number(order.admin_restaurant_id));
-      this.restaurantNameMap[order.id] = profile?.companyName ?? 'Unknown Restaurant';
+      this.restaurantNameMap[order.id] = profile?.business_name ?? 'Unknown Restaurant';
     });
   }
 

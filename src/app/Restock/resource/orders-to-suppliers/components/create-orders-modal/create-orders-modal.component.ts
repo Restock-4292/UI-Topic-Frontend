@@ -16,6 +16,7 @@ import { OrderToSupplier } from '../../model/order-to-supplier.entity';
 import { OrderToSupplierService } from '../../services/order-to-supplier.service';
 import { OrderToSupplierBatch } from '../../model/order-to-supplier-batch.entity';
 import { OrderToSupplierBatchService } from '../../services/order-to-supplier-batch.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'create-orders-modal',
@@ -33,7 +34,9 @@ import { OrderToSupplierBatchService } from '../../services/order-to-supplier-ba
         MatIconModule,
         MatCardModule,
         MatCheckboxModule,
-        MatTabsModule],
+        MatTabsModule,
+        TranslatePipe
+    ],
 })
 export class CreateOrdersModalComponent {
     @Input() providerSupplies: any[] = [];
@@ -195,7 +198,7 @@ export class CreateOrdersModalComponent {
                     console.warn('No se encontraron batches para el insumo:', supply);
                     continue;
                 }
-//Falta agregar id de usuario del proveedor
+
                 const newOrder = new OrderToSupplier({
                     date: new Date(),
                     admin_restaurant_id: 2,

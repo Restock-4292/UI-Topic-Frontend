@@ -2,6 +2,7 @@ export class Profile {
   id: number;
   name: string;
   last_name: string;
+  email: string;
   username: string;
   avatar: string;
   phone: string;
@@ -10,12 +11,14 @@ export class Profile {
   description: string;
   business_name: string;
   business_address: string;
+  business_categories?: string[] = [];
   user_id: number;
 
   constructor() {
     this.id = 0;
     this.name = '';
     this.last_name = '';
+    this.email = '';
     this.username = '';
     this.avatar = '';
     this.phone = '';

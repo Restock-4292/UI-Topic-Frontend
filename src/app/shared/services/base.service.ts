@@ -18,7 +18,7 @@ export abstract class BaseService<T> {
     protected resourceEndpoint: string = '/resources';
 
     // Inyección de HttpClient para hacer llamadas HTTP
-    private http: HttpClient = inject(HttpClient);
+    protected http: HttpClient = inject(HttpClient);
 
     // Manejo de errores centralizado para todas las peticiones
     private handleError(error: HttpErrorResponse) {
