@@ -1,13 +1,15 @@
 import { OrderToSupplier } from '../model/order-to-supplier.entity';
 import { OrderToSupplierState } from '../model/order-to-supplier-state.entity';
 import { OrderToSupplierSituation } from '../model/order-to-supplier-situation.entity';
+import {OrderToSupplierBatch} from '../model/order-to-supplier-batch.entity';
 
 export class OrderToSupplierAssembler {
 
   static toEntity(
     dto: any,
     state?: OrderToSupplierState,
-    situation?: OrderToSupplierSituation
+    situation?: OrderToSupplierSituation,
+    orderBatches?: OrderToSupplierBatch[]
   ): OrderToSupplier {
     const entity = new OrderToSupplier({
       id: dto.id,
@@ -31,6 +33,9 @@ export class OrderToSupplierAssembler {
       entity.situation = situation;
     }
 
+    if(orderBatches && Array.isArray(orderBatches)) {
+      entity.orderBatches = orderBatches;
+    }
     return entity;
   }
 
