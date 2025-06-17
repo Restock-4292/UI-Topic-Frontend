@@ -51,30 +51,21 @@ export class ApprovedOrdersComponent {
   @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
 
   @Output() deleteDialog = new EventEmitter<OrderToSupplier>();
+  @Output() detailsModal = new EventEmitter<OrderToSupplier>();
 
   displayedColumns: string[] = ['orderDate', 'state', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-
+  openOrderDetails(order: OrderToSupplier): void {
+    this.detailsModal.emit(order);
+  }
 
   openDeleteDialog(order: any): void {
     this.deleteDialog.emit(order);
   }
 
   showModal = false;
-
-  openOrderDetails() {
-    this.showModal = true;
-  }
-
-  onModalChange(value: boolean) {
-    this.showModal = value;
-  }
-
-  onModalClose(value: boolean) {
-    this.showModal = value;
-  }
 
 
   showEditModal = false;

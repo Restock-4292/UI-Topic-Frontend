@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {CurrencyPipe, DatePipe} from "@angular/common";
 import {FilterSectionComponent} from "../filter-section/filter-section.component";
 import { MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -29,6 +29,8 @@ export class DeliveredOrdersComponent {
   @Input() orders: Array<OrderToSupplier> = [];
   @Input() adminRestaurantsProfiles: { [orderId: number]: string } = {};
 
+  @Output() detailsModal = new EventEmitter<OrderToSupplier>();
+
   displayedColumns: string[] = ['orderDate', 'shipDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,8 +38,8 @@ export class DeliveredOrdersComponent {
 
   showModal = false;
 
-  openOrderDetails() {
-    this.showModal = true;
+  openOrderDetails(order: OrderToSupplier) {
+    this.detailsModal.emit(order);
   }
 
   onModalChange(value: boolean) {

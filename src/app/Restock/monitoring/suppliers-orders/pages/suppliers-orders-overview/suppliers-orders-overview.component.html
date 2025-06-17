@@ -8,6 +8,7 @@
         [batchesGroupedByOrder]="batchesGroupedByOrder"
         (declineDialog)="openDeleteOrderDialog($event, 'decline')"
         (manageNewOrderModal)="openManageOrdersModal($event)"
+        (detailsModal)="openOrderDetailsModal($event, true)"
       />
     </mat-tab>
 
@@ -16,13 +17,15 @@
         [orders]="ordersInProcess"
         [adminRestaurantsProfiles]="restaurantNameMap"
         (deleteDialog)="openDeleteOrderDialog($event, 'cancel')"
+        (detailsModal)="openOrderDetailsModal($event, false)"
       />
     </mat-tab>
 
     <mat-tab label="Orders History">
       <app-delivered-orders
-        [orders]="ordersInProcess"
+        [orders]="deliveredOrders"
         [adminRestaurantsProfiles]="restaurantNameMap"
+        (detailsModal)="openOrderDetailsModal($event, false)"
       />
     </mat-tab>
   </mat-tab-group>

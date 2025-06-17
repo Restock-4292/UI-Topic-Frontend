@@ -28,8 +28,6 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatOption,
     MatIconButton,
     MatButton,
-    OrderDetailsComponent,
-    ManageNewOrdersComponent,
     EmptySectionComponent,
     DatePipe
   ],
@@ -46,10 +44,15 @@ export class NewOrdersComponent {
 
   @Output() manageNewOrderModal = new EventEmitter<OrderToSupplier>();
   @Output() declineDialog = new EventEmitter<OrderToSupplier>();
+  @Output() detailsModal = new EventEmitter<OrderToSupplier>();
 
   displayedColumns: string[] = ['orderDate', 'restaurantName', 'requestedProducts', 'finalPrice', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  openOrderDetails(order: OrderToSupplier): void {
+    this.detailsModal.emit(order);
+  }
 
   openDeclineDialog(order: any): void {
     this.declineDialog.emit(order);
@@ -76,35 +79,6 @@ export class NewOrdersComponent {
   onToggleSort(): void {
     this.currentSortOrder = this.currentSortOrder === 1 ? -1 : 1;
     // Implementar lógica de ordenamiento
-  }
-
-
-  showModal = false;
-
-  openOrderDetails() {
-    this.showModal = true;
-  }
-
-  onModalChange(value: boolean) {
-    this.showModal = value;
-  }
-
-  onModalClose(value: boolean) {
-    this.showModal = value;
-  }
-
-  showManageNewOrderModal = false;
-
-  openManageNewOrder() {
-    this.showManageNewOrderModal = true;
-  }
-
-  onManageNewOrderModalChange(value: boolean) {
-    this.showManageNewOrderModal = value;
-  }
-
-  onManageNewOrderModalClose(value: boolean) {
-    this.showManageNewOrderModal = value;
   }
 
 }

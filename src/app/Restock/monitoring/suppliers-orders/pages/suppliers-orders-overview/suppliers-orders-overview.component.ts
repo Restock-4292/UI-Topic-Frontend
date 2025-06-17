@@ -23,6 +23,7 @@ import {
 } from '../../../../resource/orders-to-suppliers/model/order-to-supplier-situation.entity';
 import {ManageNewOrdersComponent} from '../../components/manage-new-orders/manage-new-orders.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {OrderDetailsComponent} from '../../components/order-details/order-details.component';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -155,6 +156,32 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   }
 
   //MODALS METHODS
+
+  openOrderDetailsModal(order: OrderToSupplier,  hideState: boolean): void {
+    this.selectedOrder = order;
+    this.detailedSuppliesPerOrder = this.getDetailedOrderSupplies(order.id);
+    this.batchesPerOrder = this.getOrderBatches(order.id);
+    this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
+
+    this.modalService.open({
+      title: 'Order Details',
+      contentComponent: OrderDetailsComponent,
+      description: 'View the details of a new order.',
+      width: '40vw',
+      height: '85vh',
+      initialData: {
+        order: order,
+        suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
+        batchesOfOrder: this.batchesPerOrder,
+        adminRestaurantName: this.restaurantNameOrderSelected,
+        hideState: hideState
+      }
+    }).afterClosed().subscribe(async (confirmed: boolean) => {
+
+    });
+
+  }
+
   openDeleteOrderDialog(order: OrderToSupplier, action: string): void {
     let titleContent = '';
     let newIdSituation = 0; // Default situation ID
@@ -206,8 +233,6 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
       }
     });
   }
-
-
 
   getDetailedOrderSupplies(orderId: number): Supply[] {
     const orderGroup = this.detailedSuppliesGroupedByOrder.find(group =>
