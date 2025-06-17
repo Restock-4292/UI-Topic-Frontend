@@ -1,19 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {Component, EventEmitter, Inject, Input, OnInit, Optional, Output} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
   MatDatepicker,
   MatDatepickerInput,
-  MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import {MatDialogActions, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import {MatDialogActions, MatDialogRef} from '@angular/material/dialog';
 import {MatNativeDateModule} from '@angular/material/core';
+import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-order',
@@ -27,67 +28,85 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatIconModule,
     MatChipsModule,
     MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
     MatDatepickerInput,
     MatDatepickerToggle,
     MatDatepicker,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule
   ],
   templateUrl: './edit-order.component.html',
   styleUrl: './edit-order.component.css'
 })
 export class EditOrderComponent implements OnInit {
-  @Input() hideState: boolean = false;
-  @Input() modelValue: boolean = true;
-  @Output() modelValueChange = new EventEmitter<boolean>();
-  @Output() close = new EventEmitter<boolean>();
 
-  orderForm: FormGroup;
+  localOrder = {
+    description: '',
+    estimatedShipDate: new Date(),
+    estimatedShipTime: new Date(),
+    stateId: 0,
+  };
 
-  // Pasos y estados estáticos
   steps: string[] = ["On hold", "Preparing", "On the way", "Delivered"];
   statusToStepIndex: { [key: number]: number } = { 1: 0, 2: 1, 3: 2, 4: 3 };
   stepIndexToStatus: { [key: number]: number } = { 0: 1, 1: 2, 2: 3, 3: 4 };
   currentIndex: number = 0;
   draggingIndex: number | null = null;
 
-  // Datos constantes de ejemplo (estáticos)
-  constantOrderData = {
-    order: {
-      id: 10,
-      description: 'Pedido semanal de insumos.',
-      estimatedShipDate: new Date('2025-06-20'),
-      estimatedShipTime: new Date('2025-06-20T10:30:00'),
-      stateId: 2
-    }
-  };
+  order: OrderToSupplier | null = null;
 
-  constructor(private fb: FormBuilder) {
-    this.orderForm = this.fb.group({
-      description: [''],
-      estimatedShipDate: [null],
-      estimatedShipTime: [null]
-    });
-  }
+  @Output() updateOrder = new EventEmitter<OrderToSupplier>();
+
+  constructor(
+    private snackBar: MatSnackBar,
+    @Optional() @Inject('initialData') private injectedData?: any,
+    @Optional() private dialogRef?: MatDialogRef<EditOrderComponent>
+  ) {}
 
   ngOnInit(): void {
-    this.initializeCurrentState();
-    this.initializeForm();
+
+    if (this.injectedData) {
+      this.order = this.injectedData.order || null;
+
+      if (this.order?.state?.id) {
+        this.localOrder.stateId = this.order.state.id;
+        this.currentIndex = this.statusToStepIndex[this.order.state.id] ?? 0;
+      }
+
+      this.localOrder.description = this.order?.description || '';
+      this.localOrder.estimatedShipDate = this.order?.estimated_ship_date || new Date();
+      this.localOrder.estimatedShipTime = this.order?.estimated_ship_time || new Date();
+    }
   }
 
-  initializeCurrentState(): void {
-    const stateId = this.constantOrderData.order.stateId;
-    this.currentIndex = this.statusToStepIndex[stateId] || 0;
+  onClose(): void {
+    this.dialogRef?.close();
   }
 
-  initializeForm(): void {
-    const order = this.constantOrderData.order;
-    this.orderForm.patchValue({
-      description: order.description,
-      estimatedShipDate: order.estimatedShipDate,
-      estimatedShipTime: order.estimatedShipTime
-    });
+  onUpdateOrder(): void
+  {
+    const updateData = this.buildUpdateData();
+    console.log("voy a enviar los datos actualizados AQUUIEI:", updateData);
+    this.updateOrder.emit(updateData);
+  }
+
+  //Methods for build update data
+  private buildUpdateData(): OrderToSupplier {
+    return {
+      id: this.order?.id || 0,
+      date: this.order?.date || new Date(),
+      description: this.localOrder.description || this.order?.description || 'No description provided', // New
+      admin_restaurant_id: this.order?.admin_restaurant_id || 0,
+      supplier_id: this.order?.supplier_id || 0,
+      order_to_supplier_state_id:  this.localOrder.stateId, // New
+      order_to_supplier_situation_id:  this.order?.order_to_supplier_situation_id || 0,
+      total_price: this.order?.total_price || 0,
+      estimated_ship_date: this.localOrder.estimatedShipDate || this.order?.estimated_ship_date || new Date(), // New
+      estimated_ship_time: this.localOrder.estimatedShipTime || this.order?.estimated_ship_time ||new Date(), // New
+      requested_products_count: this.order?.requested_products_count || 0,
+      partially_accepted: this.order?.partially_accepted || false,
+      orderBatches: this.order?.orderBatches,
+      situation: this.order?.situation,
+    };
   }
 
   onDragOver(event: DragEvent): void {
@@ -97,33 +116,14 @@ export class EditOrderComponent implements OnInit {
   onDrop(event: DragEvent, index: number): void {
     event.preventDefault();
     this.currentIndex = index;
+
+    this.localOrder.stateId = this.stepIndexToStatus[index];
+
     this.draggingIndex = null;
   }
 
   onDragStart(event: DragEvent): void {
     this.draggingIndex = this.currentIndex;
-  }
-
-  onClose(): void {
-    this.modelValue = false;
-    this.modelValueChange.emit(this.modelValue);
-    this.close.emit(true);
-  }
-
-  onSubmit(): void {
-    const formValue = this.orderForm.value;
-    const updateData = {
-      order: this.constantOrderData.order,
-      newEstimatedShipDate: formValue.estimatedShipDate,
-      newEstimatedShipTime: formValue.estimatedShipTime,
-      newDescription: formValue.description,
-      newState: this.stepIndexToStatus[this.currentIndex]
-    };
-
-    console.log('Data enviada:', updateData);
-    this.modelValue = false;
-    this.modelValueChange.emit(this.modelValue);
-    this.close.emit(true);
   }
 
   getProgressWidth(): string {
