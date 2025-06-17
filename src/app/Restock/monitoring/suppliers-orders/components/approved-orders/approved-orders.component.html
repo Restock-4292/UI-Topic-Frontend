@@ -9,11 +9,31 @@
       You currently have not orders approved.
     </app-empty-section>
   } @else {
+    <app-filter-section
+      [title]="'My Orders'"
+      [searchQuery]="searchTerm"
+      [selectedDateRange]="dateRange"
+      [searchPlaceholder]="'Search orders...'"
+      [sortOrder]="currentSortOrder"
+      [sortLabel]="'Order Date'"
+      (searchQueryChange)="onSearchChange($event)"
+      (selectedDateRangeChange)="onDateRangeChange($event)"
+      (toggleSort)="onToggleSort()">
+      <!-- Custom filters  -->
+      <div slot="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [(value)]="selectedState">
+            <mat-option [value]="1">On Hold</mat-option>
+            <mat-option [value]="2">Preparing</mat-option>
+            <mat-option [value]="3">On the way</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
+    </app-filter-section>
 
-    <app-filter-section></app-filter-section>
-
-    <table mat-table [dataSource]="orders" class="mat-elevation-z1">
+    <table mat-table [dataSource]="filteredOrders" class="mat-elevation-z1">
 
       <!-- Order Date -->
       <ng-container matColumnDef="orderDate">

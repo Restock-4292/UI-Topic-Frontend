@@ -12,9 +12,11 @@ import {
 } from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-approved-orders',
@@ -34,7 +36,10 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatTableModule,
     MatIconButton,
     DatePipe,
-    EmptySectionComponent
+    EmptySectionComponent,
+    MatButton,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'
@@ -80,4 +85,63 @@ export class ApprovedOrdersComponent {
         return '';
     }
   }
+
+  searchTerm: string = '';
+  dateRange: string = '';
+  currentSortOrder: number = 1;
+  selectedState: number = 0;
+
+  onSearchChange(value: string): void {
+    this.searchTerm = value;
+  }
+
+  onDateRangeChange(value: string): void {
+    this.dateRange = value;
+  }
+
+  onToggleSort(): void {
+    this.currentSortOrder = this.currentSortOrder === 1 ? -1 : 1;
+  }
+
+  get filteredOrders(): OrderToSupplier[] {
+    let filtered = [...this.orders];
+
+    // Filtrar por término de búsqueda
+    if (this.searchTerm.trim()) {
+      filtered = filtered.filter(order =>
+        order.description?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        this.adminRestaurantsProfiles[order.id]?.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    // Filtrar por rango de fechas (ejemplo simple)
+    if (this.dateRange === '7days') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= sevenDaysAgo);
+    } else if (this.dateRange === '30days') {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= thirtyDaysAgo);
+    } else if (this.dateRange === '3months') {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= threeMonthsAgo);
+    }
+
+    // Filtrar por estado seleccionado
+    if (this.selectedState > 0) {
+      filtered = filtered.filter(order => order.order_to_supplier_state_id === this.selectedState);
+    }
+
+    // Ordenar
+    filtered.sort((a, b) => {
+      const dateA = a.estimated_ship_time?.getTime() || 0;
+      const dateB = b.estimated_ship_time?.getTime() || 0;
+      return this.currentSortOrder * (dateA - dateB);
+    });
+
+    return filtered;
+  }
+
 }

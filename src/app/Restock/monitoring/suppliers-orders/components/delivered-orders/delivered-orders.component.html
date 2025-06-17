@@ -8,9 +8,27 @@
       You currently have not orders approved.
     </app-empty-section>
   } @else {
-    <app-filter-section></app-filter-section>
+    <app-filter-section
+      [title]="'My Orders'"
+      [searchQuery]="searchTerm"
+      [selectedDateRange]="dateRange"
+      [searchPlaceholder]="'Search orders...'"
+      [sortOrder]="currentSortOrder"
+      [sortLabel]="'Order Date'"
+      (searchQueryChange)="onSearchChange($event)"
+      (selectedDateRangeChange)="onDateRangeChange($event)"
+      (toggleSort)="onToggleSort()">
 
-    <table mat-table [dataSource]="orders" class="mat-elevation-z1">
+      <!-- Action buttons -->
+      <div slot="actions">
+        <button mat-raised-button (click)="exportOrders()">
+          Export
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
+    </app-filter-section>
+
+    <table mat-table [dataSource]="filteredOrders" class="mat-elevation-z1">
 
       <!-- Order Date -->
       <ng-container matColumnDef="orderDate">
@@ -62,7 +80,7 @@
     </table>
 
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[2, 6, 10]" showFirstLastButtons></mat-paginator>
- 
+
   }
 
 </div>
