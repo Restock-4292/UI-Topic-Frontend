@@ -7,7 +7,7 @@ import { BaseService } from '../../../shared/services/base.service';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class UserService extends BaseService<any> {
+export class UserService extends BaseService<User> {
     private readonly roleService = inject(RoleService);
 
     constructor() {

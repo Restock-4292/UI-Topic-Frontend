@@ -11,6 +11,7 @@ import { OrderDetailsModalComponent } from '../../components/order-details/order
 import { OrderFeedbackModalComponent } from '../../components/order-feedback-modal/order-feedback-modal.component';
 import { SupplyService } from '../../../inventory/services/supply.service';
 import { Supply } from '../../../inventory/model/supply.entity';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'orders',
@@ -62,22 +63,35 @@ export class OrdersComponent implements OnInit {
 
   async loadProviderProfiles() {
     try {
-      const providerUserIds = await this.userService.getSupplierUserIds();
+      const providerUserIds = await this.userService.getSupplierUserIds(); // esto ya es un array de IDs
 
-      this.profileService.loadProfilesByUserIds(providerUserIds).subscribe((profiles) => {
+      // Mapeamos a múltiples llamados getByQuery("user_id", id)
+      const profileCalls$ = providerUserIds.map(userId =>
+        this.profileService.getByQuery("user_id", userId)
+      );
+
+      // Ejecutamos todos en paralelo
+      forkJoin(profileCalls$).subscribe(async allResults => {
+        // allResults será un array de arrays (porque getByQuery retorna array)
+        const profiles = allResults.flat(); // aplanamos
+
         this.providerProfiles = profiles;
         this.supplierOptions = profiles.map(profile => ({
           id: profile.id,
           name: profile.name
         }));
+
+        // luego cargamos los supplies enriquecidos
+        const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
+        this.providerSupplies = enrichedSupplies;
       });
 
-      const enrichedSupplies = await this.supplyService.getSuppliesEnrichedByUserIds(providerUserIds);
-      this.providerSupplies = enrichedSupplies;
     } catch (error) {
       console.error('Error loading provider profiles or supplies:', error);
     }
   }
+
+
   async onDeleteOrder(orderId: number): Promise<void> {
     await this.orderService.deleteOrder(orderId);
     await this.loadOrders();

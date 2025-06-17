@@ -15,10 +15,10 @@
         <div class="content">
             <!-- Scrollable content area -->
             <p class="sub-text">
-                Number of dishes: 5
+                Number of dishes: {{ sale.recipeCount || 0 }}
             </p>
             <p class="sub-text">
-                quantity of additional supplies: 4
+                quantity of additional supplies: {{ sale.additionalSupplyCount || 0 }}
             </p>
 
             <mat-divider></mat-divider>
@@ -38,13 +38,13 @@
                     <!-- Dish price column -->
                     <ng-container matColumnDef="price">
                         <mat-header-cell *matHeaderCellDef>Unit Price</mat-header-cell>
-                        <mat-cell *matCellDef="let element">S/ {{ element.price }}</mat-cell>
+                        <mat-cell *matCellDef="let element">S/ {{ element.unitPrice }}</mat-cell>
                     </ng-container>
 
                     <!-- Dish quantity column-->
                     <ng-container matColumnDef="quantity">
                         <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
-                        <mat-cell *matCellDef="let element">S/ {{ element.quantity }}</mat-cell>
+                        <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
                     </ng-container>
 
                     <mat-header-row *matHeaderRowDef="displayedColumnsPlatos"></mat-header-row>

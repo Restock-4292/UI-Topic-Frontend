@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,6 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SaleConfirmationComponent } from '../sale-confirmation/sale-confirmation.component';
 import { MatDivider } from '@angular/material/divider';
+import { RecipeService } from '../../../../planning/recipe/services/recipe.service';
+import { Recipe } from '../../../../planning/recipe/model/recipe.entity';
+import { Supply } from '../../../../resource/inventory/model/supply.entity';
+import { SupplyService } from '../../../../resource/inventory/services/supply.service';
 
 @Component({
   selector: 'app-register-sales',
@@ -31,7 +35,7 @@ import { MatDivider } from '@angular/material/divider';
   templateUrl: './register-sales.component.html',
   styleUrl: './register-sales.component.css'
 })
-export class RegisterSalesComponent {
+export class RegisterSalesComponent implements OnInit {
   @Output() close = new EventEmitter<void>(); // Emits when modal should be closed
   @Output() registersale = new EventEmitter<{ dishes: any[]; additionalSupplies: any[] }>(); // Emits sale data for registration
 
@@ -44,18 +48,10 @@ export class RegisterSalesComponent {
     this.close.emit();
   }
 
-  // Available dishes and additional supplies
-  availableDishes = [
-    { id: 1, name: 'Lomo Saltado', price: 20.5 },
-    { id: 2, name: 'Arroz con Pollo', price: 21.5 },
-    { id: 3, name: 'Arroz con mariscos', price: 34.5 }
-  ];
+  // Available dishes and additional supplies //id name price
+  availableDishes: Recipe[] = [];
 
-  availableAdditionalSupplies = [
-    { id: 1, name: 'Huevo', price: 1 },
-    { id: 2, name: 'Arroz', price: 0.5 },
-    { id: 3, name: 'Papa', price: 3.5 }
-  ];
+  availableAdditionalSupplies: Supply[] = [];
 
   // Table column definitions
   displayedColumnsPlatos: string[] = ['name', 'price', 'quantity', 'actions'];
@@ -112,6 +108,7 @@ export class RegisterSalesComponent {
   registerSale() {
     const dishes = this.selectedDishes.data;
     const supplies = this.selectedAdditionalSupplies.data;
+    console.log("patito: ", dishes);
 
     if (dishes.length === 0 && supplies.length === 0) {
       alert('Please select at least one dish or supply before registering the sale.');
@@ -125,4 +122,26 @@ export class RegisterSalesComponent {
 
     this.close.emit(); // Close modal after registering sale
   }
+
+  private recipeService: RecipeService = inject(RecipeService);
+  private supplyService: SupplyService = inject(SupplyService);
+
+
+  ngOnInit(): void {
+    this.getAllRecipes();
+    this.getAllAdditionalSupplies();
+  }
+
+  private getAllRecipes() {
+    this.recipeService.getAll().subscribe((response: Array<Recipe>) => {
+      this.availableDishes = response;
+    });
+  }
+
+  private getAllAdditionalSupplies() {
+    this.supplyService.getAll().subscribe((response: Array<Supply>) => {
+      this.availableAdditionalSupplies = response;
+    });
+  }
+
 }

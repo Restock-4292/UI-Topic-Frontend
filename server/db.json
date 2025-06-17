@@ -169,27 +169,7 @@
       "name": "Ají de Gallina",
       "total_price": 24.9,
       "image_url": "https://buenazo.cronosmedia.glr.pe/original/2023/06/26/6499bf204fb28f54f91a9289.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "id": 16,
-          "recipe_id": 2,
-          "supply_id": 4,
-          "quantity": 1
-        },
-        {
-          "id": 17,
-          "recipe_id": 2,
-          "supply_id": 5,
-          "quantity": 1
-        },
-        {
-          "id": 18,
-          "recipe_id": 2,
-          "supply_id": 6,
-          "quantity": 2
-        }
-      ]
+      "user_id": 1
     },
     {
       "id": 3,
@@ -210,27 +190,7 @@
       "name": "Ceviche de Pescado",
       "total_price": 37,
       "image_url": "https://treehouselodge.com/wp-content/uploads/2021/09/peruvian-ceviche.png",
-      "user_id": 1,
-      "supplies": [
-        {
-          "id": 13,
-          "recipe_id": 5,
-          "supply_id": 11,
-          "quantity": 1
-        },
-        {
-          "id": 14,
-          "recipe_id": 5,
-          "supply_id": 12,
-          "quantity": 3
-        },
-        {
-          "id": 15,
-          "recipe_id": 5,
-          "supply_id": 3,
-          "quantity": 1
-        }
-      ]
+      "user_id": 1
     }
   ],
   "recipes_supplies": [
@@ -333,9 +293,9 @@
       "perishable": true,
       "min_stock": 5,
       "max_stock": 50,
-      "price": 2.5,
       "category_id": 1,
       "unit_measurement_id": 1,
+      "price": 2.5,
       "user_id": 1
     },
     {
@@ -471,30 +431,9 @@
       "user_id": 2
     }
   ],
-  "sales": [
-    {
-      "id": 1,
-      "admin_restaurant_id": 1,
-      "diner_name": "mari",
-      "total_price": 10,
-      "date": "2025-05-28",
-      "added_inventory": false
-    }
-  ],
-  "sales_recipes": [
-    {
-      "sale_id": 1,
-      "recipe_id": 1,
-      "quantity": 10
-    }
-  ],
-  "sales_additional_supplies": [
-    {
-      "sale_id": 1,
-      "supply_id": 1,
-      "quantity": 1
-    }
-  ],
+  "sales": [],
+  "sales_recipes": [],
+  "sales_additional_supplies": [],
   "comments": [
     {
       "id": 1,
@@ -507,7 +446,7 @@
   "orders_to_supplier": [
     {
       "id": 1,
-      "date": "2025-05-28",
+      "date": "2025-06-17T04:40:00.000Z",
       "admin_restaurant_id": 2,
       "supplier_id": 1,
       "order_to_supplier_state_id": 1,
@@ -520,7 +459,7 @@
     },
     {
       "id": 2,
-      "date": "2025-06-01",
+      "date": "2025-06-16T00:00:00.000Z",
       "admin_restaurant_id": 2,
       "supplier_id": 3,
       "order_to_supplier_state_id": 2,
@@ -533,7 +472,7 @@
     },
     {
       "id": 3,
-      "date": "2025-06-02",
+      "date": "2025-06-16T00:00:00.000Z",
       "admin_restaurant_id": 2,
       "supplier_id": 2,
       "order_to_supplier_state_id": 3,
@@ -546,7 +485,7 @@
     },
     {
       "id": 4,
-      "date": "2025-06-03",
+      "date": "2025-06-16T00:00:00.000Z",
       "admin_restaurant_id": 2,
       "supplier_id": 1,
       "order_to_supplier_state_id": 4,
@@ -647,6 +586,32 @@
       "estimated_ship_date": "2025-06-14T06:55:07.531Z",
       "estimated_ship_hour": "2025-06-14T06:55:07.531Z",
       "requested_products": 1
+    },
+    {
+      "id": 12,
+      "date": "2025-06-17T05:31:20.729Z",
+      "admin_restaurant_id": 2,
+      "supplier_id": 1,
+      "order_to_supplier_state_id": 1,
+      "order_to_supplier_situation_id": 1,
+      "total_price": 15,
+      "partially_accepted": false,
+      "estimated_ship_date": "2025-06-17T05:31:20.729Z",
+      "estimated_ship_hour": "2025-06-17T05:31:20.729Z",
+      "requested_products": 1
+    },
+    {
+      "id": 13,
+      "date": "2025-06-17T05:33:00.672Z",
+      "admin_restaurant_id": 2,
+      "supplier_id": 1,
+      "order_to_supplier_state_id": 1,
+      "order_to_supplier_situation_id": 1,
+      "total_price": 85,
+      "partially_accepted": false,
+      "estimated_ship_date": "2025-06-17T05:33:00.672Z",
+      "estimated_ship_hour": "2025-06-17T05:33:00.672Z",
+      "requested_products": 1
     }
   ],
   "orders_to_supplier_states": [
@@ -736,6 +701,20 @@
       "order_to_supplier_id": 11,
       "batch_id": 1,
       "quantity": 12,
+      "accepted": false
+    },
+    {
+      "id": 9,
+      "order_to_supplier_id": 12,
+      "batch_id": 1,
+      "quantity": 6,
+      "accepted": false
+    },
+    {
+      "id": 10,
+      "order_to_supplier_id": 13,
+      "batch_id": 1,
+      "quantity": 34,
       "accepted": false
     }
   ],
