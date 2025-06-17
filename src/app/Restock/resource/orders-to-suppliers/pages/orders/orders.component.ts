@@ -60,7 +60,7 @@ export class OrdersComponent implements OnInit {
     this.orders = await this.orderService.getAllEnriched();
     this.filteredOrders = [...this.orders];
   }
-
+//tester
   async loadProviderProfiles() {
     try {
       const providerUserIds = await this.userService.getSupplierUserIds(); // esto ya es un array de IDs
