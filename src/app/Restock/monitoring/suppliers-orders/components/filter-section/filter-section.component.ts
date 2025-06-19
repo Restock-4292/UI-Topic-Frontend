@@ -5,7 +5,7 @@ import {MatFormField, MatInput} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatSelect, MatSelectModule} from '@angular/material/select';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 
 
 export interface DateRangeOption {
@@ -16,7 +16,7 @@ export interface DateRangeOption {
 @Component({
   selector: 'app-filter-section',
   imports: [CommonModule,
-    FormsModule, MatFormFieldModule, MatIcon, MatSelectModule, MatInput, MatButton],
+    FormsModule, MatFormFieldModule, MatIcon, MatSelectModule, MatInput, MatButton, MatIconButton],
   templateUrl: './filter-section.component.html',
   styleUrl: './filter-section.component.css'
 })
@@ -60,4 +60,11 @@ export class FilterSectionComponent {
     const input = event.target as HTMLInputElement;
     this.onSearchChange(input.value);
   }
+
+  // Method to clear the date input
+  clearDateRange(): void {
+    this.onDateRangeChange('');
+  }
+
+
 }

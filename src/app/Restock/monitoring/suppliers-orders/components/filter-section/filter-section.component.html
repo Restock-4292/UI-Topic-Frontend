@@ -21,6 +21,17 @@
           {{ option.label }}
         </mat-option>
       </mat-select>
+
+      <button
+        mat-icon-button
+        matSuffix
+        *ngIf="selectedDateRange !== ''"
+        (click)="clearDateRange()"
+        aria-label="Clear date range"
+        type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+
     </mat-form-field>
 
     <!-- Sort Button -->

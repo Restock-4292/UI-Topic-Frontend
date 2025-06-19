@@ -28,8 +28,19 @@
             <mat-option [value]="2">Preparing</mat-option>
             <mat-option [value]="3">On the way</mat-option>
           </mat-select>
+
+          <button
+            mat-icon-button
+            matSuffix
+            *ngIf="selectedState !== 0"
+            (click)="clearStateFilter()"
+            aria-label="Clear date range"
+            type="button">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
       </div>
+
 
     </app-filter-section>
 
