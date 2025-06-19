@@ -49,4 +49,5 @@ export class BatchService extends BaseService<Batch> {
     const updated = await firstValueFrom(response$);
     return BatchAssembler.toEntity(updated);
   }
+
 }

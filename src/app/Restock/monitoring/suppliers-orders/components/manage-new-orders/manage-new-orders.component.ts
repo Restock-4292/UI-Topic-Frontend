@@ -26,6 +26,7 @@ import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/or
 import {OrderToSupplierService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier.service';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
+import {Batch} from '../../../../resource/inventory/model/batch.entity';
 
 
 @Component({
@@ -68,9 +69,14 @@ export class ManageNewOrdersComponent implements OnInit {
   order: OrderToSupplier | null = null;
   adminRestaurantName: string = '';
   suppliesDetailsOfOrder: Array<Supply> = [];
+  batchesDetailsOfOrder: Array<Batch> = [];
   batchesOfOrder: Array<OrderToSupplierBatch> = [];
 
   @Output() acceptSelection = new EventEmitter<OrderToSupplier>();
+
+  // Cache para los batches actuales (para validación de stock)
+  private batchesCache: Map<number, Batch> = new Map();
+
 
   constructor(
     private snackBar: MatSnackBar,
@@ -86,6 +92,7 @@ export class ManageNewOrdersComponent implements OnInit {
       this.order = this.injectedData.order || null;
       this.adminRestaurantName = this.injectedData.adminRestaurantName || '';
       this.suppliesDetailsOfOrder = this.injectedData.suppliesDetailsOfOrder || [];
+      this.batchesDetailsOfOrder = this.injectedData.batchesDetailsOfOrder || [];
       this.batchesOfOrder = this.injectedData.batchesOfOrder || [];
     }
 
@@ -109,8 +116,10 @@ export class ManageNewOrdersComponent implements OnInit {
       return;
     }
 
+
     const updateData = this.buildUpdateData();
     console.log("voy a enviar los datos actualizados:", updateData);
+
     this.acceptSelection.emit(updateData);
   }
 
@@ -119,6 +128,8 @@ export class ManageNewOrdersComponent implements OnInit {
 
     const approvedSituationId = 2; // 2 is the ID for 'Approved' situation
     const onHoldStateId = 1; // 1 is the ID for 'on hold' state
+    const orderBatchesUpdated = this.getSelectedOrderBatches();
+    console.log("TMRE voy a enviar los datos actualizados:", this.getSelectedOrderBatches());
 
     return {
       id: this.order?.id || 0,
@@ -133,7 +144,7 @@ export class ManageNewOrdersComponent implements OnInit {
       estimated_ship_time: this.localOrder.estimatedShipTime || new Date(),
       requested_products_count: this.newProductsCount(),
       partially_accepted: this.selection.selected.length < this.batchesOfOrder.length,
-      orderBatches: this.getSelectedOrderBatches(),
+      orderBatches: orderBatchesUpdated
     };
   }
 
@@ -152,6 +163,9 @@ export class ManageNewOrdersComponent implements OnInit {
         const batchInOrder = this.batchesOfOrder.find(
           b => b.batch?.supply_id === supplyId
         );
+
+        console.log('Batch found for supplyId:', supplyId, batchInOrder);
+
         if (batchInOrder) {
           batchInOrder.accepted = true;
           batchInOrder.supply = this.suppliesDetailsOfOrder.find(

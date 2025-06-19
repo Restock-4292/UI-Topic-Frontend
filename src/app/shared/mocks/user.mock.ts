@@ -12,7 +12,7 @@ export const mockUser = {
     },
     role_id: {
         //1: restaurant 2:supplier
-        id: 1,
-        name: "restaurant",
+        id: 2,
+        name: "supplier",
     }
 }
