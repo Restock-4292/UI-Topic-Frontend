@@ -32,6 +32,7 @@ export class UserService extends BaseService<User> {
         const role = await this.roleService.getAllRoles().then(rs => rs.find(r => r.id === raw.role_id));
         return UserAssembler.toEntity(raw, role);
     }
+
     async getSupplierUserIds(): Promise<number[]> {
         const rawUsers = await firstValueFrom(this.getAll());
         return rawUsers
