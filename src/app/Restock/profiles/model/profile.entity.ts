@@ -1,32 +1,32 @@
+import {Business} from './business.entity';
+import {User} from '../../iam/model/user.entity';
+
 export class Profile {
   id: number;
   name: string;
   last_name: string;
   email: string;
-  username: string;
   avatar: string;
   phone: string;
   address: string;
   country: string;
-  description: string;
-  business_name: string;
-  business_address: string;
-  business_categories?: string[] = [];
+  business_id: number;
   user_id: number;
+  business?: Business;
+  user?: User;
 
-  constructor() {
-    this.id = 0;
-    this.name = '';
-    this.last_name = '';
-    this.email = '';
-    this.username = '';
-    this.avatar = '';
-    this.phone = '';
-    this.address = '';
-    this.country = '';
-    this.description = '';
-    this.business_name = '';
-    this.business_address = '';
-    this.user_id = 0;
+  constructor(data: Partial<Profile> = {}) {
+    this.id = data.id || 0;
+    this.name = data.name || '';
+    this.last_name = data.last_name || '';
+    this.email = data.email || '';
+    this.avatar = data.avatar || '';
+    this.phone = data.phone || '';
+    this.address = data.address || '';
+    this.country = data.country || '';
+    this.business_id = data.business_id || 0;
+    this.user_id = data.user_id || 0;
+    this.business = data.business;
+    this.user = data.user;
   }
 }
