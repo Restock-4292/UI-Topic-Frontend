@@ -40,8 +40,8 @@ import {Batch} from '../../../../resource/inventory/model/batch.entity';
   styleUrl: './suppliers-orders-overview.component.css'
 })
 export class SuppliersOrdersOverviewComponent implements OnInit {
-    orders: Array<OrderToSupplier> = [];
-    readonly adminRestaurantsProfiles: Profile[] = [];
+  orders: Array<OrderToSupplier> = [];
+  readonly adminRestaurantsProfiles: Profile[] = [];
 
   restaurantNameMap: { [orderId: number]: string } = {};
   detailedSuppliesGroupedByOrder: { orderId: number; supplies: Supply[] }[] = [];
@@ -82,7 +82,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
     this.orders.forEach(order => {
       const profile = this.adminRestaurantsProfiles.find(p => Number(p.id) === Number(order.admin_restaurant_id));
-      this.restaurantNameMap[order.id] = profile?.business_name ?? 'Unknown Restaurant';
+      this.restaurantNameMap[order.id] = profile?.business?.name ?? 'Unknown Restaurant';
     });
   }
 
