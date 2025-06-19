@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,8 @@ import { MatIcon } from '@angular/material/icon';
 
 import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../model/profile.entity';
+import {Business} from '../../model/business.entity';
+import {ThisReceiver} from '@angular/compiler';
 
 @Component({
   selector: 'app-business-data-settings',
@@ -31,31 +33,56 @@ import { Profile } from '../../model/profile.entity';
   styleUrl: './business-data-settings.component.css'
 })
 
-export class BusinessDataSettingsComponent {
-  profile: Profile;
-  selectedCategories: string[] = [];
-  categories: string[] = ['Fast Food', 'Beverages', 'Desserts', 'Grill', 'Pizzeria', 'Buffet'];
+export class BusinessDataSettingsComponent implements OnChanges {
+  @Input() business: Business = new Business();
+  @Input() currentCategories: string[] = [];
+  @Input() categoriesOptions: string[] = [];
 
-  constructor(private profileService: ProfileService) {
-    const current = this.profileService.getCurrentProfile();
-    this.profile = { ...current };
-    // this.selectedCategories = [...current.companyCategories];
+  localBusiness = {
+    name: '',
+    address: '',
+    categories: '',
+    phone: '',
+    email: ''
   }
+
+  selectedCategories: string[] = [];
+
+  @Output() profileAndBusinessUpdated: EventEmitter<Business> = new EventEmitter<Business>();
 
   removeCategory(category: string) {
     this.selectedCategories = this.selectedCategories.filter(c => c !== category);
   }
 
-  saveChanges() {
-    const updatedProfile: Profile = {
-      ...this.profile,
-      // companyCategories: [...this.selectedCategories] // aseguramos copia
-    };
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['business'] && changes['business'].currentValue) {
+      this.localBusiness = {
+        name: this.business.name,
+        address: this.business.address,
+        categories: this.business.categories,
+        phone: this.business.phone,
+        email: this.business.email
+      };
 
-    this.profileService.updateProfile(updatedProfile);
+      this.selectedCategories = this.currentCategories;
+    }
+
   }
 
-  onSelectionChange() {
+  onSaveChanges() {
+
+    this.localBusiness.categories = this.selectedCategories.join(', ');
+
+    const updatedBusiness = {
+      id: this.business.id,
+      name: this.localBusiness.name,
+      address: this.localBusiness.address,
+      categories: this.localBusiness.categories,
+      phone: this.localBusiness.phone,
+      email: this.localBusiness.email,
+    };
+
+    this.profileAndBusinessUpdated.emit(updatedBusiness);
   }
 }
 

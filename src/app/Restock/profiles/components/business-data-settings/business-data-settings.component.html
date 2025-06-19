@@ -7,22 +7,22 @@
         <!--  Company Name -->
         <mat-label>Company Name</mat-label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput [(ngModel)]="profile.business_name" type="text" placeholder="Enter your name"
-            aria-label="Name" />
+          <input matInput [(ngModel)]="localBusiness.name" type="text" placeholder="Enter your name"
+            aria-label="Business Name" />
         </mat-form-field>
 
         <!-- Company Address -->
         <mat-label>Company Address</mat-label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput [(ngModel)]="profile.business_address" type="text" placeholder="Enter your last name"
-            aria-label="Last Name" />
+          <input matInput [(ngModel)]="localBusiness.address" type="text" placeholder="Enter your last name"
+            aria-label="Business Address" />
         </mat-form-field>
 
         <!-- Company Categories -->
         <mat-label>Company Categories</mat-label>
         <mat-form-field appearance="outline" class="full-width">
-          <mat-select [(ngModel)]="selectedCategories" multiple (selectionChange)="onSelectionChange()">
-            <mat-option *ngFor="let category of categories" [value]="category">
+          <mat-select [(ngModel)]="selectedCategories" multiple>
+            <mat-option *ngFor="let category of categoriesOptions" [value]="category">
               {{ category }}
             </mat-option>
           </mat-select>
@@ -44,7 +44,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-raised-button class="save-changes-button" aria-label="Save changes" (click)="saveChanges()">SAVE
+      <button mat-raised-button class="save-changes-button" aria-label="Save changes" (click)="onSaveChanges()">SAVE
         CHANGES</button>
     </mat-card-actions>
   </mat-card>
