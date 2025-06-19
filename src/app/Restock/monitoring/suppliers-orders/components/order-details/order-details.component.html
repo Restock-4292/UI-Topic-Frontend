@@ -54,17 +54,7 @@
         <div class="total-price">
           <strong>Total Price: ${{ this.order?.total_price }}</strong>
         </div>
-        @if(hideState)
-        {
-          <!-- Situation Chip -->
-          <div class="situation">
-            <h4 class="subtitle">
-              Situation
-              <mat-chip class="situation-chip">{{ order?.situation?.name || 'Unknown' }}</mat-chip>
-            </h4>
-          </div>
-        }
-        @else
+        @if(!hideState)
         {
           <!-- State Stepper -->
           <div class="state-dragger">
@@ -111,10 +101,22 @@
           <p class="value">{{ adminRestaurantName }}</p>
         </div>
 
-        <div class="date-section">
-          <p class="subtitle">Estimated Ship Date and Time:</p>
-          <p class="value">{{ this.order?.estimated_ship_date | date }}, {{ this.order?.estimated_ship_time | date:'shortTime'}}</p>
-        </div>
+        @if(hideState)
+        {
+          <!-- Situation Chip -->
+          <div class="situation">
+            <h4 class="subtitle">
+              Situation
+              <mat-chip class="situation-chip">{{ order?.situation?.name || 'Unknown' }}</mat-chip>
+            </h4>
+          </div>
+        }
+        @else {
+          <div class="date-section">
+            <p class="subtitle">Estimated Ship Date and Time:</p>
+            <p class="value">{{ this.order?.estimated_ship_date | date }}, {{ this.order?.estimated_ship_time | date:'shortTime'}}</p>
+          </div>
+        }
 
         <div class="description-section">
           <p class="subtitle">Order Description</p>

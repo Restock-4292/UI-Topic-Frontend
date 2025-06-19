@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {CurrencyPipe, DatePipe} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {FilterSectionComponent} from "../filter-section/filter-section.component";
 import {
   MatCell,
@@ -39,7 +39,8 @@ import {MatSelectModule} from '@angular/material/select';
     EmptySectionComponent,
     MatButton,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    NgIf
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'
@@ -118,15 +119,15 @@ export class ApprovedOrdersComponent {
     if (this.dateRange === '7days') {
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= sevenDaysAgo);
+      filtered = filtered.filter(order => order.date && new Date(order.date) >= sevenDaysAgo);
     } else if (this.dateRange === '30days') {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= thirtyDaysAgo);
+      filtered = filtered.filter(order => order.date && new Date(order.date) >= thirtyDaysAgo);
     } else if (this.dateRange === '3months') {
       const threeMonthsAgo = new Date();
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      filtered = filtered.filter(order => order.estimated_ship_date && new Date(order.estimated_ship_date) >= threeMonthsAgo);
+      filtered = filtered.filter(order => order.date && new Date(order.date) >= threeMonthsAgo);
     }
 
     // Filtrar por estado seleccionado
@@ -136,12 +137,17 @@ export class ApprovedOrdersComponent {
 
     // Ordenar
     filtered.sort((a, b) => {
-      const dateA = a.estimated_ship_time?.getTime() || 0;
-      const dateB = b.estimated_ship_time?.getTime() || 0;
+      const dateA = a.date?.getTime() || 0;
+      const dateB = b.date?.getTime() || 0;
       return this.currentSortOrder * (dateA - dateB);
     });
 
     return filtered;
   }
+
+  clearStateFilter(): void {
+    this.selectedState = 0;
+  }
+
 
 }

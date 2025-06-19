@@ -66,6 +66,7 @@ export class OrderToSupplierService extends BaseService<OrderToSupplier> {
     async updateOrder(id: number, order: OrderToSupplier): Promise<OrderToSupplier> {
         const dto = OrderToSupplierAssembler.toDTO(order);
         const updated = await firstValueFrom(this.update(id, dto));
+        console.log('TASUMARE MADNARE ESO ', updated);
         return OrderToSupplierAssembler.toEntity(updated);
     }
 

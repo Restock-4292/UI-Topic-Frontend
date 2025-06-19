@@ -510,7 +510,7 @@
       "admin_restaurant_id": 2,
       "supplier_id": 1,
       "order_to_supplier_state_id": 1,
-      "order_to_supplier_situation_id": 3,
+      "order_to_supplier_situation_id": 1,
       "requested_products_count": 2,
       "total_price": 30.55,
       "partially_accepted": false
@@ -520,7 +520,7 @@
       "date": "2025-06-01",
       "admin_restaurant_id": 2,
       "supplier_id": 1,
-      "order_to_supplier_situation_id": 3,
+      "order_to_supplier_situation_id": 1,
       "order_to_supplier_state_id": 1,
       "requested_products_count": 2,
       "total_price": 30.55,
@@ -577,7 +577,7 @@
       "admin_restaurant_id": 4,
       "supplier_id": 1,
       "order_to_supplier_state_id": 3,
-      "order_to_supplier_situation_id": 3,
+      "order_to_supplier_situation_id": 2,
       "requested_products_count": 10,
       "total_price": 42,
       "partially_accepted": false
@@ -594,7 +594,7 @@
       "order_to_supplier_situation_id": 1,
       "requested_products_count": 5,
       "total_price": 70.55,
-      "partially_accepted": true
+      "partially_accepted": false
     },
     {
       "id": 8,
@@ -609,20 +609,6 @@
       "requested_products_count": 5,
       "total_price": 64.55,
       "partially_accepted": false
-    },
-    {
-      "id": 9,
-      "date": "2025-06-17T21:29:52.305Z",
-      "description": "No description provided",
-      "admin_restaurant_id": 2,
-      "supplier_id": 1,
-      "order_to_supplier_state_id": 1,
-      "order_to_supplier_situation_id": 1,
-      "requested_products_count": 1,
-      "total_price": 2.5,
-      "partially_accepted": false,
-      "estimated_ship_date": "2025-06-17T21:29:52.305Z",
-      "estimated_ship_time": "2025-06-17T21:29:52.305Z"
     }
   ],
   "orders_to_supplier_states": [
@@ -797,34 +783,6 @@
       "batch_id": 3,
       "quantity": 4,
       "accepted": false
-    },
-    {
-      "id": 9,
-      "order_to_supplier_id": 12,
-      "batch_id": 1,
-      "quantity": 6,
-      "accepted": false
-    },
-    {
-      "id": 10,
-      "order_to_supplier_id": 13,
-      "batch_id": 1,
-      "quantity": 34,
-      "accepted": false
-    },
-    {
-      "id": 11,
-      "order_to_supplier_id": 14,
-      "batch_id": 1,
-      "quantity": 44,
-      "accepted": false
-    },
-    {
-      "id": 21,
-      "order_to_supplier_id": 9,
-      "batch_id": 1,
-      "quantity": 1,
-      "accepted": false
     }
   ],
   "orders_comments": [
@@ -900,7 +858,7 @@
     {
       "id": 1,
       "supply_id": 1,
-      "stock": "5",
+      "stock": 50,
       "expiration_date": "2025-06-01",
       "user_id": 1
     },

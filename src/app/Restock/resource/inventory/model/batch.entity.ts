@@ -4,7 +4,7 @@ export class Batch {
   private constructor(
     public readonly id: number | null,
     public readonly supply_id: number,
-    public readonly stock: number,
+    public stock: number,
     public readonly expiration_date: string | null,
     public readonly user_id: number,
     public readonly supply?: Supply

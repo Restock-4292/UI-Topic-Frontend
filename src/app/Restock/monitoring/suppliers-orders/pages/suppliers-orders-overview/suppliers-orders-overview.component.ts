@@ -26,6 +26,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {OrderDetailsComponent} from '../../components/order-details/order-details.component';
 import {EditOrderComponent} from '../../components/edit-order/edit-order.component';
 import {OrderStateService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier-state.service';
+import {Batch} from '../../../../resource/inventory/model/batch.entity';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -44,6 +45,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
   restaurantNameMap: { [orderId: number]: string } = {};
   detailedSuppliesGroupedByOrder: { orderId: number; supplies: Supply[] }[] = [];
+  detailedSBatchesGroupedByOrder: { orderId: number; batches: Batch[] }[] = [];
   batchesGroupedByOrder: { orderId: number; batches: OrderToSupplierBatch[] }[] = [];
   deliveredOrders: Array<OrderToSupplier> = [];
   ordersInProcess: Array<OrderToSupplier> = [];
@@ -141,26 +143,38 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
             batches: orderBatches,
           };
 
+          // detailedSBatchesGroupedByOrder: list with batches of each order
+          const detailedBatchesGroup = {
+            orderId: order.id,
+            batches: orderBatches
+              .map(ob => {
+                const batch = ob.batch;
+                return batch ? batch : null;
+              })
+              .filter((b): b is Batch => b !== null),
+          }
+
           // detailedSuppliesGroupedByOrder: list with detailed supply information of each batch
           const detailedGroup = {
             orderId: order.id,
             supplies: orderBatches
               .map(ob => {
-                const batch = batches.find(b => Number(b.id) === Number(ob.batch_id));
-
-                return batch? batch.supply : null;
+                const batch = ob.batch;
+                return batch ? batch.supply : null;
               })
               .filter((s): s is Supply => s !== null),
           };
 
-          return { supplyGroup, detailedGroup };
+          return { supplyGroup, detailedBatchesGroup, detailedGroup };
         })
       );
 
       // Map the results to the component properties
       this.batchesGroupedByOrder = result.map(r => r.supplyGroup);
       this.detailedSuppliesGroupedByOrder = result.map(r => r.detailedGroup);
+      this.detailedSBatchesGroupedByOrder = result.map(r => r.detailedBatchesGroup);
 
+      console.log('Batches grouped by order:', this.detailedSBatchesGroupedByOrder);
       console.log('Supplies grouped:', this.batchesGroupedByOrder);
       console.log('Detailed supplies grouped:', this.detailedSuppliesGroupedByOrder);
 
@@ -174,7 +188,16 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   openOrderDetailsModal(order: OrderToSupplier,  hideState: boolean): void {
     this.selectedOrder = order;
     this.detailedSuppliesPerOrder = this.getDetailedOrderSupplies(order.id);
-    this.batchesPerOrder = this.getOrderBatches(order.id);
+
+    if(hideState) // true = details of new order
+    {
+      this.batchesPerOrder = this.getOrderBatches(order.id);
+    }
+    else // false = details of approved order
+    {
+      this.batchesPerOrder = this.getOrderBatches(order.id).filter(batchOrder => batchOrder?.accepted === true);
+    }
+
     this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
 
     this.modalService.open({
@@ -236,6 +259,19 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
           await firstValueFrom(this.orderService.update(order.id, updatedOrder));
 
+          if(action === 'cancel')
+          {
+            const acceptedBatches = order.orderBatches?.filter(ob => ob.accepted === true) || [];
+
+            acceptedBatches?.forEach((orderBatch) => {
+              const batch = orderBatch.batch;
+              if (batch) {
+                batch.stock += orderBatch.quantity; // Restore stock
+                this.batchService.updateBatch(batch.id, batch);
+              }
+            });
+          }
+
           // Reload all data to ensure UI consistency
           await this.loadOrders();
           await this.loadGroupedSupplies();
@@ -279,6 +315,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
       initialData: {
         order: order,
         suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
+        batchesDetailsOfOrder: this.detailedSBatchesGroupedByOrder,
         batchesOfOrder: this.batchesPerOrder,
         adminRestaurantName: this.restaurantNameOrderSelected
       }
@@ -290,16 +327,40 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
       instance?.acceptSelection.subscribe((order) => {
         try {
+          console.log('CARAJOP AQUI ESTOY YO', order);
           order.orderBatches?.forEach(orderBatch => (orderBatch.accepted = true));
-
+          console.log('YALA', order);
           order.state =  this.states.find(state => state.id === order.order_to_supplier_state_id);
           order.situation = new OrderToSupplierSituation({ id: 2, name: 'Approved' });
 
-           this.orderService.updateOrder(order.id, order);
+          // Filter out null/undefined batches and update stock
+          const validBatches = order.orderBatches
+            ?.map(orderBatch => {
+              const batch = orderBatch?.batch;
+              if (batch) {
+                batch.stock -= orderBatch.quantity;
+                return batch;
+              }
+              return null;
+            })
+            .filter(batch => batch !== null); // Remove null/undefined entries
+
+          this.orderService.updateOrder(order.id, order);
+
+          order.orderBatches?.forEach(orderBatch => {
+            this.orderToSupplierBatchService.updateSupply(orderBatch.id, orderBatch);
+          })
+
+
+          // Now safely update only valid batches
+          validBatches?.forEach((batch) => {
+            this.batchService.updateBatch(batch.id, batch);
+          });
 
           this.snackBar.open('Order updated successfully', 'Close', { duration: 3000 });
           dialogRef.close();
            this.loadOrders();
+           this.loadGroupedSupplies();
         } catch (error) {
           console.error('Error updating order:', error);
           this.snackBar.open('Failed to update order', 'Close', { duration: 3000 });
