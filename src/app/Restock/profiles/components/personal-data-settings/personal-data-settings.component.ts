@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -19,15 +19,24 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './personal-data-settings.component.html',
   styleUrl: './personal-data-settings.component.css'
 })
-export class PersonalDataSettingsComponent {
-  profile: Profile;
-  private profileSubject: any;
+export class PersonalDataSettingsComponent implements OnChanges {
+  @Input() profile: Profile = new Profile();
 
-  constructor(private profileService: ProfileService) {
-    this.profile = this.profileService.getCurrentProfile();
+  localProfile: Profile = new Profile();
+
+  @Output() profileUpdated: EventEmitter<Profile> = new EventEmitter<Profile>();
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['profile'] && changes['profile'].currentValue) {
+      this.localProfile = {
+        ...changes['profile'].currentValue
+      };
+    }
   }
 
-  saveChanges() {
-    this.profileService.updateProfile(this.profile);
+  onSaveChanges() {
+
+    this.profileUpdated.emit(this.localProfile);
+
   }
 }
