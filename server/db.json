@@ -944,7 +944,36 @@
       "stock": 70,
       "expiration_date": "2025-12-03T05:00:00.000Z",
       "user_id": 1
+    },
+    {
+      "id": 9,
+      "supply_id": 12,
+      "stock": 70,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 10,
+      "supply_id": 13,
+      "stock": 70,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 11,
+      "supply_id": 14,
+      "stock": 70,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 12,
+      "supply_id": 15,
+      "stock": 70,
+      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "user_id": 1
     }
+
   ],
   "batch_notifications_states": [
     {
