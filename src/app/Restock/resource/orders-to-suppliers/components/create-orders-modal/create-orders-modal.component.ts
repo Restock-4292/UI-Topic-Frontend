@@ -191,7 +191,7 @@ export class CreateOrdersModalComponent {
 
     async onCreateOrder(): Promise<void> {
         const finalOrder = [...this.fullOrder, ...this.currentSelections];
-
+        console.log('Orden final a enviar:', finalOrder);
         try {
             for (const supply of finalOrder) {
                 if (!supply.batches || supply.batches.length === 0) {

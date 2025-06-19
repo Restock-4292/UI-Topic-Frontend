@@ -12,7 +12,7 @@ import {MatButton} from '@angular/material/button';
 import {NgClass} from '@angular/common';
 
 @Component({
-  selector: 'app-restaurant-alerts-widget',
+  selector: 'app-restaurant-notifications-widget',
   imports: [
     MatTable,
     MatColumnDef,

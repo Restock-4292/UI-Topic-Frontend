@@ -135,7 +135,7 @@
                       | translate
                   }}:</strong
                 >
-                {{ providerProfile.companyAddress }}
+                {{ providerProfile.business_address}}
               </p>
             </div>
           </div>
@@ -158,7 +158,7 @@
           >
             <mat-card-title>
               {{
-                supplyRelation.supply?.name ||
+                supplyRelation.batch?.supply?.name ||
                   ("common.unnamedSupply" | translate)
               }}
             </mat-card-title>
@@ -172,7 +172,7 @@
                     }}:</strong
                   >
                   {{
-                    supplyRelation.supply?.description ||
+                    supplyRelation.batch?.supply?.description ||
                       ("common.noDescription" | translate)
                   }}
                 </p>
@@ -184,7 +184,7 @@
                     }}:</strong
                   >
                   {{
-                    supplyRelation.supply?.category?.name ||
+                    supplyRelation.batch?.supply?.category?.name ||
                       ("common.notDefined" | translate)
                   }}
                 </p>
@@ -196,7 +196,7 @@
                     }}:</strong
                   >
                   {{
-                    supplyRelation.supply?.unit_measurement?.name ||
+                    supplyRelation.batch?.supply?.unit_measurement?.name ||
                       ("common.notDefined" | translate)
                   }}
                 </p>
@@ -207,7 +207,7 @@
                         | translate
                     }}:</strong
                   >
-                  S/. {{ supplyRelation.supply?.price ?? "0.00" }}
+                  S/. {{ supplyRelation.batch?.supply?.price ?? "0.00" }}
                 </p>
                 <p>
                   <strong
