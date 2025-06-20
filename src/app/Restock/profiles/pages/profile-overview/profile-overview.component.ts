@@ -36,7 +36,7 @@ export class ProfileOverviewComponent implements OnInit {
   business: Business = new Business();
 
   categoriesArray: string[] = [];
-  categoriesOptions: string[] = [ 'Food', 'Beverages', 'Electronics', 'Clothing', 'Furniture', 'Health & Beauty', 'Sports & Outdoors', 'Toys & Games' ];
+  categoriesOptions: string[] = [ 'Fast Food', 'Fruits', 'Vegetables', 'Dairy', 'Pizzeria', 'Grid', 'Fitness', 'Bakery' ];
 
   constructor(
     private profileService: ProfileService,
