@@ -12,12 +12,6 @@ import {
 import { SalesComponent } from './Restock/monitoring/restaurant-sales/pages/sales/sales.component';
 import { RoleRedirectComponent } from './public/role-redirect/role-redirect.component';
 
-import {
-  SupplierOverviewComponent
-} from './Restock/resource/supplier-catalog/pages/supplier-overview/supplier-overview.component';
-import {
-  SupplierDetailComponent
-} from './Restock/resource/supplier-catalog/pages/supplier-detail/supplier-detail.component';
 import { ReviewsComponent } from './Restock/resource/orders-to-suppliers/pages/reviews/reviews.component';
 import {
   AnalyticsOverviewRestaurantComponent
@@ -49,8 +43,6 @@ export const routes: Routes = [
       { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'inventory', component: RestaurantInventoryComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
-      { path: 'suppliers', component: SupplierOverviewComponent },
-      { path: 'suppliers/:id', component: SupplierDetailComponent },
       { path: 'sales', component: SalesComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'profile', component: ProfileOverviewComponent },
