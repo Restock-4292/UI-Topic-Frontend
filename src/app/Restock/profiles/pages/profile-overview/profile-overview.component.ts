@@ -17,6 +17,7 @@ import {OrderStateService} from '../../../resource/orders-to-suppliers/services/
 import {BaseModalService} from '../../../../shared/services/base-modal.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BusinessService} from '../../services/business.service';
+import {SessionService} from '../../../../shared/services/session.service';
 
 @Component({
   selector: 'app-profile-overview',
@@ -30,7 +31,6 @@ import {BusinessService} from '../../services/business.service';
 })
 export class ProfileOverviewComponent implements OnInit {
 
-
   profile: Profile = new Profile();
   user: User = new User();
   business: Business = new Business();
@@ -43,6 +43,7 @@ export class ProfileOverviewComponent implements OnInit {
     private userService: UserService,
     private businessService: BusinessService,
     private snackBar: MatSnackBar,
+    private sessionService: SessionService,
   ) { }
 
   async ngOnInit() {
@@ -53,7 +54,7 @@ export class ProfileOverviewComponent implements OnInit {
 
   async loadProfile() {
     try {
-      this.profile = await this.profileService.getProfileById(1); //TODO: Replace with dynamic ID
+      this.profile = await this.profileService.getProfileById(this.sessionService.getProfileId()!);
       this.categoriesArray = this.profile.business?.categories.split(',').map(cat => cat.trim()) || [];
       console.log('Profile loaded:', this.profile);
     } catch (error) {

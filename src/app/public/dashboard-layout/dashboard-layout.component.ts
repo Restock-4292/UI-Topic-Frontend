@@ -7,6 +7,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
+import {Profile} from '../../Restock/profiles/model/profile.entity';
+import {ProfileService} from '../../Restock/profiles/services/profile.service';
+import {SessionService} from '../../shared/services/session.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -17,15 +20,19 @@ import { MatIconButton } from '@angular/material/button';
 })
 
 export class DashboardLayoutComponent implements OnInit {
-  user = mockUser;
   menu: Array<{ labelKey: string, icon: string, route: string }> = [];
 
   router = inject(Router);
 
+  profile: Profile = new Profile();
+
   isMobile: boolean = false;
   private mobileQuery: MediaQueryList;
 
-  constructor() {
+  constructor(
+    private profileService: ProfileService,
+    private sessionService: SessionService
+  ) {
     this.mobileQuery = window.matchMedia('(max-width: 600px)');
     this.isMobile = this.mobileQuery.matches;
     this.mobileQuery.addEventListener('change', () => {
@@ -33,11 +40,33 @@ export class DashboardLayoutComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
+    const fakeProfileId = 2; // DEFINIR AQUI EL ID DEL PERFIL ACTUAL
+    // 1 -> Supplier pepe
+    // 2 -> Restaurant maria
+    // 3 -> Supplier Juan
+    // 4 -> Restaurant Luis
 
+    this.sessionService.setProfileId(fakeProfileId); // Set the profile ID in the session service
 
-    if (this.user.role_id.name === 'supplier') {
+    await this.loadProfile();
+
+    this.setMenu();
+  }
+
+  async loadProfile() {
+    try {
+      this.profile = await this.profileService.getProfileById(this.sessionService.getProfileId()!);
+
+      console.log('Profile loaded:', this.profile);
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  }
+
+  setMenu() {
+    if (this.profile.user?.role_id === 1) {
       this.menu = [
         { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard/supplier/summary' },
         { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/dashboard/supplier/subscription' },
@@ -46,7 +75,7 @@ export class DashboardLayoutComponent implements OnInit {
         { labelKey: 'sidebar.orders', icon: 'local_shipping', route: '/dashboard/supplier/orders' },
         { labelKey: 'sidebar.reviews', icon: 'reviews', route: '/dashboard/supplier/reviews' },
       ];
-    } else if (this.user.role_id.name === 'restaurant') {
+    } else if (this.profile.user?.role_id === 2) {
       this.menu = [
         { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard/restaurant/summary' },
         { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/dashboard/restaurant/subscription' },
@@ -59,4 +88,5 @@ export class DashboardLayoutComponent implements OnInit {
       ];
     }
   }
+
 }
