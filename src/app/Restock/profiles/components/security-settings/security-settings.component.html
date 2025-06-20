@@ -12,6 +12,7 @@
         <mat-label>Current password</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
+                 [(ngModel)]="currentPassword"
                  [type]="hideCurrentPassword ? 'password' : 'text'"
                  placeholder="Enter current password"
                  aria-label="Current password" />
@@ -27,6 +28,7 @@
         <mat-label>New password</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
+                 [(ngModel)]="newPassword"
                  [type]="hideNewPassword ? 'password' : 'text'"
                  placeholder="Enter new password"
                  aria-label="New password" />
@@ -42,6 +44,7 @@
         <mat-label>Confirm new password</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
+                 [(ngModel)]="newPasswordConfirm"
                  [type]="hideNewPasswordConfirm ? 'password' : 'text'"
                  placeholder="Confirm new password"
                  aria-label="Confirm new password" />
@@ -57,7 +60,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-raised-button class="save-changes-button" aria-label="Save password changes">
+      <button mat-raised-button class="save-changes-button" (click)="onSaveChanges()" aria-label="Save password changes">
         SAVE CHANGES
       </button>
     </mat-card-actions>

@@ -6,15 +6,26 @@
     <mat-card-content>
       <mat-tab-group>
         <mat-tab label="Personal Data" >
-          <app-personal-data-settings/>
+          <app-personal-data-settings
+            [profile]="profile"
+            (profileUpdated)="onSaveChanges($event)"
+          />
         </mat-tab>
 
         <mat-tab label="Business Data">
-          <app-business-data-settings/>
+          <app-business-data-settings
+            [business]="profile.business!"
+            [currentCategories]="categories"
+            [categoriesOptions]="categoriesOptions"
+            (profileAndBusinessUpdated)="onProfileAndBusinessChanges($event)"
+          />
         </mat-tab>
 
         <mat-tab label="Security and Privacy">
-          <app-security-settings/>
+          <app-security-settings
+            [user]="profile.user!"
+            (profileAndUserUpdated)="onProfileAndUserChanges($event)"
+          />
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

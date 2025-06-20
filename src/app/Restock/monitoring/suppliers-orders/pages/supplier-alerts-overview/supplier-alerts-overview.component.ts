@@ -83,7 +83,7 @@ export class SupplierAlertsOverviewComponent implements OnInit {
                   elapsedTime,
                   total_price: order.total_price,
                   situation: situation[0]?.name || 'Unknown',
-                  restaurant: profile[0]?.business_name || 'Unknown'
+                  restaurant: profile[0]?.business?.name || 'Unknown'
                 };
               })
 
@@ -100,7 +100,6 @@ export class SupplierAlertsOverviewComponent implements OnInit {
       });
     });
   }
-
 
   displayedColumns: string[] = ['restaurant', 'details', 'status', 'orderPlaced'];
 }

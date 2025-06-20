@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { LanguageSwitcher } from '../language-switcher/language-switcher.component';
 import { CommonModule } from '@angular/common';
+import {Profile} from '../../../Restock/profiles/model/profile.entity';
 
 @Component({
   selector: 'app-sidebar',
@@ -29,8 +30,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent implements OnDestroy {
   @Input() menu: Array<any> = [];
-  @Input() user!: any;
-
+  @Input() profile: Profile = new Profile();
 
   protected isMobile = signal(true);
 
