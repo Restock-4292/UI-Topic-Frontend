@@ -14,6 +14,7 @@ import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../model/profile.entity';
 import {Business} from '../../model/business.entity';
 import {ThisReceiver} from '@angular/compiler';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-business-data-settings',
@@ -27,7 +28,8 @@ import {ThisReceiver} from '@angular/compiler';
     MatChipsModule,
     NgForOf,
     FormsModule,
-    MatIcon
+    MatIcon,
+    TranslatePipe
   ],
   templateUrl: './business-data-settings.component.html',
   styleUrl: './business-data-settings.component.css'

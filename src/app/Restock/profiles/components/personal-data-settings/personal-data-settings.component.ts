@@ -6,6 +6,7 @@ import {MatButton} from '@angular/material/button';
 import {Profile} from '../../model/profile.entity';
 import {ProfileService} from '../../services/profile.service';
 import {FormsModule} from '@angular/forms';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-personal-data-settings',
@@ -15,6 +16,7 @@ import {FormsModule} from '@angular/forms';
     MatInputModule,
     MatButton,
     FormsModule,
+    TranslatePipe,
   ],
   templateUrl: './personal-data-settings.component.html',
   styleUrl: './personal-data-settings.component.css'

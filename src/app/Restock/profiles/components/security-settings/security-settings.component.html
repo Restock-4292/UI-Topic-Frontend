@@ -3,18 +3,18 @@
   <!-- Change password section -->
   <mat-card class="security-card">
     <mat-card-header>
-      <mat-card-title>Change password</mat-card-title>
+      <mat-card-title>{{ ('profile.settings.change-password') | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="content-container">
 
         <!-- Current password -->
-        <mat-label>Current password</mat-label>
+        <mat-label>{{ ('profile.settings.current-password') | translate }}</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
                  [(ngModel)]="currentPassword"
                  [type]="hideCurrentPassword ? 'password' : 'text'"
-                 placeholder="Enter current password"
+                 [placeholder]="'profile.settings.current-password-placeholder' | translate"
                  aria-label="Current password" />
           <button mat-icon-button matSuffix class="hide-button"
                   (click)="hideCurrentPassword = !hideCurrentPassword"
@@ -25,12 +25,12 @@
         </mat-form-field>
 
         <!-- New password -->
-        <mat-label>New password</mat-label>
+        <mat-label>{{ ('profile.settings.new-password') | translate }}</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
                  [(ngModel)]="newPassword"
                  [type]="hideNewPassword ? 'password' : 'text'"
-                 placeholder="Enter new password"
+                 [placeholder]="'profile.settings.new-password-placeholder' | translate"
                  aria-label="New password" />
           <button mat-icon-button matSuffix class="hide-button"
                   (click)="hideNewPassword = !hideNewPassword"
@@ -41,12 +41,12 @@
         </mat-form-field>
 
         <!-- Confirm new password -->
-        <mat-label>Confirm new password</mat-label>
+        <mat-label>{{ ('profile.settings.confirm-password') | translate }}</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput
                  [(ngModel)]="newPasswordConfirm"
                  [type]="hideNewPasswordConfirm ? 'password' : 'text'"
-                 placeholder="Confirm new password"
+                 [placeholder]="'profile.settings.confirm-password-placeholder' | translate"
                  aria-label="Confirm new password" />
           <button mat-icon-button matSuffix class="hide-button"
                   (click)="hideNewPasswordConfirm = !hideNewPasswordConfirm"
@@ -61,7 +61,7 @@
 
     <mat-card-actions>
       <button mat-raised-button class="save-changes-button" (click)="onSaveChanges()" aria-label="Save password changes">
-        SAVE CHANGES
+        {{ ('profile.settings.save-changes') | translate }}
       </button>
     </mat-card-actions>
   </mat-card>
@@ -69,18 +69,17 @@
   <!-- Delete account section -->
   <mat-card class="security-card">
     <mat-card-header>
-      <mat-card-title>Delete account</mat-card-title>
+      <mat-card-title>{{ ('profile.settings.delete-account') | translate }}</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
       <div class="content-container">
-        <p>This action will permanently delete your account. All your personal data, history and settings will
-          be deleted. You will not be able to recover your account after deletion. Your subscription will be deleted.</p>
+        <p>{{ ('profile.settings.delete-account-warning') | translate }}</p>
       </div>
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-raised-button class="delete-button">CONFIRM DELETE</button>
+      <button mat-raised-button class="delete-button">{{ ('profile.settings.confirm-delete') | translate}}</button>
     </mat-card-actions>
   </mat-card>
 

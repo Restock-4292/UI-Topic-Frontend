@@ -2,19 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {MatCard} from '@angular/material/card';
 import {ProfileSettingsComponent} from '../../components/profile-settings/profile-settings.component';
 import {ProfileDetailsComponent} from '../../components/profile-details/profile-details.component';
-import {OrderToSupplier} from '../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {Profile} from '../../model/profile.entity';
 import {User} from '../../../iam/model/user.entity';
 import {Business} from '../../model/business.entity';
-import {OrderToSupplierService} from '../../../resource/orders-to-suppliers/services/order-to-supplier.service';
-import {
-  OrderToSupplierBatchService
-} from '../../../resource/orders-to-suppliers/services/order-to-supplier-batch.service';
-import {BatchService} from '../../../resource/inventory/services/batch.service';
 import {UserService} from '../../../iam/services/user.service';
 import {ProfileService} from '../../services/profile.service';
-import {OrderStateService} from '../../../resource/orders-to-suppliers/services/order-to-supplier-state.service';
-import {BaseModalService} from '../../../../shared/services/base-modal.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BusinessService} from '../../services/business.service';
 import {SessionService} from '../../../../shared/services/session.service';
