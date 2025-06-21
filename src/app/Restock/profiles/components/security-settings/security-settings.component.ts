@@ -10,6 +10,7 @@ import {Profile} from '../../model/profile.entity';
 import {Business} from '../../model/business.entity';
 import {FormsModule} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-security-settings',
@@ -25,7 +26,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatLabel,
     MatIconModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './security-settings.component.html',
   styleUrl: './security-settings.component.css'

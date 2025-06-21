@@ -7,6 +7,7 @@ import {BusinessDataSettingsComponent} from '../business-data-settings/business-
 import {Profile} from '../../model/profile.entity';
 import {Business} from '../../model/business.entity';
 import {User} from '../../../iam/model/user.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
@@ -18,7 +19,8 @@ import {User} from '../../../iam/model/user.entity';
     PersonalDataSettingsComponent,
     MatCardContent,
     MatCardModule,
-    BusinessDataSettingsComponent
+    BusinessDataSettingsComponent,
+    TranslatePipe
   ],
   templateUrl: './profile-settings.component.html',
   styleUrl: './profile-settings.component.css'

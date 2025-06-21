@@ -5,21 +5,36 @@
     <mat-card-content>
       <div class="business-data-form">
         <!--  Company Name -->
-        <mat-label>Company Name</mat-label>
+        <mat-label>{{ 'profile.business-name' | translate }}</mat-label>
         <mat-form-field class="full-width" appearance="outline">
           <input matInput [(ngModel)]="localBusiness.name" type="text" placeholder="Enter your name"
             aria-label="Business Name" />
         </mat-form-field>
 
         <!-- Company Address -->
-        <mat-label>Company Address</mat-label>
+        <mat-label>{{ 'profile.business-address' | translate }}</mat-label>
         <mat-form-field class="full-width" appearance="outline">
-          <input matInput [(ngModel)]="localBusiness.address" type="text" placeholder="Enter your last name"
+          <input matInput [(ngModel)]="localBusiness.address" type="text" placeholder="Enter your address"
             aria-label="Business Address" />
         </mat-form-field>
 
+        <!-- Company Phone -->
+        <mat-label>{{ 'profile.business-phone' | translate }}</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="localBusiness.phone" type="text" placeholder="Enter your phone"
+                 aria-label="Business Phone" />
+        </mat-form-field>
+
+        <!-- Company Email -->
+        <mat-label>{{ 'profile.business-email' | translate }}</mat-label>
+        <mat-form-field class="full-width" appearance="outline">
+          <input matInput [(ngModel)]="localBusiness.email" type="text" placeholder="Enter your email"
+                 aria-label="Business Email" />
+        </mat-form-field>
+
+
         <!-- Company Categories -->
-        <mat-label>Company Categories</mat-label>
+        <mat-label>{{ 'profile.business-categories' | translate }}</mat-label>
         <mat-form-field appearance="outline" class="full-width">
           <mat-select [(ngModel)]="selectedCategories" multiple>
             <mat-option *ngFor="let category of categoriesOptions" [value]="category">
@@ -45,7 +60,7 @@
 
     <mat-card-actions>
       <button mat-raised-button class="save-changes-button" aria-label="Save changes" (click)="onSaveChanges()">SAVE
-        CHANGES</button>
+        {{ 'profile.settings.save-changes' | translate }}</button>
     </mat-card-actions>
   </mat-card>
 </div>
