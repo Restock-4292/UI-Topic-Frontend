@@ -17,6 +17,7 @@ import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/or
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-approved-orders',
@@ -40,7 +41,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatButton,
     MatFormFieldModule,
     MatSelectModule,
-    NgIf
+    NgIf,
+    TranslatePipe
   ],
   templateUrl: './approved-orders.component.html',
   styleUrl: './approved-orders.component.css'

@@ -6,6 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatSelect, MatSelectModule} from '@angular/material/select';
 import {MatButton, MatIconButton} from '@angular/material/button';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 
 export interface DateRangeOption {
@@ -16,7 +17,7 @@ export interface DateRangeOption {
 @Component({
   selector: 'app-filter-section',
   imports: [CommonModule,
-    FormsModule, MatFormFieldModule, MatIcon, MatSelectModule, MatInput, MatButton, MatIconButton],
+    FormsModule, MatFormFieldModule, MatIcon, MatSelectModule, MatInput, MatButton, MatIconButton, TranslatePipe],
   templateUrl: './filter-section.component.html',
   styleUrl: './filter-section.component.css'
 })
@@ -34,10 +35,12 @@ export class FilterSectionComponent {
   @Output() selectedDateRangeChange = new EventEmitter<string>();
   @Output() toggleSort = new EventEmitter<void>();
 
+  constructor( private translate: TranslateService) {}
+
   dateRangeOptions: DateRangeOption[] = [
-    { label: 'Last 7 days', value: '7days' },
-    { label: 'Last 30 days', value: '30days' },
-    { label: 'Last 3 months', value: '3months' }
+    { label: this.translate.instant('supplier-orders.filters.last-7days'), value: '7days' },
+    { label: this.translate.instant('supplier-orders.filters.last-30days'), value: '30days' },
+    { label: this.translate.instant('supplier-orders.filters.last-3months'), value: '3months' }
   ];
 
   onSearchChange(value: string): void {

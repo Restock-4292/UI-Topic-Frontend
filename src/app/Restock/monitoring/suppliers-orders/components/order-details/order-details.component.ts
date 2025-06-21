@@ -17,6 +17,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-details',
@@ -30,7 +31,8 @@ import {Supply} from '../../../../resource/inventory/model/supply.entity';
     MatChipsModule,
     MatIconModule,
     MatStepperModule,
-    DatePipe
+    DatePipe,
+    TranslatePipe
   ],
   templateUrl: './order-details.component.html',
   styleUrl: './order-details.component.css'

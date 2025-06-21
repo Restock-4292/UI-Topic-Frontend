@@ -2,13 +2,15 @@
     <!-- Situation Section -->
     <div class="situation-section">
       <p class="situation-label">
-        Situation
-        <mat-chip class="approved-chip">{{ this.order?.situation?.name }}</mat-chip>
+        {{ 'supplier-orders.situation.title' | translate }}
+        <mat-chip class="approved-chip">
+          {{ 'supplier-orders.situation.approved' | translate }}
+        </mat-chip>
       </p>
     </div>
 
     <!-- State Section -->
-    <h4 class="section-title">State</h4>
+    <h4 class="section-title">{{ 'supplier-orders.state.title' | translate }}</h4>
 
     <!-- Stepper Container -->
     <div class="stepper-container">
@@ -58,15 +60,15 @@
 
       <!-- Date Section -->
     <div class="input-section">
-    <h3 class="subtitle">Estimated Shipping Date</h3>
+    <h3 class="subtitle">{{ 'supplier-orders.estimated-ship-date' | translate }}</h3>
     <div class="date-section">
       <mat-form-field appearance="outline">
-        <mat-label>Estimated Shipping Date</mat-label>
+        <mat-label>{{ 'supplier-orders.estimated-ship-date' | translate }}</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
           [(ngModel)]="localOrder.estimatedShipDate"
-          placeholder="Select date"
+          [placeholder]="'supplier-orders.estimated-ship-date' | translate"
           aria-label="Estimated Shipping Date">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -74,15 +76,15 @@
     </div>
 
     <!-- Time Section -->
-    <h3 class="subtitle">Estimated Shipping Time</h3>
+    <h3 class="subtitle">{{ 'supplier-orders.estimated-ship-time' | translate }}</h3>
     <div class="time-section">
       <mat-form-field appearance="outline">
-        <mat-label>Estimated Shipping Time</mat-label>
+        <mat-label>{{ 'supplier-orders.estimated-ship-time' | translate }}</mat-label>
         <input
           matInput
           type="time"
           [(ngModel)]="localOrder.estimatedShipTime"
-          placeholder="Select time">
+          [placeholder]="'supplier-orders.estimated-ship-time' | translate">
       </mat-form-field>
     </div>
 
@@ -90,7 +92,7 @@
       <h3 class="subtitle">Description</h3>
     <div class="description-section">
       <mat-form-field appearance="outline" class="description-field">
-        <mat-label>Order Description</mat-label>
+        <mat-label>{{ 'supplier-orders.description' | translate }}</mat-label>
         <textarea
           matInput
           [(ngModel)]="localOrder.description"
@@ -105,10 +107,10 @@
   <!-- Dialog Actions -->
   <mat-dialog-actions class="dialog-actions">
     <button mat-button color="warn" class="btn-close" (click)="onClose()">
-      Close
+      {{ 'supplier-orders.update-order.buttons.close' | translate }}
     </button>
     <button mat-raised-button color="primary" (click)="onUpdateOrder()">
-      Update Order
+      {{ 'supplier-orders.update-order.buttons.save' | translate }}
     </button>
   </mat-dialog-actions>
 </div>

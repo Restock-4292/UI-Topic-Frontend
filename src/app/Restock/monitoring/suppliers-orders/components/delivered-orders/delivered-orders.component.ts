@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-delivered-orders',
@@ -25,7 +26,8 @@ import * as FileSaver from 'file-saver';
     EmptySectionComponent,
     MatButton,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    TranslatePipe
   ],
   templateUrl: './delivered-orders.component.html',
   styleUrl: './delivered-orders.component.css'
