@@ -230,5 +230,132 @@
     "sale_confirmation": {
       "title": "Sale Registered Successfully"
     }
+  },
+  "supplier-orders": {
+    "title": "My Orders",
+    "tabs": {
+      "new-orders": "New Orders",
+      "history-orders": "Order History",
+      "accepted-orders": "Orders In Progress"
+    },
+    "table": {
+      "date": "Order Date",
+      "restaurant-name": "Restaurant Name",
+      "requested-products": "N° Requested Products",
+      "final-price": "Final Price",
+      "state": "State",
+      "ship-date": "Ship Date",
+      "actions": "Actions"
+    },
+    "description": "Order Description",
+    "restaurant-name": "Restaurant Name",
+    "estimated-ship-date": "Estimated Shipping Date",
+    "estimated-ship-time": "Estimated Shipping Time",
+    "placeholder": {
+      "select-date": "Select date",
+      "select-time": "Select time",
+      "description": "Description"
+    },
+    "details": {
+      "title": "Order Details",
+      "description": "View the details of a registered order.",
+      "estimated-date": "Estimated Ship Date and Time",
+      "buttons": {
+        "back": "Back",
+        "next": "Next",
+        "close": "Close"
+      }
+    },
+    "manage-new-orders": {
+      "title": "New Order Management",
+      "description": "Complete the order details to start tracking your order.",
+      "order-summary": "Order Summary",
+      "new-total": "Selected item total",
+      "buttons": {
+        "submit-order": "Accept selection",
+        "close": "Close",
+        "back": "Back",
+        "next": "Next"
+      }
+    },
+    "update-order": {
+      "title": "Update Order",
+      "description": "Update the details of a registered order.",
+      "order-summary": "Order Summary",
+      "buttons": {
+        "save": "Update Order",
+        "close": "Close"
+      }
+    },
+    "decline": {
+      "title": "Decline Order",
+      "message": "This action is irreversible. Are you sure you want to decline the entire selected order?",
+      "buttons": {
+        "confirm": "Yes, decline",
+        "cancel": "Cancel"
+      }
+    },
+    "cancel": {
+      "title": "Cancel Order",
+      "message": "Are you sure you want to cancel this order?",
+      "buttons": {
+        "confirm": "Yes, decline",
+        "cancel": "Cancel"
+      }
+    },
+    "supplies":
+    {
+      "title": "Supplies",
+      "description": "View the supplies you have available for the order.",
+      "select-all": "Select All",
+      "headers": {
+        "product-name": "Product Name",
+        "quantity": "Quantity",
+        "unit-measure": "Unit Measure"
+      },
+      "total-price": "Total Price"
+    },
+    "notifications": {
+      "summary-success": "Success",
+      "summary-error": "Error",
+      "order-updated": "Order updated successfully",
+      "order-processed": "Order processed successfully",
+      "order-declined": "Order declined successfully",
+      "order-cancelled": "Order cancelled successfully",
+      "error-update": "Failed to update order",
+      "error-process": "Failed to process order",
+      "error-decline": "Failed to decline order",
+      "error-cancel": "Failed to cancel order"
+    },
+    "filters":
+    {
+      "title": "Orders",
+      "search-placeholder": "Search orders by restaurant...",
+      "date-range-placeholder": "Order Date Range",
+      "order-date-button": "Order Date",
+      "status": "Status",
+      "download": "Download History",
+      "last-7days": "Last 7 Days",
+      "last-30days": "Last 30 Days",
+      "last-3months": "Last 3 Months",
+      "all-states": "All States"
+    },
+    "state": {
+      "title": "State",
+      "preparing": "Preparing",
+      "delivered": "Delivered",
+      "on-hold": "On hold",
+      "on-the-way": "On the way"
+    },
+    "situation": {
+      "title": "Situation",
+      "pending": "Pending",
+      "approved": "Approved"
+    },
+    "empty": {
+      "new-orders": "You currently have no orders received.",
+      "history-orders": "You currently have no orders delivered.",
+      "accepted-orders": "You currently have no orders approved."
+    }
   }
 }

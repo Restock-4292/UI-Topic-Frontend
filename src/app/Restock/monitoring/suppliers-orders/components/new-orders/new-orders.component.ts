@@ -14,6 +14,7 @@ import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/or
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {EmptySectionComponent} from '../../../../../shared/components/empty-section/empty-section.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-orders',
@@ -29,7 +30,8 @@ import {EmptySectionComponent} from '../../../../../shared/components/empty-sect
     MatIconButton,
     MatButton,
     EmptySectionComponent,
-    DatePipe
+    DatePipe,
+    TranslatePipe
   ],
   templateUrl: './new-orders.component.html',
   styleUrl: './new-orders.component.css'

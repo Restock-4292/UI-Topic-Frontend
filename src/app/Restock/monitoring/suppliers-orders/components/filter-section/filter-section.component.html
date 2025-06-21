@@ -5,7 +5,7 @@
 
     <!-- Search Input -->
     <mat-form-field appearance="outline" class="search-field">
-      <mat-label>{{ searchPlaceholder }}</mat-label>
+      <mat-label>{{ 'supplier-orders.filters.search-placeholder' | translate }}</mat-label>
       <input matInput #searchInput [value]="searchQuery" (input)="onSearchChange(searchInput.value)" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
@@ -15,7 +15,7 @@
 
     <!-- Date Range Selector -->
     <mat-form-field appearance="outline" class="date-range-field">
-      <mat-label>Order Date range</mat-label>
+      <mat-label>{{ 'supplier-orders.filters.date-range-placeholder' | translate }}</mat-label>
       <mat-select [value]="selectedDateRange" (selectionChange)="onDateRangeChange($event.value)">
         <mat-option *ngFor="let option of dateRangeOptions" [value]="option.value">
           {{ option.label }}
@@ -36,7 +36,7 @@
 
     <!-- Sort Button -->
     <button mat-raised-button class="sort-button" color="primary" (click)="onToggleSort()">
-      {{ sortLabel }}
+      {{ 'supplier-orders.filters.order-date-button' | translate }}
       <mat-icon>{{ getSortIcon() }}</mat-icon>
     </button>
   </div>

@@ -27,6 +27,7 @@ import {OrderDetailsComponent} from '../../components/order-details/order-detail
 import {EditOrderComponent} from '../../components/edit-order/edit-order.component';
 import {OrderStateService} from '../../../../resource/orders-to-suppliers/services/order-to-supplier-state.service';
 import {Batch} from '../../../../resource/inventory/model/batch.entity';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-suppliers-orders-overview',
@@ -34,7 +35,8 @@ import {Batch} from '../../../../resource/inventory/model/batch.entity';
     MatTabsModule,
     NewOrdersComponent,
     ApprovedOrdersComponent,
-    DeliveredOrdersComponent
+    DeliveredOrdersComponent,
+    TranslatePipe
   ],
   templateUrl: './suppliers-orders-overview.component.html',
   styleUrl: './suppliers-orders-overview.component.css'
@@ -67,7 +69,8 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     private profileService: ProfileService,
     private stateService: OrderStateService,
     private modalService: BaseModalService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -201,9 +204,9 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
 
     this.modalService.open({
-      title: 'Order Details',
+      title: this.translate.instant('supplier-orders.details.title'),
       contentComponent: OrderDetailsComponent,
-      description: 'View the details of a new order.',
+      description:  this.translate.instant('supplier-orders.details.description'),
       width: '40vw',
       height: '85vh',
       initialData: {
@@ -307,11 +310,11 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
     this.restaurantNameOrderSelected = this.restaurantNameMap[order.id] || '';
 
     const dialogRef = this.modalService.open({
-      title: 'New Order Management',
+      title: this.translate.instant('supplier-orders.manage-new-orders.title'),
       contentComponent: ManageNewOrdersComponent,
       width: '40vw',
       height: '90vh',
-      description: 'Complete the order details to start tracking your order',
+      description: this.translate.instant('supplier-orders.manage-new-orders.description'),
       initialData: {
         order: order,
         suppliesDetailsOfOrder: this.detailedSuppliesPerOrder,
@@ -327,9 +330,8 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
       instance?.acceptSelection.subscribe((order) => {
         try {
-          console.log('CARAJOP AQUI ESTOY YO', order);
           order.orderBatches?.forEach(orderBatch => (orderBatch.accepted = true));
-          console.log('YALA', order);
+
           order.state =  this.states.find(state => state.id === order.order_to_supplier_state_id);
           order.situation = new OrderToSupplierSituation({ id: 2, name: 'Approved' });
 
@@ -373,11 +375,11 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
   openEditOrderModal(order: OrderToSupplier): void {
 
     const dialogRef = this.modalService.open({
-      title: 'Update Order',
+      title: this.translate.instant('supplier-orders.update-order.title'),
       contentComponent: EditOrderComponent,
       width: '40vw',
       height: '90vh',
-      description: 'Update the details of a registered order',
+      description: this.translate.instant('supplier-orders.update-order.description'),
       initialData: {
         order: order
       }

@@ -135,5 +135,131 @@
     "sale_confirmation": {
       "title": "Venta registrada correctamente"
     }
+  },
+
+  "supplier-orders": {
+    "title": "Mis Pedidos",
+    "tabs": {
+      "new-orders": "Pedidos Nuevos",
+      "history-orders": "Historial de Pedidos",
+      "accepted-orders": "Pedidos en Progreso"
+    },
+    "table": {
+      "date": "Fecha de Pedido",
+      "restaurant-name": "Nombre del Restaurante",
+      "requested-products": "N° de Productos Solicitados",
+      "final-price": "Precio Final",
+      "state": "Estado",
+      "ship-date": "Fecha de Envío",
+      "actions": "Acciones"
+    },
+    "description": "Descripción del Pedido",
+    "restaurant-name": "Nombre del Restaurante",
+    "estimated-ship-date": "Fecha de Envío Estimada",
+    "estimated-ship-time": "Hora de Envío Estimada",
+    "placeholder": {
+      "select-date": "Selecciona fecha",
+      "select-time": "Selecciona hora",
+      "description": "Descripción"
+    },
+    "details": {
+      "title": "Detalles del Pedido",
+      "description": "Ver los detalles de un pedido registrado.",
+      "estimated-date": "Fecha y Hora de Envío Estimada",
+      "buttons": {
+        "back": "Atrás",
+        "next": "Siguiente",
+        "close": "Cerrar"
+      }
+    },
+    "manage-new-orders": {
+      "title": "Gestión de Nuevo Pedido",
+      "description": "Completa los detalles del pedido para comenzar el seguimiento.",
+      "order-summary": "Resumen del Pedido",
+      "new-total": "Total de los items seleccionados",
+      "buttons": {
+        "submit-order": "Aceptar selección",
+        "close": "Cerrar",
+        "back": "Atrás",
+        "next": "Siguiente"
+      }
+    },
+    "update-order": {
+      "title": "Actualizar Pedido",
+      "description": "Actualiza los detalles de un pedido registrado.",
+      "order-summary": "Resumen del Pedido",
+      "buttons": {
+        "save": "Actualizar Pedido",
+        "close": "Cerrar"
+      }
+    },
+    "decline": {
+      "title": "Rechazar Pedido",
+      "message": "Esta acción es irreversible. ¿Estás seguro de que deseas rechazar todo el pedido seleccionado?",
+      "buttons": {
+        "confirm": "Sí, rechazar",
+        "cancel": "Cancelar"
+      }
+    },
+    "cancel": {
+      "title": "Cancelar Pedido",
+      "message": "¿Estás seguro de que deseas cancelar este pedido?",
+      "buttons": {
+        "confirm": "Sí, cancelar",
+        "cancel": "Cancelar"
+      }
+    },
+    "supplies": {
+      "title": "Insumos",
+      "description": "Ver los insumos disponibles para el pedido.",
+      "select-all": "Seleccionar todo",
+      "headers": {
+        "product-name": "Nombre del Producto",
+        "quantity": "Cantidad",
+        "unit-measure": "Unidad de Medida"
+      },
+      "total-price": "Precio Total"
+    },
+    "notifications": {
+      "summary-success": "Éxito",
+      "summary-error": "Error",
+      "order-updated": "Pedido actualizado con éxito",
+      "order-processed": "Pedido procesado con éxito",
+      "order-declined": "Pedido rechazado con éxito",
+      "order-cancelled": "Pedido cancelado con éxito",
+      "error-update": "Error al actualizar el pedido",
+      "error-process": "Error al procesar el pedido",
+      "error-decline": "Error al rechazar el pedido",
+      "error-cancel": "Error al cancelar el pedido"
+    },
+    "filters": {
+      "title": "Pedidos",
+      "search-placeholder": "Buscar pedidos por restaurante...",
+      "date-range-placeholder": "Rango de Fecha de Pedido",
+      "order-date-button": "Fecha de Pedido",
+      "status": "Estado",
+      "download": "Descargar Historial",
+      "last-7days": "Últimos 7 Días",
+      "last-30days": "Últimos 30 Días",
+      "last-3months": "Últimos 3 Meses",
+      "all-states": "Todos los Estados"
+    },
+    "state": {
+      "title": "Estado",
+      "preparing": "Preparando",
+      "delivered": "Entregado",
+      "on-hold": "En Espera",
+      "on-the-way": "En Camino"
+    },
+    "situation": {
+      "title": "Situación",
+      "pending": "Pendiente",
+      "approved": "Aprobado"
+    },
+    "empty": {
+      "new-orders": "Actualmente no tienes pedidos recibidos.",
+      "history-orders": "Actualmente no tienes pedidos entregados.",
+      "accepted-orders": "Actualmente no tienes pedidos aprobados."
+    }
   }
 }

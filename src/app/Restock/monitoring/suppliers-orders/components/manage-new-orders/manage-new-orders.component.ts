@@ -27,6 +27,7 @@ import {OrderToSupplierService} from '../../../../resource/orders-to-suppliers/s
 import {Supply} from '../../../../resource/inventory/model/supply.entity';
 import {OrderToSupplierBatch} from '../../../../resource/orders-to-suppliers/model/order-to-supplier-batch.entity';
 import {Batch} from '../../../../resource/inventory/model/batch.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
@@ -46,7 +47,8 @@ import {Batch} from '../../../../resource/inventory/model/batch.entity';
     MatIcon,
     MatPaginator,
     MatDialogActions,
-    MatDialogContent
+    MatDialogContent,
+    TranslatePipe
   ],
   templateUrl: './manage-new-orders.component.html',
   styleUrl: './manage-new-orders.component.css'

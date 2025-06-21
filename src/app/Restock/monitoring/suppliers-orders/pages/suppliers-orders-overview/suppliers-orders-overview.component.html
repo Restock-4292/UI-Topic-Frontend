@@ -1,6 +1,6 @@
 <div class="supplier-orders-container">
   <mat-tab-group>
-    <mat-tab label="New Orders" >
+    <mat-tab [label]="'supplier-orders.tabs.new-orders' | translate " >
       <app-new-orders
         [orders]="newOrders"
         [adminRestaurantsProfiles]="restaurantNameMap"
@@ -12,7 +12,7 @@
       />
     </mat-tab>
 
-    <mat-tab label="Orders In Progress">
+    <mat-tab [label]="'supplier-orders.tabs.accepted-orders' | translate " >
       <app-approved-orders
         [orders]="ordersInProcess"
         [adminRestaurantsProfiles]="restaurantNameMap"
@@ -22,7 +22,7 @@
       />
     </mat-tab>
 
-    <mat-tab label="Orders History">
+    <mat-tab [label]="'supplier-orders.tabs.history-orders' | translate ">
       <app-delivered-orders
         [orders]="deliveredOrders"
         [adminRestaurantsProfiles]="restaurantNameMap"

@@ -15,6 +15,7 @@ import {MatDialogActions, MatDialogRef} from '@angular/material/dialog';
 import {MatNativeDateModule} from '@angular/material/core';
 import {OrderToSupplier} from '../../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-order',
@@ -32,7 +33,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
     MatDatepickerToggle,
     MatDatepicker,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './edit-order.component.html',
   styleUrl: './edit-order.component.css'
