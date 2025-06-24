@@ -11,7 +11,7 @@ import {AlertNotification} from '../../../resource/inventory/services/restaurant
 import {MatButton} from '@angular/material/button';
 
 @Component({
-  selector: 'app-restaurant-alerts-widget',
+  selector: 'app-restaurant-notifications-widget',
   standalone: true,
   imports: [
     MatTable,
@@ -29,10 +29,10 @@ import {MatButton} from '@angular/material/button';
     NgClass,
     CommonModule
   ],
-  templateUrl: './restaurant-alerts-widget.component.html',
-  styleUrl: './restaurant-alerts-widget.component.css'
+  templateUrl: './restaurant-notifications-widget.component.html',
+  styleUrl: './restaurant-notifications-widget.component.css'
 })
-export class RestaurantAlertsWidgetComponent implements OnInit {
+export class RestaurantNotificationsWidgetComponent implements OnInit {
   private readonly notificationsService = inject(RestaurantNotificationsService);
 
   displayedColumns: string[] = ['ingredient', 'status'];
