@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable
+  MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell,
+  MatCellDef, MatCell, MatRow, MatHeaderRowDef,
+  MatHeaderRow, MatRowDef
 } from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {NgClass, CommonModule} from '@angular/common';
+import {RestaurantNotificationsService} from '../../../resource/inventory/services/restaurant-notifications.service.service';
+import {AlertNotification} from '../../../resource/inventory/services/restaurant-notifications.service.service';
 import {MatButton} from '@angular/material/button';
-import {NgClass} from '@angular/common';
 
 @Component({
-  selector: 'app-restaurant-notifications-widget',
+  selector: 'app-restaurant-alerts-widget',
+  standalone: true,
   imports: [
     MatTable,
     MatColumnDef,
@@ -25,18 +25,28 @@ import {NgClass} from '@angular/common';
     MatHeaderRowDef,
     MatHeaderRow,
     MatRowDef,
-    NgClass
+    MatTabsModule,
+    NgClass,
+    CommonModule
   ],
   templateUrl: './restaurant-alerts-widget.component.html',
   styleUrl: './restaurant-alerts-widget.component.css'
 })
-export class RestaurantAlertsWidgetComponent {
+export class RestaurantAlertsWidgetComponent implements OnInit {
+  private readonly notificationsService = inject(RestaurantNotificationsService);
+
   displayedColumns: string[] = ['ingredient', 'status'];
 
-  alerts = [
-    { ingredient: 'Aji amarillo', status: 'Low stock' },
-    { ingredient: 'Cebolla roja', status: 'Max stock' },
-    { ingredient: 'Lechuga', status: 'Low stock' },
-    { ingredient: 'Culantro', status: 'Max stock' }
-  ];
+  inventoryAlerts: AlertNotification[] = [];
+  orderAlerts: AlertNotification[] = [];
+
+  ngOnInit(): void {
+    this.notificationsService.getInventoryAlerts().subscribe({
+      next: (data) => this.inventoryAlerts = data//.slice(0, 3)
+    });
+
+    this.notificationsService.getOrderAlerts().subscribe({
+      next: (data) => this.orderAlerts = data//.slice(0, 3)
+    });
+  }
 }
