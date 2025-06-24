@@ -1,27 +1,30 @@
 <h3 class="widget-title">Last added supplies</h3>
-<div class="carousel-container">
-  <div class="carousel">
-    <button mat-icon-button (click)="prev()" [disabled]="currentIndex === 0">
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <div class="carousel-track">
-      <div class="ingredient-card" *ngFor="let i of visibleIngredients">
-        <h4>{{ i.name }}</h4>
-        <p class="category">{{ i.category }}</p>
-        <p class="description">{{ i.description }}</p>
-      </div>
-    </div>
 
-    <button mat-icon-button (click)="next()" [disabled]="currentIndex + 5 >= ingredients.length">
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+<!-- Vista desktop: Carrusel con flechas -->
+<div class="carousel-wrapper">
+  <button class="nav-button left" (click)="scrollLeft(containerRef.nativeElement)">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+
+  <div #carouselContainer class="carousel-container">
+    <div class="supply-card" *ngFor="let b of batches">
+      <h3>{{ b.supply?.name }}</h3>
+      <p class="category">{{ b.supply?.category?.name || 'Uncategorized' }}</p>
+      <p class="description">{{ b.supply?.description || '-' }}</p>
+    </div>
   </div>
-  <div class="supplies-grid">
-    <div class="ingredient-pair" *ngFor="let pair of getPairs()">
-      <div class="ingredient-card" *ngFor="let i of pair">
-        <h4>{{ i.name }}</h4>
-        <p class="category">{{ i.category }}</p>
-      </div>
+
+  <button class="nav-button right" (click)="scrollRight(containerRef.nativeElement)">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</div>
+
+<!-- Vista mobile: scroll horizontal tipo grilla -->
+<div class="supplies-grid">
+  <div class="ingredient-pair" *ngFor="let pair of getPairs()">
+    <div class="ingredient-card" *ngFor="let b of pair">
+      <h4>{{ b.supply?.name }}</h4>
+      <p class="category">{{ b.supply?.category?.name || 'Uncategorized' }}</p>
     </div>
   </div>
 </div>
