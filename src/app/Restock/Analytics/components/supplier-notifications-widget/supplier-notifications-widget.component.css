@@ -42,7 +42,7 @@
   font-size: 20px;
 }
 .table-scroll-container {
-  max-height: 250px; /* o el alto que quieras */
+  max-height: 300px; /* o el alto que quieras */
   overflow-y: auto;
   border-radius: 8px;
 }
