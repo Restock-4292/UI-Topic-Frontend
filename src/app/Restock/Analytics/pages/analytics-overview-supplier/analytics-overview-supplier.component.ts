@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {SupplierAlertsWidgetComponent} from '../../components/supplier-alerts-widget/supplier-alerts-widget.component';
+import {SupplierNotificationsWidgetComponent} from '../../components/supplier-notifications-widget/supplier-notifications-widget.component';
 import {
   SupplierAccountWidgetComponent
 } from '../../components/supplier-account-widget/supplier-account-widget.component';
@@ -8,9 +8,9 @@ import { SupplierFrequentCustomersWidgetComponent } from '../../components/suppl
 @Component({
   selector: 'app-analytics-overview-supplier',
   imports: [
-    SupplierAlertsWidgetComponent,
     SupplierAccountWidgetComponent,
-    SupplierFrequentCustomersWidgetComponent
+    SupplierFrequentCustomersWidgetComponent,
+    SupplierNotificationsWidgetComponent
   ],
   templateUrl: './analytics-overview-supplier.component.html',
   styleUrl: './analytics-overview-supplier.component.css'

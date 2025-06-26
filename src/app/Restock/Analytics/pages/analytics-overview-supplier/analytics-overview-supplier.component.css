@@ -18,7 +18,7 @@
 }
 
 /* Widgets */
-.widget-alerts {
+.widget-notifications {
   flex: 2;
 }
 
@@ -40,7 +40,7 @@
     align-items: center;
   }
 
-  .widget-alerts,
+  .widget-notifications,
   .widget-account,
   .widget-frequent {
     width: 100% !important;
