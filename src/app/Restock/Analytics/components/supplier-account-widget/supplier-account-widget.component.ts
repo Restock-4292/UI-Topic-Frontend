@@ -25,7 +25,6 @@ import { SupplierCalendarDialogComponent} from '../supplier-calendar-dialog.comp
   selector: 'app-supplier-account-widget',
   standalone: true,
   imports: [
-    NgIf,
     NgFor,
     MatIcon,
     MatTabsModule,

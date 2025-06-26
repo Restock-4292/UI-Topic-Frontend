@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
   ],
   template: `
     <h2 mat-dialog-title>Select custom range</h2>
-    <mat-dialog-content align="center" style="display: flex; flex-direction: column; gap: 16px;">
+    <mat-dialog-content style="display: flex; flex-direction: column; gap: 16px;">
       <mat-form-field appearance="outline">
         <mat-label>From</mat-label>
         <input matInput [matDatepicker]="pickerFrom" [formControl]="fromCtrl">
