@@ -15,9 +15,9 @@ import {MatFormField} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {FormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
-import {ChartModule} from 'primeng/chart';
+import { DatePickerModule } from 'primeng/datepicker';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
-import {DatePicker} from 'primeng/datepicker';
+import { ChartModule } from 'primeng/chart';
 import { MatDialog } from '@angular/material/dialog';
 import { SupplierCalendarDialogComponent} from '../supplier-calendar-dialog.component';
 
@@ -30,7 +30,6 @@ import { SupplierCalendarDialogComponent} from '../supplier-calendar-dialog.comp
     MatTabsModule,
     MatFormField,
     MatSelectModule,
-    ChartModule,
     FormsModule,
     MatNativeDateModule,
     MatButtonToggleGroup,
@@ -38,7 +37,7 @@ import { SupplierCalendarDialogComponent} from '../supplier-calendar-dialog.comp
     ChartModule,
     MatIconButton,
     MatButton,
-    DatePicker,
+    DatePickerModule
   ],
   templateUrl: './supplier-account-widget.component.html',
   styleUrl: './supplier-account-widget.component.css',
