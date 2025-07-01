@@ -1,42 +1,63 @@
 import {inject, Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
 import {RecipeSupply} from '../model/recipe-supply.entity';
-import {BaseService} from '../../../../shared/services/base.service';
-import { map, mergeMap, forkJoin, of } from 'rxjs';
+import {catchError, firstValueFrom, forkJoin, mergeMap, retry, throwError} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Recipe} from '../model/recipe.entity';
 
 @Injectable({ providedIn: 'root' })
-export class RecipeSupplyService extends BaseService<RecipeSupply> {
-
-  constructor() {
-    super();
-    this.resourceEndpoint = environment.recipeSuppliesEndpointPath;
-  }
+export class RecipeSupplyService {
+  private http = inject(HttpClient);
+  private baseUrl = environment.serverBaseUrlBackend;
+  private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   getByRecipe(recipeId: number) {
-    return this.getByQuery('recipe_id', recipeId)
-      .pipe(map(data => data.map(rs => new RecipeSupply(rs))));
+    return this.http.get<RecipeSupply[]>(
+      `${this.baseUrl}/recipes/${recipeId}/supplies`, this.httpOptions
+    ).pipe(retry(2), catchError(this.handleError));
   }
 
-
-  bulkCreate(recipeId: number, supplies: { supply_id: number; quantity: number }[]) {
-    const requests = supplies.map(s =>
-      this.create({
-        recipe_id: recipeId,
-        supply_id: s.supply_id,
-        quantity: s.quantity
-      })
-    );
-    return forkJoin(requests).pipe(map(results => results.map(rs => new RecipeSupply(rs))));
+  add(recipeId: number, supply: RecipeSupply) {
+    return this.http.post<Recipe>(
+      `${this.baseUrl}/recipes/${recipeId}/supplies`, supply, this.httpOptions
+    ).pipe(retry(2), catchError(this.handleError));
   }
 
-  deleteByRecipe(recipeId: number) {
+  update(recipeId: number, supplyId: number, supply: RecipeSupply) {
+    return this.http.put<Recipe>(
+      `${this.baseUrl}/recipes/${recipeId}/supplies/${supplyId}`, supply, this.httpOptions
+    ).pipe(retry(2), catchError(this.handleError));
+  }
+
+  delete(recipeId: number, supplyId: number) {
+    return this.http.delete<Recipe>(
+      `${this.baseUrl}/recipes/${recipeId}/supplies/${supplyId}`, this.httpOptions
+    ).pipe(retry(2), catchError(this.handleError));
+  }
+
+  bulkCreate(recipeId: number, supplies: RecipeSupply[]) {
+    const requests = supplies.map(s => this.add(recipeId, s));
+    return forkJoin(requests);
+  }
+
+  deleteAll(recipeId: number) {
     return this.getByRecipe(recipeId).pipe(
-      mergeMap(existing => {
-        if (existing.length === 0) return of([]);
-        const deletions = existing.map(rs => this.delete(rs.id));
+      mergeMap(supplies => {
+        const deletions = supplies.map(s => this.delete(recipeId, s.supply_id));
         return forkJoin(deletions);
       })
     );
   }
+
+  async replaceSupplies(recipeId: number, supplies: RecipeSupply[]) {
+    await firstValueFrom(this.deleteAll(recipeId));
+    await firstValueFrom(this.bulkCreate(recipeId, supplies));
+  }
+
+
+  private handleError(error: HttpErrorResponse) {
+    console.error(error);
+    return throwError(() => new Error('Error in recipe supply service'));
+  }
 }
+

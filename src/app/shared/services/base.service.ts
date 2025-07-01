@@ -9,7 +9,7 @@ import { catchError, Observable, retry, throwError } from 'rxjs';
 // sino que se extiende por servicios específicos (ej. UserService)
 export abstract class BaseService<T> {
     // Opciones HTTP, por ejemplo, cabecera Content-Type
-    private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    protected httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     // URL base del backend, tomada del archivo de configuración
     private serverBaseUrl: string = `${environment.serverBaseUrl}`;
@@ -21,7 +21,7 @@ export abstract class BaseService<T> {
     protected http: HttpClient = inject(HttpClient);
 
     // Manejo de errores centralizado para todas las peticiones
-    private handleError(error: HttpErrorResponse) {
+    public handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
             console.error('An error occurred:', error.error.message);
         } else {
@@ -71,5 +71,13 @@ export abstract class BaseService<T> {
         return this.http.get<Array<T>>(url, this.httpOptions)
             .pipe(retry(2), catchError(this.handleError));
     }
+
+    public deleteByCompositeKey(keys: { [key: string]: any }): Observable<any> {
+    const params = new URLSearchParams();
+    Object.entries(keys).forEach(([k, v]) => params.append(k, v));
+    return this.http.delete(`${this.resourcePath()}?${params.toString()}`, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+  }
+
 
 }
