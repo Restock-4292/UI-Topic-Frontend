@@ -1,21 +1,21 @@
 export class Recipe {
-  id: number;
-  name: string;
-  total_price: number;
-  image_url: string;
-  user_id: number;
+  private constructor(
+    public readonly id: number,
+    public readonly name: string,
+    public readonly description: string,
+    public readonly total_price: number,
+    public readonly image_url: string,
+    public readonly user_id: number
+) {}
 
-  constructor(data: {
-    id: number;
-    name: string;
-    total_price: number;
-    image_url: string;
-    user_id: number;
-  }) {
-    this.id = data.id;
-    this.name = data.name;
-    this.total_price = data.total_price;
-    this.image_url = data.image_url;
-    this.user_id = data.user_id;
+  static fromPersistence(data: any) {
+    return new Recipe(
+      data.id,
+      data.name,
+      data.description,
+      data.total_price,
+      data.image_url,
+      data.user_id
+    );
   }
 }

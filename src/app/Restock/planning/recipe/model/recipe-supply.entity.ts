@@ -1,18 +1,14 @@
 export class RecipeSupply {
-  id?: number;
-  recipe_id: number;
-  supply_id: number;
-  quantity: number;
+  private constructor(
+    public readonly recipe_id: number,
+    public readonly supply_id: number,
+    public readonly quantity: number) {}
 
-  constructor(data: {
-    id?: number;
-    recipe_id: number;
-    supply_id: number;
-    quantity: number;
-  }) {
-    this.id = data.id;
-    this.recipe_id = data.recipe_id;
-    this.supply_id = data.supply_id;
-    this.quantity = data.quantity;
+  static fromPersistence(data: any): RecipeSupply {
+    return new RecipeSupply(
+      data.recipe_id,
+      data.supply_id,
+      data.quantity
+    );
   }
 }

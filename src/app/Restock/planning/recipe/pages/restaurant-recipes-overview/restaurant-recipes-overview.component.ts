@@ -18,6 +18,7 @@ import {Recipe} from '../../model/recipe.entity';
 import {firstValueFrom} from 'rxjs';
 import {BaseModalService} from '../../../../../shared/services/base-modal.service';
 import {CreateAndEditRecipeComponent} from '../../components/create-and-edit-recipe/create-and-edit-recipe.component';
+import {RecipeAssembler} from '../../services/recipe.assembler';
 
 @Component({
   selector: 'app-restaurant-recipes-overview',
@@ -69,16 +70,14 @@ export class RestaurantRecipesOverviewComponent {
 
   async loadRecipes(): Promise<void> {
     const recipes = await firstValueFrom(this.recipeService.getAll());
-
     this.recipes = await Promise.all(
-      recipes.map(async (r: Recipe) => {
+      recipes.map(async r => {
+        const entity = RecipeAssembler.toEntity(r);
         const supplies = await firstValueFrom(this.recipeSupplyService.getByRecipe(r.id));
-        return {...r, supplies};
+        return { ...entity, supplies };
       })
     );
   }
-
-
 
   openCreateDialog(): void {
     const initialRecipeData = {
@@ -105,12 +104,13 @@ export class RestaurantRecipesOverviewComponent {
         await this.loadRecipes();
       }
     });
-
   }
 
 
-  openEditDialog(recipe: any): void {
-    firstValueFrom(this.recipeSupplyService.getByRecipe(recipe.id)).then(supplies => {
+  async openEditDialog(recipe: Recipe): Promise<void> {
+    try {
+      const supplies = await firstValueFrom(this.recipeSupplyService.getByRecipe(recipe.id));
+
       const initialRecipeData = {
         id: recipe.id,
         name: recipe.name,
@@ -124,25 +124,28 @@ export class RestaurantRecipesOverviewComponent {
         }))
       };
 
-      this.modalService.open({
-        title: 'Edit Recipe',
-        contentComponent: CreateAndEditRecipeComponent,
-        schema: this.formSchema,
-        initialData: initialRecipeData,
-        mode: 'edit'
-      }).afterClosed().subscribe(async result => {
-        if (result) {
-          const { supplies, ...recipeData } = result;
+      const result = await firstValueFrom(
+        this.modalService.open({
+          title: 'Edit Recipe',
+          contentComponent: CreateAndEditRecipeComponent,
+          schema: this.formSchema,
+          initialData: initialRecipeData,
+          mode: 'edit'
+        }).afterClosed()
+      );
 
-          await firstValueFrom(this.recipeService.update(recipe.id, recipeData));
-          await firstValueFrom(this.recipeSupplyService.deleteByRecipe(recipe.id));
-          await firstValueFrom(this.recipeSupplyService.bulkCreate(recipe.id, supplies));
-          await this.loadRecipes();
-        }
-      });
-    });
+      if (!result) return;
+
+      const { supplies: newSupplies, ...recipeData } = result;
+
+      await firstValueFrom(this.recipeService.update(recipe.id, recipeData));
+      await this.recipeSupplyService.replaceSupplies(recipe.id, newSupplies);
+      await this.loadRecipes();
+
+    } catch (error) {
+      console.error('Error editing recipe:', error);
+    }
   }
-
 
   openDeleteDialog(recipe: any): void {
     this.modalService.open({
