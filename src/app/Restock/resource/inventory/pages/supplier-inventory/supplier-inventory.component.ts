@@ -68,25 +68,45 @@ export class SupplierInventory implements OnInit {
     }));
 
     this.formSchema = [
-      {name: 'name', label: this.translate.instant('inventory.name'), type : 'text', placeholder: this.translate.instant('inventory.name')},
-      {name: 'description', label: this.translate.instant('inventory.descriptionOptional'), type: 'text', placeholder: this.translate.instant('inventory.descriptionOptional')},
-      {name: 'perishable', label: this.translate.instant('inventory.perishable'), type: 'boolean', placeholder: ''},
-      {name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10'},
-      {name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100'},
-      {name: 'price', label: this.translate.instant('inventory.unitPrice'), type: 'number', placeholder: 'e.g. 4.90', format: 'currency'},
+      {
+        name: 'name',
+        label: this.translate.instant('inventory.name'),
+        type: 'text',
+        placeholder: this.translate.instant('inventory.name'),
+        step: 1
+      },
+      {
+        name: 'description',
+        label: this.translate.instant('inventory.descriptionOptional'),
+        type: 'text',
+        placeholder: this.translate.instant('inventory.descriptionOptional'),
+        step: 1
+      },
+      {
+        name: 'perishable',
+        label: this.translate.instant('inventory.perishable'),
+        type: 'boolean',
+        placeholder: '',
+        step: 1
+      },
+      { name: 'min_stock', label: 'Min. Stock', type: 'number', placeholder: 'e.g. 10', step: 2 },
+      { name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100', step: 2 },
+      { name: 'price', label: this.translate.instant('inventory.unitPrice'), type: 'number', placeholder: 'e.g. 4.90', format: 'currency', step: 2 },
       {
         name: 'category_id',
         label: this.translate.instant('inventory.category'),
         type: 'select',
         placeholder: 'Choose category',
-        options: categoryOptions
+        options: categoryOptions,
+        step: 3
       },
       {
         name: 'unit_measurement_id',
         label: this.translate.instant('inventory.unitMeasure'),
         type: 'select',
         placeholder: 'Choose unit',
-        options: unitOptions
+        options: unitOptions,
+        step: 3
       }
     ];
   }
@@ -180,7 +200,7 @@ export class SupplierInventory implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      label: supply.description
+      initialData: {label: supply.name}
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.supplyService.deleteSupply(supply.id);
@@ -200,7 +220,7 @@ export class SupplierInventory implements OnInit {
     };
 
 
-    this.modalService.open({
+    const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(batch.supply_id),
@@ -209,7 +229,22 @@ export class SupplierInventory implements OnInit {
       injectorValues: {
         supplies: this.supplies
       }
-    }).afterClosed().subscribe(async result => {
+    });
+
+    const instance = dialogRef.componentInstance.contentComponentRef?.instance as AddBatchToInventoryComponent | undefined;
+    instance?.supplyChange.subscribe((supplyId: number) => {
+      instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+      instance.updateSchema();
+    });
+
+    dialogRef.afterOpened().subscribe(() => {
+      instance?.supplyChange.subscribe((supplyId: number) => {
+        instance.baseSchema = this.buildInventoryFormSchema(supplyId);
+        instance.updateSchema();
+      })
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
         const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
@@ -225,7 +260,7 @@ export class SupplierInventory implements OnInit {
       title: 'Confirm deletion',
       contentComponent: DeleteComponent,
       width: '25rem',
-      label: 'delete ' + batch.supply?.name,
+      label: 'delete ' + batch.supply?.description
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
