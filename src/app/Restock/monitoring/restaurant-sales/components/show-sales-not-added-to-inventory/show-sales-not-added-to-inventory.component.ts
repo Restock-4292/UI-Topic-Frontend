@@ -163,7 +163,7 @@ export class ShowSalesNotAddedToInventoryComponent implements OnInit {
         });
 
         const enrichedSupplies = additionalSupplies.map((sas: any) => {
-          const supply = allSupplies.find((s: any) => s.id === sas.supply_id);
+          const supply = allSupplies.find((s: any) => s.id === sas.supplyId);
           return {
             name: supply?.name || 'Desconocido',
             unitPrice: supply?.price || 0,

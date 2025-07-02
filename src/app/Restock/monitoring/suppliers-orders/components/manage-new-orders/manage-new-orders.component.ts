@@ -153,7 +153,7 @@ export class ManageNewOrdersComponent implements OnInit {
   private newProductsCount(): number {
     return this.selection.selected.reduce((sum, supplyId) => {
       const batchInOrder = this.batchesOfOrder.find(b =>
-        Number(b.batch?.supply_id) === Number(supplyId)
+        Number(b.batch?.supplyId) === Number(supplyId)
       );
       return sum + (batchInOrder ? 1 : 0);
     }, 0);
@@ -163,7 +163,7 @@ export class ManageNewOrdersComponent implements OnInit {
     return this.selection.selected
       .map(supplyId => {
         const batchInOrder = this.batchesOfOrder.find(
-          b => b.batch?.supply_id === supplyId
+          b => b.batch?.supplyId === supplyId
         );
 
         console.log('Batch found for supplyId:', supplyId, batchInOrder);
@@ -171,7 +171,7 @@ export class ManageNewOrdersComponent implements OnInit {
         if (batchInOrder) {
           batchInOrder.accepted = true;
           batchInOrder.supply = this.suppliesDetailsOfOrder.find(
-            s => Number(s.id) === Number(batchInOrder.batch?.supply_id)
+            s => Number(s.id) === Number(batchInOrder.batch?.supplyId)
           )
           return batchInOrder;
         }
@@ -182,7 +182,7 @@ export class ManageNewOrdersComponent implements OnInit {
 
   calculateNewTotalPrice(): number {
     return this.selection.selected.reduce((total, supplyId) => {
-      const supplyInOrder = this.batchesOfOrder.find(s => s.batch?.supply_id === supplyId);
+      const supplyInOrder = this.batchesOfOrder.find(s => s.batch?.supplyId === supplyId);
       const supplyDetails = this.suppliesDetailsOfOrder.find(s => s.id === supplyId);
 
       if (supplyInOrder && supplyDetails) {
@@ -210,7 +210,7 @@ export class ManageNewOrdersComponent implements OnInit {
       this.selection.clear();
     } else {
       this.batchesOfOrder.forEach(batch =>
-        this.selection.select(Number(batch.batch?.supply_id))
+        this.selection.select(Number(batch.batch?.supplyId))
       );
     }
   }

@@ -215,7 +215,7 @@ export class SalesComponent implements OnInit {
         });
 
         const enrichedSupplies = additionalSupplies.map((sas: any) => {
-          const supply = allSupplies.find((s: any) => s.id === sas.supply_id);
+          const supply = allSupplies.find((s: any) => s.id === sas.supplyId);
           return {
             name: supply?.name || 'Desconocido',
             unitPrice: supply?.price || 0,
@@ -295,7 +295,7 @@ export class SalesComponent implements OnInit {
       const supplyRequests = data.additionalSupplies.map((supply: any) => {
         const saleAdditionalSupplies: any = {
           sale_id: saleId,
-          supply_id: supply.id,
+          supplyId: supply.id,
           quantity: supply.quantity
         };
         return this.salesAdditionalSupplyService.create(saleAdditionalSupplies);
