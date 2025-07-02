@@ -57,6 +57,7 @@ export class SupplierInventory implements OnInit {
     this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
+    console.log(this.supplies)
   }
 
   buildFormSchema(): void {
@@ -172,6 +173,7 @@ export class SupplierInventory implements OnInit {
       if (result) {
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply created', 'Close', { duration: 3000 });
       }
     });
   }
@@ -189,6 +191,7 @@ export class SupplierInventory implements OnInit {
         await this.supplyService.updateSupply(supply.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply updated', 'Close', { duration: 3000 });
       }
     });
   }
@@ -204,6 +207,7 @@ export class SupplierInventory implements OnInit {
         await this.supplyService.deleteSupply(supply.id);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply deleted', 'Close', { duration: 3000 });
       }
     });
   }
@@ -249,6 +253,7 @@ export class SupplierInventory implements OnInit {
         await this.batchService.updateBatch(batch.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Batch updated', 'Close', { duration: 3000 });
       }
     });
   }

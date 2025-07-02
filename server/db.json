@@ -332,30 +332,34 @@
     {
       "id": "supply-1",
       "name": "Papa Blanca",
-      "category": "Vegetales",
-      "unitAbbreviation": "kg",
-      "unitName": "kilogramo"
+      "perishable": true,
+      "description": "Papa ideal para puré y guisos.",
+      "unit_abbreviation": "kg",
+      "category_id": 1
     },
     {
       "id": "supply-2",
       "name": "Cebolla Roja",
-      "category": "Vegetales",
-      "unitAbbreviation": "kg",
-      "unitName": "kilogramo"
+      "perishable": true,
+      "description": "Cebolla fresca y crocante.",
+      "unit_abbreviation": "kg",
+      "category_id": 1
     },
     {
       "id": "supply-3",
-      "name": "Arroz Extra",
-      "category": "Granos",
-      "unitAbbreviation": "kg",
-      "unitName": "kilogramo"
+      "name": "Pollo Pechuga",
+      "perishable": true,
+      "description": "Pechuga de pollo sin hueso.",
+      "unit_abbreviation": "kg",
+      "category_id": 2
     },
     {
       "id": "supply-4",
-      "name": "Pollo Pechuga",
-      "category": "Carnes",
-      "unitAbbreviation": "kg",
-      "unitName": "kilogramo"
+      "name": "Arroz Extra",
+      "perishable": false,
+      "description": "Arroz de grano largo, ideal para todo uso.",
+      "unit_abbreviation": "kg",
+      "category_id": 3
     }
   ],
   "custom-supplies": [
