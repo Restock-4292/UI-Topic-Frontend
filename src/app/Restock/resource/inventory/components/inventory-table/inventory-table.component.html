@@ -38,7 +38,7 @@
 
     <ng-container matColumnDef="expiration_date">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableExpiration' | translate }}  </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.expiration_date || '-' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.expiration_date ? (e.expiration_date | date: 'MM/dd/yy') : '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="stock">
