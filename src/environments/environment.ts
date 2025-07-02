@@ -22,4 +22,6 @@ export const environment = {
   restaurantContactsEndpointPath: '/restaurant_contacts',
   orderCommentsEndpointPath: '/orders_comments',
   businessEndpointPath: '/businesses',
+  customSuppliesEndpointPath: '/api/v1/custom-supplies',
+  catalogSuppliesEndpointPath: '/api/v1/supplies'
 };

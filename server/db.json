@@ -122,7 +122,7 @@
       "country": "Perú",
       "business_id": 2,
       "user_id": 2,
-      "business":  {
+      "business": {
         "id": 2,
         "name": "Sabores del Perú",
         "address": "Calle de la Gastronomía 789",
@@ -330,148 +330,48 @@
   ],
   "supplies": [
     {
-      "id": 1,
-      "name": "Papas Blancas",
-      "description": "Papa Yungay",
-      "perishable": true,
-      "min_stock": 5,
-      "max_stock": 50,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 2.5,
-      "user_id": 1
+      "id": "supply-1",
+      "name": "Papa Blanca",
+      "category": "Vegetales",
+      "unitAbbreviation": "kg",
+      "unitName": "kilogramo"
     },
     {
-      "id": 2,
-      "name": "Lomo Fino",
-      "description": "Lomo Fino",
-      "perishable": false,
-      "min_stock": 5,
-      "max_stock": 20,
-      "price": 12,
-      "category_id": 2,
-      "unit_measurement_id": 1,
-      "user_id": 1
+      "id": "supply-2",
+      "name": "Cebolla Roja",
+      "category": "Vegetales",
+      "unitAbbreviation": "kg",
+      "unitName": "kilogramo"
     },
     {
-      "id": 3,
-      "name": "Cebolla Roja Grande",
-      "description": "Cebolla Roja",
-      "perishable": true,
-      "min_stock": 3,
-      "max_stock": 30,
-      "price": 1,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "user_id": 2
+      "id": "supply-3",
+      "name": "Arroz Extra",
+      "category": "Granos",
+      "unitAbbreviation": "kg",
+      "unitName": "kilogramo"
     },
     {
-      "id": 4,
-      "name": "Pechuga sin Hueso",
-      "description": "Pechuga de Pollo",
-      "perishable": true,
-      "min_stock": 2,
-      "max_stock": 15,
-      "category_id": 2,
-      "unit_measurement_id": 2,
-      "price": 10,
-      "user_id": 1
+      "id": "supply-4",
+      "name": "Pollo Pechuga",
+      "category": "Carnes",
+      "unitAbbreviation": "kg",
+      "unitName": "kilogramo"
+    }
+  ],
+  "custom-supplies": [
+    {
+      "id": "custom-1",
+      "supplyId": "supply-1",
+      "minStock": 10,
+      "maxStock": 40,
+      "unitPrice": 2.5
     },
     {
-      "id": 5,
-      "name": "Ají Amarillo Fresco",
-      "description": "Ají Amarillo",
-      "perishable": true,
-      "min_stock": 1,
-      "max_stock": 10,
-      "category_id": 3,
-      "unit_measurement_id": 1,
-      "price": 1.5,
-      "user_id": 2
-    },
-    {
-      "id": 6,
-      "name": "Pan Francés",
-      "description": "Pan",
-      "perishable": true,
-      "min_stock": 10,
-      "max_stock": 100,
-      "category_id": 4,
-      "unit_measurement_id": 1,
-      "price": 0.5,
-      "user_id": 1
-    },
-    {
-      "id": 7,
-      "name": "Fideos Tallarín Nº5",
-      "description": "Fideos Tallarín",
-      "perishable": false,
-      "min_stock": 10,
-      "max_stock": 100,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 2,
-      "user_id": 2
-    },
-    {
-      "id": 8,
-      "name": "Hojas de Albahaca",
-      "description": "Albahaca",
-      "perishable": true,
-      "min_stock": 5,
-      "max_stock": 30,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 0.5,
-      "user_id": 1
-    },
-    {
-      "id": 9,
-      "name": "Frijoles Canarios",
-      "description": "Frijoles",
-      "perishable": false,
-      "min_stock": 5,
-      "max_stock": 50,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 3,
-      "user_id": 1
-    },
-    {
-      "id": 10,
-      "name": "Culantro Fresco",
-      "description": "Culantro",
-      "perishable": true,
-      "min_stock": 2,
-      "max_stock": 20,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 0.8,
-      "user_id": 2
-    },
-    {
-      "id": 11,
-      "name": "Pescado Blanco Fresco",
-      "description": "Pescado Blanco",
-      "perishable": true,
-      "min_stock": 3,
-      "max_stock": 30,
-      "category_id": 2,
-      "unit_measurement_id": 2,
-      "price": 8,
-      "user_id": 1
-    },
-    {
-      "id": 12,
-      "name": "Limón Sutil",
-      "description": "Limón",
-      "perishable": true,
-      "min_stock": 10,
-      "max_stock": 50,
-      "category_id": 1,
-      "unit_measurement_id": 1,
-      "price": 0.4,
-      "user_id": 2
+      "id": "custom-2",
+      "supplyId": "supply-2",
+      "minStock": 5,
+      "maxStock": 20,
+      "unitPrice": 1.3
     }
   ],
   "sales": [
@@ -893,7 +793,7 @@
       "id": 1,
       "supply_id": 1,
       "stock": 50,
-      "expiration_date": "2025-06-01",
+      "expiration_date": "2025-05-01T05:00:00.000Z",
       "user_id": 1
     },
     {
@@ -907,7 +807,7 @@
       "id": 3,
       "supply_id": 3,
       "stock": 200,
-      "expiration_date": null,
+      "expiration_date": "2025-07-15T05:00:00.000Z",
       "user_id": 1
     },
     {
@@ -953,13 +853,6 @@
       "user_id": 1
     },
     {
-      "id": 10,
-      "supply_id": 13,
-      "stock": 70,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
       "id": 11,
       "supply_id": 14,
       "stock": 70,
@@ -973,7 +866,6 @@
       "expiration_date": "2025-12-03T05:00:00.000Z",
       "user_id": 1
     }
-
   ],
   "batch_notifications_states": [
     {

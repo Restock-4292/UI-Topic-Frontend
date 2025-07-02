@@ -17,6 +17,8 @@ import {BatchService} from '../../services/batch.service';
 import {AddBatchToInventoryComponent} from '../../components/add-batch-to-inventory/add-batch-to-inventory.component';
 import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-supply/create-and-edit-supply.component';
 import {TranslateService} from '@ngx-translate/core';
+import {CustomSupplyService} from '../../services/custom-supply.service';
+import {CreateCustomSupplyComponent} from '../../components/create-custom-supply/create-custom-supply.component';
 
 
 @Component({
@@ -45,7 +47,8 @@ export class SupplierInventory implements OnInit {
     private batchService: BatchService,
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private customSupplyService: CustomSupplyService
   ) {
   }
 
@@ -154,7 +157,7 @@ export class SupplierInventory implements OnInit {
   }
 
   async loadSupplies(): Promise<void> {
-    this.supplies = await this.supplyService.getAllSuppliesEnriched();
+    this.supplies = await this.customSupplyService.getAll();
   }
 
   async loadBatches(): Promise<void> {
@@ -163,15 +166,10 @@ export class SupplierInventory implements OnInit {
 
   openCreateModal(): void {
     this.modalService.open({
-      title: this.translate.instant('inventory.createSupplyTitle'),
-      contentComponent: CreateAndEditSupplyComponent,
-      schema: this.formSchema,
-      initialData: {},
-      mode: 'create'
+      title: this.translate.instant('inventory.createSupply'),
+      contentComponent: CreateCustomSupplyComponent
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const newSupply = Supply.fromForm(result, 1); // 1 = user_id temporal
-        await this.supplyService.createSupply(newSupply);
         await this.loadSupplies();
         await this.loadBatches();
       }
@@ -180,7 +178,7 @@ export class SupplierInventory implements OnInit {
 
   editSupply(supply: Supply): void {
     this.modalService.open({
-      title: this.translate.instant('inventory.editSupplyTitle'),
+      title: this.translate.instant('inventory.editSupply'),
       contentComponent: CreateAndEditSupplyComponent,
       schema: this.formSchema,
       initialData: {...supply},

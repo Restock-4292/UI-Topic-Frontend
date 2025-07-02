@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   serverBaseUrl: 'http://localhost:3000',
-  serverBaseUrlBackend: 'http://localhost:8080',
+  serverBaseUrlBackend: 'http://localhost:3000',
   usersEndpointPath: '/users',
   rolesEndpointPath: '/roles',
   profilesEndpointPath: '/profiles',
@@ -14,7 +14,6 @@ export const environment = {
   batchesEndpointPath: '/batches',
   restaurantSales: '/sales',
   salesRecipes: '/sales_recipes',
-  salesAdditionalSupplies: '/sales_additional_supplies',
   ordersToSupplierEndpointPath: '/orders_to_supplier',
   ordersToSupplierStatesEndpointPath: '/orders_to_supplier_states',
   ordersToSupplierSituationsEndpointPath: '/orders_to_supplier_situations',
@@ -22,4 +21,6 @@ export const environment = {
   restaurantContactsEndpointPath: '/restaurant_contacts',
   orderCommentsEndpointPath: '/orders_comments',
   businessEndpointPath: '/businesses',
+  customSuppliesEndpointPath: '/custom-supplies',
+  catalogSuppliesEndpointPath: '/supplies'
 };
