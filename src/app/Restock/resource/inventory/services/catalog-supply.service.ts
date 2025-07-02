@@ -8,7 +8,7 @@ import {environment} from '../../../../../environments/environment.development';
 })
 export class CatalogSupplyService {
   private http = inject(HttpClient);
-  private baseUrl = environment;
+  private baseUrl = environment.serverBaseUrlBackend;
   private endpoint = environment.catalogSuppliesEndpointPath;
   private httpOptions = {headers: {'Content-Type': 'application/json'}};
 

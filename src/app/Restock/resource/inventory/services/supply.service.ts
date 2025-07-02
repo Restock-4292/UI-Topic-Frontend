@@ -5,14 +5,12 @@ import { Supply } from '../model/supply.entity';
 import { SupplyAssembler } from './supply.assembler';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { CategoryService } from './category.service';
-import { UnitMeasurementService } from './unit-measurement.service';
 import { BatchService } from './batch.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
 
   private readonly categoryService = inject(CategoryService);
-  private readonly unitService = inject(UnitMeasurementService);
   private readonly batchService = inject(BatchService);
 
   constructor() {
@@ -21,24 +19,21 @@ export class SupplyService extends BaseService<any> {
   }
 
   async getAllSuppliesEnriched(): Promise<Supply[]> {
-    const [rawSupplies, categories, units] = await Promise.all([
+    const [rawSupplies, categories] = await Promise.all([
       firstValueFrom(super.getAll()),
-      this.categoryService.getAllCategories(),
-      this.unitService.getAllUnitMeasurements()
+      this.categoryService.getAllCategories()
     ]);
 
     return rawSupplies.map(raw => {
       const category = categories.find(c => c.id === raw.category_id);
-      const unit = units.find(u => u.id === raw.unit_measurement_id);
-      return Supply.fromPersistence(raw, category, unit);
+      return Supply.fromPersistence(raw, category);
     });
   }
 
   async getSuppliesEnrichedByUserIds(userIds: number[]): Promise<Supply[]> {
-    const [rawSupplies, categories, units, rawBatches] = await Promise.all([
+    const [rawSupplies, categories, rawBatches] = await Promise.all([
       firstValueFrom(super.getAll()),
       this.categoryService.getAllCategories(),
-      this.unitService.getAllUnitMeasurements(),
       firstValueFrom(this.batchService.getAll())
     ]);
 
@@ -48,12 +43,11 @@ export class SupplyService extends BaseService<any> {
 
     return filteredSupplies.map(raw => {
       const category = categories.find(c => c.id === raw.category_id);
-      const unit = units.find(u => u.id === raw.unit_measurement_id);
 
-      const supply = Supply.fromPersistence(raw, category, unit);
+      const supply = Supply.fromPersistence(raw, category);
 
       const relatedBatches = rawBatches.filter(
-        b => b.supply_id === raw.id && b.user_id === raw.user_id
+        b => b.supplyId === raw.id && b.user_id === raw.user_id
       );
 
       (supply as any).batches = relatedBatches;
@@ -76,14 +70,14 @@ export class SupplyService extends BaseService<any> {
     return SupplyAssembler.toEntity(created);
   }
 
-  async updateSupply(id: number | null, supply: Supply): Promise<Supply> {
+  async updateSupply(id: string | number | null, supply: Supply): Promise<Supply> {
     const dto = SupplyAssembler.toDTO(supply);
     const response$ = super.update(id, dto);
     const updated = await firstValueFrom(response$);
     return SupplyAssembler.toEntity(updated);
   }
 
-  async deleteSupply(id: number | null): Promise<void> {
+  async deleteSupply(id: string | number | null): Promise<void> {
     await firstValueFrom(super.delete(id));
   }
 }

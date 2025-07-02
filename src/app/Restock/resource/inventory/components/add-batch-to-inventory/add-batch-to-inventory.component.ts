@@ -59,7 +59,7 @@ export class AddBatchToInventoryComponent implements OnInit {
   handleFormChange(updatedForm: any): void {
     this.form = updatedForm;
     this.updateSchema();
-    this.supplyChange.emit(this.form.supply_id);
+    this.supplyChange.emit(this.form.supplyId);
   }
 
   onSubmit(result: any): void {
@@ -76,7 +76,7 @@ export class AddBatchToInventoryComponent implements OnInit {
    * the expiration_date field is removed from the schema.
    */
   updateSchema(): void {
-    const selected = this.supplies.find(s => s.id === this.form.supply_id);
+    const selected = this.supplies.find(s => s.id === this.form.supplyId);
     if (selected && !selected.perishable) {
       this.currentSchema = this.baseSchema.filter(f => f.name !== 'expiration_date');
     } else {

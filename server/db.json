@@ -236,98 +236,7 @@
       "user_id": 1
     }
   ],
-  "recipes_supplies": [
-    {
-      "id": 1,
-      "recipe_id": 1,
-      "supply_id": 1,
-      "quantity": 2
-    },
-    {
-      "id": 2,
-      "recipe_id": 1,
-      "supply_id": 2,
-      "quantity": 1
-    },
-    {
-      "id": 3,
-      "recipe_id": 1,
-      "supply_id": 3,
-      "quantity": 1
-    },
-    {
-      "id": 7,
-      "recipe_id": 3,
-      "supply_id": 7,
-      "quantity": 1
-    },
-    {
-      "id": 8,
-      "recipe_id": 3,
-      "supply_id": 8,
-      "quantity": 1
-    },
-    {
-      "id": 9,
-      "recipe_id": 3,
-      "supply_id": 2,
-      "quantity": 1
-    },
-    {
-      "id": 10,
-      "recipe_id": 4,
-      "supply_id": 2,
-      "quantity": 1
-    },
-    {
-      "id": 11,
-      "recipe_id": 4,
-      "supply_id": 9,
-      "quantity": 1
-    },
-    {
-      "id": 12,
-      "recipe_id": 4,
-      "supply_id": 10,
-      "quantity": 1
-    },
-    {
-      "recipe_id": 5,
-      "supply_id": 11,
-      "quantity": 1,
-      "id": 19
-    },
-    {
-      "recipe_id": 5,
-      "supply_id": 12,
-      "quantity": 3,
-      "id": 20
-    },
-    {
-      "recipe_id": 5,
-      "supply_id": 3,
-      "quantity": 1,
-      "id": 21
-    },
-    {
-      "recipe_id": 2,
-      "supply_id": 4,
-      "quantity": 1,
-      "id": 22
-    },
-    {
-      "recipe_id": 2,
-      "supply_id": 5,
-      "quantity": 1,
-      "id": 23
-    },
-    {
-      "recipe_id": 2,
-      "supply_id": 6,
-      "quantity": 2,
-      "id": 24
-    }
-  ],
+  "recipes_supplies": [],
   "supplies": [
     {
       "id": "supply-1",
@@ -418,20 +327,7 @@
       "id": 3
     }
   ],
-  "sales_additional_supplies": [
-    {
-      "sale_id": 1,
-      "supply_id": 3,
-      "quantity": 1,
-      "id": 1
-    },
-    {
-      "sale_id": 2,
-      "supply_id": 2,
-      "quantity": 4,
-      "id": 2
-    }
-  ],
+  "sales_additional_supplies": [],
   "comments": [
     {
       "id": 1,
@@ -795,79 +691,16 @@
   "batches": [
     {
       "id": 1,
-      "supply_id": 1,
-      "stock": 50,
-      "expiration_date": "2025-05-01T05:00:00.000Z",
+      "supplyId": "custom-1",
+      "stock": "21",
+      "expiration_date": "2025-07-23T05:00:00.000Z",
       "user_id": 1
     },
     {
       "id": 2,
-      "supply_id": 2,
-      "stock": 50,
-      "expiration_date": null,
-      "user_id": 1
-    },
-    {
-      "id": 3,
-      "supply_id": 3,
-      "stock": 200,
-      "expiration_date": "2025-07-15T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 4,
-      "supply_id": 9,
-      "stock": 12,
-      "expiration_date": "2025-03-12T05:00:00.000Z",
-      "user_id": 2
-    },
-    {
-      "id": 5,
-      "supply_id": 5,
-      "stock": 110,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 6,
-      "supply_id": 6,
-      "stock": 120,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 7,
-      "supply_id": 10,
-      "stock": 60,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 8,
-      "supply_id": 11,
-      "stock": 70,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 9,
-      "supply_id": 12,
-      "stock": 70,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 11,
-      "supply_id": 14,
-      "stock": 70,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
-      "user_id": 1
-    },
-    {
-      "id": 12,
-      "supply_id": 15,
-      "stock": 70,
-      "expiration_date": "2025-12-03T05:00:00.000Z",
+      "supplyId": "custom-2",
+      "stock": "3",
+      "expiration_date": "2025-12-27T05:00:00.000Z",
       "user_id": 1
     }
   ],
@@ -888,19 +721,19 @@
   "batch_notifications": [
     {
       "id": 1,
-      "inventory_supply_id": 1,
+      "inventory_supplyId": 1,
       "batch_notification_state_id": 1,
       "date": "2025-05-28"
     },
     {
       "id": 2,
-      "inventory_supply_id": 2,
+      "inventory_supplyId": 2,
       "batch_notification_state_id": 3,
       "date": "2025-05-27"
     },
     {
       "id": 3,
-      "inventory_supply_id": 3,
+      "inventory_supplyId": 3,
       "batch_notification_state_id": 2,
       "date": "2025-05-26"
     }

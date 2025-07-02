@@ -14,7 +14,6 @@
         </span>
       </button>
 
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
     </div>
   </mat-card>
 
@@ -33,7 +32,7 @@
 
     <ng-container matColumnDef="unit">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableUnit' | translate }}  </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.supply?.unit_measurement?.name || '-' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.unit_abbreviation  || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="expiration_date">
@@ -69,6 +68,9 @@
     </mat-row>
   </mat-table>
   }
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
+
   @if (dataSource.data.length === 0) {
   <div class="inventory-empty">
     <p>There are no supplies registered. To manage your inventory, you must first create ingredients in the system.</p>

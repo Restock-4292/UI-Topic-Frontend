@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Supply} from '../../model/supply.entity';
 import {Category} from '../../model/category.entity';
-import {UnitMeasurement} from '../../model/unit-measurement.entity';
 import {FormFieldSchema} from '../../../../../shared/components/create-and-edit-form/create-and-edit-form.component';
 import {SupplyService} from '../../services/supply.service';
 import {CategoryService} from '../../services/category.service';
-import {UnitMeasurementService} from '../../services/unit-measurement.service';
 import {SupplyCarouselComponent} from '../../components/supply-carousel/supply-carousel.component';
 import {SupplySectionComponent} from '../../components/supply-section/supply-section.component';
 import {InventoryTableComponent} from '../../components/inventory-table/inventory-table.component';
@@ -35,7 +33,6 @@ import {CreateCustomSupplyComponent} from '../../components/create-custom-supply
 export class SupplierInventory implements OnInit {
   supplies: Supply[] = [];
   categories: Category[] = [];
-  units: UnitMeasurement[] = [];
   batches: Batch[] = [];
 
   formSchema: FormFieldSchema[] = [];
@@ -43,7 +40,6 @@ export class SupplierInventory implements OnInit {
   constructor(
     private supplyService: SupplyService,
     private categoryService: CategoryService,
-    private unitService: UnitMeasurementService,
     private batchService: BatchService,
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
@@ -64,11 +60,6 @@ export class SupplierInventory implements OnInit {
     const categoryOptions = this.categories.map(c => ({
       value: c.id,
       label: c.name
-    }));
-
-    const unitOptions = this.units.map(u => ({
-      value: u.id,
-      label: u.name
     }));
 
     this.formSchema = [
@@ -103,14 +94,6 @@ export class SupplierInventory implements OnInit {
         placeholder: 'Choose category',
         options: categoryOptions,
         step: 3
-      },
-      {
-        name: 'unit_measurement_id',
-        label: this.translate.instant('inventory.unitMeasure'),
-        type: 'select',
-        placeholder: 'Choose unit',
-        options: unitOptions,
-        step: 3
       }
     ];
   }
@@ -123,7 +106,7 @@ export class SupplierInventory implements OnInit {
 
     const schema: FormFieldSchema[] = [
       {
-        name: 'supply_id',
+        name: 'supplyId',
         label: this.translate.instant('inventory.supply'),
         type: 'select',
         placeholder: this.translate.instant('inventory.supply'),
@@ -154,11 +137,11 @@ export class SupplierInventory implements OnInit {
 
   async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
-    this.units = await this.unitService.getAllUnitMeasurements();
   }
 
   async loadSupplies(): Promise<void> {
     this.supplies = await this.customSupplyService.getAll();
+    console.log(this.supplies);
   }
 
   async loadBatches(): Promise<void> {
@@ -215,7 +198,7 @@ export class SupplierInventory implements OnInit {
   editBatch(batch: Batch): void {
     const initialBatchData = {
       id: batch.id,
-      supply_id: batch.supply_id,
+      supplyId: batch.supplyId,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
       user_id: batch.user_id
@@ -225,7 +208,7 @@ export class SupplierInventory implements OnInit {
     const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
-      schema: this.buildInventoryFormSchema(batch.supply_id),
+      schema: this.buildInventoryFormSchema(batch.supplyId),
       initialData: initialBatchData,
       mode: 'edit',
       injectorValues: {
@@ -304,7 +287,7 @@ export class SupplierInventory implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        const selectedSupply = this.supplies.find(s => s.id === result.supply_id);
+        const selectedSupply = this.supplies.find(s => s.id === result.supplyId);
 
         if (!selectedSupply) {
           this.snackBar.open('Supply not found', 'Close', {duration: 3000});

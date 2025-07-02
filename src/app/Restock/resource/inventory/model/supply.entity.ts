@@ -1,10 +1,9 @@
 import { Category } from './category.entity';
-import { UnitMeasurement } from './unit-measurement.entity';
 
 export class Supply {
   constructor(
-    public readonly id: number | null,
-    public readonly user_id: number,
+    public readonly id: string | number | null,
+    public readonly user_id: number | null,
     public readonly name: string,
     public readonly description: string,
     public readonly perishable: boolean,
@@ -12,15 +11,14 @@ export class Supply {
     public readonly max_stock: number,
     public readonly price: number,
     public readonly category_id: number,
-    public readonly unit_measurement_id: number,
-    public readonly category?: Category,
-    public readonly unit_measurement?: UnitMeasurement
+    public readonly unit_abbreviation: string,
+    public readonly category?: Category
   ) {}
 
-  static fromPersistence(raw: any, category?: Category, unit?: UnitMeasurement): Supply {
+  static fromPersistence(raw: any, category?: Category): Supply {
     return new Supply(
       raw.id ?? null,
-      raw.user_id ?? raw.userId ?? 0,
+      raw.user_id ?? raw.userId ?? null,
       raw.name ?? raw.supplyName ?? '',
       raw.description ?? '',
       raw.perishable ?? raw.isPerishable ?? false,
@@ -28,11 +26,12 @@ export class Supply {
       raw.max_stock ?? raw.maxStock ?? 0,
       raw.price ?? raw.unitPrice ?? 0,
       raw.category_id ?? raw.categoryId ?? 0,
-      raw.unit_measurement_id ?? raw.unitMeasurementId ?? 0,
+      raw.unit_abbreviation ?? raw.unitAbbreviation ?? '',
+      category
     );
   }
 //test
-  static fromForm(data: Omit<Supply, 'id' | 'user_id'>, userId: number): Supply {
+  static fromForm(data: Omit<Supply, 'id' | 'user_id' | 'category'>, userId: number | null): Supply {
     return new Supply(
       null,
       userId,
@@ -43,7 +42,7 @@ export class Supply {
       data.max_stock,
       data.price,
       data.category_id,
-      data.unit_measurement_id
+      data.unit_abbreviation
     );
   }
 }
