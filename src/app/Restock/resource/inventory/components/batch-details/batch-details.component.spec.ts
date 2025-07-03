@@ -8,7 +8,8 @@ describe('BatchDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BatchDetailsComponent]
+      imports: [BatchDetailsComponent],
+      providers: [{ provide: 'initialData', useValue: {} }]
     })
     .compileComponents();
 

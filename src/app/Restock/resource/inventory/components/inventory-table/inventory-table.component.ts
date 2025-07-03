@@ -130,8 +130,8 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
     this.modalService.open({
       title: batch.supply?.name || '',
       contentComponent: BatchDetailsComponent,
-      width: '40rem',
-      height: '80vh',
+      width: '30rem',
+      height: 'auto',
       initialData: batch
     });
   }
