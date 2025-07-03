@@ -32,7 +32,7 @@ export class SupplySelectorComponent implements OnInit {
   selectedSupply: any = null;
   selectedQuantity: number | null = null;
 
-  displayedColumns: string[] = ['supply_id', 'description', 'quantity', 'actions'];
+  displayedColumns: string[] = ['supplyId', 'description', 'quantity', 'actions'];
 
   constructor(private supplyService: SupplyService) {}
 
@@ -48,12 +48,12 @@ export class SupplySelectorComponent implements OnInit {
 
 
   addSupply() {
-    const exists = this.supplies.some(s => s.supply_id === this.selectedSupply.id);
+    const exists = this.supplies.some(s => s.supplyId === this.selectedSupply.id);
     if (!exists) {
       const updated = [
         ...this.supplies,
         {
-          supply_id: this.selectedSupply.id,
+          supplyId: this.selectedSupply.id,
           quantity: this.selectedQuantity
         }
       ];

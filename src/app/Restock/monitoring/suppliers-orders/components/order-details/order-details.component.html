@@ -34,7 +34,7 @@
             <ng-container matColumnDef="unitMeasure">
               <th mat-header-cell *matHeaderCellDef>{{'supplier-orders.supplies.headers.quantity' | translate}}</th>
               <td mat-cell *matCellDef="let orderBatch">
-                {{ orderBatch.batch.supply.unit_measurement.name }}
+                {{ orderBatch.batch.supply.unit_abbreviation }}
               </td>
             </ng-container>
 

@@ -9,7 +9,7 @@ export class BatchAssembler {
   static toDTO(entity: Batch): any {
     return {
       id: entity.id,
-      supply_id: entity.supply_id,
+      supplyId: entity.supplyId,
       stock: entity.stock,
       expiration_date: entity.expiration_date,
       user_id: entity.user_id

@@ -14,12 +14,11 @@
         </span>
       </button>
 
-      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
     </div>
   </mat-card>
 
 
-  @if (dataSource.data.length > 0) {
+  @if (!isMobile && dataSource.data.length > 0) {
   <mat-table [dataSource]="dataSource" class="mat-elevation-z2">
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableSupply' | translate }} </mat-header-cell>
@@ -33,12 +32,12 @@
 
     <ng-container matColumnDef="unit">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableUnit' | translate }}  </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.supply?.unit_measurement?.name || '-' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.supply?.unit_abbreviation  || '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="expiration_date">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableExpiration' | translate }}  </mat-header-cell>
-      <mat-cell *matCellDef="let e"> {{ e.expiration_date || '-' }} </mat-cell>
+      <mat-cell *matCellDef="let e"> {{ e.expiration_date ? (e.expiration_date | date: 'MM/dd/yy') : '-' }} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="stock">
@@ -65,10 +64,52 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns" [class.expired-row]="isExpired(row.expiration_date)">
+    <mat-row *matRowDef="let row; columns: displayedColumns" [class.expired-row]="isExpired(row.expiration_date)" (click)="openDetails(row)" style="cursor: pointer;">
     </mat-row>
   </mat-table>
   }
+
+  @if (isMobile && dataSource.data.length > 0) {
+    <div class="mobile-cards">
+      <mat-card class="inventory-card" *ngFor="let row of dataSource.data" (click)="openDetails(row)">
+        <div class="card-row">
+          <span class="label">{{ 'inventory.tableSupply' | translate }}</span>
+          <span class="value">{{ row.supply?.name || '-' }}</span>
+        </div>
+        <div class="card-row">
+          <span class="label">{{ 'inventory.tableCategory' | translate }}</span>
+          <span class="value">{{ row.supply?.category?.name || '-' }}</span>
+        </div>
+        <div class="card-row">
+          <span class="label">{{ 'inventory.tableUnit' | translate }}</span>
+          <span class="value">{{ row.supply?.unit_abbreviation || '-' }}</span>
+        </div>
+        <div class="card-row" *ngIf="row.expiration_date">
+          <span class="label">{{ 'inventory.tableExpiration' | translate }}</span>
+          <span class="value">{{ row.expiration_date | date:'MM/dd/yy' }}</span>
+        </div>
+        <div class="card-row">
+          <span class="label">{{ 'inventory.tableStock' | translate }}</span>
+          <span class="value">{{ row.stock }}</span>
+        </div>
+        <div class="card-row">
+          <span class="label">{{ 'inventory.tablePerishable' | translate }}</span>
+          <span class="value">{{ row.supply?.perishable ? 'SI' : 'NO' }}</span>
+        </div>
+        <div class="card-actions">
+          <button mat-icon-button (click)="edit.emit(row); $event.stopPropagation()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="delete.emit(row); $event.stopPropagation()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  }
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="inline-paginator" />
+
   @if (dataSource.data.length === 0) {
   <div class="inventory-empty">
     <p>There are no supplies registered. To manage your inventory, you must first create ingredients in the system.</p>

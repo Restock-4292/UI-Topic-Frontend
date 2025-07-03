@@ -9,7 +9,7 @@ import {TranslatePipe} from '@ngx-translate/core';
   selector: 'app-create-and-edit-supply',
   standalone: true,
   templateUrl: './create-and-edit-supply.component.html',
-  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule, TranslatePipe]
+  imports: [CreateAndEditFormComponent, MatButtonModule, FormsModule]
 })
 export class CreateAndEditSupplyComponent implements OnInit {
   form: any = {};

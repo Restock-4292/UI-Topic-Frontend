@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Supply} from '../../model/supply.entity';
 import {Category} from '../../model/category.entity';
-import {UnitMeasurement} from '../../model/unit-measurement.entity';
 import {FormFieldSchema} from '../../../../../shared/components/create-and-edit-form/create-and-edit-form.component';
 import {SupplyService} from '../../services/supply.service';
 import {CategoryService} from '../../services/category.service';
-import {UnitMeasurementService} from '../../services/unit-measurement.service';
 import {SupplyCarouselComponent} from '../../components/supply-carousel/supply-carousel.component';
 import {SupplySectionComponent} from '../../components/supply-section/supply-section.component';
 import {InventoryTableComponent} from '../../components/inventory-table/inventory-table.component';
@@ -17,6 +15,8 @@ import {BatchService} from '../../services/batch.service';
 import {AddBatchToInventoryComponent} from '../../components/add-batch-to-inventory/add-batch-to-inventory.component';
 import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-supply/create-and-edit-supply.component';
 import {TranslateService} from '@ngx-translate/core';
+import {CustomSupplyService} from '../../services/custom-supply.service';
+import {CreateCustomSupplyComponent} from '../../components/create-custom-supply/create-custom-supply.component';
 
 @Component({
   selector: 'app-restaurant-inventory',
@@ -32,7 +32,6 @@ import {TranslateService} from '@ngx-translate/core';
 export class RestaurantInventoryComponent implements OnInit {
   supplies: Supply[] = [];
   categories: Category[] = [];
-  units: UnitMeasurement[] = [];
   batches: Batch[] = [];
 
   formSchema: FormFieldSchema[] = [];
@@ -40,11 +39,11 @@ export class RestaurantInventoryComponent implements OnInit {
   constructor(
     private supplyService: SupplyService,
     private categoryService: CategoryService,
-    private unitService: UnitMeasurementService,
     private batchService: BatchService,
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private customSupplyService: CustomSupplyService
   ) {
   }
 
@@ -53,17 +52,13 @@ export class RestaurantInventoryComponent implements OnInit {
     this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
+    console.log(this.supplies)
   }
 
   buildFormSchema(): void {
     const categoryOptions = this.categories.map(c => ({
       value: c.id,
       label: c.name
-    }));
-
-    const unitOptions = this.units.map(u => ({
-      value: u.id,
-      label: u.name
     }));
 
     this.formSchema = [
@@ -98,14 +93,6 @@ export class RestaurantInventoryComponent implements OnInit {
         placeholder: 'Choose category',
         options: categoryOptions,
         step: 3
-      },
-      {
-        name: 'unit_measurement_id',
-        label: this.translate.instant('inventory.unitMeasure'),
-        type: 'select',
-        placeholder: 'Choose unit',
-        options: unitOptions,
-        step: 3
       }
     ];
   }
@@ -118,7 +105,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
     const schema: FormFieldSchema[] = [
       {
-        name: 'supply_id',
+        name: 'supplyId',
         label: this.translate.instant('inventory.supply'),
         type: 'select',
         placeholder: this.translate.instant('inventory.supply'),
@@ -149,11 +136,11 @@ export class RestaurantInventoryComponent implements OnInit {
 
   async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
-    this.units = await this.unitService.getAllUnitMeasurements();
   }
 
   async loadSupplies(): Promise<void> {
-    this.supplies = await this.supplyService.getAllSuppliesEnriched();
+    this.supplies = await this.customSupplyService.getAll();
+    console.log(this.supplies);
   }
 
   async loadBatches(): Promise<void> {
@@ -162,24 +149,20 @@ export class RestaurantInventoryComponent implements OnInit {
 
   openCreateModal(): void {
     this.modalService.open({
-      title: this.translate.instant('inventory.createSupplyTitle'),
-      contentComponent: CreateAndEditSupplyComponent,
-      schema: this.formSchema,
-      initialData: {},
-      mode: 'create'
+      title: this.translate.instant('inventory.createSupply'),
+      contentComponent: CreateCustomSupplyComponent
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const newSupply = Supply.fromForm(result, 1); // 1 = user_id temporal
-        await this.supplyService.createSupply(newSupply);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply created', 'Close', { duration: 3000 });
       }
     });
   }
 
   editSupply(supply: Supply): void {
     this.modalService.open({
-      title: this.translate.instant('inventory.editSupplyTitle'),
+      title: this.translate.instant('inventory.editSupply'),
       contentComponent: CreateAndEditSupplyComponent,
       schema: this.formSchema,
       initialData: {...supply},
@@ -190,6 +173,7 @@ export class RestaurantInventoryComponent implements OnInit {
         await this.supplyService.updateSupply(supply.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply updated', 'Close', { duration: 3000 });
       }
     });
   }
@@ -205,6 +189,7 @@ export class RestaurantInventoryComponent implements OnInit {
         await this.supplyService.deleteSupply(supply.id);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Supply deleted', 'Close', { duration: 3000 });
       }
     });
   }
@@ -212,7 +197,7 @@ export class RestaurantInventoryComponent implements OnInit {
   editBatch(batch: Batch): void {
     const initialBatchData = {
       id: batch.id,
-      supply_id: batch.supply_id,
+      supplyId: batch.supplyId,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
       user_id: batch.user_id
@@ -222,7 +207,7 @@ export class RestaurantInventoryComponent implements OnInit {
     const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
-      schema: this.buildInventoryFormSchema(batch.supply_id),
+      schema: this.buildInventoryFormSchema(batch.supplyId),
       initialData: initialBatchData,
       mode: 'edit',
       injectorValues: {
@@ -250,21 +235,25 @@ export class RestaurantInventoryComponent implements OnInit {
         await this.batchService.updateBatch(batch.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Batch updated', 'Close', { duration: 3000 });
       }
     });
   }
 
   deleteBatch(batch: Batch): void {
-    this.modalService.open({
-      title: 'Confirm deletion',
-      contentComponent: DeleteComponent,
-      width: '25rem',
-      label: 'delete ' + batch.supply?.description
-    }).afterClosed().subscribe(async (confirmed: boolean) => {
+    const dialogRef = this.modalService.open({
+        title: this.translate.instant('shared.deleteTitle'),
+        contentComponent: DeleteComponent,
+        width: '25rem',
+        label: batch.supply?.name
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Batch deleted', 'Close', { duration: 3000 });
       }
     });
   }
@@ -272,7 +261,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
   openAddSupplyToInventory(): void {
     const dialogRef = this.modalService.open({
-        title: this.translate.instant('inventory.addInventoryTitle'),
+      title: this.translate.instant('inventory.addInventoryTitle'),
       contentComponent: AddBatchToInventoryComponent,
       schema: this.buildInventoryFormSchema(),
       initialData: {},
@@ -300,7 +289,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        const selectedSupply = this.supplies.find(s => s.id === result.supply_id);
+        const selectedSupply = this.supplies.find(s => s.id === result.supplyId);
 
         if (!selectedSupply) {
           this.snackBar.open('Supply not found', 'Close', {duration: 3000});

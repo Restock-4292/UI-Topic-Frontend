@@ -46,3 +46,11 @@ app-empty-section {
   text-align: center;
   gap: 1.5rem;
 }
+
+@media (max-width: 768px) {
+  .supplies-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+}

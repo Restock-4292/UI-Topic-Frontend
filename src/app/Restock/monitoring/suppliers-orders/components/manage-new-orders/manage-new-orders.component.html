@@ -34,7 +34,7 @@
           <!-- Unit Measure Column -->
           <ng-container matColumnDef="unitMeasure">
             <th mat-header-cell *matHeaderCellDef>{{ 'supplier-orders.supplies.headers.unit-measure' | translate }}</th>
-            <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.batch.supply.unit_measurement.name }}</td>
+            <td mat-cell *matCellDef="let batchOrdered">{{ batchOrdered.batch.supply.unit_abbreviation }}</td>
           </ng-container>
 
           <!-- Checkbox Column -->
@@ -50,8 +50,8 @@
             <td mat-cell *matCellDef="let batchOrdered">
               <mat-checkbox
                 (click)="$event.stopPropagation()"
-                (change)="toggleSelection(batchOrdered.batch.supply_id)"
-                [checked]="isSelected(batchOrdered.batch.supply_id)">
+                (change)="toggleSelection(batchOrdered.batch.supplyId)"
+                [checked]="isSelected(batchOrdered.batch.supplyId)">
               </mat-checkbox>
             </td>
           </ng-container>

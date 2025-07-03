@@ -119,7 +119,7 @@ export class RestaurantRecipesOverviewComponent {
         image_url: recipe.image_url,
         user_id: recipe.user_id,
         supplies: supplies.map(s => ({
-          supply_id: s.supply_id,
+          supplyId: s.supplyId,
           quantity: s.quantity
         }))
       };

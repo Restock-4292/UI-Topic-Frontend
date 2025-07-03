@@ -1,10 +1,11 @@
-import { BaseService } from '../../../../shared/services/base.service';
-import { Batch } from '../model/batch.entity';
-import { BatchAssembler } from './batch.assembler';
-import { Injectable, Injector } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../../../environments/environment.development';
-import { SupplyService } from './supply.service';
+import {BaseService} from '../../../../shared/services/base.service';
+import {Batch} from '../model/batch.entity';
+import {BatchAssembler} from './batch.assembler';
+import {Injectable, Injector} from '@angular/core';
+import {firstValueFrom} from 'rxjs';
+import {environment} from '../../../../../environments/environment.development';
+import {CustomSupplyService} from './custom-supply.service';
+import {CustomSupplyAssembler} from './custom-supply.assembler';
 
 @Injectable({ providedIn: 'root' })
 export class BatchService extends BaseService<Batch> {
@@ -16,21 +17,23 @@ export class BatchService extends BaseService<Batch> {
     this.injector = injector;
   }
 
-  private get supplyService(): SupplyService {
-    return this.injector.get(SupplyService);
+  private get supplyService(): CustomSupplyService {
+    return this.injector.get(CustomSupplyService);
   }
 
   async getAllBatchesWithSupplies(): Promise<Batch[]> {
-    const [rawBatches, supplies] = await Promise.all([
-      firstValueFrom(super.getAll()),
-      this.supplyService.getAllSuppliesEnriched()
-    ]);
+    const rawBatches = await firstValueFrom(this.getAll());
+    const supplies = await this.supplyService.getAll();
 
-    return rawBatches.map(b => Batch.fromPersistence(
-      b,
-      supplies.find(s => s.id === b.supply_id)
-    ));
+    return rawBatches.map(b =>
+      Batch.fromPersistence(
+        b,
+        supplies.find(s => s.id === b.supplyId)
+      )
+    );
   }
+
+
 
   async createBatch(batch: Batch): Promise<Batch> {
     const dto = BatchAssembler.toDTO(batch);
@@ -49,5 +52,4 @@ export class BatchService extends BaseService<Batch> {
     const updated = await firstValueFrom(response$);
     return BatchAssembler.toEntity(updated);
   }
-
 }

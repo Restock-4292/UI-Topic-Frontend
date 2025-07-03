@@ -43,7 +43,7 @@ export class RecipeSupplyService {
   deleteAll(recipeId: number) {
     return this.getByRecipe(recipeId).pipe(
       mergeMap(supplies => {
-        const deletions = supplies.map(s => this.delete(recipeId, s.supply_id));
+        const deletions = supplies.map(s => this.delete(recipeId, s.supplyId));
         return forkJoin(deletions);
       })
     );

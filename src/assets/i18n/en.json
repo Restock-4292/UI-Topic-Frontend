@@ -10,6 +10,12 @@
     "sales": "Sales",
     "reviews": "Reviews"
   },
+  "shared": {
+    "deleteTitle": "Confirm Deletion",
+    "deleteMessage": "Are you sure you want to delete this item?",
+    "deleteButton": "Delete",
+    "cancelButton": "Cancel"
+  },
   "profile": {
     "title": "Profile Details",
     "alt-user-photo": "User photo",
@@ -49,7 +55,7 @@
     "edit": "Edit",
     "next": "Next",
     "back": "Back",
-    "createSupplyTitle": "Create supply",
+    "createSupply": "Create supply",
     "emptyTitle": "You have not added inputs yet.",
     "emptySubtitle": "Add them to start managing your inventory.",
     "addInventoryTitle": "Add supply to inventory",
@@ -59,7 +65,7 @@
     "expirationDate": "Expiration Date",
     "cancel": "CANCEL",
     "add": "ADD",
-    "editSupplyTitle": "Edit supply",
+    "editSupply": "Edit supply",
     "editSupplySubtitle": "Update the details of the supply in your inventory.",
     "name": "Name",
     "category": "Category",
@@ -87,8 +93,7 @@
     "ingredients": "Ingredients",
     "location": "Location",
     "status": "Status",
-    "lastUpdate": "Last update",
-    "confirmDeletePlaceholder": "confirm-delete-modal works!"
+    "lastUpdate": "Last update"
   },
   "order-to-supplier": {
     "title": "Orders",
