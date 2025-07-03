@@ -145,7 +145,8 @@ export class SupplierInventory implements OnInit {
   }
 
   async loadBatches(): Promise<void> {
-    this.batches = await this.batchService.getAllBatchesWithSupplies();
+    const data = await this.batchService.getAllBatchesWithSupplies();
+    this.batches = [...data].sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
   }
 
   openCreateModal(): void {
@@ -242,16 +243,19 @@ export class SupplierInventory implements OnInit {
   }
 
   deleteBatch(batch: Batch): void {
-    this.modalService.open({
-      title: 'Confirm deletion',
+    const dialogRef = this.modalService.open({
+      title: this.translate.instant('shared.deleteTitle'),
       contentComponent: DeleteComponent,
       width: '25rem',
-      label: 'delete ' + batch.supply?.description
-    }).afterClosed().subscribe(async (confirmed: boolean) => {
+      label: batch.supply?.name
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Batch deleted', 'Close', { duration: 3000 });
       }
     });
   }

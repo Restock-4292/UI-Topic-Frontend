@@ -10,6 +10,11 @@
     "sales": "Ventas",
     "reviews": "Calificaciones"
   },
+  "shared": {
+    "deleteTitle": "Confirmar Eliminación",
+    "deleteMessage": "¿Estás seguro de que deseas eliminar este elemento?",
+    "deleteButton": "Eliminar"
+  },
   "profile": {
     "title": "Detalles del Perfil",
     "alt-user-photo": "Foto del usuario",

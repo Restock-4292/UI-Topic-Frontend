@@ -48,7 +48,7 @@ export class RestaurantInventoryComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.loadCategories();
+    await this.loadAll();
     this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
@@ -134,12 +134,13 @@ export class RestaurantInventoryComponent implements OnInit {
     return schema;
   }
 
-  async loadCategories(): Promise<void> {
+  async loadAll(): Promise<void> {
     this.categories = await this.categoryService.getAllCategories();
   }
 
   async loadSupplies(): Promise<void> {
     this.supplies = await this.customSupplyService.getAll();
+    console.log(this.supplies);
   }
 
   async loadBatches(): Promise<void> {
@@ -240,16 +241,19 @@ export class RestaurantInventoryComponent implements OnInit {
   }
 
   deleteBatch(batch: Batch): void {
-    this.modalService.open({
-      title: 'Confirm deletion',
-      contentComponent: DeleteComponent,
-      width: '25rem',
-      label: 'delete ' + batch.supply?.description
-    }).afterClosed().subscribe(async (confirmed: boolean) => {
+    const dialogRef = this.modalService.open({
+        title: this.translate.instant('shared.deleteTitle'),
+        contentComponent: DeleteComponent,
+        width: '25rem',
+        label: batch.supply?.name
+    });
+
+    dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
         await this.batchService.deleteBatch(batch.id);
         await this.loadSupplies();
         await this.loadBatches();
+        this.snackBar.open('Batch deleted', 'Close', { duration: 3000 });
       }
     });
   }
@@ -300,7 +304,7 @@ export class RestaurantInventoryComponent implements OnInit {
           return;
         }
 
-        const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lyo usa en este caso, esta pendiente de modificar
+        const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
         await this.batchService.createBatch(batch);
 
         this.snackBar.open('Batch registered', 'Close', {

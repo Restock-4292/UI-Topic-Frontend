@@ -1,25 +1,28 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
-  Output,
-  ViewChild,
+  OnChanges, OnDestroy,
   OnInit,
-  AfterViewInit, SimpleChanges, OnChanges
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Supply } from '../../model/supply.entity';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {CommonModule} from '@angular/common';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {MatCard} from '@angular/material/card';
 import {Batch} from '../../model/batch.entity';
 import {TranslatePipe} from '@ngx-translate/core';
+import {BatchDetailsComponent} from '../batch-details/batch-details.component';
+import {BaseModalService} from '../../../../../shared/services/base-modal.service';
 
 @Component({
   selector: 'app-inventory-table',
@@ -44,7 +47,7 @@ import {TranslatePipe} from '@ngx-translate/core';
  * @summary
  * Component for displaying and managing inventory batches.
  */
-export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit {
+export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input() batches: Batch[] = [];
 
   @Output() edit = new EventEmitter<Batch>();
@@ -63,12 +66,18 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(private modalService: BaseModalService) {}
+
+  isMobile = false;
+
   /**
    * Initializes the component.
    * Sets up the filter predicate for the data source
    * to filter batches based on supply description or name.
    */
   ngOnInit(): void {
+    this.checkViewport();
+    window.addEventListener('resize', this.checkViewport.bind(this));
     this.dataSource.filterPredicate = (data: Batch, filter: string) => {
       const search = filter.trim().toLowerCase();
       const description= data.supply?.description?.toLowerCase() || '';
@@ -83,6 +92,10 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
    */
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkViewport.bind(this));
   }
 
   /**
@@ -109,4 +122,17 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
     return new Date(date) < new Date();
   }
 
+  checkViewport(): void {
+    this.isMobile = window.innerWidth <= 768;
+  }
+
+  openDetails(batch: Batch): void {
+    this.modalService.open({
+      title: batch.supply?.name || '',
+      contentComponent: BatchDetailsComponent,
+      width: '40rem',
+      height: '80vh',
+      initialData: batch
+    });
+  }
 }

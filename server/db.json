@@ -285,6 +285,13 @@
       "minStock": 5,
       "maxStock": 20,
       "unitPrice": 1.3
+    },
+    {
+      "supplyId": "supply-4",
+      "minStock": 11,
+      "maxStock": 15,
+      "unitPrice": 11,
+      "id": "jV9sbfG"
     }
   ],
   "sales": [
@@ -701,6 +708,13 @@
       "supplyId": "custom-2",
       "stock": "3",
       "expiration_date": "2025-12-27T05:00:00.000Z",
+      "user_id": 1
+    },
+    {
+      "id": 3,
+      "supplyId": "jV9sbfG",
+      "stock": "6",
+      "expiration_date": null,
       "user_id": 1
     }
   ],
