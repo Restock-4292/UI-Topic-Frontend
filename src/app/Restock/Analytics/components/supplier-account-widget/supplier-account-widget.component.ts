@@ -150,7 +150,7 @@ export class SupplierAccountWidgetComponent implements OnInit, OnDestroy {
   }
 
   get filteredEarnings(): number {
-    return this.filteredOrders.reduce((sum, order) => sum + order.total_price, 0);
+    return this.filteredOrders.reduce((sum, order) => sum + order.totalPrice, 0);
   }
 
   get filteredSupplies(): number {
@@ -182,7 +182,7 @@ export class SupplierAccountWidgetComponent implements OnInit, OnDestroy {
       const date = new Date(order.date);
       const key = formatKey(date);
       const current = dataMap.get(key) || 0;
-      dataMap.set(key, current + order.total_price);
+      dataMap.set(key, current + order.totalPrice);
     });
 
     if (range === 'custom') {

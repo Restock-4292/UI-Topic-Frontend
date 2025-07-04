@@ -141,7 +141,7 @@ export class ManageNewOrdersComponent implements OnInit {
       supplier_id: this.order?.supplier_id || 0,
       order_to_supplier_state_id: onHoldStateId,
       order_to_supplier_situation_id: approvedSituationId,
-      total_price: this.calculateNewTotalPrice(),
+      totalPrice: this.calculateNewTotalPrice(),
       estimated_ship_date: this.localOrder.estimatedShipDate || new Date(),
       estimated_ship_time: this.localOrder.estimatedShipTime || new Date(),
       requested_products_count: this.newProductsCount(),

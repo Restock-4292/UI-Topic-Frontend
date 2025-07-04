@@ -47,7 +47,7 @@
         <!-- Final Price -->
         <ng-container matColumnDef="finalPrice">
           <th mat-header-cell *matHeaderCellDef> {{ 'supplier-orders.table.final-price' | translate }} </th>
-          <td mat-cell *matCellDef="let order"> {{ order.total_price | currency:'S/':'symbol':'1.2-2' }} </td>
+          <td mat-cell *matCellDef="let order"> {{ order.totalPrice | currency:'S/':'symbol':'1.2-2' }} </td>
         </ng-container>
 
         <!-- Actions -->

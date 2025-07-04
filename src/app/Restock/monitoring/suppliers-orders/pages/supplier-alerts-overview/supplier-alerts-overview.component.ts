@@ -81,7 +81,7 @@ export class SupplierAlertsOverviewComponent implements OnInit {
                   id: order.id,
                   date: order.date,
                   elapsedTime,
-                  total_price: order.total_price,
+                  totalPrice: order.totalPrice,
                   situation: situation[0]?.name || 'Unknown',
                   restaurant: profile[0]?.business?.name || 'Unknown'
                 };

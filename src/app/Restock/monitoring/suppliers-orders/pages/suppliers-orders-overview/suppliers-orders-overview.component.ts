@@ -256,7 +256,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
             order_to_supplier_state_id: 1, // ID of "On Hold"
             order_to_supplier_situation_id: newIdSituation, // ID of "Declined"
             requested_products_count: order.requested_products_count,
-            total_price: order.total_price,
+            totalPrice: order.totalPrice,
             partially_accepted: order.partially_accepted
           };
 

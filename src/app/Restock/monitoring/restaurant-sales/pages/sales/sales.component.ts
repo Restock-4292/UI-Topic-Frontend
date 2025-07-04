@@ -209,7 +209,7 @@ export class SalesComponent implements OnInit {
           const recipe = allRecipes.find((r: any) => r.id === sr.recipe_id);
           return {
             name: recipe?.name || 'Desconocido',
-            unitPrice: recipe?.total_price || 0,
+            unitPrice: recipe?.price || 0,
             quantity: sr.quantity
           };
         });
@@ -275,7 +275,7 @@ export class SalesComponent implements OnInit {
       code: generateRandomCode(), // Código generado aleatoriamente
       diner_name: getRandomName(),
       admin_restaurant_id: 1,
-      total_price: 10,
+      totalPrice: 10,
       date: formattedDate,
       added_inventory: false
     };

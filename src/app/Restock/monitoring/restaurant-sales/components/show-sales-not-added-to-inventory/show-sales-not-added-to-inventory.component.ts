@@ -157,7 +157,7 @@ export class ShowSalesNotAddedToInventoryComponent implements OnInit {
           const recipe = allRecipes.find((r: any) => r.id === sr.recipe_id);
           return {
             name: recipe?.name || 'Desconocido',
-            unitPrice: recipe?.total_price || 0,
+            unitPrice: recipe?.price || 0,
             quantity: sr.quantity
           };
         });
