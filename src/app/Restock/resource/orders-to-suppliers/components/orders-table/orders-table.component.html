@@ -1,5 +1,5 @@
 <div class="table-container">
-  
+
   <table
     mat-table
     [dataSource]="orders"
@@ -57,7 +57,7 @@
         {{ "order-to-supplier.table.finalPrice" | translate }}
       </th>
       <td mat-cell *matCellDef="let order">
-        S/. {{ order.total_price.toFixed(2) }}
+        S/. {{ order.totalPrice.toFixed(2) }}
       </td>
     </ng-container>
 

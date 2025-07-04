@@ -41,7 +41,7 @@ export class DashboardLayoutComponent implements OnInit {
 
   async ngOnInit() {
 
-    const fakeProfileId = 1; // DEFINIR AQUI EL ID DEL PERFIL ACTUAL
+    const fakeProfileId = 2; // DEFINIR AQUI EL ID DEL PERFIL ACTUAL
     // 1 -> Supplier pepe
     // 2 -> Restaurant maria
     // 3 -> Supplier Juan

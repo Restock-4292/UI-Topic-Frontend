@@ -19,6 +19,7 @@ import {firstValueFrom} from 'rxjs';
 import {BaseModalService} from '../../../../../shared/services/base-modal.service';
 import {CreateAndEditRecipeComponent} from '../../components/create-and-edit-recipe/create-and-edit-recipe.component';
 import {RecipeAssembler} from '../../services/recipe.assembler';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restaurant-recipes-overview',
@@ -32,7 +33,8 @@ import {RecipeAssembler} from '../../services/recipe.assembler';
     FormsModule,
     MatIconButton,
     MatButton,
-    MatInput
+    MatInput,
+    TranslatePipe
   ],
   templateUrl: './restaurant-recipes-overview.component.html',
   styleUrls: ['./restaurant-recipes-overview.component.css']
@@ -47,7 +49,8 @@ export class RestaurantRecipesOverviewComponent {
   constructor(
     private recipeService: RecipeService,
     private recipeSupplyService: RecipeSupplyService,
-    private modalService: BaseModalService
+    private modalService: BaseModalService,
+    private translate: TranslateService
   ) {
   }
 
@@ -57,16 +60,52 @@ export class RestaurantRecipesOverviewComponent {
     );
 
     return this.sortByPrice
-      ? filtered.sort((a, b) => a.total_price - b.total_price)
+      ? filtered.sort((a, b) => a.price - b.price)
       : filtered;
   }
 
-  formSchema: FormFieldSchema[] = [
-    {name: 'name', label: 'Name', type: 'text', placeholder: 'Recipe name'},
-    {name: 'description', label: 'Description', type: 'text', placeholder: 'Short description'},
-    {name: 'total_price', label: 'Total Price (S/.)', type: 'currency', placeholder: 'e.g. 29.90', format: 'currency'},
-    {name: 'image_url', label: 'Dish Image', type: 'file', placeholder: 'Upload an image'}
-  ];
+  formSchema: FormFieldSchema[] = [];
+
+  buildFormSchema(): void {
+    this.formSchema = [
+      {
+        name: 'name',
+        label: 'Name',
+        type: 'text',
+        placeholder: 'Name',
+        step: 1
+      },
+      {
+        name: 'description',
+        label: 'Description',
+        type: 'text',
+        placeholder: 'Description',
+        step: 1
+      },
+      {
+        name: 'price',
+        label: 'Total Price',
+        type: 'currency',
+        placeholder: 'e.g. 29.90',
+        format: 'currency',
+        step: 2
+      },
+      {
+        name: 'imageUrl',
+        label: 'Dish Image',
+        type: 'file',
+        placeholder: 'Dish Image',
+        step: 2
+      },
+      {
+        name: 'supplySelector',
+        label: 'Supplies',
+        type: 'custom',
+        placeholder: '',
+        step: 2
+      }
+    ];
+  }
 
   async loadRecipes(): Promise<void> {
     const recipes = await firstValueFrom(this.recipeService.getAll());
@@ -83,14 +122,14 @@ export class RestaurantRecipesOverviewComponent {
     const initialRecipeData = {
       name: '',
       description: '',
-      total_price: 0,
-      image_url: '',
-      user_id: 1,
+      price: 0,
+      imageUrl: '',
+      userId: 1,
       supplies: []
     };
 
     this.modalService.open({
-      title: 'Create Recipe',
+      title: this.translate.instant('recipes.createRecipe'),
       contentComponent: CreateAndEditRecipeComponent,
       schema: this.formSchema,
       initialData: initialRecipeData,
@@ -115,9 +154,9 @@ export class RestaurantRecipesOverviewComponent {
         id: recipe.id,
         name: recipe.name,
         description: recipe.description || '',
-        total_price: recipe.total_price,
-        image_url: recipe.image_url,
-        user_id: recipe.user_id,
+        price: recipe.price,
+        imageUrl: recipe.imageUrl,
+        userId: recipe.userId,
         supplies: supplies.map(s => ({
           supplyId: s.supplyId,
           quantity: s.quantity
@@ -126,7 +165,7 @@ export class RestaurantRecipesOverviewComponent {
 
       const result = await firstValueFrom(
         this.modalService.open({
-          title: 'Edit Recipe',
+          title: this.translate.instant('recipes.editRecipe'),
           contentComponent: CreateAndEditRecipeComponent,
           schema: this.formSchema,
           initialData: initialRecipeData,
@@ -149,7 +188,7 @@ export class RestaurantRecipesOverviewComponent {
 
   openDeleteDialog(recipe: any): void {
     this.modalService.open({
-      title: 'Confirm deletion',
+      title: this.translate.instant('shared.deleteTitle'),
       contentComponent: DeleteComponent,
       width: '25rem',
       label: 'delete ' +  recipe.name
@@ -167,5 +206,6 @@ export class RestaurantRecipesOverviewComponent {
 
   ngOnInit(): void {
     this.loadRecipes();
+    this.buildFormSchema();
   }
 }

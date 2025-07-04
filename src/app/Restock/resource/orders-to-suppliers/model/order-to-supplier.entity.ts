@@ -10,7 +10,7 @@ export class OrderToSupplier {
   supplier_id: number;
   order_to_supplier_state_id: number;
   order_to_supplier_situation_id: number;
-  total_price: number;
+  totalPrice: number;
   estimated_ship_date?: Date | null;
   estimated_ship_time?: Date | null;
   requested_products_count: number;
@@ -27,7 +27,7 @@ export class OrderToSupplier {
     this.supplier_id = data.supplier_id || 0;
     this.order_to_supplier_state_id = data.order_to_supplier_state_id || 0;
     this.order_to_supplier_situation_id = data.order_to_supplier_situation_id || 0;
-    this.total_price = data.total_price || 0;
+    this.totalPrice = data.totalPrice || 0;
     this.estimated_ship_date = new Date(data.estimated_ship_date || new Date());
     this.estimated_ship_time = new Date(data.estimated_ship_time || new Date());
     this.requested_products_count = data.requested_products_count || 0;

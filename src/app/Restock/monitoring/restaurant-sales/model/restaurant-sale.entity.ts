@@ -4,7 +4,7 @@ export class RestaurantSale {
     code: string;
     admin_restaurant_id: number;
     diner_name: string;
-    total_price: number;
+    totalPrice: number;
     date: string;
     added_inventory: boolean;
 
@@ -13,7 +13,7 @@ export class RestaurantSale {
         code?: string,
         admin_restaurant_id?: number,
         diner_name?: string,
-        total_price?: number,
+      totalPrice?: number,
         date?: string,
         added_inventory?: boolean,
     }) {
@@ -21,7 +21,7 @@ export class RestaurantSale {
         this.code = restaurantSale.code || '';
         this.admin_restaurant_id = restaurantSale.admin_restaurant_id || 0;
         this.diner_name = restaurantSale.diner_name || '';
-        this.total_price = restaurantSale.total_price || 0;
+        this.totalPrice = restaurantSale.totalPrice || 0;
         this.date = restaurantSale.date || '';
         this.added_inventory = restaurantSale.added_inventory || false;
     }

@@ -3,15 +3,9 @@
     [schema]="schema"
     [initialData]="initialData"
     [mode]="mode"
+    [customComponents]="{'supplySelector': SupplySelectorComponent}"
     (formChange)="handleFormChange($event)"
     (submit)="onSubmit($event)"
-  />
-  <app-supply-selector
-    [supplies]="supplies"
-    (suppliesChange)="handleSuppliesChange($event)"
-  ></app-supply-selector>
+  ></app-create-and-edit-form>
 
-
-  <div class="recipe-modal-actions">
-  </div>
 </div>

@@ -206,7 +206,7 @@ export class CreateOrdersModalComponent {
                     order_to_supplier_state_id: 1,
                     order_to_supplier_situation_id: 1,
                     partially_accepted: false,
-                    total_price: supply.quantity * supply.price,
+                    totalPrice: supply.quantity * supply.price,
                     estimated_ship_date: null,
                     estimated_ship_time: null,
                     requested_products_count: supply.batches.length

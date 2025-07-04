@@ -122,7 +122,7 @@ export class DeliveredOrdersComponent {
       'Ship Date': order.estimated_ship_date ?? '',
       'Restaurant': this.adminRestaurantsProfiles[order.id] ?? '',
       'Description': order.description ?? '',
-      'Total Price': order.total_price ?? ''
+      'Total Price': order.totalPrice ?? ''
     }));
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);

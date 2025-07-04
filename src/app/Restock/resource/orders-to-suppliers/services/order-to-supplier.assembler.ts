@@ -19,7 +19,7 @@ export class OrderToSupplierAssembler {
       supplier_id: dto.supplier_id,
       order_to_supplier_state_id: dto.order_to_supplier_state_id,
       order_to_supplier_situation_id: dto.order_to_supplier_situation_id,
-      total_price: dto.total_price,
+      totalPrice: dto.totalPrice,
       requested_products_count: dto.requested_products_count,
       partially_accepted: dto.partially_accepted,
       estimated_ship_date: dto.estimated_ship_date ? new Date(dto.estimated_ship_date) : undefined,
@@ -49,7 +49,7 @@ export class OrderToSupplierAssembler {
       order_to_supplier_state_id: entity.order_to_supplier_state_id,
       order_to_supplier_situation_id: entity.order_to_supplier_situation_id,
       requested_products_count: entity.requested_products_count,
-      total_price: entity.total_price,
+      totalPrice: entity.totalPrice,
       partially_accepted: entity.partially_accepted,
       estimated_ship_date: entity.estimated_ship_date?.toISOString(),
       estimated_ship_time: entity.estimated_ship_time?.toISOString()

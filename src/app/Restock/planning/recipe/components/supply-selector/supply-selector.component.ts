@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {SupplyService} from '../../../../resource/inventory/services/supply.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
@@ -21,7 +22,8 @@ import {SupplyService} from '../../../../resource/inventory/services/supply.serv
     MatInputModule,
     MatButtonModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    TranslatePipe
   ]
 })
 export class SupplySelectorComponent implements OnInit {
@@ -50,14 +52,14 @@ export class SupplySelectorComponent implements OnInit {
   addSupply() {
     const exists = this.supplies.some(s => s.supplyId === this.selectedSupply.id);
     if (!exists) {
-      const updated = [
+      this.supplies = [
         ...this.supplies,
         {
           supplyId: this.selectedSupply.id,
           quantity: this.selectedQuantity
         }
       ];
-      this.suppliesChange.emit(updated);
+      this.suppliesChange.emit(this.supplies);
     }
     this.selectedSupply = null;
     this.selectedQuantity = null;
@@ -66,7 +68,8 @@ export class SupplySelectorComponent implements OnInit {
   removeSupply(index: number) {
     const updated = [...this.supplies];
     updated.splice(index, 1);
-    this.suppliesChange.emit(updated);
+    this.supplies = updated;
+    this.suppliesChange.emit(this.supplies);
   }
 
   getSupplyName(id: number): string {

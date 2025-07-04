@@ -95,6 +95,29 @@
     "lastUpdate": "Última actualización",
     "confirmDeletePlaceholder": "confirm-delete-modal works!"
   },
+  "recipes": {
+    "title": "Recetas",
+    "searchPlaceholder": "Buscar recetas...",
+    "sortByPrice": "Ordenar por precio",
+    "name": "Nombre",
+    "description": "Descripción",
+    "dishImage": "Imagen del plato",
+    "supplies": "Insumos",
+    "totalPrice": "Precio Total (S/.)",
+    "create": "Crear",
+    "createRecipe": "Crear Receta",
+    "editRecipe": "Editar Receta",
+    "noRecipes": "Actualmente no tienes recetas registradas. Crea una nueva receta para empezar a organizar tus preparaciones y administrar mejor tus ingredientes desde esta sección.",
+    "totalCost": "Costo total",
+    "selectSupply": "Seleccionar insumo",
+    "quantity": "Cantidad",
+    "table": {
+      "id": "ID",
+      "supply": "Insumo",
+      "quantity": "Cantidad",
+      "actions": "Acciones"
+    }
+  },
   "notifications_suppliers": {
     "title": "Notificaciones de ordenes",
     "restaurant": "Restaurante",

@@ -7,6 +7,7 @@ import {
 import {SupplySelectorComponent} from '../supply-selector/supply-selector.component';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-and-edit-recipe',
@@ -14,7 +15,8 @@ import {MatButton} from '@angular/material/button';
     SupplySelectorComponent,
     CreateAndEditFormComponent,
     FormsModule,
-    MatButton
+    MatButton,
+    TranslatePipe
   ],
   templateUrl: './create-and-edit-recipe.component.html',
   styleUrl: './create-and-edit-recipe.component.css'
@@ -33,17 +35,22 @@ export class CreateAndEditRecipeComponent implements OnInit {
   ngOnInit(): void {
     if (this.initialData) {
       const { supplies = [], ...rest } = this.initialData;
-      this.form = { ...rest };
       this.supplies = supplies.map((s: any) => ({ ...s }));
+      this.form = { ...rest, supplies: this.supplies };
+
     }
   }
 
   handleFormChange(updatedForm: any): void {
     this.form = updatedForm;
+    if (updatedForm?.supplies) {
+      this.supplies = [...updatedForm.supplies];
+    }
   }
 
   handleSuppliesChange(updatedSupplies: any[]): void {
     this.supplies = updatedSupplies;
+    this.form.supplies = updatedSupplies;
   }
 
   onSubmit(result: any): void {
@@ -56,4 +63,6 @@ export class CreateAndEditRecipeComponent implements OnInit {
   cancel(): void {
     this.dialogRef.close();
   }
+
+  protected readonly SupplySelectorComponent = SupplySelectorComponent;
 }

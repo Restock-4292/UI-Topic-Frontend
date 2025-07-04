@@ -101,7 +101,7 @@ export class EditOrderComponent implements OnInit {
       supplier_id: this.order?.supplier_id || 0,
       order_to_supplier_state_id:  this.localOrder.stateId, // New
       order_to_supplier_situation_id:  this.order?.order_to_supplier_situation_id || 0,
-      total_price: this.order?.total_price || 0,
+      totalPrice: this.order?.totalPrice || 0,
       estimated_ship_date: this.localOrder.estimatedShipDate || this.order?.estimated_ship_date || new Date(), // New
       estimated_ship_time: this.localOrder.estimatedShipTime || this.order?.estimated_ship_time ||new Date(), // New
       requested_products_count: this.order?.requested_products_count || 0,

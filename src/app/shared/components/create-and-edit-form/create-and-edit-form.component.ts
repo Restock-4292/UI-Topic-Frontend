@@ -5,7 +5,7 @@ import {
   EventEmitter,
   Inject, Input, NgZone,
   OnInit, Optional,
-  Output
+  Output, Type
 } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -22,7 +22,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 export interface FormFieldSchema {
   name: string;
   label: string;
-  type: 'text' | 'number' | 'currency' | 'boolean' | 'file' | 'select' | 'date';
+  type: 'text' | 'number' | 'currency' | 'boolean' | 'file' | 'select' | 'date' | 'custom';
   placeholder: string;
   format?: 'currency';
   options?: { value: any; label: string }[];
@@ -69,6 +69,7 @@ export class CreateAndEditFormComponent implements OnInit {
    * Schema for the form fields.
    */
   @Input() schema: FormFieldSchema[] | null = null;
+  @Input() customComponents: Record<string, Type<any>> = {};
   /**
    * Initial data for the form.
    */
@@ -151,6 +152,7 @@ export class CreateAndEditFormComponent implements OnInit {
       .catch(error => console.error('❌ Upload failed:', error));
   }
 
+
   emitChange(): void {
     this.formChange.emit(this.form);
   }
@@ -158,6 +160,10 @@ export class CreateAndEditFormComponent implements OnInit {
   updateField(name: string, value: any): void {
     this.form[name] = value;
     this.emitChange();
+  }
+
+  handleSuppliesChange(value: any[]): void {
+    this.updateField('supplies', value);
   }
 
   fieldsForCurrentStep(): FormFieldSchema[] {
