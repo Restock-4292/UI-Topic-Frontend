@@ -10,9 +10,9 @@ export class RecipeAssembler {
       id: entity.id,
       name: entity.name,
       description: entity.description,
-      total_price: entity.total_price,
-      image_url: entity.image_url,
-      user_id: entity.user_id
+      price: entity.price,
+      image_url: entity.imageUrl,
+      user_id: entity.userId
     };
   }
 }
