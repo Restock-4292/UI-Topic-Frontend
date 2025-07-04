@@ -86,6 +86,13 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         }
+
+        @if (field.type === 'custom' && customComponents?.[field.name]) {
+          <div class="form-custom-component">
+            <ng-container *ngComponentOutlet="customComponents[field.name]"></ng-container>
+          </div>
+        }
+
       </div>
     </ng-container>
   }

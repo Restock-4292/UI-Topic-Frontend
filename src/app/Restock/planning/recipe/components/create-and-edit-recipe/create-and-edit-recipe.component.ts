@@ -7,6 +7,7 @@ import {
 import {SupplySelectorComponent} from '../supply-selector/supply-selector.component';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-and-edit-recipe',
@@ -14,7 +15,8 @@ import {MatButton} from '@angular/material/button';
     SupplySelectorComponent,
     CreateAndEditFormComponent,
     FormsModule,
-    MatButton
+    MatButton,
+    TranslatePipe
   ],
   templateUrl: './create-and-edit-recipe.component.html',
   styleUrl: './create-and-edit-recipe.component.css'
@@ -56,4 +58,6 @@ export class CreateAndEditRecipeComponent implements OnInit {
   cancel(): void {
     this.dialogRef.close();
   }
+
+  protected readonly SupplySelectorComponent = SupplySelectorComponent;
 }

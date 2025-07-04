@@ -57,15 +57,16 @@ export class RestaurantRecipesOverviewComponent {
     );
 
     return this.sortByPrice
-      ? filtered.sort((a, b) => a.total_price - b.total_price)
+      ? filtered.sort((a, b) => a.price - b.price)
       : filtered;
   }
 
   formSchema: FormFieldSchema[] = [
-    {name: 'name', label: 'Name', type: 'text', placeholder: 'Recipe name'},
-    {name: 'description', label: 'Description', type: 'text', placeholder: 'Short description'},
-    {name: 'total_price', label: 'Total Price (S/.)', type: 'currency', placeholder: 'e.g. 29.90', format: 'currency'},
-    {name: 'image_url', label: 'Dish Image', type: 'file', placeholder: 'Upload an image'}
+    {name: 'name', label: 'Name', type: 'text', placeholder: 'Recipe name', step: 1},
+    {name: 'description', label: 'Description', type: 'text', placeholder: 'Short description', step: 1},
+    {name: 'price', label: 'Total Price (S/.)', type: 'currency', placeholder: 'e.g. 29.90', format: 'currency', step: 2},
+    {name: 'imageUrl', label: 'Dish Image', type: 'file', placeholder: 'Upload an image', step: 2},
+    {name: 'supplySelector', label: 'Supplies', type: 'custom', placeholder: 'Supplies',step: 2}
   ];
 
   async loadRecipes(): Promise<void> {
@@ -83,7 +84,7 @@ export class RestaurantRecipesOverviewComponent {
     const initialRecipeData = {
       name: '',
       description: '',
-      total_price: 0,
+      price: 0,
       image_url: '',
       user_id: 1,
       supplies: []
@@ -115,9 +116,9 @@ export class RestaurantRecipesOverviewComponent {
         id: recipe.id,
         name: recipe.name,
         description: recipe.description || '',
-        total_price: recipe.total_price,
-        image_url: recipe.image_url,
-        user_id: recipe.user_id,
+        price: recipe.price,
+        imageUrl: recipe.imageUrl,
+        userId: recipe.userId,
         supplies: supplies.map(s => ({
           supplyId: s.supplyId,
           quantity: s.quantity
