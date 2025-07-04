@@ -35,8 +35,9 @@ export class CreateAndEditRecipeComponent implements OnInit {
   ngOnInit(): void {
     if (this.initialData) {
       const { supplies = [], ...rest } = this.initialData;
-      this.form = { ...rest };
       this.supplies = supplies.map((s: any) => ({ ...s }));
+      this.form = { ...rest, supplies: this.supplies };
+
     }
   }
 
@@ -46,6 +47,7 @@ export class CreateAndEditRecipeComponent implements OnInit {
 
   handleSuppliesChange(updatedSupplies: any[]): void {
     this.supplies = updatedSupplies;
+    this.form.supplies = updatedSupplies;
   }
 
   onSubmit(result: any): void {

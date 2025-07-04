@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {SupplyService} from '../../../../resource/inventory/services/supply.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 
 @Component({
@@ -21,7 +22,8 @@ import {SupplyService} from '../../../../resource/inventory/services/supply.serv
     MatInputModule,
     MatButtonModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    TranslatePipe
   ]
 })
 export class SupplySelectorComponent implements OnInit {

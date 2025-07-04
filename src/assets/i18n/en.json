@@ -95,6 +95,29 @@
     "status": "Status",
     "lastUpdate": "Last update"
   },
+  "recipes": {
+    "title": "Recipes",
+    "searchPlaceholder": "Search recipes...",
+    "sortByPrice": "Sort by price",
+    "name": "Name",
+    "description": "Description",
+    "dishImage": "Dish Image",
+    "supplies": "Supplies",
+    "totalPrice": "Total Price (S/.)",
+    "create": "Create",
+    "createRecipe": "Create Recipe",
+    "editRecipe": "Edit Recipe",
+    "noRecipes": "You currently have no recipes registered. Create a new recipe to start organizing your preparations and better manage your ingredients from this section.",
+    "totalCost": "Total cost",
+    "selectSupply": "Select supply",
+    "quantity": "Quantity",
+    "table": {
+      "id": "ID",
+      "supply": "Supply",
+      "quantity": "Quantity",
+      "actions": "Actions"
+    }
+  },
   "order-to-supplier": {
     "title": "Orders",
     "emptyState": "You currently have no orders registered. Create a new order to start managing your purchases and supplies from this section.",

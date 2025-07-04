@@ -152,6 +152,7 @@ export class CreateAndEditFormComponent implements OnInit {
       .catch(error => console.error('❌ Upload failed:', error));
   }
 
+
   emitChange(): void {
     this.formChange.emit(this.form);
   }
@@ -159,6 +160,10 @@ export class CreateAndEditFormComponent implements OnInit {
   updateField(name: string, value: any): void {
     this.form[name] = value;
     this.emitChange();
+  }
+
+  handleSuppliesChange(value: any[]): void {
+    this.updateField('supplies', value);
   }
 
   fieldsForCurrentStep(): FormFieldSchema[] {
