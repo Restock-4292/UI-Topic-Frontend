@@ -43,6 +43,9 @@ export class CreateAndEditRecipeComponent implements OnInit {
 
   handleFormChange(updatedForm: any): void {
     this.form = updatedForm;
+    if (updatedForm?.supplies) {
+      this.supplies = [...updatedForm.supplies];
+    }
   }
 
   handleSuppliesChange(updatedSupplies: any[]): void {
