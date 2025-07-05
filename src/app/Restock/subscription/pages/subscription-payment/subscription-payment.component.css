@@ -1,0 +1,159 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.subscription-content {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  max-width: 1200px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.subscription-details {
+  flex: 1;
+  max-width: 500px;
+  margin-left: 10rem;
+}
+
+.subscription-details h2 {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.subscription-details .price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.subscription-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.subscription-details ul li {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.subscription-details ul li::before {
+  content: "✔";
+  color: #2ecc71;
+  margin-right: 0.5rem;
+}
+
+.subscription-details img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.payment-form {
+  flex: 1;
+  max-width: 400px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.subscription-content {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  max-width: 1200px;
+  width: 100%;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 30px;
+}
+
+.back-button-arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #555;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.back-button-arrow:hover {
+  color: #000000;
+}
+
+@media (max-width: 960px) {
+  .subscription-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-top: 40px;
+  }
+
+  .back-button-arrow {
+    left: 10px;
+    top: 10px;
+  }
+}
+
+@media (max-width: 960px) {
+  .subscription-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .subscription-details {
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .payment-form {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+
+  .subscription-card {
+    margin-top: 1.5rem;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+    max-width: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .subscription-details ul {
+    text-align: left;
+    margin: 1rem auto;
+    max-width: fit-content;
+  }
+
+  .subscription-details img {
+    display: none;
+  }
+}

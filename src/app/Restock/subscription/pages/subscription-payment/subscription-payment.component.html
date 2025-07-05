@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="subscription-content">
+        <button class="back-button-arrow" (click)="goBack()">
+            &larr; </button>
+        @if (subscription) {
+            <div class="subscription-details">
+                <div class="subscription-card">
+                    <h2>{{ subscription.name }}</h2>
+                    <p class="price">S/. {{ subscription.price }} / {{ 'subscription.perMonth' | translate }}</p>
+                    <ul>
+                        @for (feature of subscription.features; track feature) {
+                            <li>{{ feature }}</li>
+                        }
+                    </ul>
+                </div>
+                <img src="assets/img-summary-supplier.png" alt="Chef" />
+            </div>
+
+            <div class="payment-form">
+                <app-payment-form [subscription]="subscription" />
+            </div>
+        } @else {
+            <p>Loading subscription details...</p>
+        }
+    </div>
+</div>
