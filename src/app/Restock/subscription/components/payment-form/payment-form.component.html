@@ -1,0 +1,72 @@
+@if (subscription) {
+  <form [formGroup]="form" (ngSubmit)="submitForm()" class="form-content">
+
+    <label>Email</label>
+    <input type="email" formControlName="email" placeholder="you@example.com" />
+    @if (form.get('email')?.invalid && form.get('email')?.touched) {
+      <div class="error">Email requerido</div>
+    }
+
+    <label>Card information</label>
+    <input type="text" formControlName="cardNumber" placeholder="1234 1234 1234 1234" />
+    @if (form.get('cardNumber')?.invalid && form.get('cardNumber')?.touched) {
+      <div class="error">Tarjeta inválida</div>
+    }
+
+    <div class="card-details">
+      <input type="text" formControlName="expiry" placeholder="MM/YY" />
+      <input type="text" formControlName="cvc" placeholder="CVC" />
+    </div>
+
+    @if (form.get('expiry')?.hasError('invalidFormat') && form.get('expiry')?.touched) {
+      <div class="error">Formato inválido (MM/YY)</div>
+    }
+    @if (form.get('expiry')?.hasError('invalidMonth') && form.get('expiry')?.touched) {
+      <div class="error">Mes debe estar entre 01 y 12</div>
+    }
+    @if (form.get('expiry')?.hasError('expired') && form.get('expiry')?.touched) {
+      <div class="error">La tarjeta está vencida</div>
+    }
+    @if (form.get('cvc')?.invalid && form.get('cvc')?.touched) {
+      <div class="error">CVC inválido</div>
+    }
+
+    <label>Cardholder name</label>
+    <input type="text" formControlName="cardholderName" placeholder="Full name on card" />
+    @if (form.get('cardholderName')?.invalid && form.get('cardholderName')?.touched) {
+      <div class="error">Nombre requerido</div>
+    }
+
+    <label>Country or region</label>
+    <select formControlName="country">
+      <option value="">-- Select --</option>
+      <option value="United States">United States</option>
+      <option value="Peru">Peru</option>
+      <option value="Mexico">Mexico</option>
+    </select>
+    @if (form.get('country')?.invalid && form.get('country')?.touched) {
+      <div class="error">Selecciona un país</div>
+    }
+
+    <input type="text" formControlName="zip" placeholder="ZIP" />
+    @if (form.get('zip')?.invalid && form.get('zip')?.touched) {
+      <div class="error">ZIP requerido</div>
+    }
+
+    <div class="save-info">
+      <p><strong>Securely save my information for 1-click checkout</strong></p>
+      <p class="subtext">
+        Enter your phone number to create a Link account and pay faster on LEADER ADS LTD and everywhere Link is accepted.
+      </p>
+
+      <div class="phone-row">
+        <input type="tel" formControlName="phone" placeholder="(201) 555-0123" />
+        <span class="optional">Optional</span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid" class="pay-btn">Pay</button>
+  </form>
+} @else {
+  <p>Cargando suscripción...</p>
+}
