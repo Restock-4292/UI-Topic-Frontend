@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { mockUser } from '../../shared/mocks/user.mock';
+import {SessionService} from '../../shared/services/session.service';
+import {ProfileService} from '../../Restock/profiles/services/profile.service';
 
 
 @Component({
@@ -13,14 +14,32 @@ import { mockUser } from '../../shared/mocks/user.mock';
 export class RoleRedirectComponent {
     router = inject(Router);
 
+    private sessionService: SessionService = inject(SessionService);
+    private profileService: ProfileService = inject(ProfileService);
+
+
+
     constructor() {
-        const role = mockUser.role_id.name;
-        if (role === 'restaurant') {
-            this.router.navigate(['/dashboard/restaurant']);
-        } else if (role === 'supplier') {
-            this.router.navigate(['/dashboard/supplier']);
-        } else {
-            this.router.navigate(['/not-found']); // fallback
+
+        const profileId = this.sessionService.getProfileId();
+        if(!profileId){
+          this.router.navigate(['/not-found']);
+          return;
         }
+
+        this.profileService.getProfileById(profileId)
+          .then(profile =>{
+            const roleName = profile.user?.role_id === 1 ? 'supplier' : 'restaurant';
+
+            if(roleName == 'restaurant'){
+              this.router.navigate(['/dashboard/restaurant']);
+            }else if(roleName == 'supplier'){
+              this.router.navigate(['/dashboard/supplier']);
+            }else {
+              this.router.navigate(['/not-found']); // fallback
+            }
+          }).catch(error => {
+            this.router.navigate(['/not-found']);
+          })
     }
 }

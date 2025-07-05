@@ -819,9 +819,9 @@
       "rol_id": "2"
     },
     {
-      "id": "4",
+      "id": "5",
       "name": "Anual plan",
-      "duration": 1,
+      "duration": 12,
       "price": "39.99",
       "status": true,
       "popular": true,
@@ -835,9 +835,9 @@
       "rol_id": "2"
     },
     {
-      "id": "4",
+      "id": "6",
       "name": "Semiannual plan",
-      "duration": 1,
+      "duration": 6,
       "price": "49.99",
       "status": true,
       "popular": false,

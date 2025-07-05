@@ -43,6 +43,10 @@ export const routes: Routes = [
       { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'inventory', component: RestaurantInventoryComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
+      { path: 'subscription/plan/:id', loadComponent: () =>
+          import('./Restock/subscription/pages/subscription-payment/subscription-payment.component')
+            .then(m => m.SubscriptionPaymentPageComponent)
+      },
       { path: 'sales', component: SalesComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'profile', component: ProfileOverviewComponent },
@@ -57,6 +61,10 @@ export const routes: Routes = [
       { path: 'summary', component: AnalyticsOverviewSupplierComponent },
       { path: 'inventory', component: SupplierInventory },
       { path: 'subscription', component: SubscriptionOverviewComponent },
+      { path: 'subscription/plan/:id', loadComponent: () =>
+          import('./Restock/subscription/pages/subscription-payment/subscription-payment.component')
+            .then(m => m.SubscriptionPaymentPageComponent)
+      },
       { path: 'notifications', component: SupplierAlertsOverviewComponent },
       { path: 'orders', component: SuppliersOrdersOverviewComponent },
       { path: 'reviews', component: ReviewsComponent },

@@ -199,7 +199,10 @@
   },
   "subscription": {
     "title1": "FLEXIBLE PLANS TO TAKE YOUR RESTAURANT MANAGEMENT",
-    "title2": "TO THE NEXT LEVEL"
+    "title2": "TO THE NEXT LEVEL",
+    "popular": "POPULAR",
+    "perMonth": "month",
+    "subscribe": "SUBSCRIBE"
   },
   "sales_restaurant": {
     "register_sale": "Register your sales",

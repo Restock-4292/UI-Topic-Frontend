@@ -104,7 +104,10 @@
   },
   "subscription": {
     "title1": "PLANES FLEXIBLES PARA LLEVAR LA GESTIÓN DE TU RESTAURANTE",
-    "title2": "AL SIGUIENTE NIVEL"
+    "title2": "AL SIGUIENTE NIVEL",
+    "popular": "POPULAR",
+    "perMonth": "mes",
+    "subscribe": "SUSCRIBIRSE"
   },
   "sales_restaurant": {
     "register_sale": "Registra tus ventas",
