@@ -24,7 +24,7 @@ export class DashboardLayoutComponent implements OnInit {
   router = inject(Router);
 
   profile: Profile = new Profile();
-
+  private currentRole: number | null = null; // Store the current role ID
   isMobile: boolean = false;
   private mobileQuery: MediaQueryList;
 
@@ -40,17 +40,26 @@ export class DashboardLayoutComponent implements OnInit {
   }
 
   async ngOnInit() {
-
-    const fakeProfileId = 2; // DEFINIR AQUI EL ID DEL PERFIL ACTUAL
+    // Simulate fetching the role ID from a service or session
+    //const fakeProfileId = 2; // DEFINIR AQUI EL ID DEL PERFIL ACTUAL
     // 1 -> Supplier pepe
     // 2 -> Restaurant maria
     // 3 -> Supplier Juan
     // 4 -> Restaurant Luis
 
-    this.sessionService.setProfileId(fakeProfileId); // Set the profile ID in the session service
-
+    const roleId = this.sessionService.getRoleId();
+    this.currentRole = this.sessionService.getRoleId();
+    const profileId = this.sessionService.getProfileId();
+    if(roleId == null) {
+      console.error('No roleId found in localStorage/session.');
+      return;
+    }
+    if (profileId == null) {
+      console.error('No profileId found in localStorage/session.');
+      return;
+    }
+    this.sessionService.setProfileId(roleId);
     await this.loadProfile();
-
     this.setMenu();
   }
 
@@ -65,7 +74,7 @@ export class DashboardLayoutComponent implements OnInit {
   }
 
   setMenu() {
-    if (this.profile.user?.role_id === 1) {
+    if (this.currentRole === 1) {
       this.menu = [
         { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard/supplier/summary' },
         { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/dashboard/supplier/subscription' },
@@ -74,7 +83,7 @@ export class DashboardLayoutComponent implements OnInit {
         { labelKey: 'sidebar.orders', icon: 'local_shipping', route: '/dashboard/supplier/orders' },
         { labelKey: 'sidebar.reviews', icon: 'reviews', route: '/dashboard/supplier/reviews' },
       ];
-    } else if (this.profile.user?.role_id === 2) {
+    } else if (this.currentRole=== 2) {
       this.menu = [
         { labelKey: 'sidebar.summary', icon: 'bar_chart', route: '/dashboard/restaurant/summary' },
         { labelKey: 'sidebar.subscription', icon: 'credit_card', route: '/dashboard/restaurant/subscription' },
