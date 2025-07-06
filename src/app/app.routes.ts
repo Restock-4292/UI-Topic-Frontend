@@ -33,9 +33,15 @@ import { OrdersComponent } from './Restock/resource/orders-to-suppliers/pages/or
 import {
   SuppliersOrdersOverviewComponent
 } from './Restock/monitoring/suppliers-orders/pages/suppliers-orders-overview/suppliers-orders-overview.component';
+import {SignInComponent} from './Restock/iam/pages/sign-in/sign-in.component';
+import {SignUpComponent} from './Restock/iam/pages/sign-up/sign-up.component';
+
+const baseTitle = 'Restock';
 
 export const routes: Routes = [
 
+  { path: 'sign-in',          component:      SignInComponent,              data: { title: `${baseTitle} | Sign-in`} },
+  { path: 'sign-up',          component:      SignUpComponent,              data: { title: `${baseTitle} | Sign-up`} },
   {
     path: 'dashboard/restaurant', component: DashboardLayoutComponent,
     children: [
