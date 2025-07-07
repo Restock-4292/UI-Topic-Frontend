@@ -36,7 +36,7 @@ export class SupplyService extends BaseService<any> {
       this.categoryService.getAllCategories(),
       firstValueFrom(this.batchService.getAll())
     ]);
-
+console.log("rawSupplies", rawSupplies);
     const filteredSupplies = rawSupplies.filter(supply =>
       userIds.includes(supply.user_id)
     );

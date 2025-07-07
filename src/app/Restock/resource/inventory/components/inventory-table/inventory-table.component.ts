@@ -127,6 +127,7 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   openDetails(batch: Batch): void {
+    console.log('Batches:', this.batches);
     this.modalService.open({
       title: batch.supply?.name || '',
       contentComponent: BatchDetailsComponent,

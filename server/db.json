@@ -716,6 +716,13 @@
       "stock": "6",
       "expiration_date": null,
       "user_id": 1
+    },
+    {
+      "id": 4,
+      "supplyId": 4,
+      "stock": "34",
+      "expiration_date": "2025-03-12T05:00:00.000Z",
+      "user_id": 1
     }
   ],
   "batch_notifications_states": [

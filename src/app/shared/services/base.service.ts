@@ -12,7 +12,7 @@ export abstract class BaseService<T> {
     protected httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     // URL base del backend, tomada del archivo de configuración
-    private serverBaseUrl: string = `${environment.serverBaseUrl}`;
+    private serverBaseUrl: string = `${environment.serverBaseUrlBackend}`;
 
     // Endpoint por defecto, se puede sobreescribir en clases hijas
     protected resourceEndpoint: string = '/resources';

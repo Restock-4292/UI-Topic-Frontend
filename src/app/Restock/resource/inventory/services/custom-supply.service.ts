@@ -6,12 +6,14 @@ import { Supply } from '../model/supply.entity';
 import {environment} from '../../../../../environments/environment.development';
 import {CatalogSupplyService} from './catalog-supply.service';
 import {CustomSupplyAssembler} from './custom-supply.assembler';
+import {SessionService} from '../../../../shared/services/session.service';
 
 export interface CustomSupplyPayload {
   supplyId: string;
   minStock: number;
   maxStock: number;
   unitPrice: number;
+  userId?: number;
 }
 
 @Injectable({
@@ -19,6 +21,7 @@ export interface CustomSupplyPayload {
 })
 export class CustomSupplyService {
   private http = inject(HttpClient);
+  private session = inject(SessionService);
   private categories = inject(CategoryService);
   private catalog = inject(CatalogSupplyService);
   private baseUrl = environment.serverBaseUrlBackend;
@@ -34,7 +37,7 @@ export class CustomSupplyService {
       this.catalog.getCatalogSupplies(),
       this.categories.getAllCategories()
     ]);
-
+    console.log(customs);
     return customs.map(custom => {
       const catalog = catalogSupplies.find(c => c.id === custom.supplyId
       );
@@ -47,7 +50,7 @@ export class CustomSupplyService {
     const dto = (payload instanceof Supply)
       ? CustomSupplyAssembler.toDTO(payload)
       : payload;
-
+    console.log("DTO to create custom supply:", dto);
     const res$ = this.http.post(`${this.baseUrl}${this.endpoint}`, dto, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
     return firstValueFrom(res$);
