@@ -23,7 +23,6 @@ export interface CustomSupplyPayload {
 export class CustomSupplyService {
   private http = inject(HttpClient);
   private session = inject(SessionService);
-  private categories = inject(CategoryService);
   private catalog = inject(CatalogSupplyService);
   private baseUrl = environment.serverBaseUrlBackend;
   private endpoint = environment.customSuppliesEndpointPath;
@@ -32,19 +31,16 @@ export class CustomSupplyService {
 
   async getAll(): Promise<Supply[]> {
     const userId = this.session.getUserId();
-    const [customs, catalogSupplies, categories] = await Promise.all([
+    const [customs, catalogSupplies] = await Promise.all([
       firstValueFrom(
         this.http.get<any[]>(`${this.baseUrl}${this.userEndpoint}/${userId}`, this.httpOptions)
           .pipe(retry(2), catchError(this.handleError))
       ),
       this.catalog.getCatalogSupplies(),
-      this.categories.getAllCategories()
     ]);
     return customs.map(custom => {
-      const catalog = catalogSupplies.find(c => c.id === custom.supplyId
-      );
-      const category = categories.find(c => c.id === (catalog?.category_id ?? catalog?.categoryId));
-      return CustomSupplyAssembler.toEntity(custom, catalog, category);
+      const catalog = catalogSupplies.find(c => c.id === custom.supplyId);
+      return CustomSupplyAssembler.toEntity(custom, catalog);
     });
   }
 

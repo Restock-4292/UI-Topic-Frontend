@@ -39,7 +39,7 @@ export class RestaurantNotificationsComponent implements OnInit {
       .filter(b => b.stock <= (b.supply?.min_stock ?? 0) || b.stock >= (b.supply?.max_stock ?? Infinity))
       .map(b => ({
         type: 'Inventory' as const,
-        message: `${b.supply!.name} at ${b.supply!.category?.name ?? ''} ` +
+        message: `${b.supply!.name} at ${b.supply!.category ?? ''} ` +
           (b.stock <= b.supply!.min_stock ? 'has low stock ' : 'reached max stock '),
         updatedAt: this.relativeTime(now, b.expiration_date)
       }));

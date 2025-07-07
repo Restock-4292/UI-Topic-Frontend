@@ -32,14 +32,14 @@ import {SessionService} from '../../../../../shared/services/session.service';
 })
 export class RestaurantInventoryComponent implements OnInit {
   supplies: Supply[] = [];
-  categories: Category[] = [];
+  categories: string[] = [];
   batches: Batch[] = [];
 
   formSchema: FormFieldSchema[] = [];
+  private editSchema: FormFieldSchema[] = [];
 
   constructor(
     private supplyService: SupplyService,
-    private categoryService: CategoryService,
     private batchService: BatchService,
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
@@ -50,7 +50,6 @@ export class RestaurantInventoryComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.loadAll();
     this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
@@ -59,8 +58,8 @@ export class RestaurantInventoryComponent implements OnInit {
 
   buildFormSchema(): void {
     const categoryOptions = this.categories.map(c => ({
-      value: c.id,
-      label: c.name
+      value: c,
+      label: c
     }));
 
     this.formSchema = [
@@ -89,7 +88,7 @@ export class RestaurantInventoryComponent implements OnInit {
       { name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100', step: 2 },
       { name: 'price', label: this.translate.instant('inventory.unitPrice'), type: 'number', placeholder: 'e.g. 4.90', format: 'currency', step: 2 },
       {
-        name: 'category_id',
+        name: 'category',
         label: this.translate.instant('inventory.category'),
         type: 'select',
         placeholder: 'Choose category',
@@ -97,6 +96,10 @@ export class RestaurantInventoryComponent implements OnInit {
         step: 3
       }
     ];
+
+    this.editSchema = this.formSchema.filter(f =>
+      ['description', 'min_stock', 'max_stock', 'price'].includes(f.name)
+    );
   }
 
   buildInventoryFormSchema(selectedSupplyId?: number): FormFieldSchema[] {
@@ -136,10 +139,6 @@ export class RestaurantInventoryComponent implements OnInit {
     return schema;
   }
 
-  async loadAll(): Promise<void> {
-    this.categories = await this.categoryService.getAllCategories();
-  }
-
   async loadSupplies(): Promise<void> {
     this.supplies = await this.customSupplyService.getAll();
     console.log(this.supplies);
@@ -166,12 +165,15 @@ export class RestaurantInventoryComponent implements OnInit {
     this.modalService.open({
       title: this.translate.instant('inventory.editSupply'),
       contentComponent: CreateAndEditSupplyComponent,
-      schema: this.formSchema,
+      schema: this.editSchema,
       initialData: {...supply},
       mode: 'edit'
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const updated = Supply.fromForm(result, supply.user_id);
+        const updated = Supply.fromForm({
+          ...supply,
+          ...result
+        } as any, supply.user_id);
         await this.customSupplyService.update(supply.id, updated);
         await this.loadSupplies();
         await this.loadBatches();

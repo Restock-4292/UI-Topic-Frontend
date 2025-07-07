@@ -21,22 +21,14 @@ export class SupplyService extends BaseService<any> {
   }
 
   async getAllSuppliesEnriched(): Promise<Supply[]> {
-    const [rawSupplies, categories] = await Promise.all([
-      firstValueFrom(super.getAll()),
-      this.categoryService.getAllCategories()
-    ]);
-
-    return rawSupplies.map(raw => {
-      const category = categories.find(c => c.id === raw.category_id);
-      return Supply.fromPersistence(raw, category);
-    });
+    const rawSupplies = await firstValueFrom(super.getAll());
+    return rawSupplies.map(raw => Supply.fromPersistence(raw));
   }
 
   async getSuppliesEnrichedByUserIds(userIds: number[]): Promise<Supply[]> {
-    const [rawSupplies, categories, rawBatches] = await Promise.all([
+    const [rawSupplies, rawBatches] = await Promise.all([
       firstValueFrom(this.http.get<any[]>(`${environment.serverBaseUrlBackend}${this.resourceEndpoint}`, this.httpOptions)
         .pipe(retry(2), catchError(this.handleError))),
-      this.categoryService.getAllCategories(),
       this.batchService.getAllBatchesWithSupplies()
     ]);
     const filteredSupplies = rawSupplies.filter(supply =>
@@ -44,9 +36,7 @@ export class SupplyService extends BaseService<any> {
     );
 
     return filteredSupplies.map(raw => {
-      const category = categories.find(c => c.id === raw.category_id);
-
-      const supply = Supply.fromPersistence(raw, category);
+      const supply = Supply.fromPersistence(raw);
 
       const relatedBatches = rawBatches.filter(
         b => b.customSupplyId === raw.id && b.user_id === raw.user_id

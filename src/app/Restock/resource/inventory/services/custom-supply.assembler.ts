@@ -1,7 +1,7 @@
 import {Supply} from '../model/supply.entity';
 
 export class CustomSupplyAssembler {
-  static toEntity(customDto: any, catalogDto?: any, category?: any): Supply {
+  static toEntity(customDto: any, catalogDto?: any): Supply {
     const merged = {
       id: customDto.id,
       supplyId: catalogDto?.id ?? customDto.supplyId ?? customDto.supplyId ?? null,
@@ -16,12 +16,7 @@ export class CustomSupplyAssembler {
       max_stock: customDto.max_stock ?? customDto.maxStock ?? 0,
       price: customDto.price ?? customDto.unitPrice ?? 0,
 
-      category_id:
-        catalogDto?.category_id ??
-        catalogDto?.categoryId ??
-        customDto.category_id ??
-        customDto.categoryId ??
-        0,
+      category: catalogDto?.category ?? customDto.category ?? '',
 
       unit_abbreviation:
         catalogDto?.unit_abbreviation ??
@@ -29,7 +24,7 @@ export class CustomSupplyAssembler {
         '',
     };
 
-    return Supply.fromPersistence(merged, category);
+    return Supply.fromPersistence(merged);
   }
 
 

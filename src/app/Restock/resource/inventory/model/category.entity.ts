@@ -6,7 +6,7 @@ export class Category {
 
   static fromPersistence(data: any): Category {
     return new Category(
-      data.id ?? data.category_id ?? data.categoryId,
+      data.id ?? data.categoryId,
       data.name ?? data.category_name ?? data.categoryName
     );
   }

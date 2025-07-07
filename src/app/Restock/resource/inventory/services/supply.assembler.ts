@@ -37,7 +37,7 @@ export class SupplyAssembler {
       min_stock: entity.min_stock,
       max_stock: entity.max_stock,
       price: entity.price,
-      category_id: entity.category_id,
+      category: entity.category,
       unit_abbreviation: entity.unit_abbreviation,
       user_id: entity.user_id
     };
