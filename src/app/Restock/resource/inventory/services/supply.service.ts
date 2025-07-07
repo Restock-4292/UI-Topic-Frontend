@@ -1,17 +1,19 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../../environments/environment.development';
+import { environment } from '../../../../../environments/environment';
 import { BaseService } from '../../../../shared/services/base.service';
 import { Supply } from '../model/supply.entity';
 import { SupplyAssembler } from './supply.assembler';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import {catchError, firstValueFrom, map, Observable, retry, throwError} from 'rxjs';
 import { CategoryService } from './category.service';
 import { BatchService } from './batch.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
 
   private readonly categoryService = inject(CategoryService);
   private readonly batchService = inject(BatchService);
+
 
   constructor() {
     super();
@@ -32,11 +34,11 @@ export class SupplyService extends BaseService<any> {
 
   async getSuppliesEnrichedByUserIds(userIds: number[]): Promise<Supply[]> {
     const [rawSupplies, categories, rawBatches] = await Promise.all([
-      firstValueFrom(super.getAll()),
+      firstValueFrom(this.http.get<any[]>(`${environment.serverBaseUrlBackend}${this.resourceEndpoint}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError))),
       this.categoryService.getAllCategories(),
-      firstValueFrom(this.batchService.getAll())
+      this.batchService.getAllBatchesWithSupplies()
     ]);
-console.log("rawSupplies", rawSupplies);
     const filteredSupplies = rawSupplies.filter(supply =>
       userIds.includes(supply.user_id)
     );
@@ -81,3 +83,7 @@ console.log("rawSupplies", rawSupplies);
     await firstValueFrom(super.delete(id));
   }
 }
+
+
+
+

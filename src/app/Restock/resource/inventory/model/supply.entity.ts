@@ -31,9 +31,9 @@ export class Supply {
     );
   }
 //test
-  static fromForm(data: Omit<Supply, 'id' | 'user_id' | 'category'>, userId: number | null): Supply {
+  static fromForm(data: Omit<Supply, 'user_id' | 'category'>, userId: number | null): Supply {
     return new Supply(
-      null,
+      (data as any).id ?? null,
       userId,
       data.name,
       data.description,

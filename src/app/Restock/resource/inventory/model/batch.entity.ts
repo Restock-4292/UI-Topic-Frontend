@@ -22,9 +22,9 @@ export class Batch {
   }
 
 
-  static fromForm(data: Omit<Batch, 'id' | 'user_id'>, userId: number): Batch {
+  static fromForm(data: Omit<Batch, 'user_id'>, userId: number): Batch {
     return new Batch(
-      null,
+      (data as any).id ?? null,
       (data as any).customSupplyId,
       data.stock,
       (data as any).expirationDate ?? data.expiration_date ?? null,

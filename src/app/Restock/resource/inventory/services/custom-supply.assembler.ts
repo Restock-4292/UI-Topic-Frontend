@@ -35,10 +35,13 @@ export class CustomSupplyAssembler {
 
   static toDTO(entity: Supply): any {
     return {
+      id: entity.id,
       supplyId: entity.id,
+      description: entity.description,
       minStock: entity.min_stock,
       maxStock: entity.max_stock,
-      unitPrice: entity.price,
+      price: entity.price,
+      userId: entity.user_id,
     }
   }
 }

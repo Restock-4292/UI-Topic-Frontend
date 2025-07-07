@@ -31,6 +31,7 @@ export class CreateCustomSupplyComponent implements OnInit {
   minStock: number | null = null;
   maxStock: number | null = null;
   unitPrice: number | null = null;
+  description: string | null = null;
 
   constructor(
     private catalog: CatalogSupplyService,
@@ -65,7 +66,7 @@ export class CreateCustomSupplyComponent implements OnInit {
       minStock: this.minStock ?? 0,
       maxStock: this.maxStock ?? 0,
       price: this.unitPrice ?? 0,
-      description: this.selectedSupply.description,
+      description: this.description ?? '',
       userId: userId
     });
     this.dialogRef.close(true);

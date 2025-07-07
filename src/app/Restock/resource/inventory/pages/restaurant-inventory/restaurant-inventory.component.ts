@@ -17,6 +17,7 @@ import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-sup
 import {TranslateService} from '@ngx-translate/core';
 import {CustomSupplyService} from '../../services/custom-supply.service';
 import {CreateCustomSupplyComponent} from '../../components/create-custom-supply/create-custom-supply.component';
+import {SessionService} from '../../../../../shared/services/session.service';
 
 @Component({
   selector: 'app-restaurant-inventory',
@@ -43,7 +44,8 @@ export class RestaurantInventoryComponent implements OnInit {
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
     private translate: TranslateService,
-    private customSupplyService: CustomSupplyService
+    private customSupplyService: CustomSupplyService,
+    private sessionService: SessionService
   ) {
   }
 
@@ -230,8 +232,8 @@ export class RestaurantInventoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
-        const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
+        const userId = this.sessionService.getUserId() ?? 0;
+        const updated = Batch.fromForm(result, userId);
         await this.batchService.update(batch.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
@@ -304,7 +306,8 @@ export class RestaurantInventoryComponent implements OnInit {
           return;
         }
 
-        const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
+        const userId = this.sessionService.getUserId() ?? 0;
+        const batch = Batch.fromForm(result, userId);
         await this.batchService.create(batch);
 
         this.snackBar.open('Batch registered', 'Close', {
