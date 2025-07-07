@@ -12,6 +12,7 @@ export const environment = {
   categoriesEndpointPath: '/supply_categories',
   unitMeasurementsEndpointPath: '/units_measurement',
   batchesEndpointPath: '/batches',
+  batchesByUserEndpointPath: '/batches/user',
   restaurantSales: '/sales',
   salesRecipes: '/sales_recipes',
   salesAdditionalSupplies: '/sales_additional_supplies',
@@ -23,5 +24,6 @@ export const environment = {
   orderCommentsEndpointPath: '/orders_comments',
   businessEndpointPath: '/businesses',
   customSuppliesEndpointPath: '/custom-supplies',
+  customSuppliesByUserEndpointPath: '/custom-supplies/user',
   catalogSuppliesEndpointPath: '/supplies'
 };

@@ -9,7 +9,7 @@ export class CustomSupplyAssembler {
       user_id: customDto.user_id ?? customDto.userId ?? null,
 
       name: catalogDto?.name ?? '',
-      description: catalogDto?.description ?? '',
+      description: customDto.description ?? catalogDto?.description ?? '',
       perishable: catalogDto?.perishable ?? false,
 
       min_stock: customDto.min_stock ?? customDto.minStock ?? 0,

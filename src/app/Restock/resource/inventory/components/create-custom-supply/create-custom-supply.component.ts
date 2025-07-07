@@ -64,7 +64,7 @@ export class CreateCustomSupplyComponent implements OnInit {
       supplyId: this.selectedSupply.id,
       minStock: this.minStock ?? 0,
       maxStock: this.maxStock ?? 0,
-      unitPrice: this.unitPrice ?? 0,
+      price: this.unitPrice ?? 0,
       description: this.selectedSupply.description,
       userId: userId
     });

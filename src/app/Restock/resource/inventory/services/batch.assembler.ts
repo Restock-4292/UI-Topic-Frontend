@@ -9,10 +9,10 @@ export class BatchAssembler {
   static toDTO(entity: Batch): any {
     return {
       id: entity.id,
-      supplyId: entity.supplyId,
+      customSupplyId: entity.customSupplyId,
       stock: entity.stock,
-      expiration_date: entity.expiration_date,
-      user_id: entity.user_id
+      expirationDate: entity.expiration_date,
+      userId: entity.user_id
     };
   }
 }

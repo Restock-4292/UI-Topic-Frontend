@@ -723,6 +723,12 @@
       "stock": "34",
       "expiration_date": "2025-03-12T05:00:00.000Z",
       "user_id": 1
+    },
+    {
+      "id": 5,
+      "stock": "3",
+      "expirationDate": "2025-07-16T05:00:00.000Z",
+      "userId": 1
     }
   ],
   "batch_notifications_states": [

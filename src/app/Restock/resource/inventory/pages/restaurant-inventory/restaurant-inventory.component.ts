@@ -170,7 +170,7 @@ export class RestaurantInventoryComponent implements OnInit {
     }).afterClosed().subscribe(async result => {
       if (result) {
         const updated = Supply.fromForm(result, supply.user_id);
-        await this.supplyService.updateSupply(supply.id, updated);
+        await this.customSupplyService.update(supply.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Supply updated', 'Close', { duration: 3000 });
@@ -186,7 +186,7 @@ export class RestaurantInventoryComponent implements OnInit {
       initialData: {label: supply.name}
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
-        await this.supplyService.deleteSupply(supply.id);
+        await this.customSupplyService.delete(supply.id);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Supply deleted', 'Close', { duration: 3000 });
@@ -197,7 +197,7 @@ export class RestaurantInventoryComponent implements OnInit {
   editBatch(batch: Batch): void {
     const initialBatchData = {
       id: batch.id,
-      supplyId: batch.supplyId,
+      supplyId: batch.customSupplyId,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
       user_id: batch.user_id
@@ -207,7 +207,7 @@ export class RestaurantInventoryComponent implements OnInit {
     const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
-      schema: this.buildInventoryFormSchema(batch.supplyId),
+      schema: this.buildInventoryFormSchema(batch.customSupplyId),
       initialData: initialBatchData,
       mode: 'edit',
       injectorValues: {

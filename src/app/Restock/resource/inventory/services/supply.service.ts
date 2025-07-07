@@ -47,7 +47,7 @@ console.log("rawSupplies", rawSupplies);
       const supply = Supply.fromPersistence(raw, category);
 
       const relatedBatches = rawBatches.filter(
-        b => b.supplyId === raw.id && b.user_id === raw.user_id
+        b => b.customSupplyId === raw.id && b.user_id === raw.user_id
       );
 
       (supply as any).batches = relatedBatches;
