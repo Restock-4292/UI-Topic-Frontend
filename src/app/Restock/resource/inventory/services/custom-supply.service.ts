@@ -3,15 +3,18 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, firstValueFrom, retry, throwError } from 'rxjs';
 import { CategoryService } from './category.service';
 import { Supply } from '../model/supply.entity';
-import {environment} from '../../../../../environments/environment.development';
+import {environment} from '../../../../../environments/environment';
 import {CatalogSupplyService} from './catalog-supply.service';
 import {CustomSupplyAssembler} from './custom-supply.assembler';
+import {SessionService} from '../../../../shared/services/session.service';
 
 export interface CustomSupplyPayload {
   supplyId: string;
+  description: string;
   minStock: number;
   maxStock: number;
-  unitPrice: number;
+  price: number;
+  userId: number;
 }
 
 @Injectable({
@@ -19,27 +22,25 @@ export interface CustomSupplyPayload {
 })
 export class CustomSupplyService {
   private http = inject(HttpClient);
-  private categories = inject(CategoryService);
+  private session = inject(SessionService);
   private catalog = inject(CatalogSupplyService);
   private baseUrl = environment.serverBaseUrlBackend;
   private endpoint = environment.customSuppliesEndpointPath;
+  private userEndpoint = environment.customSuppliesByUserEndpointPath;
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   async getAll(): Promise<Supply[]> {
-    const [customs, catalogSupplies, categories] = await Promise.all([
+    const userId = this.session.getUserId();
+    const [customs, catalogSupplies] = await Promise.all([
       firstValueFrom(
-        this.http.get<any[]>(`${this.baseUrl}${this.endpoint}`, this.httpOptions)
+        this.http.get<any[]>(`${this.baseUrl}${this.userEndpoint}/${userId}`, this.httpOptions)
           .pipe(retry(2), catchError(this.handleError))
       ),
       this.catalog.getCatalogSupplies(),
-      this.categories.getAllCategories()
     ]);
-
     return customs.map(custom => {
-      const catalog = catalogSupplies.find(c => c.id === custom.supplyId
-      );
-      const category = categories.find(c => c.id === (catalog?.category_id ?? catalog?.categoryId));
-      return CustomSupplyAssembler.toEntity(custom, catalog, category);
+      const catalog = catalogSupplies.find(c => c.id === custom.supplyId);
+      return CustomSupplyAssembler.toEntity(custom, catalog);
     });
   }
 
@@ -47,8 +48,22 @@ export class CustomSupplyService {
     const dto = (payload instanceof Supply)
       ? CustomSupplyAssembler.toDTO(payload)
       : payload;
-
     const res$ = this.http.post(`${this.baseUrl}${this.endpoint}`, dto, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+    return firstValueFrom(res$);
+  }
+
+  async update(id: string | number | null, payload: CustomSupplyPayload | Supply): Promise<any> {
+    const dto = (payload instanceof Supply)
+      ? CustomSupplyAssembler.toDTO(payload)
+      : payload;
+    const res$ = this.http.put(`${this.baseUrl}${this.endpoint}`, dto, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+    return firstValueFrom(res$);
+  }
+
+  async delete(id: string | number | null): Promise<any> {
+    const res$ = this.http.delete(`${this.baseUrl}${this.endpoint}/${id}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
     return firstValueFrom(res$);
   }

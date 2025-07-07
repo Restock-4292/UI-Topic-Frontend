@@ -54,10 +54,10 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef> {{ 'inventory.tableActions' | translate }}  </mat-header-cell>
       <mat-cell *matCellDef="let e">
-        <button mat-icon-button (click)="edit.emit(e)">
+        <button mat-icon-button (click)="edit.emit(e); $event.stopPropagation()">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="delete.emit(e)">
+        <button mat-icon-button color="warn" (click)="delete.emit(e); $event.stopPropagation()">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
@@ -78,7 +78,7 @@
         </div>
         <div class="card-row">
           <span class="label">{{ 'inventory.tableCategory' | translate }}</span>
-          <span class="value">{{ row.supply?.category?.name || '-' }}</span>
+          <span class="value">{{ row.supply?.category || '-' }}</span>
         </div>
         <div class="card-row">
           <span class="label">{{ 'inventory.tableUnit' | translate }}</span>

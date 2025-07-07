@@ -1,20 +1,26 @@
-import { Injectable } from '@angular/core';
-import {BaseService} from '../../../../shared/services/base.service';
+import {inject, Injectable} from '@angular/core';
 import {Category} from '../model/category.entity';
 import {environment} from '../../../../../environments/environment.development';
-import {firstValueFrom, map} from 'rxjs';
+import {catchError, firstValueFrom, retry, throwError} from 'rxjs';
 import {CategoryAssembler} from './category.assembler';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class CategoryService extends BaseService<any> {
-  constructor() {
-    super();
-    this.resourceEndpoint = environment.categoriesEndpointPath;
+export class CategoryService {
+  private http = inject(HttpClient);
+  private baseUrl = environment.serverBaseUrlBackend;
+  private endpoint = environment.categoriesEndpointPath;
+  private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+  async getAllCategories(): Promise<Category[]> {
+    const res$ = this.http.get<any[]>(`${this.baseUrl}${this.endpoint}`, this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
+    const dtos = await firstValueFrom(res$);
+    return dtos.map(CategoryAssembler.toEntity);
   }
 
-  async getAllCategories(): Promise<any[]> {
-    const response$ = super.getAll();
-    const rawDtos = await firstValueFrom(response$);
-    return rawDtos.map(CategoryAssembler.toEntity);
+  private handleError(error: any) {
+      console.error(error);
+      return throwError(() => new Error('Error in category service'));
+    }
   }
-}

@@ -8,6 +8,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import { MatInputModule, MatLabel} from '@angular/material/input';
+import {SessionService} from '../../../../../shared/services/session.service';
 
 @Component({
   selector: 'app-create-custom-supply',
@@ -30,16 +31,19 @@ export class CreateCustomSupplyComponent implements OnInit {
   minStock: number | null = null;
   maxStock: number | null = null;
   unitPrice: number | null = null;
+  description: string | null = null;
 
   constructor(
     private catalog: CatalogSupplyService,
     private custom: CustomSupplyService,
-    private dialogRef: MatDialogRef<CreateCustomSupplyComponent>
+    private dialogRef: MatDialogRef<CreateCustomSupplyComponent>,
+    private sessionService: SessionService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
     this.supplies = await this.catalog.getCatalogSupplies();
+    console.log("Available supplies:", this.supplies);
   }
 
   onSupplyChange(id: string): void {
@@ -51,11 +55,19 @@ export class CreateCustomSupplyComponent implements OnInit {
       return;
     }
 
+    const userId = this.sessionService.getUserId(); // Obtener el userId desde el SessionService
+    if (userId === null) {
+      console.error('User ID not found in session.');
+      return;
+    }
+
     await this.custom.create({
       supplyId: this.selectedSupply.id,
       minStock: this.minStock ?? 0,
       maxStock: this.maxStock ?? 0,
-      unitPrice: this.unitPrice ?? 0
+      price: this.unitPrice ?? 0,
+      description: this.description ?? '',
+      userId: userId
     });
     this.dialogRef.close(true);
   }

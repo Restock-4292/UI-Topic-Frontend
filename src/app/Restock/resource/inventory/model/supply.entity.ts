@@ -10,12 +10,11 @@ export class Supply {
     public readonly min_stock: number,
     public readonly max_stock: number,
     public readonly price: number,
-    public readonly category_id: number,
+    public readonly category: string,
     public readonly unit_abbreviation: string,
-    public readonly category?: Category
   ) {}
 
-  static fromPersistence(raw: any, category?: Category): Supply {
+  static fromPersistence(raw: any): Supply {
     return new Supply(
       raw.id ?? null,
       raw.user_id ?? raw.userId ?? null,
@@ -25,15 +24,14 @@ export class Supply {
       raw.min_stock ?? raw.minStock ?? 0,
       raw.max_stock ?? raw.maxStock ?? 0,
       raw.price ?? raw.unitPrice ?? 0,
-      raw.category_id ?? raw.categoryId ?? 0,
-      raw.unit_abbreviation ?? raw.unitAbbreviation ?? '',
-      category
+      raw.category ?? raw.category_name ?? raw.categoryName ?? '',
+      raw.unit_abbreviation ?? raw.unitAbbreviation ?? ''
     );
   }
 //test
-  static fromForm(data: Omit<Supply, 'id' | 'user_id' | 'category'>, userId: number | null): Supply {
+  static fromForm(data: Omit<Supply, 'user_id'>, userId: number | null): Supply {
     return new Supply(
-      null,
+      (data as any).id ?? null,
       userId,
       data.name,
       data.description,
@@ -41,7 +39,7 @@ export class Supply {
       data.min_stock,
       data.max_stock,
       data.price,
-      data.category_id,
+      data.category,
       data.unit_abbreviation
     );
   }

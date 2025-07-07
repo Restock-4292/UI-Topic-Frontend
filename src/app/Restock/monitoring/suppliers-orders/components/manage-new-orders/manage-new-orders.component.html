@@ -50,8 +50,8 @@
             <td mat-cell *matCellDef="let batchOrdered">
               <mat-checkbox
                 (click)="$event.stopPropagation()"
-                (change)="toggleSelection(batchOrdered.batch.supplyId)"
-                [checked]="isSelected(batchOrdered.batch.supplyId)">
+                (change)="toggleSelection(batchOrdered.batch.customSupplyId)"
+                [checked]="isSelected(batchOrdered.batch.customSupplyId)">
               </mat-checkbox>
             </td>
           </ng-container>
@@ -126,8 +126,8 @@
         <div class="summary-section">
           <h3 class="subtitle">{{ 'supplier-orders.manage-new-orders.order-summary' | translate}}</h3>
           <ul class="summary-list-bullets">
-            <li *ngFor="let supplyId of selection.selected" class="summary-item">
-              {{ productName(supplyId) }}
+            <li *ngFor="let customSupplyId of selection.selected" class="summary-item">
+              {{ productName(customSupplyId) }}
             </li>
           </ul>
 

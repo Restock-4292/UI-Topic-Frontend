@@ -17,6 +17,7 @@ import {CreateAndEditSupplyComponent} from '../../components/create-and-edit-sup
 import {TranslateService} from '@ngx-translate/core';
 import {CustomSupplyService} from '../../services/custom-supply.service';
 import {CreateCustomSupplyComponent} from '../../components/create-custom-supply/create-custom-supply.component';
+import {SessionService} from '../../../../../shared/services/session.service';
 
 
 @Component({
@@ -32,24 +33,24 @@ import {CreateCustomSupplyComponent} from '../../components/create-custom-supply
 })
 export class SupplierInventory implements OnInit {
   supplies: Supply[] = [];
-  categories: Category[] = [];
+  categories: string[] = [];
   batches: Batch[] = [];
 
   formSchema: FormFieldSchema[] = [];
+  private editSchema: FormFieldSchema[] = [];
 
   constructor(
     private supplyService: SupplyService,
-    private categoryService: CategoryService,
     private batchService: BatchService,
     private snackBar: MatSnackBar,
     private modalService: BaseModalService,
     private translate: TranslateService,
-    private customSupplyService: CustomSupplyService
+    private customSupplyService: CustomSupplyService,
+    private sessionService: SessionService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    await this.loadAll();
     this.buildFormSchema();
     await this.loadSupplies();
     await this.loadBatches();
@@ -58,8 +59,8 @@ export class SupplierInventory implements OnInit {
 
   buildFormSchema(): void {
     const categoryOptions = this.categories.map(c => ({
-      value: c.id,
-      label: c.name
+      value: c,
+      label: c
     }));
 
     this.formSchema = [
@@ -88,7 +89,7 @@ export class SupplierInventory implements OnInit {
       { name: 'max_stock', label: 'Max. Stock', type: 'number', placeholder: 'e.g. 100', step: 2 },
       { name: 'price', label: this.translate.instant('inventory.unitPrice'), type: 'number', placeholder: 'e.g. 4.90', format: 'currency', step: 2 },
       {
-        name: 'category_id',
+        name: 'category',
         label: this.translate.instant('inventory.category'),
         type: 'select',
         placeholder: 'Choose category',
@@ -96,6 +97,10 @@ export class SupplierInventory implements OnInit {
         step: 3
       }
     ];
+
+    this.editSchema = this.formSchema.filter(f =>
+      ['description', 'min_stock', 'max_stock', 'price'].includes(f.name)
+    );
   }
 
   buildInventoryFormSchema(selectedSupplyId?: number): FormFieldSchema[] {
@@ -135,18 +140,13 @@ export class SupplierInventory implements OnInit {
     return schema;
   }
 
-  async loadAll(): Promise<void> {
-    this.categories = await this.categoryService.getAllCategories();
-  }
-
   async loadSupplies(): Promise<void> {
     this.supplies = await this.customSupplyService.getAll();
     console.log(this.supplies);
   }
 
   async loadBatches(): Promise<void> {
-    const data = await this.batchService.getAllBatchesWithSupplies();
-    this.batches = [...data].sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+    this.batches = await this.batchService.getAllBatchesWithSupplies();
   }
 
   openCreateModal(): void {
@@ -166,13 +166,16 @@ export class SupplierInventory implements OnInit {
     this.modalService.open({
       title: this.translate.instant('inventory.editSupply'),
       contentComponent: CreateAndEditSupplyComponent,
-      schema: this.formSchema,
+      schema: this.editSchema,
       initialData: {...supply},
       mode: 'edit'
     }).afterClosed().subscribe(async result => {
       if (result) {
-        const updated = Supply.fromForm(result, supply.user_id);
-        await this.supplyService.updateSupply(supply.id, updated);
+        const updated = Supply.fromForm({
+          ...supply,
+          ...result
+        } as any, supply.user_id);
+        await this.customSupplyService.update(supply.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Supply updated', 'Close', { duration: 3000 });
@@ -188,7 +191,7 @@ export class SupplierInventory implements OnInit {
       initialData: {label: supply.name}
     }).afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
-        await this.supplyService.deleteSupply(supply.id);
+        await this.customSupplyService.delete(supply.id);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Supply deleted', 'Close', { duration: 3000 });
@@ -199,7 +202,7 @@ export class SupplierInventory implements OnInit {
   editBatch(batch: Batch): void {
     const initialBatchData = {
       id: batch.id,
-      supplyId: batch.supplyId,
+      supplyId: batch.customSupplyId,
       stock: batch.stock,
       expiration_date: batch.expiration_date,
       user_id: batch.user_id
@@ -209,7 +212,7 @@ export class SupplierInventory implements OnInit {
     const dialogRef = this.modalService.open({
       title: this.translate.instant('inventory.editSupplyTitle'),
       contentComponent: AddBatchToInventoryComponent,
-      schema: this.buildInventoryFormSchema(batch.supplyId),
+      schema: this.buildInventoryFormSchema(batch.customSupplyId),
       initialData: initialBatchData,
       mode: 'edit',
       injectorValues: {
@@ -232,9 +235,9 @@ export class SupplierInventory implements OnInit {
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
-        const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
-        await this.batchService.updateBatch(batch.id, updated);
+        const userId = this.sessionService.getUserId() ?? 0;
+        const updated = Batch.fromForm(result, userId);
+        await this.batchService.update(batch.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Batch updated', 'Close', { duration: 3000 });
@@ -252,7 +255,7 @@ export class SupplierInventory implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
-        await this.batchService.deleteBatch(batch.id);
+        await this.batchService.delete(batch.id);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Batch deleted', 'Close', { duration: 3000 });
@@ -306,8 +309,9 @@ export class SupplierInventory implements OnInit {
           return;
         }
 
-        const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
-        await this.batchService.createBatch(batch);
+        const userId = this.sessionService.getUserId() ?? 0;
+        const batch = Batch.fromForm(result, userId);
+        await this.batchService.create(batch);
 
         this.snackBar.open('Batch registered', 'Close', {
           duration: 3000,

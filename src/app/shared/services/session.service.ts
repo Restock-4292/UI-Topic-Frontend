@@ -9,6 +9,12 @@ export class SessionService {
   private readonly ROLE_ID_KEY = 'restock_role_id';
   private readonly PROFILE_ID_KEY = 'restock_profile_id';
 
+  //USER ID
+  getUserId(): number | null {
+    const value = localStorage.getItem('user_id');
+    return value ? +value : null;
+  }
+
   // ROLE ID
   setRoleId(roleId: number): void {
     localStorage.setItem(this.ROLE_ID_KEY, roleId.toString());

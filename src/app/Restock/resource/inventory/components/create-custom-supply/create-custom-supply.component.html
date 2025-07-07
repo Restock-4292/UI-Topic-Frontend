@@ -11,6 +11,11 @@
   @if (selectedSupply){
     <div>
       <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Description</mat-label>
+        <input matInput type="text" [(ngModel)]="description" name="description" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
         <mat-label>Min Stock</mat-label>
         <input matInput type="number" [(ngModel)]="minStock" name="minStock" />
       </mat-form-field>

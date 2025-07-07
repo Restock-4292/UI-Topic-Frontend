@@ -9,9 +9,10 @@ export const environment = {
   suppliersEndpointPath: '/users',
   recipesEndpointPath: 'http://localhost:8080/api/v1/recipes',
   suppliesEndpointPath: '/supplies',
-  categoriesEndpointPath: '/supply_categories',
+  categoriesEndpointPath: '/supplies/categories',
   unitMeasurementsEndpointPath: '/units_measurement',
   batchesEndpointPath: '/batches',
+  batchesByUserEndpointPath: '/batches/user',
   restaurantSales: '/sales',
   salesRecipes: '/sales_recipes',
   salesAdditionalSupplies: '/sales_additional_supplies',
@@ -22,6 +23,7 @@ export const environment = {
   restaurantContactsEndpointPath: '/restaurant_contacts',
   orderCommentsEndpointPath: '/orders_comments',
   businessEndpointPath: '/businesses',
-  customSuppliesEndpointPath: '/api/v1/custom-supplies',
-  catalogSuppliesEndpointPath: '/api/v1/supplies'
+  customSuppliesEndpointPath: '/custom-supplies',
+  customSuppliesByUserEndpointPath: '/custom-supplies/user',
+  catalogSuppliesEndpointPath: '/supplies'
 };

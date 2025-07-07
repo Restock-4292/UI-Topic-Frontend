@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../../environments/environment.development';
+import { environment } from '../../../../../environments/environment';
 import { BaseService } from '../../../../shared/services/base.service';
 import { Supply } from '../model/supply.entity';
 import { SupplyAssembler } from './supply.assembler';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import {catchError, firstValueFrom, map, Observable, retry, throwError} from 'rxjs';
 import { CategoryService } from './category.service';
 import { BatchService } from './batch.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
@@ -13,41 +14,32 @@ export class SupplyService extends BaseService<any> {
   private readonly categoryService = inject(CategoryService);
   private readonly batchService = inject(BatchService);
 
+
   constructor() {
     super();
     this.resourceEndpoint = environment.suppliesEndpointPath;
   }
 
   async getAllSuppliesEnriched(): Promise<Supply[]> {
-    const [rawSupplies, categories] = await Promise.all([
-      firstValueFrom(super.getAll()),
-      this.categoryService.getAllCategories()
-    ]);
-
-    return rawSupplies.map(raw => {
-      const category = categories.find(c => c.id === raw.category_id);
-      return Supply.fromPersistence(raw, category);
-    });
+    const rawSupplies = await firstValueFrom(super.getAll());
+    return rawSupplies.map(raw => Supply.fromPersistence(raw));
   }
 
   async getSuppliesEnrichedByUserIds(userIds: number[]): Promise<Supply[]> {
-    const [rawSupplies, categories, rawBatches] = await Promise.all([
-      firstValueFrom(super.getAll()),
-      this.categoryService.getAllCategories(),
-      firstValueFrom(this.batchService.getAll())
+    const [rawSupplies, rawBatches] = await Promise.all([
+      firstValueFrom(this.http.get<any[]>(`${environment.serverBaseUrlBackend}${this.resourceEndpoint}`, this.httpOptions)
+        .pipe(retry(2), catchError(this.handleError))),
+      this.batchService.getAllBatchesWithSupplies()
     ]);
-
     const filteredSupplies = rawSupplies.filter(supply =>
       userIds.includes(supply.user_id)
     );
 
     return filteredSupplies.map(raw => {
-      const category = categories.find(c => c.id === raw.category_id);
-
-      const supply = Supply.fromPersistence(raw, category);
+      const supply = Supply.fromPersistence(raw);
 
       const relatedBatches = rawBatches.filter(
-        b => b.supplyId === raw.id && b.user_id === raw.user_id
+        b => b.customSupplyId === raw.id && b.user_id === raw.user_id
       );
 
       (supply as any).batches = relatedBatches;
@@ -81,3 +73,7 @@ export class SupplyService extends BaseService<any> {
     await firstValueFrom(super.delete(id));
   }
 }
+
+
+
+

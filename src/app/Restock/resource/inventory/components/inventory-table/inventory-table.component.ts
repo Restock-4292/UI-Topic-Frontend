@@ -23,6 +23,7 @@ import {Batch} from '../../model/batch.entity';
 import {TranslatePipe} from '@ngx-translate/core';
 import {BatchDetailsComponent} from '../batch-details/batch-details.component';
 import {BaseModalService} from '../../../../../shared/services/base-modal.service';
+import {BatchService} from '../../services/batch.service';
 
 @Component({
   selector: 'app-inventory-table',
@@ -66,7 +67,9 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private modalService: BaseModalService) {}
+  constructor(
+    private modalService: BaseModalService,
+    private batchService: BatchService) {}
 
   isMobile = false;
 
@@ -127,12 +130,14 @@ export class InventoryTableComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   openDetails(batch: Batch): void {
-    this.modalService.open({
-      title: batch.supply?.name || '',
-      contentComponent: BatchDetailsComponent,
-      width: '30rem',
-      height: 'auto',
-      initialData: batch
-    });
+    this.batchService.getBatchById(batch.id as number).then(full => {
+      this.modalService.open({
+        title: batch.supply?.name || '',
+        contentComponent: BatchDetailsComponent,
+        width: '30rem',
+        height: 'auto',
+        initialData: batch
+      });
+    })
   }
 }

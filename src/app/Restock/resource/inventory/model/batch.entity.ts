@@ -3,7 +3,7 @@ import { Supply } from './supply.entity';
 export class Batch {
   private constructor(
     public readonly id: number | null,
-    public readonly supplyId: number,
+    public readonly customSupplyId: number,
     public stock: number,
     public readonly expiration_date: string | null,
     public readonly user_id: number,
@@ -13,21 +13,21 @@ export class Batch {
   static fromPersistence(data: any, supply?: Supply): Batch {
     return new Batch(
       data.id,
-      data.supplyId,
+      data.customSupplyId ?? data.supplyId,
       data.stock,
-      data.expiration_date ?? null,
-      data.user_id,
+      data.expirationDate ?? data.expiration_date ?? null,
+      data.userId ?? data.user_id,
       supply
     );
   }
 
 
-  static fromForm(data: Omit<Batch, 'id' | 'user_id'>, userId: number): Batch {
+  static fromForm(data: Omit<Batch, 'user_id'>, userId: number): Batch {
     return new Batch(
-      null,
-      data.supplyId,
+      (data as any).id ?? null,
+      (data as any).customSupplyId ?? (data as any).supplyId,
       data.stock,
-      data.expiration_date ?? null,
+      (data as any).expirationDate ?? data.expiration_date ?? null,
       userId
     );
   }

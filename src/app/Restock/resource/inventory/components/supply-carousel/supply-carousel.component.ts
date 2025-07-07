@@ -15,13 +15,14 @@ import {MatButtonModule} from '@angular/material/button';
 })
 export class SupplyCarouselComponent {
   @Input() supplies: Supply[] = [];
-  @Input() categories: Category[] = [];
+  @Input() categories: string[] = [];
   @Output() edit = new EventEmitter<Supply>();
+  @Output() delete = new EventEmitter<Supply>();
 
-  getCategoryName(id: number): string {
-    return this.categories.find(c => c.id === id)?.name || 'Unknown';
+
+  getCategoryName(supply: Supply): string {
+    return supply.category || 'Unknown';
   }
-
 
   scrollLeft(container: HTMLElement) {
     container.scrollLeft -= 300;
