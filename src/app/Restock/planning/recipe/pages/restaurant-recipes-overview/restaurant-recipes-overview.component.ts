@@ -46,6 +46,11 @@ export class RestaurantRecipesOverviewComponent {
   formVisible = false;
   sortByPrice = false;
 
+  ngOnInit(): void {
+    this.loadRecipes();
+    this.buildFormSchema();
+  }
+
   constructor(
     private recipeService: RecipeService,
     private recipeSupplyService: RecipeSupplyService,
@@ -202,10 +207,5 @@ export class RestaurantRecipesOverviewComponent {
 
   closeForm() {
     this.formVisible = false;
-  }
-
-  ngOnInit(): void {
-    this.loadRecipes();
-    this.buildFormSchema();
   }
 }

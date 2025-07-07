@@ -7,9 +7,8 @@ export class RecipeSupplyAssembler {
 
     static toDTO(entity: RecipeSupply): any {
         return {
-        recipe_id: entity.recipe_id,
           supplyId: entity.supplyId,
-        quantity: entity.quantity
+          quantity: entity.quantity
         };
     }
 }

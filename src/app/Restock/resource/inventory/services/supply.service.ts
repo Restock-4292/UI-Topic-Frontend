@@ -1,17 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { BaseService } from '../../../../shared/services/base.service';
-import { Supply } from '../model/supply.entity';
-import { SupplyAssembler } from './supply.assembler';
-import {catchError, firstValueFrom, map, Observable, retry, throwError} from 'rxjs';
-import { CategoryService } from './category.service';
-import { BatchService } from './batch.service';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {environment} from '../../../../../environments/environment';
+import {BaseService} from '../../../../shared/services/base.service';
+import {Supply} from '../model/supply.entity';
+import {SupplyAssembler} from './supply.assembler';
+import {catchError, firstValueFrom, retry} from 'rxjs';
+import {BatchService} from './batch.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupplyService extends BaseService<any> {
 
-  private readonly categoryService = inject(CategoryService);
   private readonly batchService = inject(BatchService);
 
 

@@ -18,6 +18,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {TranslatePipe} from '@ngx-translate/core';
+import {
+  SupplySelectorComponent
+} from '../../../Restock/planning/recipe/components/supply-selector/supply-selector.component';
 
 export interface FormFieldSchema {
   name: string;
@@ -44,7 +47,8 @@ export interface FormFieldSchema {
     MatOptionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    TranslatePipe
+    TranslatePipe,
+    SupplySelectorComponent
   ],
   templateUrl: './create-and-edit-form.component.html',
   styleUrls: ['./create-and-edit-form.component.css'],
@@ -179,6 +183,9 @@ export class CreateAndEditFormComponent implements OnInit {
     }
     return this.fieldsForCurrentStep().every(field => {
       const value = this.form[field.name];
+      if (field.type === 'number' || field.type === 'currency') {
+        return value !== undefined && value !== null && value !== '' && Number(value) > 0;
+      }
       return value !== undefined && value !== null && value !== '';
     });
   }

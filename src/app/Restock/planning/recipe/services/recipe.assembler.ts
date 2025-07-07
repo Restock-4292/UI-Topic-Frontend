@@ -11,8 +11,8 @@ export class RecipeAssembler {
       name: entity.name,
       description: entity.description,
       price: entity.price,
-      image_url: entity.imageUrl,
-      user_id: entity.userId
+      imageUrl: entity.imageUrl,
+      userId: entity.userId
     };
   }
 }

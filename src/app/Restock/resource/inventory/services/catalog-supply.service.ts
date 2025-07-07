@@ -16,7 +16,6 @@ export class CatalogSupplyService {
     const res$ = this.http.get<any[]>(`${this.baseUrl}${this.endpoint}`, this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
     return firstValueFrom(res$);
-
   }
 
   private handleError(error: any) {

@@ -89,9 +89,14 @@
 
         @if (field.type === 'custom' && customComponents?.[field.name]) {
           <div class="form-custom-component">
-            <ng-container
-              *ngComponentOutlet="customComponents[field.name]; inputs: { supplies: form.supplies }; outputs: { suppliesChange: handleSuppliesChange.bind(this) }"
-            ></ng-container>
+
+            @if (field.name === 'supplySelector') {
+              <app-supply-selector
+                [(ngModel)]="form[field.name]"
+                [name]="field.name"
+              ></app-supply-selector>
+            }
+
           </div>
         }
 

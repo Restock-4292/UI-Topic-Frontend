@@ -8,30 +8,31 @@ import {Recipe} from '../model/recipe.entity';
 @Injectable({ providedIn: 'root' })
 export class RecipeSupplyService {
   private http = inject(HttpClient);
-  private resourceEndpoint = environment.recipesEndpointPath;
+  private readonly baseUrl = environment.serverBaseUrlBackend;
+  private readonly endpoint = environment.recipesEndpointPath;
   private httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   getByRecipe(recipeId: number) {
     return this.http.get<RecipeSupply[]>(
-      `${this.resourceEndpoint}/${recipeId}/supplies`, this.httpOptions
+      `${this.baseUrl}${this.endpoint}/${recipeId}/supplies`, this.httpOptions
     ).pipe(retry(2), catchError(this.handleError));
   }
 
   add(recipeId: number, supply: RecipeSupply) {
     return this.http.post<Recipe>(
-      `${this.resourceEndpoint}/${recipeId}/supplies`, supply, this.httpOptions
+      `${this.baseUrl}${this.endpoint}/${recipeId}/supplies`, supply, this.httpOptions
     ).pipe(retry(2), catchError(this.handleError));
   }
 
   update(recipeId: number, supplyId: number, supply: RecipeSupply) {
     return this.http.put<Recipe>(
-      `${this.resourceEndpoint}/${recipeId}/supplies/${supplyId}`, supply, this.httpOptions
+      `${this.baseUrl}${this.endpoint}/${recipeId}/supplies/${supplyId}`, supply, this.httpOptions
     ).pipe(retry(2), catchError(this.handleError));
   }
 
   delete(recipeId: number, supplyId: number) {
     return this.http.delete<Recipe>(
-      `${this.resourceEndpoint}/${recipeId}/supplies/${supplyId}`, this.httpOptions
+      `${this.baseUrl}${this.endpoint}/${recipeId}/supplies/${supplyId}`, this.httpOptions
     ).pipe(retry(2), catchError(this.handleError));
   }
 

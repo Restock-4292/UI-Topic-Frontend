@@ -7,7 +7,7 @@ export const environment = {
   profilesEndpointPath: '/profiles',
   subscriptionsEndpointPath: '/subscriptions',
   suppliersEndpointPath: '/users',
-  recipesEndpointPath: 'http://localhost:8080/api/v1/recipes',
+  recipesEndpointPath: '/recipes',
   suppliesEndpointPath: '/supplies',
   categoriesEndpointPath: '/supplies/categories',
   unitMeasurementsEndpointPath: '/units_measurement',

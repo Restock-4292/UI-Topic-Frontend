@@ -43,7 +43,6 @@ export class CreateCustomSupplyComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.supplies = await this.catalog.getCatalogSupplies();
-    console.log("Available supplies:", this.supplies);
   }
 
   onSupplyChange(id: string): void {

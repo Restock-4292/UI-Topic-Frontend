@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {ControlValueAccessor, FormsModule} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import {SupplyService} from '../../../../resource/inventory/services/supply.service';
 import {TranslatePipe} from '@ngx-translate/core';
+import {CatalogSupplyService} from '../../../../resource/inventory/services/catalog-supply.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe
   ]
 })
-export class SupplySelectorComponent implements OnInit {
+export class SupplySelectorComponent implements OnInit, ControlValueAccessor {
   @Input() supplies: any[] = [];
   @Output() suppliesChange = new EventEmitter<any[]>();
 
@@ -36,12 +37,28 @@ export class SupplySelectorComponent implements OnInit {
 
   displayedColumns: string[] = ['supplyId', 'description', 'quantity', 'actions'];
 
-  constructor(private supplyService: SupplyService) {}
+  private onChange = (_: any) => {};
+  private onTouched = () => {};
 
-  ngOnInit(): void {
-    this.supplyService.getAll().subscribe((supplies) => {
-      this.availableSupplies = supplies;
-    });
+  constructor(private catalogSupplyService: CatalogSupplyService) {}
+
+  async ngOnInit(): Promise<void> {
+    this.availableSupplies = await this.catalogSupplyService.getCatalogSupplies();
+  }
+
+  writeValue(value: any[]): void {
+    this.supplies = value || [];
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
   }
 
   get internalValue(): any[] {
