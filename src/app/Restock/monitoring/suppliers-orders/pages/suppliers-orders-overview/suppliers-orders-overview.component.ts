@@ -270,7 +270,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
               const batch = orderBatch.batch;
               if (batch) {
                 batch.stock += orderBatch.quantity; // Restore stock
-                this.batchService.updateBatch(batch.id, batch);
+                this.batchService.update(batch.id, batch);
               }
             });
           }
@@ -356,7 +356,7 @@ export class SuppliersOrdersOverviewComponent implements OnInit {
 
           // Now safely update only valid batches
           validBatches?.forEach((batch) => {
-            this.batchService.updateBatch(batch.id, batch);
+            this.batchService.update(batch.id, batch);
           });
 
           this.snackBar.open('Order updated successfully', 'Close', { duration: 3000 });

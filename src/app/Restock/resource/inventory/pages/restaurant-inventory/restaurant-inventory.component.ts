@@ -232,7 +232,7 @@ export class RestaurantInventoryComponent implements OnInit {
       if (result) {
         //User ID is hardcoded as 1 for now, should be replaced with actual user ID logic
         const updated = Batch.fromForm(result, 1); // 1 = user_id temporal
-        await this.batchService.updateBatch(batch.id, updated);
+        await this.batchService.update(batch.id, updated);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Batch updated', 'Close', { duration: 3000 });
@@ -250,7 +250,7 @@ export class RestaurantInventoryComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (confirmed: boolean) => {
       if (confirmed) {
-        await this.batchService.deleteBatch(batch.id);
+        await this.batchService.delete(batch.id);
         await this.loadSupplies();
         await this.loadBatches();
         this.snackBar.open('Batch deleted', 'Close', { duration: 3000 });
@@ -305,7 +305,7 @@ export class RestaurantInventoryComponent implements OnInit {
         }
 
         const batch = Batch.fromForm(result, 1); //trabaja con inventory_id pero no lo usa en este caso, esta pendiente de modificar
-        await this.batchService.createBatch(batch);
+        await this.batchService.create(batch);
 
         this.snackBar.open('Batch registered', 'Close', {
           duration: 3000,
