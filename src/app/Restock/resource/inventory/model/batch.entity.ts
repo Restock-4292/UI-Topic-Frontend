@@ -13,7 +13,7 @@ export class Batch {
   static fromPersistence(data: any, supply?: Supply): Batch {
     return new Batch(
       data.id,
-      data.customSupplyId,
+      data.customSupplyId ?? data.supplyId,
       data.stock,
       data.expirationDate ?? data.expiration_date ?? null,
       data.userId ?? data.user_id,
@@ -25,7 +25,7 @@ export class Batch {
   static fromForm(data: Omit<Batch, 'user_id'>, userId: number): Batch {
     return new Batch(
       (data as any).id ?? null,
-      (data as any).customSupplyId,
+      (data as any).customSupplyId ?? (data as any).supplyId,
       data.stock,
       (data as any).expirationDate ?? data.expiration_date ?? null,
       userId
