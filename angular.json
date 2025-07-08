@@ -29,7 +29,8 @@
               "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/UI-Topic-Frontend/"
           },
           "configurations": {
             "production": {
