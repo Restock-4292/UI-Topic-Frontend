@@ -45,7 +45,7 @@ export const routes: Routes = [
   {
     path: 'dashboard/restaurant', component: DashboardLayoutComponent,
     children: [
-      { path: '', redirectTo: 'summary', pathMatch: 'full' },
+      { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
       { path: 'summary', component: AnalyticsOverviewRestaurantComponent },
       { path: 'inventory', component: RestaurantInventoryComponent },
       { path: 'subscription', component: SubscriptionOverviewComponent },
@@ -59,7 +59,7 @@ export const routes: Routes = [
   {
     path: 'dashboard/supplier', component: DashboardLayoutComponent,
     children: [
-      { path: '', redirectTo: 'summary', pathMatch: 'full' },
+      { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
       { path: 'summary', component: AnalyticsOverviewSupplierComponent },
       { path: 'inventory', component: SupplierInventory },
       { path: 'subscription', component: SubscriptionOverviewComponent },
