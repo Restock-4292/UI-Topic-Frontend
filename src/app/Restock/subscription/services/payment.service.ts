@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {PaymentAccountEntity} from '../model/payment-account.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,8 @@ export class PaymentService {
     });
   }
 
+  createPaymentAccount(account: PaymentAccountEntity): Observable<any>{
+    return this.http.post(`${this.apiUrl}/payment_accounts`, account);
+  }
 
 }
