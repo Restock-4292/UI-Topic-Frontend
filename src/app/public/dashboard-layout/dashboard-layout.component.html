@@ -3,7 +3,7 @@
 <mat-sidenav-container class="layout-container">
   <mat-sidenav #drawer [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" [fixedInViewport]="isMobile"
     fixedTopGap="56" class="sidebar-container">
-    <app-sidebar [menu]="menu" [user]="user"></app-sidebar>
+    <app-sidebar [menu]="menu" [profile]="profile"></app-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content class="main-content">

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmptySection } from './empty-section.component';
+import { EmptySectionComponent } from './empty-section.component';
 
-describe('EmptySection', () => {
-  let component: EmptySection;
-  let fixture: ComponentFixture<EmptySection>;
+describe('EmptySectionComponent', () => {
+  let component: EmptySectionComponent;
+  let fixture: ComponentFixture<EmptySectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmptySection]
+      imports: [EmptySectionComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EmptySection);
+    fixture = TestBed.createComponent(EmptySectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

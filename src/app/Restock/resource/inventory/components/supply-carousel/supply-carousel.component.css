@@ -44,6 +44,12 @@
   color: #444;
 }
 
+.edit-btn {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+
 .nav-button {
   position: absolute;
   z-index: 2;
@@ -63,4 +69,13 @@
 
 .nav-button.right {
   right: 0;
+}
+@media (max-width: 768px) {
+  .supply-card {
+    min-width: 150px;
+  }
+
+  .nav-button {
+    display: none;
+  }
 }

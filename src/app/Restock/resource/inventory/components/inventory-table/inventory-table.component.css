@@ -8,6 +8,7 @@
 .toolbar-card {
   padding: 1.5rem;
   border-radius: 1rem;
+  box-shadow: none;
 }
 
 .toolbar {
@@ -20,7 +21,7 @@
 
 .title {
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 2rem;
   margin-right: 0.5rem;
 }
 
@@ -121,4 +122,48 @@
 
 .inline-paginator {
   background-color: white;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-container {
+    max-width: none;
+    width: 100%;
+  }
+
+  .inline-paginator {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  mat-table {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .inventory-card {
+    padding: 1rem;
+  }
+
+  .card-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
 }

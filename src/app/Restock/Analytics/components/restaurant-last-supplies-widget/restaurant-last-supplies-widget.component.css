@@ -1,65 +1,87 @@
 .widget-title {
   font-family: Poppins, sans-serif;
-  font-weight: 400;
-  font-size: 23px;
-  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 .carousel-container {
-  margin-top: 2rem;
-}
-
-.carousel {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  overflow: hidden;
-}
-
-.carousel-track {
-  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
   gap: 1rem;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  width: 100%;
-  max-width: 1000px;
+  padding: 1rem 2.5rem;
+  scrollbar-width: none;
 }
 
-.ingredient-card {
-  flex: 0 0 calc(20% - 1rem);
-  background-color: #CDE7D3;
-  border-radius: 12px;
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.supply-card {
+  background: #e8f5e9;
+  border-radius: 8px;
   padding: 1rem;
-  box-sizing: border-box;
-  min-width: 150px;
-  height: 180px;
-  box-shadow: 1px 2px 5px rgba(0,0,0,0.1);
-  align-content: space-around;
+  min-width: 200px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.ingredient-card h4 {
-  margin: 0;
-  font-size: 16px;
+.supply-card h3 {
   font-weight: 600;
+  margin-bottom: 0.2rem;
 }
 
-.category {
+.supply-card .category {
+  font-size: 14px;
   font-weight: 500;
-  margin: 0.25rem 0;
-  color: #757575;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
-.description {
+.supply-card .description {
   font-size: 13px;
   color: #444;
 }
 
+.nav-button {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.nav-button.left {
+  left: 0;
+}
+
+.nav-button.right {
+  right: 0;
+}
+
+/* Mobile view */
 .supplies-grid {
   display: none;
 }
 
 @media (max-width: 800px) {
+  .carousel-wrapper {
+    display: none;
+  }
+
   .supplies-grid {
     display: flex;
     gap: 1rem;
@@ -76,6 +98,7 @@
     flex-direction: column;
     gap: 1rem;
   }
+
   .ingredient-card {
     background-color: #F4F4F4;
     border-radius: 15px;
@@ -85,7 +108,9 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     align-content: center;
   }
-  .carousel {
-    display: none;
+
+  .ingredient-card h4 {
+    font-weight: bold;
+    margin-bottom: 0;
   }
 }

@@ -1,34 +1,23 @@
-import {Component} from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
+import {Component, Input} from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { ProfileService } from '../../services/profile.service';
-import {Profile} from '../../model/profile.entity';
+import { Profile } from '../../model/profile.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-details',
   imports: [MatCardModule,
-    MatIconModule, MatChipsModule],
+    MatIconModule, MatChipsModule, TranslatePipe],
   templateUrl: './profile-details.component.html',
   styleUrl: './profile-details.component.css'
 })
 export class ProfileDetailsComponent {
-  // @Input() profile!: {
-  //   name: string;
-  //   email: string;
-  //   phone: string;
-  //   address: string;
-  //   description: string;
-  //   image: string;
-  //  companyName: string;
-  //  companyAddress: string;
-  //  companyCategories: string[];
-  // };
-  profile!: Profile;
+  @Input() profile: Profile = new Profile();
+  @Input() categories: string[] = [];
 
-  constructor(private profileService: ProfileService) {
-    this.profileService.profile$.subscribe(data => {
-      this.profile = data;
-    });
+  constructor() {
+
   }
 }

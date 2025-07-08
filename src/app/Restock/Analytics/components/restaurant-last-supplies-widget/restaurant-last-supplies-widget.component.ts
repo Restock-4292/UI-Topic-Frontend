@@ -1,54 +1,49 @@
-import {Component} from '@angular/core';
-import {MatIconButton} from '@angular/material/button';
-import {NgForOf} from '@angular/common';
-import {MatIcon} from '@angular/material/icon';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BatchService } from '../../../resource/inventory/services/batch.service';
+import { Batch } from '../../../resource/inventory/model/batch.entity';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-restaurant-last-supplies-widget',
+  standalone: true,
   imports: [
-    MatIcon,
-    MatIconButton,
-    NgForOf
+    CommonModule,
+    MatIconModule
   ],
   templateUrl: './restaurant-last-supplies-widget.component.html',
-  styleUrl: './restaurant-last-supplies-widget.component.css',
-  standalone: true
+  styleUrls: ['./restaurant-last-supplies-widget.component.css']
 })
-export class RestaurantLastSuppliesWidgetComponent {
-  ingredients = [
-    { name: 'Pescado bonito', category: 'Fish', description: 'Se requiere producto fresco, refrigerado entre 0°C y 4°C' },
-    { name: 'Ají amarillo', category: 'Vegetal', description: 'Usado para base de salsas. Preferencia fresco' },
-    { name: 'Papa Huayro', category: 'Vegetal', description: 'Usada para platos criollos. Se requiere cocción rápida' },
-    { name: 'Cebolla roja', category: 'Vegetal', description: 'Requiere frescura y consistencia firme' },
-    { name: 'Leche evaporada', category: 'Lácteo', description: 'Marca específica solicitada, se almacena en ambiente seco' },
-    { name: 'Queso fresco', category: 'Lácteo', description: 'Debe venir sellado al vacío y refrigerado' },
-    { name: 'Arroz', category: 'Grano', description: 'Variedad extra grano largo' },
-    { name: 'Ajo molido', category: 'Condimento', description: 'Debe venir empacado en bolsas de 1kg' },
-    { name: 'Culantro fresco', category: 'Hierba', description: 'Entregar en bolsas húmedas, refrigerado' },
-    { name: 'Pimiento rojo', category: 'Vegetal', description: 'Se requiere lavado y listo para picar' }
-  ];
+export class RestaurantLastSuppliesWidgetComponent implements OnInit {
+  batches: Batch[] = [];
 
-  currentIndex = 0;
+  @ViewChild('carouselContainer', { static: false }) containerRef!: ElementRef<HTMLDivElement>;
 
-  get visibleIngredients() {
-    return this.ingredients.slice(this.currentIndex, this.currentIndex + 5);
+  constructor(private batchService: BatchService) {}
+
+  async ngOnInit(): Promise<void> {
+    const all = await this.batchService.getAllBatchesWithSupplies();
+    this.batches = [...all]
+      .sort((a, b) => {
+        const aDate = (a as any).created_at || a.id || 0;
+        const bDate = (b as any).created_at || b.id || 0;
+        return bDate - aDate;
+      })
+      .slice(0, 10);
   }
 
-  prev(): void {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-    }
+  scrollLeft(container: HTMLElement): void {
+    container.scrollLeft -= 250;
   }
 
-  next(): void {
-    if (this.currentIndex + 5 < this.ingredients.length) {
-      this.currentIndex++;
-    }
+  scrollRight(container: HTMLElement): void {
+    container.scrollLeft += 250;
   }
+
   getPairs() {
-    const pairs = [];
-    for (let i = 0; i < this.ingredients.length; i += 2) {
-      pairs.push(this.ingredients.slice(i, i + 2));
+    const pairs: Batch[][] = [];
+    for (let i = 0; i < this.batches.length; i += 2) {
+      pairs.push(this.batches.slice(i, i + 2));
     }
     return pairs;
   }

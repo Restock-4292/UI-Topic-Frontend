@@ -1,9 +1,9 @@
 <div class="ventas-container">
     <div class="ventas-header">
-        <h2 class="text-sales">Register your sales</h2>
-        <button mat-raised-button color="primary" class="nueva-venta-btn" (click)="toggleRegistroVenta()">
+        <h2>{{'sales_restaurant.register_sale' | translate}}</h2>
+        <button mat-raised-button color="primary" class="nueva-venta-btn" (click)="openRegisterSaleModal()">
             <span class="btn-content">
-                NEW SALE
+                {{'sales_restaurant.new_sale' | translate}}
                 <mat-icon>control_point</mat-icon>
             </span>
         </button>
@@ -11,74 +11,94 @@
 
     <mat-divider></mat-divider>
 
-    <P>Want to update your inventory? Select the sales you want here:</P>
-    <button mat-raised-button class="registered-sales-btn" (click)="toggleViewSalesNotAddedToInventory()">
+    <p class="text-question">{{'sales_restaurant.update_inventory' | translate}}</p>
+    <button mat-raised-button class="registered-sales-btn" (click)="openSalesNotAddedToInventoryModal()">
         <span class="btn-content">
-            REGISTERED SALES NOT ADDED TO INVENTORY
+            {{'sales_restaurant.registered_sales_not_discounted' | translate}}
             <mat-icon>view_list</mat-icon>
         </span>
     </button>
 
-    <div *ngIf="showHistorySalesAddedinInventory==false" class="ventas-empty">
+    <!-- Display when there are no recorded sales -->
+    <div *ngIf="showHistorySalesAddedInInventory == false" class="ventas-empty">
         <p class="ventas-text">
             You currently have no recorded sales. Enter your sales here to keep your inventory up to date.
         </p>
         <mat-icon class="ventas-icon">room_service</mat-icon>
     </div>
 
-
-    <div *ngIf="showHistorySalesAddedinInventory ==true">
+    <!-- Display sales history when inventory has registered sales -->
+    <div *ngIf="showHistorySalesAddedInInventory == true">
         <div class="flex-title-history-sales">
             <mat-icon>history</mat-icon>
-            <p>History of sales updated in inventory</p>
+            <p>{{'sales_restaurant.history_sales' | translate}}</p>
         </div>
 
-        <p class="subtitle">Registered sales that have already deducted supplies from inventory</p>
+        <p class="subtitle">{{'sales_restaurant.registered_sales' | translate}}</p>
+
+        <!-- Search filter for sales -->
         <mat-form-field appearance="outline" class="filter-field">
-            <mat-label>Search for sale by code</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Punto Limon" />
+            <mat-label>{{'sales_restaurant.search' | translate}}</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="E.g., Punto Limon" />
         </mat-form-field>
+
+        <!-- Table displaying sales -->
         <div class="table-container">
             <table mat-table [dataSource]="dataSource" class="full-width-table">
-                <!-- Columnas -->
+
+                <!-- Sale code column -->
                 <ng-container matColumnDef="code">
-                    <th mat-header-cell *matHeaderCellDef> Code </th>
+                    <th mat-header-cell *matHeaderCellDef>{{'sales_restaurant.code' | translate}} </th>
                     <td mat-cell *matCellDef="let row"> {{ row.code }} </td>
                 </ng-container>
 
+                <!-- Number of plates column -->
                 <ng-container matColumnDef="plates">
-                    <th mat-header-cell *matHeaderCellDef> Quantity of plates </th>
-                    <td mat-cell *matCellDef="let row"> {{ row.quantity_plates }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{'sales_restaurant.quantity_dishes' | translate}} </th>
+                    <td mat-cell *matCellDef="let row"> {{ row.recipeCount }} </td>
                 </ng-container>
 
+                <!-- Additional supplies column -->
                 <ng-container matColumnDef="additonal_supplies">
-                    <th mat-header-cell *matHeaderCellDef> Quantity of additional supplies </th>
-                    <td mat-cell *matCellDef="let row"> {{ row.quantity_additonal_supplies }} </td>
+                    <th mat-header-cell *matHeaderCellDef>{{'sales_restaurant.quantity_additional_supplies' |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row"> {{ row.additionalSupplyCount }} </td>
                 </ng-container>
 
+                <!-- Actions column -->
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let row"> <mat-icon>description</mat-icon> </td>
+                    <th mat-header-cell *matHeaderCellDef> {{'sales_restaurant.actions' | translate}} </th>
+                    <td mat-cell *matCellDef="let row" (click)="openSaleDetail(row)">
+                        <mat-icon>description</mat-icon>
+                    </td>
                 </ng-container>
 
-                <!-- Filas -->
+                <!-- Table rows -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
+        <!-- Paginator for table -->
         <div class="flex">
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [pageSize]="15" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
-
 </div>
 
-<!-- Mostrar el componente si la bandera es true -->
-<app-register-sales *ngIf="showModalRegistroVenta" (cerrar)="closeModalRegistroVenta()"
-    (registersale)="onRegisterSale($event)"></app-register-sales>
+<!-- Component: Register Sale Modal -->
+<app-register-sales *ngIf="showModalRegisterSale" (close)="closeRegisterSaleModal()"
+    (registersale)="onRegisterSale($event)">
+</app-register-sales>
 
-<app-sale-confirmation *ngIf="showModalSaleConfirmation"
-    (cerrar)="showModalSaleConfirmation = false"></app-sale-confirmation>
+<!-- Component: Sale Confirmation Modal -->
+<app-sale-confirmation *ngIf="showModalSaleConfirmation" (close)="closeSaleConfirmationModal()">
+</app-sale-confirmation>
 
-<app-show-sales-not-added-to-inventory *ngIf="showModalsalesNotAddedToInventory"
-    (cerrar)="closeModalsalesNotAddedToInventory()"></app-show-sales-not-added-to-inventory>
+<!-- Component: Modal to show sales not yet added to inventory -->
+<app-show-sales-not-added-to-inventory *ngIf="showModalSalesNotAddedToInventory"
+    (close)="closeSalesNotAddedToInventoryModal()">
+</app-show-sales-not-added-to-inventory>
+
+<!-- Component: Modal to show sale detail -->
+<app-sale-detail *ngIf="showModalSaleDetail" [sale]="selectedSale" (close)="closeSaleDetailModal()">
+</app-sale-detail>

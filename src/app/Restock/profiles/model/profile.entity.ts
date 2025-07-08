@@ -1,28 +1,32 @@
+import {Business} from './business.entity';
+import {User} from '../../iam/model/user.entity';
+
 export class Profile {
+  id: number;
   name: string;
-  lastName: string;
+  last_name: string;
   email: string;
+  avatar: string;
   phone: string;
   address: string;
   country: string;
-  description: string;
-  companyName: string;
-  companyAddress: string;
-  companyCategories: string[];
-  image: string;
+  business_id: number;
+  user_id: number;
+  business?: Business;
+  user?: User;
 
-  constructor() {
-    this.name = 'Elon';
-    this.lastName = 'Musk';
-    this.email = 'elon@gmail.com';
-    this.phone = '+51 940 163 699';
-    this.address = 'Av. Paseo de la República cuadra 2 ';
-    this.country = 'Peru';
-    this.description = 'I am a restaurant manager passionate about delivering exceptional culinary experiences.';
-    this.companyName = 'Alimentos S.A.';
-    this.companyAddress = 'Av. Paseo de la República cuadra 3';
-    this.companyCategories = ['Fast Food', 'Beverages', 'Desserts', 'Grill', 'Pizzeria', 'Buffet'];
-    this.image = 'assets/admin-avatar.png';
+  constructor(data: Partial<Profile> = {}) {
+    this.id = data.id || 0;
+    this.name = data.name || '';
+    this.last_name = data.last_name || '';
+    this.email = data.email || '';
+    this.avatar = data.avatar || '';
+    this.phone = data.phone || '';
+    this.address = data.address || '';
+    this.country = data.country || '';
+    this.business_id = data.business_id || 0;
+    this.user_id = data.user_id || 0;
+    this.business = data.business;
+    this.user = data.user;
   }
 }
-

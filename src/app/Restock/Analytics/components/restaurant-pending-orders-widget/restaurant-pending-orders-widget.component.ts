@@ -1,59 +1,60 @@
-import {Component} from '@angular/core';
-import {Order} from '../../../resource/orders-to-suppliers/model/order.entity';
-import {mockOrders} from '../../../../shared/mocks/order.mock';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import { forkJoin, lastValueFrom } from 'rxjs';
+import {OrderToSupplierService} from '../../../resource/orders-to-suppliers/services/order-to-supplier.service';
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow,
-  MatHeaderRowDef,
-  MatRow,
-  MatRowDef,
-  MatTable
-} from '@angular/material/table';
+  OrdersTableComponent
+} from '../../../resource/orders-to-suppliers/components/orders-table/orders-table.component';
+import {OrderToSupplier} from '../../../resource/orders-to-suppliers/model/order-to-supplier.entity';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {UserService} from '../../../iam/services/user.service';
+import {ProfileService} from '../../../profiles/services/profile.service';
+import {Profile} from '../../../profiles/model/profile.entity';
 
 @Component({
   selector: 'app-restaurant-pending-orders-widget',
-  imports: [
-    MatTable,
-    MatCell,
-    MatHeaderCell,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatHeaderRowDef,
-    MatRowDef,
-    MatHeaderRow,
-    MatRow
-  ],
+  standalone: true,
+  imports: [CommonModule, OrdersTableComponent, MatIcon, MatIconButton, MatTooltip],
   templateUrl: './restaurant-pending-orders-widget.component.html',
   styleUrl: './restaurant-pending-orders-widget.component.css'
 })
-export class RestaurantPendingOrdersWidgetComponent {
-  orders: Order[] = [];
+export class RestaurantPendingOrdersWidgetComponent implements OnInit {
+  pendingOrders: OrderToSupplier[] = [];
+  suppliers: { id: number; name: string }[] = [];
 
-  displayedColumns: string[] = ['supplier', 'supply', 'quantity', 'unit', 'finalPrice', 'state'];
-  mobileColumns: string[] = ['supplier', 'state', 'finalPrice'];
+  constructor(
+    private orderService: OrderToSupplierService,
+    private router: Router,
+    private userService: UserService,
+    private profileService: ProfileService
+  ) {}
 
-  isMobile = false;
+  async ngOnInit() {
+    const orders = await this.orderService.getAllEnriched();
 
-  ngOnInit() {
-    this.checkViewport();
-    window.addEventListener('resize', this.checkViewport.bind(this));
+    this.pendingOrders = orders.filter(
+      (o) => o.situation?.name?.toLowerCase() === 'pending'
+    );
+
+    const supplierUserIds = await this.userService.getSupplierUserIds();
+
+    const profileObservables = supplierUserIds.map(id =>
+      this.profileService.getByQuery('user_id', id)
+    );
+
+    const allProfilesNested = await lastValueFrom(forkJoin(profileObservables));
+    const allProfiles = allProfilesNested.flat();
+
+    this.suppliers = allProfiles.map((profile) => ({
+      id: profile.id,
+      name: profile.name
+    }));
   }
 
-  checkViewport(): void {
-    this.isMobile = window.innerWidth <= 800;
-  }
-  ngOnDestroy() {
-    window.removeEventListener('resize', this.checkViewport.bind(this));
-  }
-  getColumns() {
-    return this.isMobile ? this.mobileColumns : this.displayedColumns;
-  }
-  constructor() {
-    this.orders = mockOrders.filter(o => o.situation === 'approved');
+  goToOrders(): void {
+    this.router.navigate(['/dashboard/restaurant/orders']);
   }
 }

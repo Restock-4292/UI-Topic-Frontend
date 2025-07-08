@@ -4,9 +4,9 @@
     <h2 class="brand">Restock</h2>
   </div>
 
-  @if (user; as u) {
+  @if (profile; as u) {
   <div class="user-info">
-    <img [src]="u.avatar.url" [alt]="u.avatar.url" class="user-photo">
+    <img [src]="u.avatar" [alt]="u.avatar" class="user-photo">
     <div>
       <p class="user-name">{{ u.name }}</p>
       <p class="user-email">{{ u.email }}</p>

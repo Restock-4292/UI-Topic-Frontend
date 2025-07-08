@@ -1,4 +1,4 @@
-import {Component, OnDestroy, inject, signal, Input} from '@angular/core';
+import { Component, OnDestroy, inject, signal, Input } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,8 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { LanguageSwitcher } from '../language-switcher/language-switcher.component';
-import {User} from '../../../services/user.service';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import {Profile} from '../../../Restock/profiles/model/profile.entity';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,8 +30,7 @@ import {CommonModule} from '@angular/common';
 })
 export class SidebarComponent implements OnDestroy {
   @Input() menu: Array<any> = [];
-  @Input() user!: User;
-
+  @Input() profile: Profile = new Profile();
 
   protected isMobile = signal(true);
 
