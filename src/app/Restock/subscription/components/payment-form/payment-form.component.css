@@ -89,3 +89,10 @@ input, select {
   color: red;
   font-size: 12px;
 }
+
+.card-type-info {
+  font-size: 13px;
+  color: #333;
+  margin-top: 4px;
+}
+

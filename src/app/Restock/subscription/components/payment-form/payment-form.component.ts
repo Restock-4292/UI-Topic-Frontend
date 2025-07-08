@@ -1,12 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {Profile} from '../../../profiles/model/profile.entity';
+import {SessionService} from '../../../../shared/services/session.service';
+import {ProfileService} from '../../../profiles/services/profile.service';
+import {PaymentService} from '../../services/payment.service';
+import {PaymentAccountEntity} from '../../model/payment-account.entity';
+import {firstValueFrom} from 'rxjs';
 
 function cleanCardNumber(cardNumber: string): string {
   return cardNumber.replace(/\s|-/g, '');
 }
 
-function getCardType(cardNumber: string): string | null {
+function getCardType(cardNumber: string): string | undefined {
   const cleanedNumber = cleanCardNumber(cardNumber);
 
   const visaPattern = /^4\d{12}(?:\d{3})?$/;
@@ -17,7 +23,7 @@ function getCardType(cardNumber: string): string | null {
   } else if (mastercardPattern.test(cleanedNumber)) {
     return 'Mastercard';
   } else {
-    return null;
+    return undefined;
   }
 }
 
@@ -34,13 +40,20 @@ function getCardType(cardNumber: string): string | null {
 export class PaymentFormComponent implements OnInit {
   @Input() subscription: any;
   form!: FormGroup;
+  profile: Profile = new Profile();
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private sessionService: SessionService,
+    private profileService: ProfileService,
+    private paymentService : PaymentService
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{4} \d{4} \d{4} \d{4}$/)]],
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
       expiry: ['', [Validators.required, this.expiryDateValidator]],
       cvc: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
       cardholderName: ['', Validators.required],
@@ -48,14 +61,45 @@ export class PaymentFormComponent implements OnInit {
       zip: ['', Validators.required],
       phone: ['']
     });
+
+    const profileId = this.sessionService.getProfileId();
+    if (profileId === null) {
+      console.error('No se encontró el profileId en la sesión');
+      return;
+    }
+
+    this.profile = await firstValueFrom(this.profileService.loadProfileByUserId(profileId));
+
   }
 
   submitForm() {
     if (this.form.valid) {
-      console.log('Datos válidos:', this.form.value);
-      alert('Pago exitoso');
+      const formValue = this.form.value;
 
-      this.router.navigate(['/summary']);
+      const paymentAccount = new PaymentAccountEntity({
+        user_id: this.profile.user_id,
+        email: formValue.email,
+        card_type: getCardType(formValue.cardNumber) || 'Unknown',
+        expiration: formValue.expiry,
+        cardholder_name: formValue.cardholderName,
+        country: formValue.country,
+        zip: formValue.zip,
+        phone: formValue.phone
+      });
+
+      this.paymentService.createPaymentAccount(paymentAccount).subscribe({
+        next:()=>{
+          alert("Payment account created successfully");
+
+          const role = this.profile.user?.role_id === 2 ? 'restaurant' : 'supplier';
+          this.router.navigate([`/dashboard/${role}/summary`]);
+        },
+        error: (error) => {
+          console.error('Error creating payment account:', error);
+          alert('There was an error creating the payment account. Please try again.');
+        }
+      });
+
     } else {
       this.form.markAllAsTouched();
     }
@@ -83,4 +127,10 @@ export class PaymentFormComponent implements OnInit {
 
     return null;
   }
+
+  getCardTypeDisplay(): string {
+    const number = this.form.get('cardNumber')?.value || '';
+    return getCardType(number) || 'Unknown';
+  }
+
 }

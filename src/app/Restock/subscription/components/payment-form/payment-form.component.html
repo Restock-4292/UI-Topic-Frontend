@@ -12,7 +12,9 @@
     @if (form.get('cardNumber')?.invalid && form.get('cardNumber')?.touched) {
       <div class="error">Tarjeta inválida</div>
     }
-
+    @if (form.get('cardNumber')?.valid) {
+      <p class="card-type-info"><strong>Tipo detectado:</strong> {{ getCardTypeDisplay() }}</p>
+    }
     <div class="card-details">
       <input type="text" formControlName="expiry" placeholder="MM/YY" />
       <input type="text" formControlName="cvc" placeholder="CVC" />
