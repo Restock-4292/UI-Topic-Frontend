@@ -23,7 +23,7 @@ export class RoleRedirectComponent {
 
         const profileId = this.sessionService.getProfileId();
         if(!profileId){
-          this.router.navigate(['/not-found']);
+          this.router.navigate([`/dashboard/${this.sessionService.getProfileId() ? 'restaurant' : 'supplier'}`]);
           return;
         }
 
