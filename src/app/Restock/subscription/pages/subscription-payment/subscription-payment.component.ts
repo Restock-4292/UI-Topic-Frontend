@@ -5,6 +5,7 @@ import {PaymentFormComponent} from '../../components/payment-form/payment-form.c
 import {SubscriptionService} from '../../services/subscription.service';
 import {Subscription} from '../../model/subscription.entity';
 import {TranslatePipe} from "@ngx-translate/core";
+import {SessionService} from '../../../../shared/services/session.service';
 
 @Component({
   selector: 'app-subscription-payment',
@@ -20,6 +21,7 @@ export class SubscriptionPaymentPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private subscriptionService = inject(SubscriptionService);
   private router = inject(Router);
+  private sessionService: SessionService = inject(SessionService);
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id'); // ← Ahora es string directamente
@@ -30,7 +32,7 @@ export class SubscriptionPaymentPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/subscription']);
+    this.router.navigate([`/dashboard/${this.sessionService.getProfileId() ? 'restaurant' : 'supplier'}/subscription`]);
   }
 
 }
